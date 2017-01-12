@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/admin/admin.iml" filepath="$PROJECT_DIR$/admin/admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/test/test.iml" filepath="$PROJECT_DIR$/test/test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/worktile-logic/worktile-logic.iml" filepath="$PROJECT_DIR$/worktile-logic/worktile-logic.iml" />
+      <module fileurl="file://$PROJECT_DIR$/worktile-proj.iml" filepath="$PROJECT_DIR$/worktile-proj.iml" />
+      <module fileurl="file://$PROJECT_DIR$/worktile-web/worktile-web.iml" filepath="$PROJECT_DIR$/worktile-web/worktile-web.iml" />
+    </modules>
+  </component>
+</project>

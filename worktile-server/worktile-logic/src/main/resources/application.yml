@@ -1,0 +1,56 @@
+#------------------------------------------------------------------------------------------
+server:
+  port: 8080 #8443 #8080
+#  ssl:
+#    key-store: classpath:keystore.p12
+#    key-store-password: sjtu123
+#    keyStoreType: PKCS12
+#    keyAlias: worktile
+#------------------------------------------------------------------------------------------
+spring:
+  application:
+      name: worktile
+  datasource:
+      type: com.alibaba.druid.pool.DruidDataSource
+      url: jdbc:mysql://localhost:3306/worktile?useUnicode=true&amp;characterEncoding=utf-8
+      username: root
+      password:
+      driver-class-name: com.mysql.jdbc.Driver
+      max-active: 20
+      initial-size: 1
+      min-idle: 3
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      poolPreparedStatements: true
+#      druid:
+#          max-active: 20
+#          initial-size: 1
+#          min-idle: 3
+#          max-wait: 60000
+#          time-between-eviction-runs-millis: 60000
+#          min-evictable-idle-time-millis: 300000
+#          test-while-idle: true
+#          test-on-borrow: false
+#          test-on-return: false
+#------------------------------------------------------------------------------------------
+#监测系统服务地址
+spring.boot.admin.url: http://localhost:8090
+#------------------------------------------------------------------------------------------
+#shiro 相关配置
+shiro:
+    algorithmName: md5 #加密迭代次数，强制设为至少1次（即使设置0或负数）
+    hashIterations: 2  #加密算法名称，如：MD5/SHA-1/SHA-256/SHA-384/SHA-512
+    filters:
+        login-filter: com.sjtu.worktile.filter.FormLoginFilter
+        token_auth: com.sjtu.worktile.filter.TokenFilter
+    filter-chain-definitions: #默认为空，一般如下配置
+        /user/login: login-filter
+        /api/**: token_auth
+#        /logout: logout
+#        /favicon.ico: anon
+#        /assets/**: anon
+#        /**: authc
