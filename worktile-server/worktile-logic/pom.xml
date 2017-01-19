@@ -165,6 +165,14 @@
 			<version>1.2.15</version>
 		</dependency>
 		<!--==============================================================-->
+		<!--============================http===============================-->
+		<dependency>
+			<groupId>com.squareup.okhttp</groupId>
+			<artifactId>okhttp</artifactId>
+			<version>2.7.5</version>
+			<scope>test</scope>
+		</dependency>
+		<!--==============================================================-->
 	</dependencies>
 
 	<build>

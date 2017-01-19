@@ -21,4 +21,6 @@ public class Const {
      * token的前缀
      */
     public final static String TOKEN_PREFIX = "Bearer ";
+
+
 }
