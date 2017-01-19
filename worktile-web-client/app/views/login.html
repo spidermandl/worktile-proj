@@ -1,0 +1,117 @@
+<div id="wrap-all" class="">
+    <div id="main" class="inner">
+        <div class="other-warp login-wrap" ng-controller="LoginCtrl" ng-init="vm.weixin_unionid=''">
+            <div wt-minheight="58" class="single-panel clearfix">
+                <div class="single-panel-inner login-mini" ng-if="status.code == 0">
+                    <div class="single-panel-header login_logo_area">
+                        <a class="logo-min" href="/" title="Worktile">
+                            <i class="wtfont wtf-worktile"></i>
+                            <i class="wtfont wtf-worktiletext"></i>
+                        </a>
+                    </div>
+                    <div class="single-panel-body">
+                        <ul class="login-tab flex_row" ng-show="vm.weixin_unionid==''">
+                            <li class="flex_se1 text-right" ng-class="{'current':!vm.weixin_login}" ng-click="vm.js_change_login_mode('default')" translate="outer_login.tab_login">帐号登录</li>
+                            <li class="line">|</li>
+                            <li class="flex_se1" ng-class="{'current':vm.weixin_login}" ng-click="vm.js_change_login_mode('weixin')">
+                                <i class="fa fa-weixin"></i>
+                                <span translate="outer_login.tab_wechat">微信登录</span></li>
+                        </ul>
+                        <div ng-hide="vm.weixin_login" class="single-panel-section">
+                            <form w5c-form-validate="" name="login_form" class="form-horizontal wt-form" novalidate="">
+<!--                                 <div class="form-group">
+                                    <div class="input-group-">
+                                        <input class="form-control" type="text" placeholder="{{'outer_login.username_placeholder'|translate}}" name="login_name" ng-model="signin_user.name" required="" wt-autofocus="" tabindex="1" /></div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group-">
+                                        <input class="form-control" type="password" placeholder="{{'outer_login.password_placeholder'|translate}}" name="login_password" ng-model="signin_user.password" required="" ng-minlength="6" tabindex="2" /></div>
+                                </div>
+                                <div class="form-group" ng-if="iscode">
+                                    <div>
+                                        <img class="pull-left login-code" alt="{{'outer_login.tips_change_iscode'|translate}}" ng-click="getcode()" ng-src="{{signin_user.imgsrc}}" />
+                                        <input class="form-control pull-left login-code-input" type="text" placeholder="{{'outer_login.iscode_placeholder'|translate}}" name="code" ng-model="signin_user.code" required="" ng-minlength="4" tabindex="3" /></div>
+                                </div>
+                                <div class="form-group" ng-if="login_form.$errors.length &gt; 0">
+                                    <div class="alert alert-danger">
+                                        <i class="fa fa-times-circle mr-5"></i>{{login_form.$errors[0]}}</div>
+                                </div>
+                                <div class="form-group">
+                                    <button w5c-form-submit="signin(login_form)" class="btn btn-success btn-lg btn-block" type="button" tabindex="4" data-loading-text="{{'outer_login.logining'|translate}}" wt-loading-status="signin_user.is_login_ing" translate="outer_login.btn_login">登 录</button></div> -->
+                            </form>
+                        </div>
+                        <div id="weixin_qr_code" class="login_weixin_qr_code text-center" ng-show="vm.weixin_login"></div>
+                    </div>
+                    <div class="single-panel-footer" ng-hide="vm.weixin_login">
+                        <a href="/forgot" translate="outer_login.link_forget">忘记密码</a>
+                        <span class="split"></span>
+                        <a href="/signup" ng-click="$root.go_to_signup($event)" translate="outer_login.link_signup">免费注册</a>
+                    </div>
+                </div>
+                <!-- <div class="single-panel-inner login-mini" ng-if="status.code == 1">
+                    <div class="single-panel-header">
+                        <a class="logo-min" href="/" title="Worktile">
+                            <i class="wtfont wtf-worktile"></i>
+                            <i class="wtfont wtf-worktiletext"></i>
+                        </a>
+                    </div>
+                    <div class="single-panel-body">
+                        <div class="single-panel-section">
+                            <form w5c-form-validate="" name="twofactor_form" class="form-horizontal wt-form" novalidate="">
+                                <div class="form-group text-center color-text-grayer" translate="outer_login.tips_twofactory_please_enter_dynamic">您的帐户开启了两步验证，请输入动态验证码登录
+                                    <br /></div>
+                                <div class="form-group">
+                                    <input class="form-control" type="text" placeholder="{{'outer_login.dynamic_placeholder'|translate}}" name="factor" ng-model="signin_user.factor" required="" wt-autofocus="" /></div>
+                                <div class="form-group" ng-if="twofactor_form.$errors.length &gt; 0">
+                                    <div class="alert alert-danger">
+                                        <i class="fa fa-times-circle mr-5"></i>{{twofactor_form.$errors[0]}}</div>
+                                </div>
+                                <div class="form-group">
+                                    <button w5c-form-submit="js_signin_twofactor(twofactor_form)" class="btn btn-success btn-lg btn-block" type="button" data-loading-text="{{'outer_login.logining'|translate}}" wt-loading-status="signin_user.is_signfactoing" translate="outer_login.btn_login">登录</button></div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="single-panel-footer">
+                        <div class="lh-150p">
+                            <a href="javascript:;" data-ng-click="status.code = 2" translate="outer_login.lost_phone_login_by_security_code">手机设备丢失？使用安全码登录</a>
+                            <br />
+                            <a href="/feedback" target="_blank" translate="outer_login.reback_by_servicer">或者通过人工申诉解除绑定</a></div>
+                    </div>
+                </div> -->
+                <!-- <div class="single-panel-inner login-mini" ng-if="status.code == 2">
+                    <div class="single-panel-header">
+                        <a class="logo-min" href="/" title="Worktile">
+                            <i class="wtfont wtf-worktile"></i>
+                            <i class="wtfont wtf-worktiletext"></i>
+                        </a>
+                    </div>
+                    <div class="single-panel-body">
+                        <div class="single-panel-section">
+                            <form w5c-form-validate="" name="recovery_form" class="form-horizontal wt-form" novalidate="">
+                                <div class="form-group text-center color-text-grayer" translate="outer_login.tips_twofactory_please_enter_dynamic">您的帐户开启了两次验证，请输入安全码登录
+                                    <br /></div>
+                                <div class="form-group">
+                                    <input class="form-control" type="text" placeholder="{{'outer_login.security_code_placeholder'|translate}}" name="recovery_code" ng-model="signin_user.recovery_code" required="" autofocus="" /></div>
+                                <div class="form-group" ng-if="recovery_form.$errors.length &gt; 0">
+                                    <div class="alert alert-danger">
+                                        <i class="fa fa-times-circle mr-5"></i>{{recovery_form.$errors[0]}}</div>
+                                </div>
+                                <div class="form-group">
+                                    <button w5c-form-submit="js_signin_recovery(recovery_form)" class="btn btn-success btn-lg btn-block" type="button" data-loading-text="{{'outer_login.logining'|translate}}" wt-loading-status="signin_user.is_signrecoverying" translate="outer_login.btn_login">登录</button></div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="single-panel-footer">
+                        <div class="pull-right-">
+                            <a href="javascript:;" data-ng-click="status.code = 1" translate="outer_login.tips_login_by_dynamic_code">使用动态验证码登录</a></div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        <footer class="text-center color_text_lighter login-footer">
+            <i class="wtfont wtf-worktile"></i>
+            <i class="wtfont wtf-worktiletext" style="font-size: 60px"></i>&copy; 2015 Worktile.com
+            <span class="ml-10 mr-10">京ICP备13017353号-3</span>京公网安备11010802012357号</footer></div>
+</div>
+<!-- End Alexa Certify Javascript -->
+<div app-promotion-bar=""></div>
