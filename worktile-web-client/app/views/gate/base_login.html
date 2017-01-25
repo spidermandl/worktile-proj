@@ -1,0 +1,30 @@
+<div id="wrap-all" class="">
+    <div id="main" class="inner">
+        <div 
+            ng-controller="LoginCtrl" 
+            ng-if="action_type == 0" 
+            ng-init="vm.weixin_unionid=''"
+            ng-include="'./views/gate/signin.html'">    
+        </div>
+        <div 
+            ng-controller="RegisterCtrl" 
+            ng-if="action_type == 1" 
+            ng-init="vm.weixin_unionid=''"
+            ng-include="'./views/gate/signup.html'">
+        </div>
+        <div 
+            ng-controller="ForgotCtrl" 
+            ng-if="action_type == 2" 
+            ng-init="vm.weixin_unionid=''"
+            ng-include="'./views/gate/forgot.html'">
+        </div>
+
+        <footer class="text-center color_text_lighter login-footer">
+            <i class="wtfont wtf-worktile"></i>
+            <i class="wtfont wtf-worktiletext" style="font-size: 60px"></i>&copy; 2015 Worktile.com
+            <span class="ml-10 mr-10">京ICP备13017353号-3</span>京公网安备11010802012357号
+        </footer>
+    </div>
+</div>
+<!-- End Alexa Certify Javascript -->
+<div app-promotion-bar=""></div>

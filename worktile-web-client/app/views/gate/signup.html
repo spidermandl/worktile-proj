@@ -1,0 +1,135 @@
+<div class="other-warp other-warp--signup">
+    <div wt-minheight="58" class="single-panel clearfix">
+        <div class="single-panel-inner middle">
+            <div class="single-panel-header">
+                <!--<h3>注册新用户</h3>-->
+                <a class="logo-min" href="/" title="Worktile">
+                    <i class="wtfont wtf-worktile"></i>
+                    <i class="wtfont wtf-worktiletext"></i>
+                </a>
+            </div>
+            <div class="single-panel-body">
+                <ul class="signmode-tab flex_row" ng-if="vm.show_signup && vm.show_signmode">
+                    <li class="flex_se1 text-right" ng-class="{'current':vm.signmode=='phone'}" ng-click="vm.js_change_signup_mode('phone')" translate="outer_signup.tab_phone">手机号注册</li>
+                    <li class="line">|</li>
+                    <li class="flex_se1" ng-class="{'current':vm.signmode=='email'}" ng-click="vm.js_change_signup_mode('email')" translate="outer_signup.tab_email">邮箱注册</li></ul>
+                <div class="single-panel-section" ng-if="vm.show_signup">
+                    <form w5c-form-validate="" name="register_form" novalidate class="form-horizontal wt-form">
+                        <div ng-if="vm.signmode=='phone'">
+                            <div class="form-group" ng-init="regist_phone_reminde_msg=false">
+                                <div class="input-group input-group--phone">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">{{vm.phone_prefix.name}}
+                                            <span class="caret"></span></button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li ng-repeat="prefix in vm.phone_prefixs" ng-click="vm.js_change_phone_prefix(prefix)">
+                                                <a href="javascript:;">{{prefix.name}} +{{prefix.val}}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="input-group-btn input-group-btn--phone-prefix">
+                                        <input type="number" class="form-control" name="signup_phone_prefix" ng-model="vm.phone_prefix.val" readonly="readonly" w5c-dynamic-element required ng-pattern="$root.global.constant.regex.mobile_area" />
+                                    </div>
+                                    <input autofocus="" class="form-control" type="text" placeholder="{{'outer_signup.phone_placeholder'|translate}}" name="signup_phone" ng-model="vm.user.phone" w5c-dynamic-element required ng-change="vm.js_change_phone($event)" ng-focus="regist_phone_reminde_msg=true" ng-blur="regist_phone_reminde_msg=false" ng-pattern="$root.global.constant.regex.mobile_probable" wt-remote-unique-check="{url:'/api/user/phone/check?phone='+vm.user.phone}" /></div>
+                                <div ng-if="regist_phone_reminde_msg" class="regist-reminde-msg color-text-light" translate="outer_signup.tips_enter_you_phone">输入你的手机号码</div></div>
+                            <div class="form-group" ng-init="regist_phone_code_reminde_msg=false">
+                                <div class="row mlr-0">
+                                    <div class="col-xs-7 pl-0">
+                                        <input class="form-control" type="text" placeholder="{{'outer_signup.phone_code_placeholder'|translate}}" name="phone_code" ng-model="vm.user.phone_code" w5c-dynamic-element required ng-focus="regist_phone_code_reminde_msg=true" ng-blur="regist_phone_code_reminde_msg=false" /></div>
+                                    <button class="btn btn-success fs-16 col-xs-5" type="button" ng-click="vm.js_get_phone_code(register_form)" ng-disabled="!register_form.signup_phone_prefix.$valid||!register_form.signup_phone.$valid||vm.waiting_for_phone_code" ng-bind="vm.signup_phone_text"></button>
+                                </div>
+                                <div ng-if="regist_phone_code_reminde_msg" class="regist-reminde-msg color-text-light" translate="outer_signup.tips_enter_your_reminde_code">输入你收到的验证码</div></div>
+                        </div>
+                        <div ng-if="vm.signmode=='email'">
+                            <div class="form-group" ng-init="regist_email_reminde_msg=false">
+                                <input autofocus="" class="form-control" type="email" placeholder="{{'outer_signup.email_placeholder'|translate}}" name="signup_email" ng-model="vm.user.email" w5c-dynamic-element required ng-focus="regist_email_reminde_msg = true" ng-blur="regist_email_reminde_msg=false" wt-remote-unique-check="{url:'/api/user/email/check?email='+vm.user.email}" />
+                                <div ng-if="regist_email_reminde_msg" class="regist-reminde-msg color-text-light" translate="outer_signup.tips_enter_you_email">输入你的常用邮箱地址</div></div>
+                        </div>
+                        <div class="form-group" ng-init="regist_display_name_reminde_msg=false">
+                            <input class="form-control" type="text" placeholder="{{'outer_signup.display_name_placeholder'|translate}}" ng-focus="regist_display_name_reminde_msg=true" ng-blur="regist_display_name_reminde_msg=false" maxlength="100" name="signup_display_name" ng-model="vm.user.display_name" required ng-pattern="$root.global.constant.regex.display_name" />
+                            <div ng-if="regist_display_name_reminde_msg" class="regist-reminde-msg -regist-reminde-msg color-text-light" translate="outer_signup.tips_enter_you_display_name">输入真实姓名，方便团队成员认识你</div></div>
+                        <!--<div class="form-group" ng-init="regist_user_reminde_msg=false">-->
+                        <!--<input class="form-control" type="text"-->
+                        <!--placeholder="{{'outer_signup.username_placeholder'|translate}}"-->
+                        <!--ng-focus="regist_user_reminde_msg=true"-->
+                        <!--ng-blur="regist_user_reminde_msg=false"-->
+                        <!--name="signup_name" ng-model="vm.user.name"-->
+                        <!--required-->
+                        <!--wt-remote-unique-check="{url:'/api/user/name/check?name='+vm.user.name}"-->
+                        <!--ng-pattern="$root.global.constant.regex.username"/>-->
+                        <!--<div ng-if="regist_user_reminde_msg"-->
+                        <!--class="regist-reminde-msg -regist-reminde-msg color-text-light"-->
+                        <!--translate="outer_signup.tips_enter_you_username">-->
+                        <!--用户名由字母、数字、下划线组成，以字母开头；<br>-->
+                        <!--用户名具有唯一性，注册后将不能修改-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <div class="form-group" ng-init="regist_password_reminde_msg=false">
+                            <input class="form-control" type="password" autocomplete="off" placeholder="{{'outer_signup.password_placeholder'|translate}}" ng-focus="regist_password_reminde_msg = true" ng-blur="regist_password_reminde_msg = false" name="signup_password" ng-model="vm.user.password" required ng-minlength="6" />
+                            <div ng-if="regist_password_reminde_msg" class="regist-reminde-msg color-text-light" translate="outer_signup.tips_enter_you_password">密码长度最小为6位，请牢记你的登录密码</div>
+                        </div>
+                        <div class="form-group" ng-if="vm.iscode">
+                            <div class="mt-10">
+                                <img class="pull-left login-code" alt="{{'outer_signup.tips_change_iscode'|translate}}" ng-click="vm.getcode()" ng-src="{{vm.user.imgsrc}}" />
+                                <input class="form-control pull-left login-code-input" type="text" placeholder="{{'outer_signup.iscode_placeholder'|translate}}" name="code" ng-model="vm.user.code" w5c-dynamic-element required ng-minlength="4" /></div>
+                        </div>
+                        <div class="form-group" ng-if="register_form.$errors.length > 0">
+                            <div class="col-xs-10-">
+                                <div class="alert alert-danger">
+                                    <i class="fa fa-times-circle mr-5"></i>{{register_form.$errors[0]}}</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-10- mt-10">
+                                <button w5c-form-submit="signup(register_form)" type="button" class="btn btn-success btn-lg btn-block" data-loading-text="{{'outer_signup.signuping'|translate}}" wt-loading-status="vm.is_registering" translate="outer_signup.btn_signup">注 册</button>
+                            </div>
+                            <div class="text-left color-text-grayer pt_15" translate="outer_signup.link_terms">点击注册，表明你同意我们的
+                                <a href="/terms" class="color-text-grayer">《服务条款》</a></div>
+                            <div ng-if="!vm.show_signmode" class="color-text-grayer">{{'outer_signup.link_email_try'|translate}}
+                                <a href="javascript:;" ng-click="vm.js_show_signmode();vm.js_change_signup_mode('email')" class="color-text-grayer" translate="outer_signup.link_email_signup">邮箱注册</a>。</div></div>
+                    </form>
+                </div>
+                <div class="success-panel" ng-if="vm.signup_success">
+                    <div ng-if="!vm.check_platform.is_mobile">
+                        <ul>
+                            <li>
+                                <i class="fa fa-check reset-success"></i>
+                                <span class="text-success" translate="outer_signup.success_msg">注册成功，您已成为Worktile用户!</span></li>
+                            <li ng-if="vm.signmode=='email'">
+                                <span class="fs_12" translate="outer_signup.tips_check_inbox">验证邮件已经发送至您的邮箱中!</span></li>
+                        </ul>
+                        <div>
+                            <button class="btn btn-lg btn-block btn-info-login" ng-click="vm.openemailset()" translate="outer_signup.btn_goto_email">登录邮箱激活帐号</button></div>
+                        <div class="text-left mt_15" translate="outer_signup.link_goto_dashboard">或者
+                            <a href="/" class="text-success">现在开始体验 Worktile!</a></div>
+                    </div>
+                    <div ng-if="vm.check_platform.is_mobile">
+                        <ul>
+                            <li>
+                                <i class="fa fa-check reset-success"></i>
+                                <span class="text-success" translate="outer_signup.success_msg">注册成功，您已成为Worktile用户!</span></li>
+                            <li>
+                                <span class="fs_12" translate="outer_signup.tips_for_mobile1">为了您更好的使用和体验 Worktile</span></li>
+                            <li>
+                                <span class="fs_12" translate="outer_signup.tips_for_mobile2">请您下载 Worktile 移动客户端</span></li>
+                        </ul>
+                        <div>
+                            <a ng-if="vm.check_platform.is_ios" class="btn btn-info-login" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.worktile">
+                                <i class="fa fa-apple"></i>
+                                <span translate="outer_signup.goto_appstore">去 AppStore 下载</span></a>
+                            <a ng-if="vm.check_platform.is_android" class="btn btn-info-login" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.worktile">
+                                <i class="fa fa-android"></i>
+                                <span translate="outer_signup.goto_myapp">去 应用宝 下载</span></a>
+                        </div>
+                        <br>
+                        <a class="btn btn-info-login" href="https://m.worktile.com">
+                            <i class="fa fa-hand-pointer-o"></i>
+                            <span translate="outer_signup.goto_mobile_type">先使用触屏版</span></a>
+                    </div>
+                </div>
+            </div>
+            <div class="single-panel-footer pl-0 pr-0" ng-if="!vm.signup_success && !vm.check_platform.is_mobile">
+                <a href="/signin" ng-click="$root.go_to_login($event)" class="color-text-grayer" translate="outer_signup.link_return_login">返回登录</a></div>
+        </div>
+    </div>
+</div>

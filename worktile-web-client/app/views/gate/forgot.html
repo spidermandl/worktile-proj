@@ -1,0 +1,73 @@
+<div class="other-warp forgot-wrap" data-ng-controller="ForgotCtrl">
+    <div wt-minheight="58" class="single-panel clearfix">
+        <div class="single-panel-inner login-mini">
+            <div class="single-panel-header">
+                <a class="logo-min" href="/" title="Worktile">
+                    <i class="wtfont wtf-worktile"></i>
+                    <i class="wtfont wtf-worktiletext"></i>
+                </a>
+            </div>
+            <div class="single-panel-body">
+                <ul class="signmode-tab flex_row">
+                    <li class="flex_se1 text-right" ng-class="{'current':vm.forgotmode=='phone'}" ng-click="vm.js_change_signup_mode('phone')" translate="outer_forgot.tab_forgot_mode_phone">手机号找回</li>
+                    <li class="line">|</li>
+                    <li class="flex_se1" ng-class="{'current':vm.forgotmode=='email'}" ng-click="vm.js_change_signup_mode('email')" translate="outer_forgot.tab_forgot_mode_email">邮箱找回</li></ul>
+                <div class="single-panel-section" ng-hide="vm.send_success">
+                    <form ng-hide="vm.send_success" class="wt-form form-horizontal" w5c-form-validate="" name="forget_form" novalidate>
+                        <div ng-if="vm.forgotmode=='phone'">
+                            <div class="form-group">
+                                <div class="input-group input-group--phone">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">{{vm.phone_prefix.name}}
+                                            <span class="caret"></span></button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li ng-repeat="prefix in vm.phone_prefixs" ng-click="vm.js_change_phone_prefix(prefix)">
+                                                <a href="javascript:;">{{prefix.name}} {{prefix.val}}</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="input-group-btn input-group-btn--phone-prefix">
+                                        <input type="number" class="form-control" name="forgot_phone_prefix" ng-model="vm.phone_prefix.val" readonly="readonly" w5c-dynamic-element required ng-pattern="$root.global.constant.regex.mobile_area" /></div>
+                                    <input type="text" class="form-control" name="forget_phone" ng-model="vm.forget_phone" ng-change="vm.js_change_phone($event)" ng-pattern="$root.global.constant.regex.mobile_probable" placeholder="{{'outer_forgot.phone_placeholder'|translate}}" required autofocus="autofocus" /></div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row mlr-0">
+                                    <div class="col-xs-7 pl-0">
+                                        <input class="form-control col-sm-8" type="text" placeholder="{{'outer_forgot.phone_code_placeholder'|translate}}" name="forget_phone_code" ng-model="vm.phone_code" required/></div>
+                                    <button class="btn btn-success col-xs-5 fs-17" type="button" ng-click="vm.js_get_phone_code(forget_form)" ng-disabled="!forget_form.forgot_phone_prefix.$valid||!forget_form.forget_phone.$valid||vm.waiting_for_phone_code" ng-bind="vm.phone_code_text"></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="vm.forgotmode=='email'">
+                            <input type="email" class="form-control" name="forget_email" ng-model="vm.forget_email" placeholder="{{'outer_forgot.email_placeholder'|translate}}" required autofocus="autofocus" /></div>
+                        <div class="form-group" ng-show="forget_form.$errors.length > 0">
+                            <div class="alert alert-danger">
+                                <i class="fa fa-times-circle mr-5"></i>{{forget_form.$errors[0]}}</div>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" w5c-form-submit="vm.js_forget_password(forget_form)" data-loading-text="{{'outer_forgot.request_sending'|translate}}" wt-loading-status="vm.is_sending" class="btn btn-success btn-lg btn-block">{{{'phone':'outer_forgot.btn_submit_phone','email':'outer_forgot.btn_submit_email'}[vm.forgotmode]|translate}}</button></div>
+                    </form>
+                </div>
+                <div class="success-panel" ng-show="vm.send_success && vm.forgotmode=='email'">
+                    <!--<i class="imgicon-success"></i><br/><br/>-->
+                    <div class="color-text-dark" translate="outer_forgot.tips_check_email" translate-values="{email:vm.forget_email}">重置密码的邮件已经发送至
+                        <br/>
+                        <span class="email-reset">{{vm.forget_email}}</span>
+                        <br/>请依据邮件中的引导继续操作</div>
+                    <div>
+                        <button class="btn btn-lg btn-block email-load-btn" ng-click="vm.openemailset()" translate="outer_forgot.btn_goto_mailbox">登录邮箱</button></div>
+                    <div class="color-text-light pt-30">{{'outer_forgot.tips_email_not_find'|translate}}
+                        <div class="text-left mt-20 w-180 mlr-auto">
+                            <a class="ml-10" href="javascript:;" ng-if="vm.isResendEmail" ng-click="vm.resendemail(forget_form)">{{'outer_forgot.link_resend'|translate}}</a>
+                            <label class="ml-10" ng-if="!vm.isResendEmail">{{vm.numbers}}&nbsp; {{'outer_forgot.second'|translate}}</label>
+                            <br>
+                            <a class="ml-10" href="https://worktile.com/feedback?from=v4" target="_blank">{{'outer_forgot.link_goto_feedback'|translate}}</a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="single-panel-footer">
+                <a href="/signin">{{'outer_forgot.link_signin'|translate}}</a>
+                <span class="split"></span>
+                <a href="/signup">{{'outer_forgot.link_signup'|translate}}</a></div>
+        </div>
+    </div>
+</div>

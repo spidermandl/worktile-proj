@@ -4,6 +4,7 @@
     <head>
         <meta charset="utf-8">
         <title></title>
+        <base href="/">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -16,10 +17,11 @@
 <!--         <link rel="stylesheet" href="styles/main.css"> -->
         <link rel="stylesheet" href="css/base_common.css">
         <link rel="stylesheet" href="css/base_outer.css">
-
-        <!-- endbuild --></head>
+        <link rel="stylesheet" href="css/base_inner.css">
+        <!-- endbuild -->
+    </head>
     
-    <body ng-app="jtWorkApp">
+    <body>
         <!--[if lte IE 8]>
             <p class="browsehappy">You are using an
                 <strong>outdated</strong>browser. Please
@@ -86,14 +88,19 @@
         <script src="bower_components/angular-route/angular-route.js"></script>
         <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
         <script src="bower_components/angular-touch/angular-touch.js"></script>
+        <script src="bower_components/requirejs/require.js" data-main="scripts/main"></script>
         <script src="bower_components/w5c-validator/w5cValidator.js"></script>
         <!-- endbower -->
         <!-- endbuild -->
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
+<!--         <script src="scripts/constant/config.js"></script>
         <script src="scripts/app.js"></script>
+        <script src="scripts/value/global.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/about.js"></script>
-        <script src="scripts/controllers/login.js"></script>
-        <!-- endbuild --></body>
+        <script src="scripts/controllers/identity.js"></script>
+        <script src="scripts/controllers/work.js"></script> -->
+        <!-- endbuild -->
+    </body>
 
 </html>
