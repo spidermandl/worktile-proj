@@ -11,6 +11,48 @@ define(['app'], function (app) {
 	app.filter('translate',['config',function(config){//多语言适配
 		return function(input){
 			/*
+			********************************登录 相关************************************
+			*/
+			if(input.indexOf('username_placeholder') >= 0){
+				return config.STRING.username_placeholder;
+			}else if(input.indexOf('password_placeholder') >= 0){
+				return config.STRING.password_placeholder;
+			}else if(input.indexOf('tips_change_iscode') >= 0){
+				return config.STRING.tips_change_iscode;
+			}else if(input.indexOf('iscode_placeholder') >= 0){
+				return config.STRING.iscode_placeholder;
+			}else if(input.indexOf('logining') >= 0){
+				return '';
+			}else if(input.indexOf('dynamic_placeholder') >= 0){
+				return '';
+			}else if(input.indexOf('security_code_placeholder') >= 0){
+				return '';
+			}else if(input.indexOf('outer_signup.phone_placeholder') >= 0){
+				return config.STRING['outer_signup.phone_placeholder'];
+			}else if(input.indexOf('outer_signup.phone_code_placeholder') >= 0){
+				return config.STRING['outer_signup.phone_code_placeholder'];
+			}else if(input.indexOf('outer_signup.display_name_placeholder') >= 0){
+				return config.STRING['outer_signup.display_name_placeholder'];
+			}else if(input.indexOf('outer_signup.link_email_try') >= 0){
+				return config.STRING['outer_signup.link_email_try'];
+			}else if(input.indexOf('outer_signup.email_placeholder') >= 0){
+				return config.STRING['outer_signup.email_placeholder'];
+			}else if(input.indexOf('outer_forgot.phone_placeholder') >= 0){
+				return config.STRING['outer_forgot.phone_placeholder'];
+			}else if(input.indexOf('outer_forgot.btn_submit_phone') >= 0){
+				return config.STRING['outer_forgot.btn_submit_phone'];
+			}else if(input.indexOf('outer_forgot.btn_submit_email') >= 0){
+				return config.STRING['outer_forgot.btn_submit_email'];
+			}else if(input.indexOf('outer_forgot.phone_code_placeholder') >= 0){
+				return config.STRING['outer_forgot.phone_code_placeholder'];
+			}else if(input.indexOf('outer_forgot.email_placeholder') >= 0){
+				return config.STRING['outer_forgot.email_placeholder'];
+			}else if(input.indexOf('outer_forgot.link_signin') >= 0){
+				return config.STRING['outer_forgot.link_signin'];
+			}else if(input.indexOf('outer_forgot.link_signup') >= 0){
+				return config.STRING['outer_forgot.link_signup'];
+			}
+			/*
 			********************************leftmenu 相关************************************
 			**/
 			if(input.indexOf('leftmenu.item_dashboard') >= 0){
@@ -29,6 +71,20 @@ define(['app'], function (app) {
 				return config.STRING['pop_my_teams.desc_create_team'];
 			}else if(input.indexOf('pop_my_teams.btn_upgrade_pro') >= 0){
 				return config.STRING['pop_my_teams.btn_upgrade_pro'];
+			}else if(input.indexOf('leftmenu_projects.title_name') >= 0){
+				return config.STRING['leftmenu_projects.title_name'];
+			}else if(input.indexOf('leftmenu_projects.placeholder_search_project_name') >= 0){
+				return config.STRING['leftmenu_projects.placeholder_search_project_name'];
+			}else if(input.indexOf('leftmenu_projects.toggle_lock_to_left') >= 0){
+				return config.STRING['leftmenu_projects.toggle_lock_to_left'];
+			}else if(input.indexOf('leftmenu_projects.toggle_unlock_left') >= 0){
+				return config.STRING['leftmenu_projects.toggle_unlock_left'];
+			}else if(input.indexOf('leftmenu_projects.link_all_projects') >= 0){
+				return config.STRING['leftmenu_projects.link_all_projects'];
+			}else if(input.indexOf('leftmenu_projects.link_to_archives') >= 0){
+				return config.STRING['leftmenu_projects.link_to_archives'];
+			}else if(input.indexOf('leftmenu_projects.link_to_favorite') >= 0){
+				return config.STRING['leftmenu_projects.link_to_favorite'];
 			}else if(input.indexOf('common.txt_team') >= 0){
 				return config.STRING['common.txt_team'];
 			}else if(input.indexOf('common.txt_project') >= 0){

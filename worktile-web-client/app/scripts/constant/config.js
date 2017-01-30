@@ -1,20 +1,19 @@
-'use strict';
-
 /**
  * @ngdoc function
  * @name constant
  * @description
- * # AboutCtrl
- * Controller of the jtWorkApp
+ * constant of the jtWorkApp
  */
  define(function (require) {
+ 	'use strict';
+
 	return {
 		baseUrl: 'views/',
 		//路由对应html 模板路径
 		templateUrls : {
-			login: 'views/gate/base_login.html',
-			signup: 'views/gate/base_login.html',
-			forgot: 'views/gate/base_login.html',
+			login: 'views/gate/signin.html',
+			signup: 'views/gate/signup.html',
+			forgot: 'views/gate/forgot.html',
 			dashboard: 'views/work/base_work.html',
 			dashboard_task: 'views/work/dashboard/dashboard_task.html',
 			dashboard_calendar: 'views/work/dashboard/dashboard_calendar.html',
@@ -24,11 +23,17 @@
 			search: 'views/work/search/search_panel.html',
 			left_menu: 'views/work/left_menu.html',//左引导栏
 			left_menu_team: 'views/work/toolbar/pop_my_teams.html',
+			left_menu_project: 'views/work/toolbar/left_menu_project.html',
 			left_menu_shortcut_create: 'views/work/toolbar/pop_shortcut_create.html',
 			'dashboard.default': 'views/work/dashboard/dashboard_task.html',
 			calendar_event_create: 'views/work/dashboard/dialog_event_create.html',//创建日历event
 			about: 'views/about.html',
 		},
+		//正则表达式
+		mobile_area: "^[0-9]{1,4}$",
+		mobile_probable: "^[0-9]{6,15}$",
+		mobile: ["^(\\+?0?86\\-?)?1[345789]\\d{9}$|", "^(\\+?27|0)\\d{9}$|", "^(\\+?61|0)4\\d{8}|", "^(\\+?33|0)[67]\\d{8}$|", "^(\\+351)?9[1236]\\d{7}$"].join(""),
+		email: "^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$",
 		//电话前缀
 		phone_prefixs:[
 				{ name : '中国', val: 86,},
@@ -68,6 +73,13 @@
   			'pop_my_teams.btn_create_team' : '创建新团队',
   			'pop_my_teams.desc_create_team': '邀请伙伴，通过项目组织人和事，一个团队就是一个部门或公司',
   			'pop_my_teams.btn_upgrade_pro' : '升级到企业版',
+  			'leftmenu_projects.title_name' : '项目',
+  			'leftmenu_projects.placeholder_search_project_name' : '快速查找项目',
+  			'leftmenu_projects.toggle_lock_to_left' : '固定到栏边',
+  			'leftmenu_projects.toggle_unlock_left' : '取消固定',
+  			'leftmenu_projects.link_all_projects' : '全部项目',
+  			'leftmenu_projects.link_to_archives' : '归档项目',
+  			'leftmenu_projects.link_to_favorite' : '收藏项目',
   			'common.txt_team': '团队',
   			'common.txt_project': '项目',
   			'common.txt_task': '任务',

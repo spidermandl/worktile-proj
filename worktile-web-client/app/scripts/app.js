@@ -45,12 +45,12 @@
           $urlRouterProvider.when('','dashboard')
             .otherwise('dashboard');
           $stateProvider
-            .state('home', {
-                url: '/home',
-                // controller: ["$rootScope",
-                //     function($rootScope) {
-                //         };
-                //     }],
+            .state('proxy', {
+                url: '',
+                controller: ["$rootScope",'$state',
+                    function($rootScope,$state) {
+                        $state.go("dashboard");
+                    },],
                     // resolve: {
                     //     global: ["globalDataContext",
                     //     function(globalDataContext) {
@@ -58,7 +58,6 @@
                     //     }],
                     // },
                 // templateUrl: config.templateUrls.dashboard,
-                controller: 'WorkCtrl',
             })
             .state('dashboard', {
                 url: '/dashboard',
@@ -107,19 +106,16 @@
                 url: '/login',
                 templateUrl: config.templateUrls.login,
                 controller: 'LoginCtrl',
-                controllerAs: 'login',
             })
             .state('/signup',{//注册页面
                 url: '/signup',
                 templateUrl: config.templateUrls.signup,
                 controller: 'RegisterCtrl',
-                controllerAs: 'signup',
             })
             .state('/forgot',{//忘记密码
                 url: '/forgot',
                 templateUrl: config.templateUrls.forgot,
                 controller: 'ForgotCtrl',
-                controllerAs: 'forgot',
             }).state("dashboard.default", {
                 url: "",
                 templateUrl: config.templateUrls['dashboard.default'],

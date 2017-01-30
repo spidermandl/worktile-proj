@@ -2,7 +2,7 @@
  * @ngdoc function
  * @name jtWorkApp.directive:wtLeftmenu
  * @description
- * # wtLeftmenu
+ * # wtLeftmenu 左侧控制栏
  * left menu directive
  */
 define(['app'], function (app) {
@@ -71,7 +71,7 @@ define(['app'], function (app) {
 					},
 					//缩进操作面板
 					js_leftmenu_collapsed : function(){
-
+						$rootScope.global.leftmenu_current_expand = "";
 					},
 					star_projects : null ,//star项目
 					//弹出个人信息
@@ -223,6 +223,7 @@ define(['app'], function (app) {
 					},
 					//弹出主页
 					goto_dashboard : function(){
+						$rootScope.global.leftmenu_current_expand = "",
 						$state.go('dashboard');
 					},
 					//弹出搜索界面
@@ -237,11 +238,17 @@ define(['app'], function (app) {
 					expand_item : function(item_type){
 						return $rootScope.global.leftmenu_current_expand === item_type ?
 							 void($rootScope.global.leftmenu_current_expand = "") : 
-							 void($rootScope.global.leftmenu_current_expand = item_type)
+							 void($rootScope.global.leftmenu_current_expand = item_type);
 
 					},
-					js_to_project : function(){
-
+					js_to_project : function(project){
+						$rootScope.global.leftmenu_current_expand = "";
+	                    $state.go("project", {
+		                        pid: project.pid
+		                    },
+		                    {
+		                        reload: !0
+		                    });
 					},
 				};
 		    }

@@ -1,6 +1,6 @@
 <div id="wrap-all" class="">
     <div id="main" class="inner">
-        <div 
+<!--             <div 
             ng-controller="LoginCtrl" 
             ng-if="action_type == 0" 
             ng-init="vm.weixin_unionid=''"
@@ -17,7 +17,8 @@
             ng-if="action_type == 2" 
             ng-init="vm.weixin_unionid=''"
             ng-include="'./views/gate/forgot.html'">
-        </div>
+        </div> -->
+        <ui-view></ui-view>
 
         <footer class="text-center color_text_lighter login-footer">
             <i class="wtfont wtf-worktile"></i>
@@ -28,3 +29,6 @@
 </div>
 <!-- End Alexa Certify Javascript -->
 <div app-promotion-bar=""></div>
+
+
+

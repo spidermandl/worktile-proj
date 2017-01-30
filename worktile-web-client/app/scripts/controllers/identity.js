@@ -105,22 +105,23 @@
 		};
 	}])
 	//注册界面
-	.controller('RegisterCtrl', ['$scope', '$controller',function ($scope, $controller) {
-		$controller('BaseCtrl', {$scope: $scope});
-		$scope.action_type = 1;
-		$scope.regist_phone_reminde_msg = null;
-		$scope['$root.global.constant.regex.mobile_area'] = '/^[0-9]{1,4}$/';
-		$scope['$root.global.constant.regex.mobile_probable'] ='/^[0-9]{6,15}$/';
-		$scope['$root.global.constant.regex.display_name'] = '/^([\u4e00-\u9fa5]|[0-9a-zA-Z!@#$%^&*()_\-\+=\s]){1,100}$/';
-		$scope.regist_phone_code_reminde_msg = false;
-		$scope.regist_email_reminde_msg = false;
-		$scope.regist_password_reminde_msg = false;
-		$scope.regist_display_name_reminde_msg = false;
+	.controller('RegisterCtrl', ['$scope', '$controller','config',
+		function ($scope, $controller,config) {
+			$controller('BaseCtrl', {$scope: $scope});
+			$scope.action_type = 1;
+			$scope.regist_phone_reminde_msg = null;
+			$scope['$root.global.constant.regex.mobile_area'] = config.mobile_area;
+			$scope['$root.global.constant.regex.mobile_probable'] = config.mobile_probable;
+			$scope['$root.global.constant.regex.display_name'] = config.email;
+			$scope.regist_phone_code_reminde_msg = false;
+			$scope.regist_email_reminde_msg = false;
+			$scope.regist_password_reminde_msg = false;
+			$scope.regist_display_name_reminde_msg = false;
 
-		//提交注册信息
-		$scope.signup = function(register_form){
+			//提交注册信息
+			$scope.signup = function(register_form){
 
-		};
+			};
 
 	}])
 	.controller('ForgotCtrl', ['$scope', '$controller',function ($scope, $controller) {

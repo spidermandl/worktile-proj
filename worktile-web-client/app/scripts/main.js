@@ -15,31 +15,35 @@
         // shim: {},
         // urlArgs: 'v=201502100127&r='+Math.random()
         paths: {
+            app : 'app',//app.js
         	configuration : 'constant/config',
-			app : 'app',
+            error : 'constant/error',
 			identity : 'controllers/identity',//身份进入
-			work : 'controllers/work',
 			dashboard : 'controllers/dashboard',
             search : 'controllers/search',
 			//指令
-			left_nemu_dir : 'directive/left_menu',
+			left_nemu : 'directive/left_menu',
+            left_menu_project : 'directive/left_menu_project',
             //filter
             translate : 'filter/translate',
             //provider
             popbox : 'provider/popbox',
 　　　　 },
 	    shim: {
+            configuration: {
+                deps: ['error'],//deps 载入依赖模块
+            },
             app: {
                 deps: [],
             },
-			work: { 
-		        deps: ['translate','left_nemu_dir','dashboard'],//模块work载入需要的其他模块
+			dashboard: { 
+		        deps: ['translate','left_nemu'],
 			},
             search: {
-                deps: ['translate','left_nemu_dir'],
+                deps: ['translate','left_nemu'],
             },
-            left_nemu_dir: {
-                deps: ['popbox'],
+            left_nemu: {
+                deps: ['popbox','left_menu_project'],
             }
 	    },
     });
@@ -49,7 +53,7 @@
             'configuration',
             'app',
             'identity',
-            'work',
+            'dashboard',
             'search',
         ],
         function (configuration,app) {
