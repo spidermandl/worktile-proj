@@ -1,0 +1,100 @@
+<dl class=leftmenu_projects>
+    <dt>{{'leftmenu_projects.title_name'|translate}}
+        <a href=javascript:; class=pull-right ng-click=vm.add_project()>
+            <i class="wtfont wtf-add"></i></a>
+    </dt>
+    <dd class=leftmenu_projects_search_form>
+        <form role=search>
+            <i class="fa fa-search"></i>
+            <input type=text trigger-keydown="" ng-change=vm.change_query() placeholder="{{'leftmenu_projects.placeholder_search_project_name'|translate}}" wt-autofocus="" class=form-control ng-model=vm.query></form>
+        <div class=leftmenu_projects_more>
+            <a href=/projects>{{'leftmenu_projects.link_all_projects'|translate}}</a></div>
+    </dd>
+    <div class="leftmenu_projects_list height-nonav" wt-scroll>
+        <dd class=leftmenu_projects_dd ng-if=vm.is_empty>
+            <div class="empty-panel empty-panel-small">
+                <i class="fa fa-clock-o"></i>
+                <br>
+                <span>{{'leftmenu_projects.warn_empty_project'|translate}}</span></div>
+        </dd>
+        <dd class=leftmenu_projects_dd ng-if="vm.star_projects.length > 0" ng-hide=!!vm.query>
+            <h3>
+                <i class="mr-10 fa fa-star-o"></i>{{'leftmenu_projects.title_star_project'|translate}}
+                <span class=pull-right ng-click=vm.toggle_leftmenu_pin()>
+                    <a href=javascript:; ng-if="$root.global.me.is_lock_left=='0'">{{'leftmenu_projects.toggle_lock_to_left'|translate}}</a>
+                    <a href=javascript:; ng-if="$root.global.me.is_lock_left=='1'">{{'leftmenu_projects.toggle_unlock_left'|translate}}</a></span>
+            </h3>
+            <ul sortable=vm.project_sort_options>
+                <li ng-repeat="project in vm.star_projects|orderBy:'star_pos' track by project.pid" pid={{::project.pid}} type=star>
+                    <i class="wtfont wtf-projectmove pointer-move"></i>
+                    <a class="fa fa-star" href=javascript:; ng-click=vm.toggleStar($event,project)></a>
+                    <a ng-class="{'active':vm.selected_pid==project.pid,'current':vm.current_pid==project.pid&&vm.current_star_project==true}" href=javascript:; ng-click=vm.js_to_project(project) title={{project.name}}>
+                        <i class=mr-10 ng-class=project.pic ng-style="{color: project.bg}"></i>
+                        <span ng-bind=project.name></span>
+                    </a>
+                </li>
+            </ul>
+        </dd>
+        <dd class=leftmenu_projects_dd ng-if="vm.recent_projects.length > 0" ng-hide=!!vm.query>
+            <h3>
+                <i class="mr-10 fa fa-clock-o"></i>{{'leftmenu_projects.title_recent_project'|translate}}
+                <a class="pull-right fa" ng-class="{true:'fa-angle-down',false:'fa-angle-up'}[vm.collapse_recent_project]" ng-click=vm.js_collapse_projects() href=javascript:;>
+                    <i></i>
+                </a>
+            </h3>
+            <div uib-collapse=vm.collapse_recent_project>
+                <ul>
+                    <li ng-repeat="project in vm.recent_projects track by project.pid" pid={{::project.pid}} type=recent>
+                        <a class="fa fa-times-circle" href=javascript:; ng-click=vm.js_remove_recent_project(project.pid)></a>
+                        <a ng-class="{'active':vm.selected_pid==project.pid,'current':vm.current_pid==project.pid&&vm.current_star_project==true}" href=javascript:; ng-click=vm.js_to_project(project) title={{project.name}}>
+                            <i class=mr-10 ng-class=project.pic ng-style="{color: project.bg}"></i>
+                            <span ng-bind=project.name></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </dd>
+        <dd class=leftmenu_projects_dd ng-if="team.show_projects.length > 0" ng-repeat="team in vm.teams">
+            <h3 ng-if="team.team_id == -1">
+                <i class="mr-10 wtfont wtf-user"></i>
+                <span class=team_name ng-bind=team.name></span>
+                <a class="pull-right fa" ng-if=!vm.query ng-class="{true:'fa-angle-down',false:'fa-angle-up'}[team.collapse]" ng-click=vm.js_collapse_projects(team) href=javascript:;>
+                    <i>
+                    </i>
+                </a>
+            </h3>
+            <h3 ng-if="team.team_id != -1">
+                <a href=javascript:; ng-click=vm.js_goto_team(team,$event)>
+                    <i class="mr-10 wtfont wtf-team"></i>
+                    <span class=team_name ng-bind=team.name></span>
+                </a>
+                <a class="pull-right fa" ng-if=!vm.query ng-class="{true:'fa-angle-down',false:'fa-angle-up'}[team.collapse]" ng-click=vm.js_collapse_projects(team) href=javascript:;>
+                    <i>
+                    </i>
+                </a>
+            </h3>
+            <div uib-collapse=team.collapse&&!vm.query>
+                <ul sortable="{true:vm.project_sort_options}[team.projects.length!=0]">
+                    <li pid={{::project.pid}} ng-repeat="project in team.show_projects track by project.pid" type=team tid={{team.team_id}}>
+                        <i class="wtfont wtf-projectmove pointer-move"></i>
+                        <a class=fa href=javascript:; ng-class="{true:'fa-star',false:'fa-star-o'}[project.is_star==1]" ng-click=vm.toggleStar($event,project)></a>
+                        <a href=javascript:; ng-click=vm.js_to_project(project) ng-class="{'active':vm.selected_pid == project.pid, 'current':vm.current_pid == project.pid && vm.current_star_project == false}" title={{project.name}}>
+                            <i ng-class=project.pic ng-style="{color: project.bg}"></i>
+                            <span ng-bind=project.name></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </dd>
+        <dd class=leftmenu_projects_dd ng-if=!vm.query>
+            <h3>
+                <a href=javascript:; ng-click=vm.js_show_projects_archive()>
+                    <i class="mr-10 fa fa-archive"></i>{{'leftmenu_projects.link_to_archives'|translate}}</a>
+            </h3>
+            <h3>
+                <a href=javascript:; ng-click=vm.js_show_projects_favorite()>
+                    <i class="mr-10 fa fa-heart"></i>{{'leftmenu_projects.link_to_favorite'|translate}}</a>
+            </h3>
+        </dd>
+    </div>
+</dl>
