@@ -1,0 +1,48 @@
+<div class=layout_content>
+    <div class="layout_content_main dashboard">
+        <div class=mod-navbar>
+            <div class=main>
+                <div class=title>
+                    <h3>
+                        <i class="wtfont wtf-dashboard"></i>{{'dashboard.title_name'|translate}}</h3>
+                </div>
+                <div class=main_toolbar></div>
+                <div class=center-menu>
+                    <ul>
+                        <li>
+                            <a href=/dashboard>{{'dashboard.title_name_my_tasks'|translate}}</a></li>
+                        <li>
+                            <a href=/calendar>{{'dashboard.title_name_calendar'|translate}}</a></li>
+                        <li>
+                            <a href=/feed class=active>{{'dashboard.title_name_feed'|translate}}</a></li>
+                        <li>
+                            <a href=/email>{{'dashboard.title_name_email'|translate}}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="height-nonav height-nonav--notab dashboard-body" wt-scroll>
+            <dl class=frame wt-minheight=112>
+                <div class=right-fix-col>
+                    <div class=button-container>
+                        <button class=btn ng-click=vm.js_refresh_feed($event)>
+                            <i class="fa fa-refresh"></i>{{'dashboardActivityFeed.btn_new_feed'|translate}}</button>
+                    </div>
+                </div>
+                <div class=left-elastic-col>
+                    <div class="empty-panel noborder" ng-show="vm.feedData.feeds.length == 0 && vm.loadingDone">
+                        <i class="fa fa-clock-o"></i>
+                        <br>
+                        <span>{{'dashboardActivityFeed.warn_feed_empty'|translate}}</span>
+                    </div>
+                    <ul class="activity-list-container feed-list">
+                        <wt-activity-feed ng-repeat="feed in vm.feedData.feeds"></wt-activity-feed>
+                        <div class=loading-more-panel>
+                            <div class=part-loading ng-hide=vm.loadingDone></div>
+                            <button class="btn more-btn" ng-if="vm.feedData.hasMore && vm.loadingDone" data-loading-text="{{'common.loading'|translate}}" wt-loading-status=!vm.loadingDone ng-click=vm.js_loadMoreActivityFeeds();>{{'common.btn_loading'|translate}}</button></div>
+                    </ul>
+                </div>
+            </dl>
+        </div>
+    </div>
+</div>

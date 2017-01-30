@@ -1,0 +1,55 @@
+<div class=layout_content>
+    <div class= "layout_content_main calendar">
+        <div class=mod-navbar>
+            <div class=main>
+                <div class=title>
+                    <h3>
+                        <i class= "wtfont wtf-dashboard"></i>{{'dashboard.title_name'|translate}}</h3>
+                </div>
+                <div class=main_toolbar>
+                    <div href=javascript:; class= "btn-group js-popbox mr-5">
+                        <a class= "btn btn-success btn--fancy" ng-click=vm.js_add_event()>{{'dashboardCalendar.btn_new_event'|translate}}</a></div>
+                    <a href=javascript:; class= "btn btn--fancy" ui-sref=calendar_subscribe>{{'dashboardCalendar.btn_subscribe'|translate}}</a></div>
+                <div class=center-menu>
+                    <ul>
+                        <li>
+                            <a href=/dashboard>{{'dashboard.title_name_my_tasks'|translate}}</a></li>
+                        <li>
+                            <a href=/calendar class=active>{{'dashboard.title_name_calendar'|translate}}</a></li>
+                        <li>
+                            <a href=/feed>{{'dashboard.title_name_feed'|translate}}</a></li>
+                        <li>
+                            <a href=/email>{{'dashboard.title_name_email'|translate}}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class=calendar-body>
+            <div class=margin_inner>
+                <div class=calendar-command-panel>
+                    <div class=command-penal>
+                        <div id=calendar-range-wrapper>
+                            <a href=javascript:; ng-click=prev()>
+                                <i class= "fa fa-angle-left"></i>
+                            </a>
+                            <h4 id=calendar_title class=range-text></h4>
+                            <a href=javascript:; ng-click=next()>
+                                <i class= "fa fa-angle-right"></i>
+                            </a>
+                            <button id=calendar_today class= "btn btn-today" ng-click=today()>{{'common.today'|translate}}</button></div>
+                        <div class= "btn-group month-week-wrapper">
+                            <button class= "btn month-btn" ng-class= "{true: 'active'}[vm.calendar_view=='month']" ng-click= "changeView('month')">{{'common.month'|translate}}</button>
+                            <button class= "btn week-btn" ng-class= "{true: 'active'}[vm.calendar_view=='agendaWeek']" ng-click= "changeView('agendaWeek')">{{'common.week'|translate}}</button></div>
+                    </div>
+                    <div class=calendar-panel ng-class= "{'agendaWeek': 'week'}[vm.calendar_view]">
+                        <div id=calendar calendar=myCalendar ui-calendar=calendarConfig ng-model=calendarEventSources></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class= "layout_right_sidebar layout_right_sidebar--calender">
+        <ng-include src= "'/views/work/dashboard/calendar_project_filter.html'"></ng-include>
+    </div>
+</div>
+<ui-view></ui-view>

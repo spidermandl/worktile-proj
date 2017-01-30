@@ -1,15 +1,23 @@
 /**
  * @ngdoc function
- * @name jtWorkApp.controller:WorkCtrl
+ * @name jtWorkApp.controller:dashboard相关
  * @description
- * # WorkCtrl
+ * # Dashboard related controller
  * Controller of the jtWorkApp
  */
 define(['app'], function (app) {
 	'use strict';
 	//父类
 	app.controller('WorkCtrl', ['$scope','$rootScope','config',function ($scope,$rootScope,config) {
-
+		//全局访问变量
+		$rootScope.global = {
+			//加载等待阶段
+			loading_init : true,
+			i18n_loading_done : true,
+			//左控制栏
+			header_menu : '',
+			leftmenu_current_expand : '',//当前展开的面板
+		};
 	}])
 	.controller('DashboardTaskCtrl', ['$scope','$rootScope','config',function ($scope,$rootScope,config) {
 		//$controller('WorkCtrl', {$scope: $scope,$rootScope: $rootScope});

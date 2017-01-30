@@ -1,0 +1,185 @@
+<div class=layout_content>
+    <div class=layout_content_main id=search_panel>
+        <div class=mod-navbar>
+            <div class=main ng-click= "$root.global.leftmenu_current_expand=''">
+                <div class=title>
+                    <h3>
+                        <i class= "wtfont wtf-search"></i>{{'search.title_name'|translate}}</h3>
+                </div>
+            </div>
+        </div>
+        <div class= "height-nonav height-nonav--notab search-panel">
+            <div class=search-input ng-class= "{'smaller': vm.mood!='input'}">
+                <div class=input-box>
+                    <input id=the-search-input type=text wt-autofocus autocomplete=off ng-model=vm.keywords wt-enter=vm.js_trigger_search() ng-change= "vm.typing = true" ng-blur= "vm.typing = false" ng-focus= "vm.typing = true" class= "form-control input-tag" placeholder= "{{'search_panel.keywords_placeholder'|translate}}">
+                    <i class= "fa fa-search" ng-click=js_search() ng-show= "vm.last_searched!==vm.keywords"></i>
+                    <i class= "fa fa-times-circle-o" ng-click=js_revoke_search() ng-show= "vm.last_searched===vm.keywords"></i>
+                </div>
+                <div class= "search-constraint search_range">
+                    <span class=title>{{'search_panel.title_search_area'|translate}}</span>
+                    <span class=select wt-pop-filter-team=vm.team_id_name_map select-fn=vm.js_select_range($event,team_id,team_name,trigger_apply)>
+                        <span ng-bind= "vm.team_id_name_map[vm.results.all.filter_params.team_id]||('search_panel.unknow_project'|translate)"></span>
+                        <i class= "fa fa-angle-down"></i>
+                    </span>
+                </div>
+                <div class= "search-constraint search_pattern">
+                    <span class=title>{{'search_panel.title_search_type'|translate}}</span>
+                    <span class=select ng-click= "vm.js_select_pattern($event, 'noapply')">
+                        <span ng-bind=vm.qpattern_id_name_map[vm.results.all.filter_params.qpattern]></span>
+                        <i class= "fa fa-angle-down"></i>
+                    </span>
+                </div>
+            </div>
+            <div class=search-assistant ng-hide= "vm.mood==='results' && !vm.typing && !vm.using_assistant" ng-mouseenter= "vm.using_assistant = true" ng-mouseleave= "vm.using_assistant = false">
+                <div class=assistants ng-class= "{dropdown: vm.mood === 'results' && vm.part_loading_done}">
+                    <div class= "assistant search-history animate-hide animate-hide--y" ng-class= "{'sp-hide': vm.history.length === 0}">
+                        <div class=title>
+                            <i class= "left-icon fa fa-history"></i>
+                            <span>{{'search_panel.search_history'|translate}}</span>
+                            <a href=javascript:; class=right-button ng-click=vm.js_purge_history()>{{'search_panel.clear'|translate}}</a></div>
+                        <ul class=list>
+                            <li ng-repeat= "record in vm.history">
+                                <a class=link href=javascript:; ng-click=vm.js_trigger_search(record)>
+                                    <span ng-bind=[record,30]|cutstr></span>
+                                </a>
+                                <a class=right-button href=javascript:; ng-click=vm.js_drop_history(record)>
+                                    <i class= "fa fa-times"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class= "assistant search-express">
+                        <div class=title>
+                            <i class= "left-icon fa fa-compass"></i>
+                            <span>{{'search_panel.title_standard_search'|translate}}</span></div>
+                        <ul class=list>
+                            <li>
+                                <a class=link href=javascript:; ng-click= "vm.js_express_search('_assign_my')">{{'search_panel.assign_my'|translate}}</a>
+                                <a class=right-button href=javascript:; ng-click= "vm.js_express_search('_assign_my')">
+                                    <i class= "fa fa-angle-right"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a class=link href=javascript:; ng-click= "vm.js_express_search('_my_create')">{{'search_panel.my_create'|translate}}</a>
+                                <a class=right-button href=javascript:; ng-click= "vm.js_express_search('_my_create')">
+                                    <i class= "fa fa-angle-right"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a class=link href=javascript:; ng-click= "vm.js_express_search('_my_watch')">{{'search_panel.my_watch'|translate}}</a>
+                                <a class=right-button href=javascript:; ng-click= "vm.js_express_search('_my_watch')">
+                                    <i class= "fa fa-angle-right"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a class=link href=javascript:; ng-click= "vm.js_express_search('_recent_change')">{{'search_panel.recent_change'|translate}}</a>
+                                <a class=right-button href=javascript:; ng-click= "vm.js_express_search('_recent_change')">
+                                    <i class= "fa fa-angle-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class= "assistant clickable" ng-click=vm.js_show_quickswitch()>
+                        <div class=title>
+                            <i class= "left-icon wtfont wtf-quickswitch"></i>{{'search_panel.tips_quick_search'|translate:{keytip:vm.keytip} }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class=search-navtab ng-show= "vm.mood==='results'">
+                <span class=title>{{'search_panel.title_search_result'|translate}}</span>
+                <ul class=navtabs>
+                    <li class=tab ng-class= "{active: vm.current_tab === 'all'}" ng-hide= "vm.should_tag_lable_hidden('all')" ng-click= "vm.js_select_tab('all')">
+                        <span>{{'common.txt_all'|translate}} (
+                            <span ng-bind=vm.results.all.total||0></span>)</span></li>
+                    <li class=tab ng-class= "{active: vm.current_tab === 'tasks'}" ng-hide= "vm.should_tag_lable_hidden('tasks')" ng-click= "vm.js_select_tab('tasks')">
+                        <span>{{'common.txt_task'|translate}} (
+                            <span ng-bind=vm.results.tasks.total||0></span>)</span></li>
+                    <li class=tab ng-class= "{active: vm.current_tab === 'files'}" ng-hide= "vm.should_tag_lable_hidden('files')" ng-click= "vm.js_select_tab('files')">
+                        <span>{{'common.txt_file'|translate}} (
+                            <span ng-bind=vm.results.files.total||0></span>)</span></li>
+                    <li class=tab ng-class= "{active: vm.current_tab === 'events'}" ng-hide= "vm.should_tag_lable_hidden('events')" ng-click= "vm.js_select_tab('events')">
+                        <span>{{'common.txt_event'|translate}} (
+                            <span ng-bind=vm.results.events.total||0></span>)</span></li>
+                    <li class=tab ng-class= "{active: vm.current_tab === 'pages'}" ng-hide= "vm.should_tag_lable_hidden('pages')" ng-click= "vm.js_select_tab('pages')">
+                        <span>{{'common.txt_page'|translate}} (
+                            <span ng-bind=vm.results.pages.total||0></span>)</span></li>
+                    <li class=tab ng-class= "{active: vm.current_tab === 'posts'}" ng-hide= "vm.should_tag_lable_hidden('posts')" ng-click= "vm.js_select_tab('posts')">
+                        <span>{{'common.txt_post'|translate}} (
+                            <span ng-bind=vm.results.posts.total||0></span>)</span></li>
+                    <li class=tab ng-class= "{active: vm.current_tab === 'mails'}" ng-hide= "vm.should_tag_lable_hidden('mails')" ng-click= "vm.js_select_tab('mails')">
+                        <span>{{'common.txt_email'|translate}} (
+                            <span ng-bind=vm.results.mails.total||0></span>)</span></li>
+                </ul>
+            </div>
+            <div class=frame-warp id=the-search-result-frame ng-hide= "vm.mood!=='results'" wt-maxheight=180 wt-scroll={alwaysShowScrollbar:1}>
+                <dl class= "search-result frame" wt-minheight=194>
+                    <dd class= "fram-dd search-result-panel">
+                        <div class= "frame-lr-right search-result-filter">
+                            <dl>
+                                <dd class= "search-constraint search_range">
+                                    <span class=title>{{'search_panel.title_search_range'|translate}}</span>
+                                    <span class=select wt-pop-filter-team=vm.team_id_name_map select-fn=vm.js_select_range($event,team_id,team_name,trigger_apply) select-trigger-apply=true>
+                                        <span ng-bind= "vm.team_id_name_map[vm.results[vm.current_tab].filter_params.team_id]||('search_panel.unknow_project'|translate)"></span>
+                                        <i class= "fa fa-angle-down"></i>
+                                    </span>
+                                </dd>
+                                <dd class= "search-constraint search_pattern">
+                                    <span class=title>{{'search_panel.title_search_type'|translate}}</span>
+                                    <span class=select ng-click=vm.js_select_pattern($event)>
+                                        <span ng-bind=vm.qpattern_id_name_map[vm.results[vm.current_tab].filter_params.qpattern]></span>
+                                        <i class= "fa fa-angle-down"></i>
+                                    </span>
+                                </dd>
+                                <dt class=search-filter>{{'search_panel.title_search_filter'|translate}}</dt>
+                                <dd class=search-filter>
+                                    <ul class=checkable>
+                                        <li ng-class= "{'selected': vm.results[vm.current_tab].filter_params.assigned}" ng-hide= "vm.current_tab !== 'tasks'" ng-click= "vm.toggle_filter('assigned')">
+                                            <a href=javascript:;>{{'search_panel.assign_my'|translate}}</a></li>
+                                        <li ng-class= "{'selected': vm.results[vm.current_tab].filter_params.attend }" ng-hide= "vm.current_tab !== 'events'" ng-click= "vm.toggle_filter('attend')">
+                                            <a href=javascript:;>{{'search_panel.my_attend'|translate}}</a></li>
+                                        <li ng-class= "{'selected': vm.results[vm.current_tab].filter_params.authored}" ng-click= "vm.toggle_filter('authored')">
+                                            <a href=javascript:;>{{'search_panel.my_create'|translate}}</a></li>
+                                        <li ng-class= "{'selected': vm.results[vm.current_tab].filter_params.watching}" ng-click= "vm.toggle_filter('watching')">
+                                            <a href=javascript:;>{{'search_panel.my_watch'|translate}}</a></li>
+                                        <li ng-class= "{'selected': vm.results[vm.current_tab].filter_params.eafter}" ng-click= "vm.toggle_filter_value('eafter', vm.last_month)">
+                                            <a href=javascript:;>{{'search_panel.recent_change'|translate}}</a></li>
+                                        <li ng-class= "{'selected': vm.results[vm.current_tab].filter_params.unarchived}" ng-click= "vm.toggle_filter('unarchived')">
+                                            <a href=javascript:;>{{'search_panel.unarchived'|translate}}</a></li>
+                                    </ul>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class=frame-lr-left>
+                            <div class=empty-panel ng-if= "vm.part_loading_done && vm.results[vm.current_tab].results.length === 0">
+                                <i class= "fa fa-times"></i>
+                                <br>
+                                <span>{{'search_panel.warn_empty_search_result'|translate}}</span></div>
+                            <wt-search-result-list ng-if= "vm.current_tab === 'all'" entities=vm.results.all.results projects=projects highlight=vm.tokens_re></wt-search-result-list>
+                            <wt-search-result-list ng-if= "vm.current_tab === 'tasks'" entities=vm.results.tasks.results projects=projects highlight=vm.tokens_re></wt-search-result-list>
+                            <wt-search-result-list ng-if= "vm.current_tab === 'files'" entities=vm.results.files.results projects=projects highlight=vm.tokens_re></wt-search-result-list>
+                            <wt-search-result-list ng-if= "vm.current_tab === 'events'" entities=vm.results.events.results projects=projects highlight=vm.tokens_re></wt-search-result-list>
+                            <wt-search-result-list ng-if= "vm.current_tab === 'pages'" entities=vm.results.pages.results projects=projects highlight=vm.tokens_re></wt-search-result-list>
+                            <wt-search-result-list ng-if= "vm.current_tab === 'posts'" entities=vm.results.posts.results projects=projects highlight=vm.tokens_re></wt-search-result-list>
+                            <wt-search-result-list ng-if= "vm.current_tab === 'mails'" entities=vm.results.mails.results projects=projects highlight=vm.tokens_re></wt-search-result-list>
+                            <div class=loading-more-panel ng-if= "!vm.part_loading_done||vm.current_tab === 'all'||vm.results[vm.current_tab].has_more||vm.results[vm.current_tab].curPage >= 50">
+                                <div class= "load-more part-loading" ng-hide=vm.part_loading_done></div>
+                                <button ng-show= "vm.current_tab !== 'all' && vm.results[vm.current_tab].has_more && vm.part_loading_done" class=btn ng-click=vm.js_load_more() ng-disabled= "vm.results[vm.current_tab].curPage >= 50" data-loading-text= "{{'common.loading'|translate}}" wt-loading-status=!vm.part_loading_done>{{'common.btn_loading'|translate}}</button>
+                                <span class=end-of-search ng-if= "vm.part_loading_done && vm.current_tab === 'all' && vm.results.all.has_more">
+                                    <small>{{'search_panel.tips_result_by_all'|translate}}
+                                        <a href=javascript:; ng-click= "vm.js_select_tab('tasks', 'bottom')" ng-if=vm.results.tasks.has_more>{{'common.txt_task'|translate}}</a>
+                                        <a href=javascript:; ng-click= "vm.js_select_tab('files', 'bottom')" ng-if=vm.results.files.has_more>{{'common.txt_file'|translate}}</a>
+                                        <a href=javascript:; ng-click= "vm.js_select_tab('events', 'bottom')" ng-if=vm.results.events.has_more>{{'common.txt_event'|translate}}</a>
+                                        <a href=javascript:; ng-click= "vm.js_select_tab('pages', 'bottom')" ng-if=vm.results.pages.has_more>{{'common.txt_page'|translate}}</a>
+                                        <a href=javascript:; ng-click= "vm.js_select_tab('posts', 'bottom')" ng-if=vm.results.posts.has_more>{{'common.txt_post'|translate}}</a>
+                                        <a href=javascript:; ng-click= "vm.js_select_tab('mails', 'bottom')" ng-if=vm.results.mails.has_more>{{'common.txt_email'|translate}}</a></small>
+                                </span>
+                                <span class=end-of-search ng-if= "vm.results[vm.current_tab].curPage >= 50">
+                                    <small>{{'search_panel.tips_not_support_large_result'|translate}}</small></span>
+                            </div>
+                        </div>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>

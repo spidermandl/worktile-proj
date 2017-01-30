@@ -19131,7 +19131,7 @@ a.team-dashboard-add p {
 }
 .pop-my-teams .popbox-body .teams_empty {
 	height:160px;
-	background:url(//cdn.worktile.com/images/team/team_pop_empty_warn.png) center top no-repeat;
+	background:url(../images/team_pop_empty_warn.png) center top no-repeat;
 	text-align:center;
 	position:relative
 }

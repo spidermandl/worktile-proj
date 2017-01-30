@@ -1,0 +1,64 @@
+<div class="layout_content dashboard">
+    <div class=layout_content_main>
+        <div class=mod-navbar>
+            <div class=main>
+                <div class=title>
+                    <h3>
+                        <i class="wtfont wtf-dashboard"></i>{{'dashboard.title_name'|translate}}</h3>
+                </div>
+                <div class=main_toolbar>
+                    <div class="btn-group mr-5">
+                        <a href=javascript:; class="js-popbox openpop" data-placement=bottom data-align=right ng-click=js_pop_showhelp($event);>
+                            <i class="fa fa-info-circle"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class=center-menu>
+                    <ul>
+                        <li>
+                            <a href=/dashboard>{{'dashboard.title_name_my_tasks'|translate}}</a></li>
+                        <li>
+                            <a href=/calendar>{{'dashboard.title_name_calendar'|translate}}</a></li>
+                        <li>
+                            <a href=/feed>{{'dashboard.title_name_feed'|translate}}</a></li>
+                        <li>
+                            <a href=/email class=active>{{'dashboard.title_name_email'|translate}}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="height-nonav height-nonav--notab" wt-scroll>
+            <dl class="frame dashboard-body" wt-minheight=112>
+                <dt class="frame-dt frame--dt" ng-if="emailData.emails.length != 0 && loadingDone">
+                    <span class="title title--breadcrumb">
+                        <a ng-href=/dashboard/email>{{'dashboard.title_name_email'|translate}}</a></span>
+                </dt>
+                <div class="empty-panel noborder empty-panel-mt-10" ng-if="emailData.emails == 0 && loadingDone">
+                    <i class="fa fa-envelope-o"></i>
+                    <br>
+                    <br>
+                    <p class=fs-17>{{'dashboardEmail.info_email'|translate}}
+                        <strong class=color_main>{{global.me.name}}@inbox.worktile.com</strong>
+                        <br>{{'dashboardEmail.tips_email'|translate}}</p></div>
+                <ul class=email-list-container>
+                    <li class="email-item slide-trigger" ng-repeat="email in emailData.emails" ng-click=showEmailDetail(email)>
+                        <div class="column right">
+                            <div class=date>{{email.create_date|dateFormatZHCN}}</div></div>
+                        <div class="column center">
+                            <div class=subject ng-class="{bold: !email.is_read, pale:email.is_read }">{{email.subject}}</div></div>
+                        <div class="column left">
+                            <div class=icon ng-class="{bold: !email.is_read, pale:email.is_read }">
+                                <a href=javascript:; ng-click="js_set_mail_read($event, email)" ng-class="{'yellow': !email.is_read, 'gray':email.is_read}">
+                                    <i class=fa-envelope></i>
+                                </a>
+                            </div>
+                            <div class=from title={{email.from}} ng-class="{bold: !email.is_read, pale:email.is_read }">{{email.from}}</div></div>
+                    </li>
+                    <div class=loading-more-panel>
+                        <div class=part-loading ng-hide=loadingDone></div>
+                        <button class=btn ng-show="emailData.hasMore && loadingDone" data-loading-text="{{'common.loading'|translate}}" wt-loading-status=!loadingDone ng-click=loadMoreEmails();>{{'common.btn_loading'|translate}}</button></div>
+                </ul>
+            </dl>
+        </div>
+    </div>
+</div>

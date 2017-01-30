@@ -1,0 +1,154 @@
+<div class=layout_content>
+    <div class="layout_content_main dashboardTask">
+        <div class=mod-navbar>
+            <div class=main>
+                <div class=title>
+                    <h3>
+                        <i class="wtfont wtf-dashboard"></i>{{'dashboard.title_name'|translate}}</h3>
+                </div>
+                <div class=main_toolbar>
+                    <ng-include src="'/views/work/dashboard/toolbar_task.html'"></ng-include>
+                </div>
+                <div class=center-menu>
+                    <ul>
+                        <li>
+                            <a href=/dashboard class=active>{{'dashboard.title_name_my_tasks'|translate}}</a></li>
+                        <li>
+                            <a href=/calendar>{{'dashboard.title_name_calendar'|translate}}</a></li>
+                        <li>
+                            <a href=/feed>{{'dashboard.title_name_feed'|translate}}</a></li>
+                        <li>
+                            <a href=/email>{{'dashboard.title_name_email'|translate}}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div ng-if="vm.mytaskViewStatus=='gtd'" class="height-nonav height-nonav--notab">
+            <div class=part-loading ng-if=!vm.part_loading_done></div>
+            <div ng-show=vm.loaded class="h_100p entries_panel js-sortable" wt-scroll= '{"dir":"x"}'>
+                <div class=entries_panel_sortarea>
+                    <div id=entry_main_{{$index+1}} class=entry ng-repeat="gtd_entry in vm.gtdEntrys">
+                        <div class="entry_header entry_header--dashboard clearfix">
+                            <div class="entry_header_title pull-left">
+                                <h2 ng-if="$index === 0">{{'dashboardTask.inbox'|translate}}</h2>
+                                <h2 ng-if="$index === 1">{{'dashboardTask.today_done'|translate}}</h2>
+                                <h2 ng-if="$index === 2">{{'dashboardTask.next_step_done'|translate}}</h2>
+                                <h2 ng-if="$index === 3">{{'dashboardTask.later_done'|translate}}</h2></div>
+                            <div class="entry_header_title entry_header_title--dashboard pull-right">
+                                <h2 ng-if="gtd_entry.length>0">{{gtd_entry.length}}</h2></div>
+                        </div>
+                        <div class=entry-task-panel id="{{::'entry_scroll_'+($index+1) }}" wt-scroll="" wt-maxheight=gtd_entry.maxheight>
+                            <div class="entry-tasks js-sortable min-h20" sortable=vm.tasks_sort_options mark={{$index+1}}>
+                                <div class=entry-task-empty-dashboard wt-disable-drag ng-if=!gtd_entry.length>
+                                    <span ng-if="$index === 0">{{'dashboardTask.assign_your_show'|translate}}</span>
+                                    <span ng-if="$index === 1">{{'dashboardTask.today_done_show'|translate}}</span>
+                                    <span ng-if="$index === 2">{{'dashboardTask.next_done_show'|translate}}</span>
+                                    <span ng-if="$index === 3">{{'dashboardTask.later_show'|translate}}</span></div>
+                                <wt-task ng-repeat="task in gtd_entry|orderBy: 'pos' track by task.tid" task=task class="right_click_trigger slide-trigger js-popbox task--dashboard" ng-hide=task.is_filter arg-show-project=true arg-fn-check=vm.js_complete_task($event,entry,task) task-pos={{task.pos}} ng-click=vm.js_open_task_detail($event,task)></wt-task>
+                            </div>
+                            <wt-task-quickcreate ng-if=gtd_entry.task_bottom_enabled arg-mark={{$index+1}} arg-gtd-entry=gtd_entry arg-new-task-model=vm.new_task arg-fn-save="vm.js_add_task($event, new_task, mark);" arg-fn-cancel=vm.js_cancel_quickcreate($event,gtd_entry,new_task)></wt-task-quickcreate>
+                        </div>
+                        <div class=entry-task-footer ng-show=!gtd_entry.task_bottom_enabled>
+                            <a href=javascript:; class=js-add-task-composer ng-click="vm.js_show_task_quickcreate($event, gtd_entry)">
+                                <i class="fa fa-plus-circle"></i>{{'tasks.btn_add_task'|translate}}</a>
+                        </div>
+                    </div>
+                    <div ng-hide=vm.loaded class="part-loading mt-20"></div>
+                    <ui-view></ui-view>
+                </div>
+            </div>
+        </div>
+        <div ng-if="vm.mytaskViewStatus=='time'" class="height-nonav height-nonav--notab dashboard-body" wt-scroll>
+            <dl class=frame wt-minheight=112 ng-if=vm.loaded>
+                <dt class="frame-dt frame--dt">
+                    <span class="title title--breadcrumb">
+                        <div class=help-inlineblock>
+                            <a ng-href=/dashboard>{{'dashboardTask.todo_task'|translate}}</a></div>
+                    </span>
+                </dt>
+                <hr class=m-0>
+                <div ng-show=vm.part_loading_done>
+                    <div class=empty-panel ng-if="vm.group_tasks.length == 0">
+                        <i class="fa fa-check-square-o"></i>
+                        <br>
+                        <span>{{'dashboardTask.uncompleted_task'|translate}}</span></div>
+                    <div class="widget widget-mytask">
+                        <div class="body expired no-min-height no-border" ng-if="vm.group_tasks.length > 0">
+                            <div class="line-item-container slide-trigger" ng-repeat="group in vm.group_tasks">
+                                <div class=task-header ng-click="group.collapse = !group.collapse">
+                                    <div class=text>{{group.phase}}</div>
+                                    <span class=number>{{group.tasks.length}}</span>
+                                    <div class=toggle-handle>
+                                        <a href=javascript:;>
+                                            <i class="fa fa-chevron-down" ng-if=group.collapse></i>
+                                            <i class="fa fa-chevron-up" ng-if=!group.collapse></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div ng-init="group.collapse = false" uib-collapse=group.collapse>
+                                    <wt-task task=task arg-view-type=item arg-show-project=true arg-disable-check=true ng-repeat="task in group.tasks track by task.tid" ng-click="$root.locator.openTask(task.pid, task.tid)"></wt-task>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="part-loading mt-20" ng-if=!vm.part_loading_done></div>
+            </dl>
+        </div>
+        <div ng-if="vm.mytaskViewStatus=='completed'" class="height-nonav height-nonav--notab dashboard-body" wt-scroll>
+            <dl class=frame wt-minheight=112 ng-if=vm.loaded>
+                <dt class="frame-dt frame--dt">
+                    <span class="title title--breadcrumb">
+                        <div class=help-inlineblock>
+                            <a ng-href=/dashboard>{{'dashboardTask.completed_task'|translate}}</a></div>
+                    </span>
+                </dt>
+                <hr class=m-0>
+                <div>
+                    <div class="empty-panel noborder" ng-if="vm.completed_tasks.length == 0 && vm.part_loading_done">
+                        <i class="fa fa-check-square-o"></i>
+                        <br>
+                        <span>{{'dashboardTask.warn_empty_completed'|translate}}</span></div>
+                    <div class="widget widget-mytask">
+                        <div class="body completed no-min-height no-border" ng-if="vm.completed_tasks.length > 0">
+                            <div class="line-item-container slide-trigger">
+                                <wt-task task=task arg-view-type=item ng-repeat="task in vm.completed_tasks track by task.tid" ng-click="$root.locator.openTask(task.pid, task.tid)"></wt-task>
+                            </div>
+                            <div class=loading-more-panel ng-if="vm.part_loading_done && vm.has_more_completed_tasks">
+                                <button class=btn ng-click=vm.load_more_completed_tasks();>{{'common.btn_loading'|translate}}</button></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="part-loading mt-20" ng-if=!vm.part_loading_done></div>
+            </dl>
+        </div>
+        <div ng-if="vm.mytaskViewStatus=='update'||vm.mytaskViewStatus=='my_watcher'||vm.mytaskViewStatus=='my_create'||vm.mytaskViewStatus=='all_tasks'" class="height-nonav height-nonav--notab dashboard-body" wt-scroll>
+            <dl class=frame wt-minheight=112 ng-if=vm.loaded>
+                <dt class="frame-dt frame--dt">
+                    <span class="title title--breadcrumb">
+                        <div class=help-inlineblock>
+                            <a ng-href=/dashboard>{{ {'update':'dashboardTask.sort_by_update', 'my_watcher':'dashboardTask.my_watcher', 'my_create':'dashboardTask.my_create', 'all_tasks':'dashboardTask.all_tasks'}[vm.mytaskViewStatus]|translate }}</a></div>
+                    </span>
+                </dt>
+                <hr class=m-0>
+                <div ng-show=vm.part_loading_done>
+                    <div class="empty-panel noborder" ng-if="vm.tasks.length==0 && vm.part_loading_done">
+                        <i class=fa ng-class="{'update':'fa-clock-o','my_watcher':'fa-eye','my_create':'fa-pencil-square-o','all_tasks':'fa-check-square-o'}[vm.mytaskViewStatus]"></i>
+                        <br>
+                        <span>{{'dashboardTask.warn_empty_tasks'|translate}}</span></div>
+                    <div class="widget widget-mytask">
+                        <div class="body completed no-min-height no-border" ng-if="vm.tasks.length > 0">
+                            <div class="line-item-container slide-trigger">
+                                <wt-task task=task arg-view-type=item ng-repeat="task in vm.tasks track by task.tid" ng-click="$root.locator.openTask(task.pid, task.tid)"></wt-task>
+                            </div>
+                            <div class=loading-more-panel ng-if="vm.part_loading_done && vm.has_more_tasks">
+                                <button class=btn ng-click=vm.load_more_tasks();>{{'common.btn_loading'|translate}}</button></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="part-loading mt-20" ng-if=!vm.part_loading_done></div>
+            </dl>
+        </div>
+        <wt-feedback></wt-feedback>
+    </div>
+</div>

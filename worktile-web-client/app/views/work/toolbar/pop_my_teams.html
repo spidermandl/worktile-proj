@@ -1,0 +1,30 @@
+<div class=pop-my-teams>
+    <div class=popbox-header>
+        <h3>{{'pop_my_teams.title_name'|translate}}</h3></div>
+    <div class=popbox-bodywrapper wt-scroll>
+        <div class=popbox-body>
+            <ul class="popbox-menu popbox-menu--teams" ng-if="vm.teams.length>0">
+                <li ng-repeat="team in vm.teams track by team.team_id">
+                    <a ng-click=vm.js_close() ui-sref="team.projects({team_id: team.team_id})" ui-sref-opts="{reload: true}">
+                        <wt-team-logo size=35 team=team></wt-team-logo>
+                        <h5>
+                            <span ng-bind=team.name></span>
+                        </h5>
+                        <small>
+                            <span>
+                                <i class="fa fa-user"></i>{{team.member_count||0}}{{'leftmenu_teams.team_count'|translate}}</span>
+                            <span>
+                                <i ng-class="{1:'icon-private', 2:'icon-public'}[team.visibility]"></i>{{{1:'common.txt_private',2:'common.txt_public'}[team.visibility]|translate}}</span>
+                        </small>
+                    </a>
+                </li>
+            </ul>
+            <div ng-if="vm.teams.length==0" class=teams_empty>
+                <a href=/guide/team/create target=_blank>{{'pop_my_teams.empty_help_about_team'|translate}}</a></div>
+        </div>
+    </div>
+    <div class="popbox-footer top-divider">
+        <button ng-click=vm.js_show_add_team() class="btn btn-success btn-block mt_15">{{'pop_my_teams.btn_create_team'|translate}}</button>
+        <p>{{'pop_my_teams.desc_create_team'|translate}}</p>
+        <button ng-click=vm.js_pop_create_pro() class="btn btn-block mt-20 mb_15 border-no">{{'pop_my_teams.btn_upgrade_pro'|translate}}</button></div>
+</div>

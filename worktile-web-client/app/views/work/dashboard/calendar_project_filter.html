@@ -1,0 +1,24 @@
+<dl class="prj_sidebar h_100p" wt-sidebar-toggle=vm.calendar_project_filter_status>
+    <dd>
+        <div class=sidebar_header>
+            <a href=javascript:; ng-click=vm.js_toggle_filter()>
+                <button class="cancel wtfont wtf-close"></button>
+                <h3>{{'calendar_project_filter.title_name'|translate}}</h3></a>
+        </div>
+        <div class=sidebar_body_scroll wt-scroll>
+            <div class=sidebar_body>
+                <h3 class=sidebar_body_header>{{'calendar_project_filter.filter_by_project'|translate}}</h3>
+                <br>
+                <ul class=project-list-container>
+                    <li class="project-item clickable" ng-class="{false: 'unchecked', true: 'checked'}[project.is_checked]" ng-repeat="project in calendar_projects" ng-click=js_filter_calendar_toggle(project)>
+                        <div class=project-check>
+                            <i class=fa ng-class="{false:'fa-square-o',true:'fa-check-square'}[project.is_checked]" ng-style="{true:{'color':project.bg}}[project.is_checked]"></i>
+                        </div>
+                        <a href=javascript:;>
+                            <span class="project-icon {{project.pic}}" ng-style="{'color':project.bg}"></span>{{project.name}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </dd>
+</dl>

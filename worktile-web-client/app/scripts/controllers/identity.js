@@ -10,7 +10,7 @@
 	//angular.module('jtWorkApp')
   //父类
 	app.controller('BaseCtrl', ['$scope','config',function ($scope,config) {
-			$scope.action_type = 0;
+		$scope.action_type = 0;
 
 		$scope.vm = {
 			//===========================登录相关===============================

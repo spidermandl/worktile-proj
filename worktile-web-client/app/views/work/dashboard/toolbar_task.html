@@ -1,0 +1,39 @@
+<div class=sub_toolbar>
+    <div class=btn-group>
+        <button type=button class= "btn btn-success btn--fancy">
+            <i class=fa ng-class= "{'gtd':'fa-th-large','time':'fa-list-ul','completed':'fa-check-square-o','update':'fa-clock-o','my_watcher':'fa-eye','my_create':'fa-pencil-square-o','all_tasks':'fa-check-square-o'}[vm.mytaskViewStatus]"></i>
+        </button>
+        <button type=button class= "btn dropdown-toggle mr-5 btn--fancy" data-toggle=dropdown>&nbsp;{{ {'gtd':'dashboardTask.sort_by_order', 'time':'dashboardTask.sort_by_expire', 'completed':'dashboardTask.recent_completed', 'update':'dashboardTask.sort_by_update', 'my_watcher':'dashboardTask.my_watcher', 'my_create':'dashboardTask.my_create', 'all_tasks':'dashboardTask.all_tasks'}[vm.mytaskViewStatus]|translate }}&nbsp;
+            <i class= "fa fa-caret-down"></i></button>
+        <ul class= "dropdown-menu pull-right">
+            <li>
+                <a href=javascript:; ng-click= "vm.js_toggle_viewstatus('gtd')">
+                    <i class= "fa fa-fw fa-th-large"></i>{{'dashboardTask.sort_by_order'|translate}}</a>
+            </li>
+            <li>
+                <a href=javascript:; ng-click= "vm.js_toggle_viewstatus('time')">
+                    <i class= "fa fa-fw fa-list-ul"></i>{{'dashboardTask.sort_by_expire'|translate}}</a>
+            </li>
+            <li>
+                <a href=javascript:; ng-click= "vm.js_toggle_viewstatus('completed')">
+                    <i class= "fa fa-fw fa-check-square-o"></i>{{'dashboardTask.recent_completed'|translate}}</a>
+            </li>
+            <li>
+                <a href=javascript:; ng-click= "vm.js_toggle_viewstatus('update')">
+                    <i class= "fa fa-fw fa-clock-o"></i>{{'dashboardTask.sort_by_update'|translate}}</a>
+            </li>
+            <li>
+                <a href=javascript:; ng-click= "vm.js_toggle_viewstatus('my_watcher')">
+                    <i class= "fa fa-fw fa-eye"></i>{{'dashboardTask.my_watcher'|translate}}</a>
+            </li>
+            <li>
+                <a href=javascript:; ng-click= "vm.js_toggle_viewstatus('my_create')">
+                    <i class= "fa fa-fw fa-pencil-square-o"></i>{{'dashboardTask.my_create'|translate}}</a>
+            </li>
+            <li>
+                <a href=javascript:; ng-click= "vm.js_toggle_viewstatus('all_tasks')">
+                    <i class= "fa fa-fw fa-check-square-o"></i>{{'dashboardTask.all_tasks'|translate}}</a>
+            </li>
+        </ul>
+    </div>
+</div>

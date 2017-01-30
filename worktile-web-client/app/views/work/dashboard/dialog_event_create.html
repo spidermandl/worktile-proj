@@ -1,0 +1,47 @@
+<div class="dialog dialog-event-create">
+    <div class=dialog-head>
+        <span class=dialog-close>
+            <i class="wtfont wtf-close" ng-click=vm.close()></i>
+        </span>
+        <div class=dialog-title>{{'dialog_event_create.title_name'|translate}}</div></div>
+    <div class=dialog-body>
+        <form ng-if="projects.length > 0" name=new_event_form class="w-590 m-0-auto" w5c-form-validate="" novalidate role=form>
+            <div class=form-group>
+                <textarea wt-enter=vm.submit_create_event(new_event_form) name=event_name ng-model=vm.new_event.name placeholder="{{'dialog_event_create.placeholder'|translate}}" class=form-control required wt-focus></textarea>
+            </div>
+            <div class=form-group>
+                <h5>{{'dialog_event_create.form_name_project'|translate}}</h5>
+                <ui-select wt-validator-name=event_select_project ng-change=vm.change_event_project() ng-model=vm.new_event.pid theme=select2 append-to-body=true class=project-select required="">
+                    <ui-select-match placeholder="{{'dialog_event_create.form_placeholder_project'|translate}}">{{$select.selected.name}}</ui-select-match>
+                    <ui-select-choices group-by="'team_name'" repeat="project.pid as project in projects|propsFilter:{name: $select.search}">
+                        <div class=text-overflow ng-bind-html=project.name|reHighlight:$select.search></div>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <div class=form-group>
+                <start-end-datetime display-mode=row start-date=vm.new_event.start_date end-date=vm.new_event.end_date start-time=vm.new_event.start_time end-time=vm.new_event.end_time></start-end-datetime>
+            </div>
+            <div class=form-group>
+                <input name=event_location ng-model=vm.new_event.location placeholder="{{'dialog_event_create.form_placeholder_location'|translate}}" type=text class="form-control location-input"></div>
+            <div class=form-group>
+                <select ng-model=vm.new_event.repeat_interval ng-options="interval.desc for interval in repeat_intervals" class="form-control location-input"></select>
+            </div>
+            <div class=form-group>
+                <h5>{{'dialog_event_create.form_name_member'|translate}}</h5>
+                <ul class="entity-members clearfix">
+                    <li ng-repeat="member in vm.new_event.attendees track by member.uid">
+                        <a href=javascript:; class="fa fa-times-circle" ng-click="vm.js_remove_attendee($event, member, xEntity)"></a>
+                        <wt-avatar member=member faceclass=plr_5 size=40></wt-avatar>
+                    </li>
+                    <li>
+                        <a class="avatar-add js-popbox plr_5" href=javascript:; data-placement=right data-align=center type=attendee team-id=vm.new_event.team_id pid=vm.new_event.pid permission=vm.new_event.permission entity=vm.new_event all-member-click="vm.js_attendee_all($event, members, xEntity)" wt-pop-toggle-members="vm.js_toggle_member($event, member, xEntity)">
+                            <span class=o>＋</span></a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <button w5c-form-submit=vm.submit_create_event(new_event_form) data-loading-text="{{'common.saving'|translate}}" class="btn btn-success" wt-loading-status=vm.saving>{{'common.btn_save'|translate}}</button>
+                <button class="btn btn-cancel btn-link" ng-click=vm.close()>{{'common.btn_cancel'|translate}}</button></div>
+        </form>
+    </div>
+</div>

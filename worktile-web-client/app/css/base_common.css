@@ -7690,7 +7690,10 @@ a [class*=" icon-"],a [class^=icon-] {
 @font-face {
 	font-family:wtfont;
 	src:url(//cdn.worktile.com/fonts/wtfont.eot?v=4.5.19);
-	src:url(//cdn.worktile.com/fonts/wtfont.eot?#iefix&v=4.5.19) format('embedded-opentype'),url(//cdn.worktile.com/fonts/wtfont.woff?v=4.5.19) format('woff'),url(//cdn.worktile.com/fonts/wtfont.ttf) format('truetype'),url(//cdn.worktile.com/fonts/wtfont.svg#wtfont) format('svg')
+	src:url(../fonts/wtfont.eot) format('embedded-opentype'),
+	url(../fonts/wtfont.woff)  format('woff'),
+	url(../fonts/wtfont.ttf)  format('truetype'),
+	url(//cdn.worktile.com/fonts/wtfont.svg#wtfont) format('svg')
 }
 .wtfont {
 	font-family:wtfont!important;

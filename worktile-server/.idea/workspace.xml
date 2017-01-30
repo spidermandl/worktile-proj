@@ -346,8 +346,8 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="23" />
-    <option name="y" value="40" />
+    <option name="x" value="21" />
+    <option name="y" value="72" />
     <option name="width" value="1417" />
     <option name="height" value="813" />
   </component>
@@ -1320,7 +1320,7 @@
     <option name="totallyTimeSpent" value="239453000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="23" y="40" width="1417" height="813" extended-state="0" />
+    <frame x="21" y="72" width="1417" height="813" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />

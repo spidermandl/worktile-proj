@@ -1,0 +1,111 @@
+<div class=layout_content>
+    <div class=layout_content_main id=notice_list>
+        <div class=mod-navbar>
+            <div class=main>
+                <div class=title>
+                    <h3>
+                        <i class= "wtfont wtf-notice"></i>{{'notice_list.title_name'|translate}}</h3>
+                </div>
+                <div class=main_toolbar>
+                    <a href=javascript:; class=main_toolbar_close ng-click= "$root.global.leftmenu_current_expand=''"></a>
+                </div>
+                <div class=center-menu>
+                    <ul>
+                        <li>
+                            <a ng-class= "{'active':vm.tab == 'unread'}" href=javascript:; ng-click= "vm.js_switch_tab('unread')">{{'notice_list.unread'|translate}}</a></li>
+                        <li>
+                            <a ng-class= "{'active':vm.tab == 'pending'}" href=javascript:; ng-click= "vm.js_switch_tab('pending')">{{'notice_list.pending'|translate}}</a></li>
+                        <li>
+                            <a ng-class= "{'active':vm.tab == 'read'}" href=javascript:; ng-click= "vm.js_switch_tab('read')">{{'notice_list.read'|translate}}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class= "height-nonav height-nonav--notab notice-list-panel" wt-scroll>
+            <dl class=frame wt-minheight=112>
+                <div class= "load-more part-loading" ng-hide=vm.part_loading_done></div>
+                <dd class= "frame-dd notice-list" ng-show=vm.part_loading_done>
+                    <div class=frame-lr-right ng-if= "(vm.tab=='unread'&&(vm.unread_notices.length>0))||(vm.tab=='pending'&&(vm.pending_notices.length>0))||(vm.tab=='read')">
+                        <div ng-if= "vm.tab == 'unread'">
+                            <button class= "btn btn-block mb_15" ng-click=vm.js_set_all_notice_read()>
+                                <i class= "fa fa-check-square-o"></i>{{'notice_list.btn_set_all_read'|translate}}</button>
+                            <dl class=dl-filter>
+                                <dt>
+                                    <span class=title>{{'notice_list.title_filter'|translate}}</span></dt>
+                                <dd>
+                                    <ul class=checkable>
+                                        <li ng-class= "{all:'selected'}[vm.unReadFilterType]" ng-click= "vm.setUnReadFilterType('all')">
+                                            <a href=javascript:;>{{'common.txt_all'|translate}}</a></li>
+                                        <li ng-class= "{assign:'selected'}[vm.unReadFilterType]" ng-click= "vm.setUnReadFilterType('assign')">
+                                            <a href=javascript:;>{{'notice_list.assign_me'|translate}}</a></li>
+                                        <li ng-class= "{watch:'selected'}[vm.unReadFilterType]" ng-click= "vm.setUnReadFilterType('watch')">
+                                            <a href=javascript:;>{{'notice_list.watch_me'|translate}}</a></li>
+                                        <li ng-class= "{metion:'selected'}[vm.unReadFilterType]" ng-click= "vm.setUnReadFilterType('metion')">
+                                            <a href=javascript:;>{{'notice_list.at_me'|translate}}</a></li>
+                                        <li ng-class= "{comment:'selected'}[vm.unReadFilterType]" ng-click= "vm.setUnReadFilterType('comment')">
+                                            <a href=javascript:;>{{'common.txt_comment'|translate}}</a></li>
+                                    </ul>
+                                </dd>
+                            </dl>
+                        </div>
+                        <button ng-if= "vm.tab == 'pending'" class= "btn mt-10" ng-click=vm.js_handle_all_notice()>
+                            <i class= "fa fa-check-square-o"></i>{{'notice_list.btn_set_all_handle'|translate}}</button>
+                        <dl class=dl-filter ng-if= "vm.tab == 'read'">
+                            <dt>
+                                <span class=title>{{'notice_list.title_filter'|translate}}</span></dt>
+                            <dd>
+                                <ul class=checkable>
+                                    <li ng-class= "{all:'selected'}[vm.readFilterType]" ng-click= "vm.setReadFilterType('all')">
+                                        <a href=javascript:;>{{'common.txt_all'|translate}}</a></li>
+                                    <li ng-class= "{assign:'selected'}[vm.readFilterType]" ng-click= "vm.setReadFilterType('assign')">
+                                        <a href=javascript:;>{{'notice_list.assign_me'|translate}}</a></li>
+                                    <li ng-class= "{watch:'selected'}[vm.readFilterType]" ng-click= "vm.setReadFilterType('watch')">
+                                        <a href=javascript:;>{{'notice_list.watch_me'|translate}}</a></li>
+                                    <li ng-class= "{metion:'selected'}[vm.readFilterType]" ng-click= "vm.setReadFilterType('metion')">
+                                        <a href=javascript:;>{{'notice_list.at_me'|translate}}</a></li>
+                                    <li ng-class= "{comment:'selected'}[vm.readFilterType]" ng-click= "vm.setReadFilterType('comment')">
+                                        <a href=javascript:;>{{'common.txt_comment'|translate}}</a></li>
+                                </ul>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class=frame-lr-left>
+                        <div ng-show= "vm.tab == 'read'">
+                            <div class= "notice-item wt-row" ng-repeat= "notice in vm.read_notices track by notice.nid">
+                                <wt-notice-item notice-click=vm.js_show_slide_detail($eType,notice,$entity)></wt-notice-item>
+                            </div>
+                            <div class= "empty-panel text-center ml-220" ng-show= "vm.read_notices.length == 0 && vm.part_loading_done">
+                                <i class= "fa fa-bell"></i>
+                                <br>
+                                <br>
+                                <span>{{'notice_list.warn_empty_readed'|translate}}</span></div>
+                            <div class=part-loading ng-show=!vm.part_loading_done></div>
+                            <div class=loading-more-panel ng-show= "!vm.has_no_more && vm.part_loading_done">
+                                <button class=btn ng-click=vm.js_load_more_notice()>{{'common.btn_loading'|translate}}</button></div>
+                        </div>
+                        <div ng-show= "vm.tab == 'unread'">
+                            <div class= "notice-item wt-row" bindonce ng-repeat= "notice in vm.unread_notices track by notice.nid" ng-show= "vm.unReadFilterType=='all'||notice.verb==vm.unReadFilterType">
+                                <wt-notice-item notice-click=vm.js_show_slide_detail($eType,notice,$entity)></wt-notice-item>
+                            </div>
+                            <div class= "empty-panel text-center ml-220" ng-show= "vm.unread_notices.length == 0 && vm.part_loading_done">
+                                <i class= "fa fa-bell"></i>
+                                <br>
+                                <br>
+                                <span>{{'notice_list.warn_empty_notice'|translate}}</span></div>
+                        </div>
+                        <div ng-show= "vm.tab == 'pending'">
+                            <div class= "notice-item wt-row" bindonce ng-repeat= "notice in vm.pending_notices track by notice.nid">
+                                <wt-notice-item></wt-notice-item>
+                            </div>
+                            <div class= "empty-panel text-center ml-220" ng-show= "vm.pending_notices.length == 0 && vm.part_loading_done">
+                                <i class= "fa fa-bell"></i>
+                                <br>
+                                <br>
+                                <span>{{'notice_list.warn_empty_pending'|translate}}</span></div>
+                        </div>
+                    </div>
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
