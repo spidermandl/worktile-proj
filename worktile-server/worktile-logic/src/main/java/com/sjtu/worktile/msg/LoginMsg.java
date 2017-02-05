@@ -11,6 +11,10 @@ public class LoginMsg extends PairMsg {
      */
     private static final int MSG_CODE = 1001;
 
+    public static final String K_PHONE = "phone";
+    public static final String K_USERNAME = "username";
+    public static final String K_PASSWORD = "password";
+
     public static class InMsg implements RequestMsg{
         public int code = MSG_CODE;
         public String phone = null;//用户电话

@@ -48,6 +48,24 @@ appModule.service('mainService', function($http) {
             return $http.post('/user/login', {username: username,password: password}).then(function(response) {
                 return response.data.token;
             });
+
+            return $http.post(
+                'http://localhost:8080/user/login',
+                {
+                    username: username,
+                    password: password,
+                }
+                // ,
+                // {
+                //     headers : {
+                //         'raw' : 'raw',
+                //         'Access-Control-Allow-Origin' : '*',
+                //         'Content-Type':'application/x-www-form-urlencoded',
+                //     },
+                // }
+                ).then(function(response) {
+                    return response.data.token;
+                });
         },
 
         hasRole : function(role) {

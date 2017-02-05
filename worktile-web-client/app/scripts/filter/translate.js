@@ -7,7 +7,7 @@
  */
 define(['app'], function (app) {
 	'use strict';
-
+	console.log("translate");
 	app.filter('translate',['config',function(config){//多语言适配
 		return function(input){
 			/*
@@ -127,6 +127,24 @@ define(['app'], function (app) {
 				return config.STRING['dashboardCalendar.btn_new_event'];
 			}else if(input.indexOf('dashboardCalendar.btn_subscribe') >= 0){
 				return config.STRING['dashboardCalendar.btn_subscribe'];
+			}else if(input.indexOf('dashboardTask.inbox') >= 0){
+				return config.STRING['dashboardTask.inbox'];
+			}else if(input.indexOf('dashboardTask.today_done') >= 0){
+				return config.STRING['dashboardTask.today_done'];
+			}else if(input.indexOf('dashboardTask.next_step_done') >= 0){
+				return config.STRING['dashboardTask.next_step_done'];
+			}else if(input.indexOf('dashboardTask.later_done') >= 0){
+				return config.STRING['dashboardTask.later_done'];
+			}else if(input.indexOf('dashboardTask.assign_your_show') >= 0){
+				return config.STRING['dashboardTask.assign_your_show'];
+			}else if(input.indexOf('dashboardTask.today_done_show') >= 0){
+				return config.STRING['dashboardTask.today_done_show'];
+			}else if(input.indexOf('dashboardTask.next_done_show') >= 0){
+				return config.STRING['dashboardTask.next_done_show'];
+			}else if(input.indexOf('dashboardTask.later_show') >= 0){
+				return config.STRING['dashboardTask.later_show'];
+			}else if(input.indexOf('tasks.btn_add_task') >= 0){
+				return config.STRING['tasks.btn_add_task'];
 			}else if(input.indexOf('common.today') >= 0){
 				return config.STRING['common.today'];
 			}else if(input.indexOf('common.week') >= 0){

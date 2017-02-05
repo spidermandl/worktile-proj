@@ -17,7 +17,9 @@ import java.io.IOException;
 public class TokenFilter extends AbsPathFilter {
 
     @Override
-    protected boolean onPreHandle(ServletRequest request, ServletResponse response, Object mappedValue) throws IOException{
+    protected boolean onPreHandle(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
+        super.onPreHandle(request,response,mappedValue);
+
         final HttpServletRequest req = (HttpServletRequest) request;
 
         final String authHeader = req.getHeader("Authorization");

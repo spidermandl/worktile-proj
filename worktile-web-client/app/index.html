@@ -16,7 +16,7 @@
         <!-- build:css(.tmp) styles/main.css -->
 <!--         <link rel="stylesheet" href="styles/main.css"> -->
         <link rel="stylesheet" href="css/base_common.css">
-        <link rel="stylesheet" href="css/base_outer.css">
+        <link rel="stylesheet" href="css/base_outer.css"> 
         <link rel="stylesheet" href="css/base_inner.css">
         <!-- endbuild -->
     </head>
@@ -28,11 +28,13 @@
                 <a href="http://browsehappy.com/">upgrade your browser</a>to improve your experience.</p>
         <![endif]-->
         <!-- Add your site or application content here -->
-   <div ng-include="'views/work/base_work.html'">
+        <!-- <data-ui-view></data-ui-view> -->
+        <div ui-view="proxy"></div>
+        <div ng-if="!$root.guest" ng-include="'views/work/base_work.html'">
         </div>
-<!--         <div ng-include="'views/gate/base_login.html'">  
-        </div> -->
-
+        <div ng-if="$root.guest" ng-include="'views/gate/base_login.html'">  
+        </div>
+        
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
         <script>!
             function(A, n, g, u, l, a, r) {

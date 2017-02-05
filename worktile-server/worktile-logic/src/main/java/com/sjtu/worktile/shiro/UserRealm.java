@@ -22,9 +22,6 @@ public class UserRealm extends AuthorizingRealm {
 
     private static final Logger logger = LoggerFactory.getLogger(UserRealm.class);
 
-    @Autowired
-    TUserMapper tUserMapper;
-
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         return null;
@@ -32,12 +29,9 @@ public class UserRealm extends AuthorizingRealm {
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        String username = (String)authenticationToken.getPrincipal();
-        TUserExample query = new TUserExample();
-        query.createCriteria().andAccountEqualTo(username);
-        List<TUser> users = tUserMapper.selectByExample(query);
+        TUser user = ((MultiNamePasswordToken)authenticationToken).getRealUser();
 
-        if(users == null || users.size()==0) {
+        if(user == null) {
             throw new UnknownAccountException();//没找到帐号
         }
 //
@@ -47,9 +41,9 @@ public class UserRealm extends AuthorizingRealm {
 
         //交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自定义实现
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-                users.get(0).getAccount(), //用户名
-                users.get(0).getPassword(), //密码
-                ByteSource.Util.bytes(users.get(0).getAccount() + users.get(0).getSalt()),//salt=username+salt
+                user.getAccount(), //用户名
+                user.getPassword(), //密码
+                ByteSource.Util.bytes(user.getAccount() + user.getSalt()),//salt=username+salt
                 getName()  //realm name
         );
 

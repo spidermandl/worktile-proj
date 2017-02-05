@@ -18,6 +18,10 @@
             app : 'app',//app.js
         	configuration : 'constant/config',
             error : 'constant/error',
+            //service
+            util : 'service/util',
+            account : 'service/account',
+            //controller
 			identity : 'controllers/identity',//身份进入
 			dashboard : 'controllers/dashboard',
             search : 'controllers/search',
@@ -34,9 +38,12 @@
                 deps: ['error'],//deps 载入依赖模块
             },
             app: {
-                deps: [],
+                deps: ['configuration','util'],
             },
-			dashboard: { 
+            identity: {
+                deps: ['account'],
+            },
+			dashboard: {
 		        deps: ['translate','left_nemu'],
 			},
             search: {
@@ -50,13 +57,12 @@
 
     //init main
     require([
-            'configuration',
             'app',
             'identity',
             'dashboard',
             'search',
         ],
-        function (configuration,app) {
+        function (app) {
             app.init();
         }
     );

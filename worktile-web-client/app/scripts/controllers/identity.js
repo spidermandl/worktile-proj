@@ -8,6 +8,7 @@
  define(['app'], function (app) {
  	'use strict';
 	//angular.module('jtWorkApp')
+	console.log("identity相关");
   //父类
 	app.controller('BaseCtrl', ['$scope','config',function ($scope,config) {
 		$scope.action_type = 0;
@@ -79,30 +80,32 @@
 		};
 	}])
 	//登录界面
-	.controller('LoginCtrl', ['$scope','config','$controller',function ($scope,config, $controller) {
-		$controller('BaseCtrl', {$scope: $scope});
-		$scope.action_type = 0;
-		//状态对象
-		$scope.status = {};
-		$scope.status.code = 0;
-		$scope.iscode = false;//登录输入图片验证码
-		//输入信息
-		$scope.signin_user = {
-			name : null,
-			password : null,
-			imgsrc : null,//验证码图片src
-			code : null,
-			is_login_ing : null,
-			factor : null,
-			is_signfactoing : null,
-			recovery_code : null,
-			is_signrecoverying : null,
-		};
+	.controller('LoginCtrl', ['$scope','config','$controller','IdentityService',
+		function ($scope,config, $controller,service) {
+			$controller('BaseCtrl', {$scope: $scope});
+			$scope.action_type = 0;
+			//状态对象
+			$scope.status = {};
+			$scope.status.code = 0;
+			$scope.iscode = false;//登录输入图片验证码
+			//输入信息
+			$scope.signin_user = {
+				name : null,
+				password : null,
+				imgsrc : null,//验证码图片src
+				code : null,
+				is_login_ing : null,
+				factor : null,
+				is_signfactoing : null,
+				recovery_code : null,
+				is_signrecoverying : null,
+			};
 
-		//登录请求
-		$scope.signin = function(login_form){
-
-		};
+			//登录请求
+			$scope.signin = function(){
+				//service.signin(login_form.login_name,login_form.login_password);
+				service.signin(this.signin_user);
+			};
 	}])
 	//注册界面
 	.controller('RegisterCtrl', ['$scope', '$controller','config',
@@ -124,57 +127,7 @@
 			};
 
 	}])
-	.controller('ForgotCtrl', ['$scope', '$controller',function ($scope, $controller) {
-		$controller('BaseCtrl', {$scope: $scope});
-		$scope.action_type = 2;
-
-		
-	}])
-	.filter('translate',['config',function(config){//输入提示过滤器
-		return function(input){
-			if(input.indexOf('username_placeholder') >= 0){
-				return config.STRING.username_placeholder;
-			}else if(input.indexOf('password_placeholder') >= 0){
-				return config.STRING.password_placeholder;
-			}else if(input.indexOf('tips_change_iscode') >= 0){
-				return config.STRING.tips_change_iscode;
-			}else if(input.indexOf('iscode_placeholder') >= 0){
-				return config.STRING.iscode_placeholder;
-			}else if(input.indexOf('logining') >= 0){
-				return '';
-			}else if(input.indexOf('dynamic_placeholder') >= 0){
-				return '';
-			}else if(input.indexOf('security_code_placeholder') >= 0){
-				return '';
-			}else if(input.indexOf('outer_signup.phone_placeholder') >= 0){
-				return config.STRING['outer_signup.phone_placeholder'];
-			}else if(input.indexOf('outer_signup.phone_code_placeholder') >= 0){
-				return config.STRING['outer_signup.phone_code_placeholder'];
-			}else if(input.indexOf('outer_signup.display_name_placeholder') >= 0){
-				return config.STRING['outer_signup.display_name_placeholder'];
-			}else if(input.indexOf('outer_signup.link_email_try') >= 0){
-				return config.STRING['outer_signup.link_email_try'];
-			}else if(input.indexOf('outer_signup.email_placeholder') >= 0){
-				return config.STRING['outer_signup.email_placeholder'];
-			}else if(input.indexOf('outer_forgot.phone_placeholder') >= 0){
-				return config.STRING['outer_forgot.phone_placeholder'];
-			}else if(input.indexOf('outer_forgot.btn_submit_phone') >= 0){
-				return config.STRING['outer_forgot.btn_submit_phone'];
-			}else if(input.indexOf('outer_forgot.btn_submit_email') >= 0){
-				return config.STRING['outer_forgot.btn_submit_email'];
-			}else if(input.indexOf('outer_forgot.phone_code_placeholder') >= 0){
-				return config.STRING['outer_forgot.phone_code_placeholder'];
-			}else if(input.indexOf('outer_forgot.email_placeholder') >= 0){
-				return config.STRING['outer_forgot.email_placeholder'];
-			}else if(input.indexOf('outer_forgot.link_signin') >= 0){
-				return config.STRING['outer_forgot.link_signin'];
-			}else if(input.indexOf('outer_forgot.link_signup') >= 0){
-				return config.STRING['outer_forgot.link_signup'];
-			}else{
-				return input;
-			}
-		};
-	}]);
+	;
 });
 
 

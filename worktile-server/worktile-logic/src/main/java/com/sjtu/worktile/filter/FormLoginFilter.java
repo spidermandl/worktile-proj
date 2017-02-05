@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * Author: Desmond
@@ -27,6 +28,7 @@ public class FormLoginFilter extends AbsPathFilter {
 
     @Override
     protected boolean onPreHandle(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
+        super.onPreHandle(request,response,mappedValue);
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
         if(SecurityUtils.getSubject().isAuthenticated()) {
@@ -34,17 +36,14 @@ public class FormLoginFilter extends AbsPathFilter {
             return redirectToSuccessUrl(req,resp);//已经登录过
         }
         if(isLoginRequest(req)) {
-            if("post".equalsIgnoreCase(req.getMethod())) {//form表单提交
-                boolean loginSuccess = false; //登录
-                try {
-                    loginSuccess = login(req);
-                } catch (AppException e) {
-                    e.printStackTrace();
-                    return redirectToErrorUrl(req,resp,e);//重定向到error控制器
-                }
-                if(loginSuccess) {
-                    return true;//继续过滤器链
-                }
+            boolean loginSuccess = false; //登录
+            try {
+                loginSuccess = login(req);
+            } catch (AppException e) {
+                return redirectToErrorUrl(req,resp,e);//重定向到error控制器
+            }
+            if(loginSuccess) {
+                return true;//继续过滤器链
             }
         } else {//保存当前地址并重定向到登录界面
             saveRequestAndRedirectToLogin(req, resp);
@@ -59,8 +58,7 @@ public class FormLoginFilter extends AbsPathFilter {
      * @return
      */
     private boolean login(HttpServletRequest req) throws AppException{
-        String body = readRequestBody(req);
-        LoginMsg.InMsg inMsg =JSON.parseObject(body, LoginMsg.InMsg.class);
+        LoginMsg.InMsg inMsg =getRequestInfo(req);
         /**
          * 封装请求数据到 TUser
          */
@@ -77,9 +75,28 @@ public class FormLoginFilter extends AbsPathFilter {
         return true;
     }
 
+    /**
+     * 获取request中的传参
+     * @param req
+     * @return
+     */
+    private LoginMsg.InMsg getRequestInfo(HttpServletRequest req){
+        if (req.getHeader("raw")!=null){
+            String body = readRequestBody(req);
+            return JSON.parseObject(body, LoginMsg.InMsg.class);
+        }else{
+            Map<String,String[]> r =req.getParameterMap();
+            LoginMsg.InMsg inMsg = new LoginMsg.InMsg();
+            inMsg.phone = r.containsKey(LoginMsg.K_PHONE)?(r.get(LoginMsg.K_PHONE))[0]:null;
+            inMsg.username = r.containsKey(LoginMsg.K_USERNAME)?(r.get(LoginMsg.K_USERNAME))[0]:null;
+            inMsg.password = r.containsKey(LoginMsg.K_PASSWORD)?(r.get(LoginMsg.K_PASSWORD))[0]:null;
+            return inMsg;
+        }
+    }
     private boolean isLoginRequest(HttpServletRequest req) {
         return pathsMatch(loginUrl, WebUtils.getPathWithinApplication(req));
     }
+
 
     /**
      * 解析request的body

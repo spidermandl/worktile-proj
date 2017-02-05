@@ -22,8 +22,9 @@ define(['app'], function (app) {
 					//左控制栏
 					header_menu : '',
 					leftmenu_current_expand : '',//当前展开的面板
+					//loading_done : true,
 				};
-
+				//$rootScope.global.loading_done = true;
 		      	scope.vm = {
 					//弹出创建快捷方式
 					js_pop_shortcut_create : function(event){

@@ -10,7 +10,9 @@ import com.sjtu.worktile.model.TUserRole;
 import com.sjtu.worktile.model.TUserRoleExample;
 import com.sjtu.worktile.model.mappers.TUserMapper;
 import com.sjtu.worktile.model.mappers.TUserRoleMapper;
+import com.sjtu.worktile.shiro.MultiNamePasswordToken;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -47,12 +49,14 @@ public class UserService {
      * @param condition
      * @return
      */
-    private List<TUser> findUsers(TUser condition){
+    public List<TUser> findUsers(TUser condition){
         TUserExample query = new TUserExample();
         if (condition.getAccount()!=null)
             query.or().andAccountEqualTo(condition.getAccount());
+        else if (condition.getPhone()!=null)
+            query.or().andPhoneEqualTo(condition.getPhone());
         else
-            query.or().andAccountEqualTo(condition.getPhone());
+            return null;
         List<TUser> users = tUserMapper.selectByExample(query);
         return users;
     }
@@ -69,8 +73,13 @@ public class UserService {
             //SecurityUtils.setSecurityManager(securityManager);
             //得到Subject及创建用户名/密码身份验证Token（即用户身份/凭证）
             Subject subject = SecurityUtils.getSubject();
-            UsernamePasswordToken token = new UsernamePasswordToken(user.getAccount(), user.getPassword());
-            subject.login(token);
+            MultiNamePasswordToken token = new MultiNamePasswordToken(user.getAccount(), user.getPassword());
+            token.setRealUser(users.get(0));
+            try {
+                subject.login(token);
+            }catch (AuthenticationException e){
+                throw new AppException(AppException.CATEGORY.USER_LOGIN_INVALID);
+            }
 
             /**
              * 获取用户角色

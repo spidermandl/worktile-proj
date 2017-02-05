@@ -6,7 +6,7 @@
  *
  * Main module of the application.
  */
- define(['configuration'],function (configuration,require) {
+ define(['configuration','util'],function (configuration,util,require) {
     'use strict';
 
     var app = angular
@@ -27,42 +27,48 @@
     };
 
     app.constant('config',configuration);
+    app.constant('util',util);
     //,'$urlRouterProvider','$stateProvider'
-    app.config(['$routeProvider','$urlRouterProvider','$stateProvider',"w5cValidatorProvider","$locationProvider",'config',
-        function ($routeProvider,$urlRouterProvider,$stateProvider,w5cValidatorProvider,$locationProvider,config) {
+    app.config(['$routeProvider','$urlRouterProvider','$stateProvider',"w5cValidatorProvider",
+                "$locationProvider",'$httpProvider','config',
+        function ($routeProvider,$urlRouterProvider,$stateProvider,w5cValidatorProvider,
+                  $locationProvider,$httpProvider,config) {
           /**路由配置
            ********************************************************
            */
-          //  $urlRouterProvider.when('/','/home');
-          // //   .otherwise('/index');
-
-          // $stateProvider.state("home", {
-          //   url: "",
-          //   template: "<h1>HELLO!</h1>",
-          //   // templateUrl: 'views/gate/base_login.html',
-          //   // controller: "LoginCtrl",
-          // });
-          $urlRouterProvider.when('','dashboard')
-            .otherwise('dashboard');
+          $urlRouterProvider//.when('','dashboard')
+            .otherwise('/home');
           $stateProvider
-            .state('proxy', {
-                url: '',
-                controller: ["$rootScope",'$state',
-                    function($rootScope,$state) {
-                        $state.go("dashboard");
-                    },],
+            .state('/home', {
+                url: '/home',
+                views:{
+                    'proxy':{
+                        template: '',
+                        controller: 
+                          ["$rootScope",'$state',
+                            function($rootScope,$state) {
+                                $rootScope.guest = false;
+                                //console.log($rootScope.guest);
+                                if ($rootScope.guest)
+                                    $state.go("signin");
+                                else
+                                    $state.go("dashboard");
+                            },],
+                        //css: ['css/base_outer.css','css/base_inner.css'],
+                    },
+                }
                     // resolve: {
                     //     global: ["globalDataContext",
                     //     function(globalDataContext) {
                     //         return globalDataContext.loadAll();
                     //     }],
                     // },
-                // templateUrl: config.templateUrls.dashboard,
             })
             .state('dashboard', {
                 url: '/dashboard',
                 templateUrl: config.templateUrls.dashboard_task,
                 controller: 'DashboardTaskCtrl',
+                //css: 'css/base_inner.css',
             })
             .state("calendar", {
                 url: "/calendar",
@@ -102,10 +108,11 @@
                 //parent: "home",
                 need_load: !1
             })
-            .state('/login',{//登录页面
-                url: '/login',
+            .state('signin',{//登录页面
+                url: '/signin',
                 templateUrl: config.templateUrls.login,
                 controller: 'LoginCtrl',
+                //css: 'css/base_outer.css',
             })
             .state('/signup',{//注册页面
                 url: '/signup',
@@ -140,6 +147,17 @@
           w5cValidatorProvider.setRules(config.VALIDATE_ERROR);
           // use the HTML5 History API
           $locationProvider.html5Mode(true);
+
+          // //http设置
+          //$httpProvider.defaults.useXDomain = true;
+          // //$httpProvider.defaults.withCredentials = true;  
+          //$httpProvider.defaults.headers.common = { 'Access-Control-Allow-Origin' : '*'};
+          //$httpProvider.defaults.headers.common['Authorization'] = 'Bearer ' ;
+          // $httpProvider.defaults.headers.post["Content-Type"] = "application/json;charset=utf-8";
+            // $httpProvider.defaults.useXDomain = true;  
+            // $httpProvider.defaults.headers.post['Content-Type'] = 
+            //       'application/x-www-form-urlencoded;charset=utf-8';
+          // delete $httpProvider.defaults.headers.common['X-Requested-With'];             
       }]);
 
     return app;
