@@ -10,3 +10,9 @@ Run `grunt` for building and `grunt serve` for preview.
 ## Testing
 
 Running `grunt test` will run the unit tests with karma.
+
+
+动态加载css
+	"angular-css" :"^1.0.8",
+	"angularAMD":"^0.2.1"
+    

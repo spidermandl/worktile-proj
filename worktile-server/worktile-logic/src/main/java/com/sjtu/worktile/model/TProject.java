@@ -11,7 +11,7 @@ public class TProject {
 
     private Integer limit;
 
-    private Integer publicity;
+    private Integer teamId;
 
     private Date createTime;
 
@@ -55,12 +55,12 @@ public class TProject {
         this.limit = limit;
     }
 
-    public Integer getPublicity() {
-        return publicity;
+    public Integer getTeamId() {
+        return teamId;
     }
 
-    public void setPublicity(Integer publicity) {
-        this.publicity = publicity;
+    public void setTeamId(Integer teamId) {
+        this.teamId = teamId;
     }
 
     public Date getCreateTime() {

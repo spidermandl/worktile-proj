@@ -24,7 +24,6 @@ public class LoginMsg extends PairMsg {
 
     public static class OutMsg implements ResponseMsg{
         public int code =MSG_CODE;
-        public int error_code = 0;
         public String token =null;//验证token
         public Data data = new Data() {
             public int uid = 0;//用户id

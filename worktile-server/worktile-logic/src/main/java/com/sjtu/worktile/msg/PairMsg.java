@@ -42,7 +42,6 @@ abstract public class PairMsg {
 
     public static interface ResponseMsg{
         int code = 0;//消息索引号
-        int error_code = 0;//错误信息
         String token = null;//token
         Data data = null;
         public interface Data{

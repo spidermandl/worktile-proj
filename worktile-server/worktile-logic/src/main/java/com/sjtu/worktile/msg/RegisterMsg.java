@@ -20,7 +20,6 @@ public class RegisterMsg extends PairMsg {
 
     public static class OutMsg implements ResponseMsg{
         public int code = MSG_CODE;
-        public int error_code = 0;
         public Data data = new Data() {
             public String uid = null;//用户id
             public String account = null;//用户名
@@ -30,6 +29,7 @@ public class RegisterMsg extends PairMsg {
         };
 
     }
+
 
     @Override
     void initMsg() {

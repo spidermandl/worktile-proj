@@ -17,9 +17,10 @@
         'ngRoute',
         'ngSanitize',
         'ngTouch',
-        'ui.router',
-        'w5c.validator',
-        'ui.bootstrap',
+        'ui.router',//路由插件
+        'w5c.validator',//本地submit信息验证
+        'ui.bootstrap',//Bootstrap工具插件
+        'LocalStorageModule',//本地存储
       ]);
 
     app.init = function () {
@@ -30,9 +31,9 @@
     app.constant('util',util);
     //,'$urlRouterProvider','$stateProvider'
     app.config(['$routeProvider','$urlRouterProvider','$stateProvider',"w5cValidatorProvider",
-                "$locationProvider",'$httpProvider','config',
+                "$locationProvider",'$httpProvider','config','localStorageServiceProvider',
         function ($routeProvider,$urlRouterProvider,$stateProvider,w5cValidatorProvider,
-                  $locationProvider,$httpProvider,config) {
+                  $locationProvider,$httpProvider,config,localStorageServiceProvider) {
           /**路由配置
            ********************************************************
            */
@@ -47,7 +48,7 @@
                         controller: 
                           ["$rootScope",'$state',
                             function($rootScope,$state) {
-                                $rootScope.guest = false;
+                                $rootScope.guest = true;
                                 //console.log($rootScope.guest);
                                 if ($rootScope.guest)
                                     $state.go("signin");
@@ -148,6 +149,8 @@
           // use the HTML5 History API
           $locationProvider.html5Mode(true);
 
+          //本地存储
+          localStorageServiceProvider.setDefaultToCookie(false);
           // //http设置
           //$httpProvider.defaults.useXDomain = true;
           // //$httpProvider.defaults.withCredentials = true;  

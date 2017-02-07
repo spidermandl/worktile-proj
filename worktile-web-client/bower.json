@@ -14,7 +14,8 @@
     "angular-ui-router" : "^0.4.2",
     "angular-w5c-validator": "^2.4.24",
     "angular-bootstrap": "^2.4.0",
-    "jquery" : "^3.1.1"
+    "jquery" : "^3.1.1",
+    "angular-local-storage" : "^0.5.2"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.0"
@@ -31,8 +32,3 @@
     }
   }
 }
-
-/**动态加载css
-    "angular-css" :"^1.0.8",
-    "angularAMD":"^0.2.1"
-    **/

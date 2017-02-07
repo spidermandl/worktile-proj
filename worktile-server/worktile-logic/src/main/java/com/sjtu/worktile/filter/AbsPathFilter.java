@@ -38,6 +38,11 @@ public abstract class AbsPathFilter extends PathMatchingFilter{
         return true;
     }
 
+    @Override
+    protected void postHandle(ServletRequest request, ServletResponse response) throws Exception {
+        super.postHandle(request, response);
+    }
+
     /**
      * 重定向到error控制器
      * @param req

@@ -80,8 +80,8 @@
 		};
 	}])
 	//登录界面
-	.controller('LoginCtrl', ['$scope','config','$controller','IdentityService',
-		function ($scope,config, $controller,service) {
+	.controller('LoginCtrl', ['$scope','config','$controller','IdentityService','$state',
+		function ($scope,config, $controller,service,$state) {
 			$controller('BaseCtrl', {$scope: $scope});
 			$scope.action_type = 0;
 			//状态对象
@@ -104,7 +104,30 @@
 			//登录请求
 			$scope.signin = function(){
 				//service.signin(login_form.login_name,login_form.login_password);
-				service.signin(this.signin_user);
+				service.signin(this.signin_user).then(
+					function(data) {
+	                    if (data.token !=null) {
+		                    //$http.defaults.headers.common.Authorization = 'Bearer ' + token;
+		                    $state.go("dashboard");
+		                    return;
+	                    }
+	                    //错误处理
+	                    //console.log(login_form);
+	                    console.log(data);
+	                    var errors = config.errors.user_error;
+	                    if (data.error_code == errors.not_found.code) {
+	                    	console.log(errors.not_found.msg);
+	                    }else if(data.error_code == errors.invalid_userinfo.code){
+	                    	console.log(errors.invalid_userinfo.msg);
+	                    }else if(data.error_code == errors.signin_limit.code){
+	                    	console.log(errors.signin_limit.msg);
+	                    }
+	                },
+	                function(error){
+	                    $scope.signin_user.username = '';
+	                    $scope.signin_user.password = '';
+	                }
+				);
 			};
 	}])
 	//注册界面

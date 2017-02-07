@@ -1,27 +1,36 @@
 package com.sjtu.worktile.msg;
 
-import com.sjtu.worktile.model.TTask;
-
 import java.util.ArrayList;
 
 /**
  * Created by Desmond on 11/01/2017.
+ * 获取用户任务列表
  */
-public class MeTaskMsg extends PairMsg {
+public class TaskListMsg extends PairMsg {
 
     /**
      * 消息序列号
      */
-    private static final int MSG_CODE = 1003;
+    private static final int MSG_CODE = 1004;
 
     public static class InMsg implements RequestMsg{
         public int code = MSG_CODE;
         public int uid = 0;//用户id
+        /**
+         * 0:按处理优先级
+         * 1:按截止日期
+         * 2:最近完成的任务
+         * 3:按更新时间
+         * 4:我关注的
+         * 5:我创建的
+         * 6:全部任务
+         * **/
+        public int type = 0;
+        public int page = 1;//分页
     }
 
     public static class OutMsg implements ResponseMsg{
         public int code = MSG_CODE;
-        public int error_code = 0;
         public Data data = new Data() {
             public ArrayList<Task> tasks = null;
         };
@@ -41,7 +50,7 @@ public class MeTaskMsg extends PairMsg {
 
     @Override
     void initMsg() {
-        inMsg = new MeTaskMsg.InMsg();
-        outMsg = new MeTaskMsg.OutMsg();
+        inMsg = new TaskListMsg.InMsg();
+        outMsg = new TaskListMsg.OutMsg();
     }
 }

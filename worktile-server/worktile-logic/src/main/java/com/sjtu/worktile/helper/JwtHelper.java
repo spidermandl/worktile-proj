@@ -1,5 +1,6 @@
 package com.sjtu.worktile.helper;
 
+import com.sjtu.worktile.configuration.Const;
 import io.jsonwebtoken.*;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -36,7 +37,7 @@ public class JwtHelper {
      * @param base64Security
      * @return
      */
-    public static String createJWT(String name, String userId, List<String> roles,
+    public static String createJWT(String name, int userId, List<String> roles,
                                    String audience, String issuer, long TTLMillis, String base64Security)
     {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
@@ -49,10 +50,10 @@ public class JwtHelper {
         Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
 
         //添加构成JWT的参数
-        JwtBuilder builder = Jwts.builder().setHeaderParam("typ", "JWT")
+        JwtBuilder builder = Jwts.builder().setHeaderParam("type", "JWT")
                 .claim("roles", roles)
                 .claim("unique_name", name)
-                .claim("userid", userId)
+                .claim(Const.TOKEN_UID, userId)
                 .setIssuer(issuer)
                 .setAudience(audience)
                 .signWith(signatureAlgorithm, signingKey);

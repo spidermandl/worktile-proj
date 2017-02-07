@@ -9,6 +9,8 @@ public class TUserRole {
 
     private Integer projectId;
 
+    private Integer teamId;
+
     public Integer getId() {
         return id;
     }
@@ -39,5 +41,13 @@ public class TUserRole {
 
     public void setProjectId(Integer projectId) {
         this.projectId = projectId;
+    }
+
+    public Integer getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(Integer teamId) {
+        this.teamId = teamId;
     }
 }

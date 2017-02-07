@@ -11,6 +11,7 @@ public class AppException extends ServletException {
         USER_NOT_FOUND(2001),//用户没有找到
         USER_LOGIN_INVALID(2004),//用户登录失败，用户名或密码错
         USER_ALREADY_EXIST(2022),//用户已经存在
+        SIGNIN_OVER_LIMIT(2034),//登录失败次数过多
         AUTHORIZATION_HEAD_MISSING(103),//认证头丢失
         TOKEN_PARSE_FAILURE(104),;//token认证失败
 
@@ -46,6 +47,9 @@ public class AppException extends ServletException {
                 break;
             case USER_NOT_FOUND:
                 result = "USER NOT FOUND";
+                break;
+            case SIGNIN_OVER_LIMIT:
+                result = "SIGNIN OVER LIMIT";
                 break;
             case AUTHORIZATION_HEAD_MISSING:
                 result = "Missing or invalid Authorization header.";

@@ -4,7 +4,7 @@
  * @description
  * constant of the jtWorkApp
  */
- define(function (require) {
+ define(['error'],function (error,require) {
  	'use strict';
 
 	return {
@@ -166,7 +166,8 @@
 			// 	minlength: "密码长度不能小于{minlength}",
 			// 	maxlength: "密码长度不能大于{maxlength}",
 			// },
-     	}
+     	},
+     	errors : error,
 	};
 });
 

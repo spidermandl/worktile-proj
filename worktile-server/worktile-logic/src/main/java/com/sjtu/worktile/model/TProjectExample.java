@@ -355,63 +355,63 @@ public class TProjectExample {
             return (Criteria) this;
         }
 
-        public Criteria andPublicityIsNull() {
-            addCriterion("publicity is null");
+        public Criteria andTeamIdIsNull() {
+            addCriterion("team_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andPublicityIsNotNull() {
-            addCriterion("publicity is not null");
+        public Criteria andTeamIdIsNotNull() {
+            addCriterion("team_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPublicityEqualTo(Integer value) {
-            addCriterion("publicity =", value, "publicity");
+        public Criteria andTeamIdEqualTo(Integer value) {
+            addCriterion("team_id =", value, "teamId");
             return (Criteria) this;
         }
 
-        public Criteria andPublicityNotEqualTo(Integer value) {
-            addCriterion("publicity <>", value, "publicity");
+        public Criteria andTeamIdNotEqualTo(Integer value) {
+            addCriterion("team_id <>", value, "teamId");
             return (Criteria) this;
         }
 
-        public Criteria andPublicityGreaterThan(Integer value) {
-            addCriterion("publicity >", value, "publicity");
+        public Criteria andTeamIdGreaterThan(Integer value) {
+            addCriterion("team_id >", value, "teamId");
             return (Criteria) this;
         }
 
-        public Criteria andPublicityGreaterThanOrEqualTo(Integer value) {
-            addCriterion("publicity >=", value, "publicity");
+        public Criteria andTeamIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("team_id >=", value, "teamId");
             return (Criteria) this;
         }
 
-        public Criteria andPublicityLessThan(Integer value) {
-            addCriterion("publicity <", value, "publicity");
+        public Criteria andTeamIdLessThan(Integer value) {
+            addCriterion("team_id <", value, "teamId");
             return (Criteria) this;
         }
 
-        public Criteria andPublicityLessThanOrEqualTo(Integer value) {
-            addCriterion("publicity <=", value, "publicity");
+        public Criteria andTeamIdLessThanOrEqualTo(Integer value) {
+            addCriterion("team_id <=", value, "teamId");
             return (Criteria) this;
         }
 
-        public Criteria andPublicityIn(List<Integer> values) {
-            addCriterion("publicity in", values, "publicity");
+        public Criteria andTeamIdIn(List<Integer> values) {
+            addCriterion("team_id in", values, "teamId");
             return (Criteria) this;
         }
 
-        public Criteria andPublicityNotIn(List<Integer> values) {
-            addCriterion("publicity not in", values, "publicity");
+        public Criteria andTeamIdNotIn(List<Integer> values) {
+            addCriterion("team_id not in", values, "teamId");
             return (Criteria) this;
         }
 
-        public Criteria andPublicityBetween(Integer value1, Integer value2) {
-            addCriterion("publicity between", value1, value2, "publicity");
+        public Criteria andTeamIdBetween(Integer value1, Integer value2) {
+            addCriterion("team_id between", value1, value2, "teamId");
             return (Criteria) this;
         }
 
-        public Criteria andPublicityNotBetween(Integer value1, Integer value2) {
-            addCriterion("publicity not between", value1, value2, "publicity");
+        public Criteria andTeamIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("team_id not between", value1, value2, "teamId");
             return (Criteria) this;
         }
 

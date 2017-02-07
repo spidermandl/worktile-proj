@@ -15,7 +15,8 @@ define(['app'], function (app) {
 		// 	loading_done:true,
 		// };
 	}])
-	.controller('DashboardTaskCtrl', ['$scope','$rootScope','config',function ($scope,$rootScope,config) {
+	.controller('DashboardTaskCtrl', ['$scope','$rootScope','config',
+		function ($scope,$rootScope,config) {
 		//$controller('WorkCtrl', {$scope: $scope,$rootScope: $rootScope});
 		var vm = $scope.vm = {
 			part_loading_done:true,//页面加载

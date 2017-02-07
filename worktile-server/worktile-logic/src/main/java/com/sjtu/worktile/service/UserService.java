@@ -13,6 +13,7 @@ import com.sjtu.worktile.model.mappers.TUserRoleMapper;
 import com.sjtu.worktile.shiro.MultiNamePasswordToken;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -29,8 +30,6 @@ import java.util.List;
 public class UserService {
 
     @Autowired
-    private DefaultWebSecurityManager securityManager;
-    @Autowired
     private PasswordHelper pHelper;
 
     @Autowired
@@ -44,8 +43,18 @@ public class UserService {
         query.or().andUserIdEqualTo(user.getId());
         return tUserRoleMapper.selectByExample(query);
     }
+
     /**
-     * 从数据库中获取用户
+     * 根据id获取用户
+     * @param id
+     * @return
+     */
+    public TUser findUserByID(int id){
+        return tUserMapper.selectByPrimaryKey(id);
+    }
+
+    /**
+     * 根据条件获取用户
      * @param condition
      * @return
      */
@@ -70,13 +79,14 @@ public class UserService {
          * 验证操作
          */
         if (users!=null && users.size()>0) {
-            //SecurityUtils.setSecurityManager(securityManager);
             //得到Subject及创建用户名/密码身份验证Token（即用户身份/凭证）
             Subject subject = SecurityUtils.getSubject();
             MultiNamePasswordToken token = new MultiNamePasswordToken(user.getAccount(), user.getPassword());
             token.setRealUser(users.get(0));
             try {
                 subject.login(token);
+            }catch (ExcessiveAttemptsException e){
+                throw new AppException(AppException.CATEGORY.SIGNIN_OVER_LIMIT);
             }catch (AuthenticationException e){
                 throw new AppException(AppException.CATEGORY.USER_LOGIN_INVALID);
             }
@@ -92,7 +102,7 @@ public class UserService {
                 }
             }
             return JwtHelper.createJWT(users.get(0).getAccount(),
-                    String.valueOf(users.get(0).getId()),
+                    users.get(0).getId(),
                     roleNames,"","", Const.TOKEN_EXPIRE_TIME,Const.JWT_TOEKN_SECRET_KEY);
         }else{
             throw new AppException(AppException.CATEGORY.USER_NOT_FOUND);

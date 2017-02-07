@@ -22,5 +22,10 @@ public class Const {
      */
     public final static String TOKEN_PREFIX = "Bearer ";
 
+    /**
+     * token包含userid的key名
+     */
+    public final static String TOKEN_UID = "token_user_id";
+
 
 }

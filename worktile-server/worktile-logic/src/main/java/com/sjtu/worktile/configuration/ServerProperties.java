@@ -12,7 +12,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "server")
 public class ServerProperties {
 
-    private String server_domain = "localhost";
+    private String server_domain = "http://localhost";
     private String port = "8080";
 
     public String getPort() {

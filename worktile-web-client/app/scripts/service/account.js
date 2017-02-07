@@ -8,8 +8,8 @@
 define(['app'], function (app) {
  	'use strict';
 
-	app.service('IdentityService', ['config','util','$http',
-		function (config,util,$http) {
+	app.service('IdentityService', ['config','util','$http','localStorageService',
+		function (config,util,$http,localStorageService) {
 			return {
 				//用户登录api
 				signin : function(input){
@@ -17,7 +17,6 @@ define(['app'], function (app) {
 		            $http.defaults.headers.post['Content-Type'] = 
                   		'application/x-www-form-urlencoded;charset=utf-8';
 
-            		console.log($http.defaults.headers);
 		            return $http.post(
 		                'http://localhost:8080/user/login',
 		                util.transformPostRequest({
@@ -26,7 +25,10 @@ define(['app'], function (app) {
 		                    phone: input.phone,
 		                })
 		                ).then(function(response) {
-		                    return response.data.token;
+		                	if (response.data.token!=null) {
+		                		localStorageService.set('token',response.data.token);
+		                	}
+		                    return response.data;
 		                });
 
 		            // return $http.get(

@@ -18,8 +18,7 @@ public class ErrorController {
 
     @RequestMapping(value = "{code}", method = RequestMethod.GET)
     @ResponseBody
-    public ErrorMsg.OutMsg login(@PathVariable final int code,
-                           final HttpServletRequest request) {
+    public ErrorMsg.OutMsg error(@PathVariable final int code) {
         ErrorMsg.OutMsg msg = new ErrorMsg.OutMsg();
         msg.error_code = code;
 

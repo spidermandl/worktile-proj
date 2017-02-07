@@ -42,7 +42,6 @@ define(function (require) {
 			};
 
 			var result = angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
-			console.log(result);
 			return result;
 		}
 	};
