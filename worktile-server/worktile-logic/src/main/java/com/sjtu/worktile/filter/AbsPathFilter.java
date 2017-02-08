@@ -1,9 +1,11 @@
 package com.sjtu.worktile.filter;
 
+import com.sjtu.worktile.configuration.Const;
 import com.sjtu.worktile.exception.AppException;
 import org.apache.shiro.web.filter.PathMatchingFilter;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.server.ServerHttpRequest;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -20,28 +22,6 @@ public abstract class AbsPathFilter extends PathMatchingFilter{
     private String successUrl = "/api/home";//用户主页
     private String initUrl = "/";//回退至初始页
 
-    /**
-     * 检测跨域
-     * @param req
-     */
-    private void checkCros(ServletRequest req, ServletResponse resp){
-        //if(HttpMethod.OPTIONS.matches(((HttpServletRequest)req).getMethod())) {
-            ((HttpServletResponse) resp).setHeader("Access-Control-Allow-Origin", "*");
-            ((HttpServletResponse) resp).setHeader("Access-Control-Allow-Methods", "POST,GET");
-            ((HttpServletResponse) resp).setHeader("Access-Control-Allow-Headers", "x-requested-with,content-type");
-        //}
-    }
-
-    @Override
-    protected boolean onPreHandle(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
-        checkCros(request,response);
-        return true;
-    }
-
-    @Override
-    protected void postHandle(ServletRequest request, ServletResponse response) throws Exception {
-        super.postHandle(request, response);
-    }
 
     /**
      * 重定向到error控制器

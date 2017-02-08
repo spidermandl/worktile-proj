@@ -13,6 +13,7 @@ import java.io.IOException;
 
 /**
  * Created by Desmond on 05/01/2017.
+ * 用户相关api测试
  */
 //@RunWith(SpringRunner.class)
 //@SpringBootTest

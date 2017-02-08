@@ -25,6 +25,7 @@ public class TokenFilter extends AbsPathFilter {
         final String authHeader = req.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith(Const.TOKEN_PREFIX)) {
             return redirectToErrorUrl(req,response,new AppException(AppException.CATEGORY.AUTHORIZATION_HEAD_MISSING));
+            //return true;
         }
 
         final String token = authHeader.substring(Const.TOKEN_PREFIX.length()); // The part after "Bearer "

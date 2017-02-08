@@ -21,7 +21,10 @@ public class Const {
      * token的前缀
      */
     public final static String TOKEN_PREFIX = "Bearer ";
-
+    /**
+     * 允许跨域 header字段
+     */
+    public final static String CROS_ALLOWED_HEADER = "authorization";
     /**
      * token包含userid的key名
      */

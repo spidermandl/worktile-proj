@@ -112,7 +112,6 @@
 		                    return;
 	                    }
 	                    //错误处理
-	                    //console.log(login_form);
 	                    console.log(data);
 	                    var errors = config.errors.user_error;
 	                    if (data.error_code == errors.not_found.code) {

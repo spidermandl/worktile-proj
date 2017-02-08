@@ -28,7 +28,6 @@ public class FormLoginFilter extends AbsPathFilter {
 
     @Override
     protected boolean onPreHandle(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
-        super.onPreHandle(request,response,mappedValue);
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
         if(SecurityUtils.getSubject().isAuthenticated()) {

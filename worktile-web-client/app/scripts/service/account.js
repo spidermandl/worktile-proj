@@ -1,8 +1,8 @@
 /**
  * @ngdoc function
- * @name jtWorkApp.controller:IdentityService
+ * @name jtWorkApp.service:IdentityService
  * @description
- * # IdentityService
+ * 登录前相关api service
  * Controller of the jtWorkApp
  */
 define(['app'], function (app) {

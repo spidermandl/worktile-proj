@@ -47,11 +47,11 @@ shiro:
     filters:
         login-filter: com.sjtu.worktile.filter.FormLoginFilter
         token-auth: com.sjtu.worktile.filter.TokenFilter
-        normal-filter: com.sjtu.worktile.filter.NormalFilter
+        cros-filter: com.sjtu.worktile.filter.CorsFilter
     filter-chain-definitions: #默认为空，一般如下配置
         /user/login: login-filter
-        /api/**: token-auth
-        /**: normal-filter
+        /api/**: cros-filter,token-auth
+        /**: cros-filter
 #        /logout: logout
 #        /favicon.ico: anon
 #        /assets/**: anon

@@ -46,14 +46,48 @@
                     'proxy':{
                         template: '',
                         controller: 
-                          ["$rootScope",'$state',
-                            function($rootScope,$state) {
-                                $rootScope.guest = true;
-                                //console.log($rootScope.guest);
-                                if ($rootScope.guest)
+                          ["$rootScope",'$state','$http','localStorageService',
+                            function($rootScope,$state,$http,localStorageService) {
+
+                                //返回未登录前的页面
+                                var goOuterPage = function(){
+                                    localStorageService.set('token',null);
+                                    $rootScope.frame = 'guest';
                                     $state.go("signin");
-                                else
-                                    $state.go("dashboard");
+                                };
+                                
+                                var token = localStorageService.get('token');
+                                if( token == null){//没有授权token
+                                    goOuterPage();
+                                    return;
+                                }
+                                //$http.defaults.headers.common['authorization']= "Bearer "+token;
+                                $http({
+                                        method: 'GET', 
+                                        url: 'http://localhost:8080/api/me/profile',
+                                        //withCredentials: true, 
+                                        headers: { 
+                                            'Authorization': "Bearer "+token, 
+                                            'Content-Type' :"application/json;charset=utf-8",
+                                        },  
+                                    })
+                                    .then(function(response) {
+                                        return response.data;
+                                    })
+                                    .then(
+                                        function(data) {
+                                            if (data.error_code !=null) {
+                                                goOuterPage();
+                                                return;
+                                            }
+                                            $rootScope.frame = 'work';
+                                            $state.go("dashboard");
+                                        },
+                                        function(error){
+                                            goOuterPage();
+                                        }
+                                    );
+
                             },],
                         //css: ['css/base_outer.css','css/base_inner.css'],
                     },
@@ -156,11 +190,7 @@
           // //$httpProvider.defaults.withCredentials = true;  
           //$httpProvider.defaults.headers.common = { 'Access-Control-Allow-Origin' : '*'};
           //$httpProvider.defaults.headers.common['Authorization'] = 'Bearer ' ;
-          // $httpProvider.defaults.headers.post["Content-Type"] = "application/json;charset=utf-8";
-            // $httpProvider.defaults.useXDomain = true;  
-            // $httpProvider.defaults.headers.post['Content-Type'] = 
-            //       'application/x-www-form-urlencoded;charset=utf-8';
-          // delete $httpProvider.defaults.headers.common['X-Requested-With'];             
+          //delete $httpProvider.defaults.headers.common['X-Requested-With'];             
       }]);
 
     return app;

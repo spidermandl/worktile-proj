@@ -21,6 +21,7 @@
             //service
             util : 'service/util',
             account : 'service/account',
+            work : 'service/work',
             //controller
 			identity : 'controllers/identity',//身份进入
 			dashboard : 'controllers/dashboard',
@@ -50,7 +51,7 @@
                 deps: ['translate','left_nemu'],
             },
             left_nemu: {
-                deps: ['popbox','left_menu_project'],
+                deps: ['popbox','left_menu_project','work'],
             }
 	    },
     });

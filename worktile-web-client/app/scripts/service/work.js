@@ -11,9 +11,16 @@ define(['app'], function (app) {
 	app.service('WorkService', ['config','util','$http','localStorageService',
 		function (config,util,$http,localStorageService) {
 			return {
-				getRole : function(){
+				//获取用户基本信息
+				// getProfile : function(){
 
-				},
+				// 	$http.defaults.headers.common['Authorization']= "Bearer "+localStorageService.get('token');
+		  //           return $http.get(
+		  //               'http://localhost:8080/api/me/profile'
+		  //               ).then(function(response) {
+		  //                   return response.data;
+		  //               });
+				// },
 			}
 		}
 	]);
