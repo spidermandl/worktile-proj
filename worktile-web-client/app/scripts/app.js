@@ -96,7 +96,7 @@
                 url: "",
                 template: "<ui-view></ui-view>",//留给子state渲染
                 controller: function($rootScope, global) {
-                    console.log(global);
+                    console.log('----------------root global');
                     //设置全局变量
                     $rootScope.global = global;
                 },

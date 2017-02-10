@@ -80,8 +80,8 @@
 		};
 	}])
 	//登录界面
-	.controller('LoginCtrl', ['$scope','config','$controller','IdentityService','$state',
-		function ($scope,config, $controller,service,$state) {
+	.controller('LoginCtrl', ['$scope','config','$controller','IdentityService','$state','localStorageService',
+		function ($scope,config, $controller,service,$state,localStorageService) {
 			$controller('BaseCtrl', {$scope: $scope});
 			$scope.action_type = 0;
 			//状态对象
@@ -104,10 +104,10 @@
 			//登录请求
 			$scope.signin = function(){
 				//service.signin(login_form.login_name,login_form.login_password);
-				service.signin(this.signin_user).then(
+				service.signin(this.signin_user,
 					function(data) {
 	                    if (data.token !=null) {
-		                    //$http.defaults.headers.common.Authorization = 'Bearer ' + token;
+                			localStorageService.set('token',data.token);
 		                    $state.go("dashboard");
 		                    return;
 	                    }

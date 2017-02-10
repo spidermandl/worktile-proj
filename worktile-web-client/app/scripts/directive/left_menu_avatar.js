@@ -21,13 +21,13 @@ define(['app'], function (app) {
                                 if (!_.isUndefined(attr.member)) {
                                     var b = scope.$eval(attr.member);
                                     if (_.isUndefined(b) || _.isNull(b)) return;
-                                    setView(b)
+                                    setView(b);
                                 }
                                 var m_info = scope.$eval(attr.member);
 
                             }
                             function setView(info){
-                                console.log(info);
+                                //console.log(info);
                                 var h = ['<span class="avatar-face {{avatarFaceClass}}">{{avatarFaceInner}}{{avatarStatus}}</span>', "{{avatarBr}}", "{{avatarName}}", "{{avatarAtname}}", "{{avatarAppend}}"].join(""),
                                 i = 40;
                                 if (angular.isDefined(attr.size) && (i = parseInt(attr.size, 10)), 
@@ -40,7 +40,6 @@ define(['app'], function (app) {
                                                                                                         : h.replace("{{avatarFaceClass}}", ""), 
                                                                     "default_avatar.png" === info.avatar || _.isEmpty(info.avatar)) {
                                     var j = /[u4e00-u9fa5]/;
-                                    console.log(info.display_name);
                                     if (j.test(info.display_name)) 
                                         var k = info.display_name.substring(0, 2).toLocaleUpperCase();
                                     else 
@@ -102,9 +101,8 @@ define(['app'], function (app) {
                                                 });
                             }
                             scope.$watch(attr.member,
-                                function(a, b) {
-                                    console.log(a);
-                                    _.isUndefined(a) || _.isNull(a) || _.isEqual(a, b) || setView(a)
+                                function(_new, _old) {
+                                    _.isUndefined(_new) || _.isNull(_new) || _.isEqual(_new, _old) || setView(_new)
                                 },
                                 !0),
                             excute();

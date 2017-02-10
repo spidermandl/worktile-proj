@@ -8,9 +8,49 @@
 define(['app'], function (app) {
  	'use strict';
 
-	app.service('api', ['$http','localStorageService',
-		function ($http,localStorageService) {
+	app.service('api', ['$http','localStorageService','util',
+		function ($http,localStorageService,util) {
 			return {
+				signin : function(input,success,failure){
+					$http.defaults.headers.post['Content-Type'] = 
+                  		'application/x-www-form-urlencoded;charset=utf-8';
+
+		            return $http.post(
+		                'http://localhost:8080/user/login',
+		                util.transformPostRequest({
+		                    username: input.name,
+		                    password: input.password,
+		                    phone: input.phone,
+		                })
+		                )
+					// return $http({
+			  //           	method: 'POST',
+			  //               url : 'http://localhost:8080/user/login',
+			  //               data: util.transformPostRequest({
+					//                     username: input.name,
+					//                     password: input.password,
+					//                     phone: input.phone,
+					//                 }),
+			  //               headers: {
+					// 			'Content-Type' :"application/json;charset=utf-8",
+			  //               },
+		   //          	})
+                        .then(function(response) {
+                            return response.data;
+                        })
+		            	.then(
+		            		function(data) {
+                            	if (success != null) {//回调函数
+                            		success(data);
+                            	}
+                            },
+                            function(error){
+                            	if (failure != null) {//回调函数
+                            		failure(error);
+                            	}
+                            }
+                        );
+				},
 				/**
 				* 获取用户信息api
 				*/
@@ -22,7 +62,6 @@ define(['app'], function (app) {
                     $http({
                             method: 'GET', 
                             url: 'http://localhost:8080/api/me/profile',
-                            //withCredentials: true, 
                             headers: {
                                 'Authorization': "Bearer "+token, 
                                 'Content-Type' :"application/json;charset=utf-8",

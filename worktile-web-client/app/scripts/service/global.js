@@ -19,7 +19,7 @@ define(['app'], function (app) {
 					function(data){
 						localStorageService.set('token',null);
 						//$rootScope.global = null;
-						$state.go('');
+						$state.go('home');
 					},
 					function(error){
 					}

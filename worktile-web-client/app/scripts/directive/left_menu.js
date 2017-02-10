@@ -89,11 +89,11 @@ define(['app'], function (app) {
 	                                    function(b) {
 	                                        var c = b.vm = {};
 	                                        c.js_close = function() {
-	                                            a.close()
-	                                        }
+	                                            a.close();
+	                                        };
 	                                    }]
 	                                });
-	                                b.close()
+	                                b.close();
 	                            },
 	                            e.js_pop_watch_wechat = function() {
 	                                var a = d.open({
@@ -103,11 +103,11 @@ define(['app'], function (app) {
 	                                    function(b) {
 	                                        var c = b.vm = {};
 	                                        c.js_close = function() {
-	                                            a.close()
-	                                        }
+	                                            a.close();
+	                                        };
 	                                    }]
 	                                });
-	                                b.close()
+	                                b.close();
 	                            },
 	                            e.js_pop_solutions = function() {
 	                                var a = d.open({
@@ -117,19 +117,19 @@ define(['app'], function (app) {
 	                                    function(b) {
 	                                        var c = b.vm = {};
 	                                        c.js_close = function() {
-	                                            a.close()
-	                                        }
+	                                            a.close();
+	                                        };
 	                                    }]
 	                                });
-	                                b.close()
+	                                b.close();
 	                            },
 	                            e.js_close = function() {
-	                                b.close()
+	                                b.close();
 	                            }
 	                        }],
 	                        onCloseComplete: function() {
-	                            l.popbox = null,
-	                            a.global.leftmenu_current_expand = ""
+	                            this.popbox = null,
+	                            $rootScope.global.leftmenu_current_expand = ""
 	                        }
 	                    }),
 	                    this.popbox.open();
