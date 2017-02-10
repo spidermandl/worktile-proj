@@ -21,6 +21,7 @@
         'w5c.validator',//本地submit信息验证
         'ui.bootstrap',//Bootstrap工具插件
         'LocalStorageModule',//本地存储
+        'underscore',//underscore 方法库
       ]);
 
     app.init = function () {
@@ -40,15 +41,13 @@
           $urlRouterProvider//.when('','dashboard')
             .otherwise('/home');
           $stateProvider
-            .state('/home', {
+            .state('home', {
                 url: '/home',
                 views:{
                     'proxy':{
                         template: '',
                         controller: 
-                          ["$rootScope",'$state','$http','localStorageService',
                             function($rootScope,$state,$http,localStorageService) {
-
                                 //返回未登录前的页面
                                 var goOuterPage = function(){
                                     localStorageService.set('token',null);
@@ -66,7 +65,7 @@
                                         method: 'GET', 
                                         url: 'http://localhost:8080/api/me/profile',
                                         //withCredentials: true, 
-                                        headers: { 
+                                        headers: {
                                             'Authorization': "Bearer "+token, 
                                             'Content-Type' :"application/json;charset=utf-8",
                                         },  
@@ -87,22 +86,32 @@
                                             goOuterPage();
                                         }
                                     );
-
-                            },],
+                            },
+                            
                         //css: ['css/base_outer.css','css/base_inner.css'],
                     },
-                }
-                    // resolve: {
-                    //     global: ["globalDataContext",
-                    //     function(globalDataContext) {
-                    //         return globalDataContext.loadAll();
-                    //     }],
-                    // },
+                },
+            })
+            .state("root", {
+                url: "",
+                template: "<ui-view></ui-view>",//留给子state渲染
+                controller: function($rootScope, global) {
+                    console.log(global);
+                    //设置全局变量
+                    $rootScope.global = global;
+                },
+                resolve: {
+                    global: ["globalDataContext",
+                    function(context) {
+                        return context.loadAll();
+                    }]
+                },
             })
             .state('dashboard', {
                 url: '/dashboard',
                 templateUrl: config.templateUrls.dashboard_task,
                 controller: 'DashboardTaskCtrl',
+                parent: 'root',
                 //css: 'css/base_inner.css',
             })
             .state("calendar", {
@@ -145,6 +154,7 @@
             })
             .state('signin',{//登录页面
                 url: '/signin',
+                parent: "root",
                 templateUrl: config.templateUrls.login,
                 controller: 'LoginCtrl',
                 //css: 'css/base_outer.css',

@@ -85,6 +85,26 @@ define(['app'], function (app) {
 				return config.STRING['leftmenu_projects.link_to_archives'];
 			}else if(input.indexOf('leftmenu_projects.link_to_favorite') >= 0){
 				return config.STRING['leftmenu_projects.link_to_favorite'];
+			}else if(input.indexOf('leftmenu_me.go_preferences') >= 0){
+				return config.STRING['leftmenu_me.go_preferences'];
+			}else if(input.indexOf('leftmenu_me.go_account_info') >= 0){
+				return config.STRING['leftmenu_me.go_account_info'];
+			}else if(input.indexOf('leftmenu_me.post_feedback') >= 0){
+				return config.STRING['leftmenu_me.post_feedback'];
+			}else if(input.indexOf('leftmenu_me.link_worktile_app') >= 0){
+				return config.STRING['leftmenu_me.link_worktile_app'];
+			}else if(input.indexOf('leftmenu_me.watch_wechat') >= 0){
+				return config.STRING['leftmenu_me.watch_wechat'];
+			}else if(input.indexOf('leftmenu_me.link_help') >= 0){
+				return config.STRING['leftmenu_me.link_help'];
+			}else if(input.indexOf('leftmenu_me.link_club') >= 0){
+				return config.STRING['leftmenu_me.link_club'];
+			}else if(input.indexOf('leftmenu_me.link_blog') >= 0){
+				return config.STRING['leftmenu_me.link_blog'];
+			}else if(input.indexOf('leftmenu_me.link_can') >= 0){
+				return config.STRING['leftmenu_me.link_can'];
+			}else if(input.indexOf('leftmenu_me.btn_quit_session') >= 0){
+				return config.STRING['leftmenu_me.btn_quit_session'];
 			}else if(input.indexOf('common.txt_team') >= 0){
 				return config.STRING['common.txt_team'];
 			}else if(input.indexOf('common.txt_project') >= 0){

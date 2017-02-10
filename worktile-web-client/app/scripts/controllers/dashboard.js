@@ -238,6 +238,8 @@ define(['app'], function (app) {
             // m()
         };
 
+        
+
 	}])
 	.controller('DashboardCalendarCtrl', ['$scope','$rootScope','$uibModal','config',
 		function ($scope,$rootScope,$modal,config) {

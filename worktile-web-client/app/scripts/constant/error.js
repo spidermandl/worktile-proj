@@ -1,4 +1,3 @@
-
 /**
  * @ngdoc function
  * @name constant

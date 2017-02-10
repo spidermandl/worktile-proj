@@ -19,7 +19,7 @@ public class JwtHelper {
      * @param base64Security
      * @return
      */
-    public static Claims parseJWT(String jsonWebToken, String base64Security) throws SignatureException {
+    public static Claims parseJWT(String jsonWebToken, String base64Security) throws JwtException {
         Claims claims = Jwts.parser()
                 .setSigningKey(DatatypeConverter.parseBase64Binary(base64Security))
                 .parseClaimsJws(jsonWebToken).getBody();

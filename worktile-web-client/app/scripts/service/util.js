@@ -8,7 +8,9 @@ define(function (require) {
 	'use strict';
 
 	return {
-		// 修改angularjs $http.post的默认传参方式
+		/** 
+		 *修改angularjs $http.post的默认传参方式
+		 **/
 		transformPostRequest : function(data){
 			var param = function(obj){
 				var query = '', name, value, fullSubName, subName, subValue, innerObj, i;
@@ -45,4 +47,6 @@ define(function (require) {
 			return result;
 		}
 	};
+
+	
 })

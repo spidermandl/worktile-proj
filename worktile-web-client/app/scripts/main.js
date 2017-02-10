@@ -20,8 +20,10 @@
             error : 'constant/error',
             //service
             util : 'service/util',
+            global : 'service/global',
             account : 'service/account',
             work : 'service/work',
+            api: 'service/api',
             //controller
 			identity : 'controllers/identity',//身份进入
 			dashboard : 'controllers/dashboard',
@@ -29,6 +31,7 @@
 			//指令
 			left_nemu : 'directive/left_menu',
             left_menu_project : 'directive/left_menu_project',
+            left_menu_avatar : 'directive/left_menu_avatar',
             //filter
             translate : 'filter/translate',
             //provider
@@ -41,6 +44,9 @@
             app: {
                 deps: ['configuration','util'],
             },
+            global:{
+                deps:['api'],
+            },
             identity: {
                 deps: ['account'],
             },
@@ -51,7 +57,7 @@
                 deps: ['translate','left_nemu'],
             },
             left_nemu: {
-                deps: ['popbox','left_menu_project','work'],
+                deps: ['popbox','left_menu_project','left_menu_avatar','work'],
             }
 	    },
     });
@@ -59,6 +65,7 @@
     //init main
     require([
             'app',
+            'global',
             'identity',
             'dashboard',
             'search',

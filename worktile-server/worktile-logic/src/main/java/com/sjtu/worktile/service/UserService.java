@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -103,7 +104,7 @@ public class UserService {
             }
             return JwtHelper.createJWT(users.get(0).getAccount(),
                     users.get(0).getId(),
-                    roleNames,"","", Const.TOKEN_EXPIRE_TIME,Const.JWT_TOEKN_SECRET_KEY);
+                    roleNames,"",new Date().toString(), Const.TOKEN_EXPIRE_TIME,Const.JWT_TOEKN_SECRET_KEY);
         }else{
             throw new AppException(AppException.CATEGORY.USER_NOT_FOUND);
         }

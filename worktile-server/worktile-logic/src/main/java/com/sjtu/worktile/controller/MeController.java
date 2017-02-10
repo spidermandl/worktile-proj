@@ -30,15 +30,16 @@ public class MeController extends BaseController{
         /**
          * 填充数据
          */
-        outMsg.data.me = new MeMsg.Me();
-        outMsg.data.me.username = user.getAccount();
-        outMsg.data.me.phone = user.getPhone();
-        outMsg.data.me.email = user.getEmail();
-        outMsg.data.me.icon = user.getHead();
-        outMsg.data.me.position = user.getPosition();
-        outMsg.data.me.department = user.getDepartment();
-        outMsg.data.me.nick = user.getSignature();
-        outMsg.data.me.wechat = user.getWechat();
+        outMsg.data.uid = uid;
+        outMsg.data.username = user.getAccount();
+        outMsg.data.phone = user.getPhone();
+        outMsg.data.email = user.getEmail();
+        outMsg.data.icon = user.getHead();
+        outMsg.data.position = user.getPosition();
+        outMsg.data.department = user.getDepartment();
+        outMsg.data.nick = user.getSignature();
+        outMsg.data.wechat = user.getWechat();
+        outMsg.data.display_name = user.getSignature()==null?user.getAccount():user.getSignature();
 
         outMsg.data.pref = new MeMsg.Preference();
         outMsg.data.pref.language = 0;

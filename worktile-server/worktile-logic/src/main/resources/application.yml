@@ -46,12 +46,14 @@ shiro:
     hashIterations: 2  #加密迭代次数，强制设为至少1次（即使设置0或负数）
     filters:
         login-filter: com.sjtu.worktile.filter.FormLoginFilter
+        logout-filter: com.sjtu.worktile.filter.LogoutFilter
         token-auth: com.sjtu.worktile.filter.TokenFilter
-        cros-filter: com.sjtu.worktile.filter.CorsFilter
+        cors-filter: com.sjtu.worktile.filter.CorsFilter
     filter-chain-definitions: #默认为空，一般如下配置
-        /user/login: login-filter
-        /api/**: cros-filter,token-auth
-        /**: cros-filter
+        /user/login: cors-filter,login-filter
+        /user/logout: cors-filter,logout-filter
+        /api/**: cors-filter,token-auth
+        /**: cors-filter
 #        /logout: logout
 #        /favicon.ico: anon
 #        /assets/**: anon

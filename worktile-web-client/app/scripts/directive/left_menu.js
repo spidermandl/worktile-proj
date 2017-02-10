@@ -14,16 +14,6 @@ define(['app'], function (app) {
 	      	restrict: 'E',
 	      	templateUrl: config.templateUrls.left_menu,
 	      	link: function (scope,element,attrs) {
-	      		//全局访问变量
-				$rootScope.global = {
-					//加载等待阶段
-					loading_init : true,
-					i18n_loading_done : true,
-					//左控制栏
-					header_menu : '',
-					leftmenu_current_expand : '',//当前展开的面板
-					//loading_done : true,
-				};
 				//$rootScope.global.loading_done = true;
 		      	scope.vm = {
 					//弹出创建快捷方式
@@ -75,9 +65,74 @@ define(['app'], function (app) {
 						$rootScope.global.leftmenu_current_expand = "";
 					},
 					star_projects : null ,//star项目
-					//弹出个人信息
+					/**
+					 *弹出个人信息
+					 **/
 					js_pop_avatar_self : function(event){
-
+						$rootScope.global.leftmenu_current_expand = "avatar_self",
+	                    this.popbox = $popbox.popbox({
+	                        target: event,
+	                        templateUrl: config.templateUrls.left_menu_avatar_setting,
+	                        controller: ["$scope", "popbox", //"feedbackService", "$uibModal",
+	                        function(a, b, c, d) {
+	                            a.popbox = b;
+	                            var e = a.vm = {};
+	                            e.js_show_feedback = function() {
+	                                c.show(),
+	                                b.close()
+	                            },
+	                            e.js_pop_mobild_download = function() {
+	                                var a = d.open({
+	                                    windowClass: "dialog-w530",
+	                                    templateUrl: "/ycjs/directive/leftmenu/dialog_mobile_download.html",
+	                                    controller: ["$scope",
+	                                    function(b) {
+	                                        var c = b.vm = {};
+	                                        c.js_close = function() {
+	                                            a.close()
+	                                        }
+	                                    }]
+	                                });
+	                                b.close()
+	                            },
+	                            e.js_pop_watch_wechat = function() {
+	                                var a = d.open({
+	                                    windowClass: "dialog-w530",
+	                                    templateUrl: "/ycjs/directive/leftmenu/dialog_watch_wechat.html",
+	                                    controller: ["$scope",
+	                                    function(b) {
+	                                        var c = b.vm = {};
+	                                        c.js_close = function() {
+	                                            a.close()
+	                                        }
+	                                    }]
+	                                });
+	                                b.close()
+	                            },
+	                            e.js_pop_solutions = function() {
+	                                var a = d.open({
+	                                    windowClass: "dialog-w530",
+	                                    templateUrl: "/ycjs/directive/leftmenu/dialog_solutions.html",
+	                                    controller: ["$scope",
+	                                    function(b) {
+	                                        var c = b.vm = {};
+	                                        c.js_close = function() {
+	                                            a.close()
+	                                        }
+	                                    }]
+	                                });
+	                                b.close()
+	                            },
+	                            e.js_close = function() {
+	                                b.close()
+	                            }
+	                        }],
+	                        onCloseComplete: function() {
+	                            l.popbox = null,
+	                            a.global.leftmenu_current_expand = ""
+	                        }
+	                    }),
+	                    this.popbox.open();
 					},
 					//弹出团队显示界面
 					js_pop_show_teams : function(event){

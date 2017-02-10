@@ -18,28 +18,24 @@ public class MeMsg extends PairMsg {
     public static class OutMsg implements ResponseMsg {
         public int code = MSG_CODE;
         public Data data = new Data();
-        //data信息
+        /**
+         * 个人信息输出格式
+         */
         public class Data implements ResponseMsg.Data{
-            public Me me = null;//个人信息
+            public int uid = 0;//用户id
+            public String display_name = null;//显示姓名
+            public String icon = null;//头像
+            public String username = null;//用户名
+            public String position = null;//职位
+            public String department =null;//部门
+            public String email = null;//邮箱
+            public String phone = null;//手机号
+            public String nick = null;//昵称
+            public String wechat = null;//微信号
             public Preference pref = null;//个人偏好
         }
 
     }
-
-    /**
-     * 个人信息输出格式
-     */
-    public static class Me{
-        public String icon = null;//头像
-        public String username = null;//用户名
-        public String position = null;//职位
-        public String department =null;//部门
-        public String email = null;//邮箱
-        public String phone = null;//手机号
-        public String nick = null;//昵称
-        public String wechat = null;//微信号
-    }
-
     /**
      * 个人偏好设置
      */
