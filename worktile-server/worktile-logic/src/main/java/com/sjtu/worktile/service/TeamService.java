@@ -1,9 +1,6 @@
 package com.sjtu.worktile.service;
 
-import com.sjtu.worktile.model.TTeam;
-import com.sjtu.worktile.model.TTeamExample;
-import com.sjtu.worktile.model.TUserRole;
-import com.sjtu.worktile.model.TUserRoleExample;
+import com.sjtu.worktile.model.*;
 import com.sjtu.worktile.model.mappers.TTeamMapper;
 import com.sjtu.worktile.model.mappers.TUserRoleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,5 +44,18 @@ public class TeamService {
         if (users == null)
             return 0;
         return users.size();
+    }
+
+    /**
+     * 获取所有团队中的相关人员
+     * @param uid
+     * @return
+     */
+    public List<TUser> getAllTeamContacts(int uid){
+        List<TTeam> teams = getSelfTeam(uid);
+
+        //除去相同的人
+        //除去自己
+        return null;
     }
 }

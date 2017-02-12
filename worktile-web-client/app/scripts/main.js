@@ -24,6 +24,7 @@
             account : 'service/account',
             work : 'service/work',
             api: 'service/api',
+            team: 'service/team',
             //controller
 			identity : 'controllers/identity',//身份进入
 			dashboard : 'controllers/dashboard',
@@ -33,7 +34,7 @@
             left_menu_project : 'directive/left_menu_project',
             left_menu_avatar : 'directive/left_menu_avatar',
             //filter
-            translate : 'filter/translate',
+            //translate : 'filter/translate',
             //provider
             popbox : 'provider/popbox',
 　　　　 },
@@ -51,13 +52,13 @@
                 deps: ['account'],
             },
 			dashboard: {
-		        deps: ['translate','left_nemu'],
+		        deps: ['left_nemu'],
 			},
             search: {
-                deps: ['translate','left_nemu'],
+                deps: ['left_nemu'],
             },
             left_nemu: {
-                deps: ['popbox','left_menu_project','left_menu_avatar','work'],
+                deps: ['popbox','left_menu_project','left_menu_avatar','work','team'],
             }
 	    },
     });

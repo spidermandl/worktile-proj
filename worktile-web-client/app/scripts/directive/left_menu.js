@@ -141,9 +141,9 @@ define(['app'], function (app) {
 						    target: event,
 						    templateUrl: config.templateUrls.left_menu_team,
 						    controller: ["$scope", "popbox", 
-						    			// "teamService", "$uibModal", 
+						    			"TeamService", "$uibModal", 
 						    			// "$window", "$translate", "$interval",
-							    function(b, c){//, d, f, g, h, i) {
+							    function(b, c, d, f){//}, g, h, i) {
 							        function j() {
 							            // k.teams = jQuery.filter(jQuery.clone(e.teams),
 							            // function(a) {

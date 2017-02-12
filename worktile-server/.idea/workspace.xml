@@ -38,8 +38,28 @@
       <file leaf-file-name="FormLoginFilter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/filter/FormLoginFilter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1170">
-              <caret line="94" column="20" selection-start-line="94" selection-start-column="20" selection-end-line="94" selection-end-column="20" />
+            <state relative-caret-position="422">
+              <caret line="58" column="20" selection-start-line="58" selection-start-column="20" selection-end-line="58" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TeamController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/controller/TeamController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="210">
+              <caret line="34" column="47" selection-start-line="34" selection-start-column="47" selection-end-line="34" selection-end-column="47" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TeamService.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/service/TeamService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="292">
+              <caret line="56" column="16" selection-start-line="56" selection-start-column="16" selection-end-line="56" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -48,7 +68,7 @@
       <file leaf-file-name="UserService.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/service/UserService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="245">
+            <state relative-caret-position="1132">
               <caret line="110" column="5" selection-start-line="110" selection-start-column="5" selection-end-line="110" selection-end-column="5" />
               <folding>
                 <element signature="e#3200#3208#0" expanded="true" />
@@ -57,24 +77,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MeController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/controller/MeController.java">
+      <file leaf-file-name="LoginMsg.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/msg/LoginMsg.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="249">
+            <state relative-caret-position="390">
               <caret line="26" column="43" selection-start-line="26" selection-start-column="43" selection-end-line="26" selection-end-column="43" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LoginMsg.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/msg/LoginMsg.java">
+      <file leaf-file-name="JwtHelper.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/helper/JwtHelper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="262">
-              <caret line="26" column="43" selection-start-line="26" selection-start-column="43" selection-end-line="26" selection-end-column="43" />
-              <folding />
+            <state relative-caret-position="470">
+              <caret line="39" column="78" selection-start-line="39" selection-start-column="73" selection-end-line="39" selection-end-column="78" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -87,31 +107,6 @@
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LogoutFilter.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$USER_HOME$/apache-maven-3.3.9/repository/org/apache/shiro/shiro-web/1.2.4/shiro-web-1.2.4.jar!/org/apache/shiro/web/filter/authc/LogoutFilter.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="291">
-              <caret line="57" column="5" selection-start-line="25" selection-start-column="4" selection-end-line="57" selection-end-column="5" />
-              <folding>
-                <element signature="e#1828#1829#0" expanded="true" />
-                <element signature="e#1867#1868#0" expanded="true" />
-                <element signature="e#1921#1922#0" expanded="true" />
-                <element signature="e#1967#1968#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="application.yml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/worktile-logic/src/main/resources/application.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="795">
-              <caret line="53" column="34" selection-start-line="53" selection-start-column="34" selection-end-line="53" selection-end-column="34" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -129,7 +124,7 @@
       <file leaf-file-name="UserController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/controller/UserController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
+            <state relative-caret-position="285">
               <caret line="42" column="37" selection-start-line="42" selection-start-column="37" selection-end-line="42" selection-end-column="37" />
               <folding />
             </state>
@@ -192,7 +187,6 @@
         <option value="$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/controller/BaseController.java" />
         <option value="$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/msg/PairMsg.java" />
         <option value="$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/msg/TeamListMsg.java" />
-        <option value="$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/service/TeamService.java" />
         <option value="$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/controller/TeamController.java" />
         <option value="$PROJECT_DIR$/worktile-logic/src/test/java/com/sjtu/worktile/BaseTest.java" />
         <option value="$PROJECT_DIR$/worktile-logic/src/test/java/com/sjtu/worktile/AccountTests.java" />
@@ -211,6 +205,7 @@
         <option value="$PROJECT_DIR$/worktile-logic/src/main/resources/application.yml" />
         <option value="$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/filter/LogoutFilter.java" />
         <option value="$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/msg/LoginMsg.java" />
+        <option value="$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/service/TeamService.java" />
       </list>
     </option>
   </component>
@@ -298,8 +293,8 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="13" />
-    <option name="y" value="49" />
+    <option name="x" value="8" />
+    <option name="y" value="38" />
     <option name="width" value="1417" />
     <option name="height" value="813" />
   </component>
@@ -1517,7 +1512,7 @@
       <workItem from="1484234501553" duration="3774000" />
       <workItem from="1484285023228" duration="1549000" />
       <workItem from="1484634326113" duration="1633000" />
-      <workItem from="1485876842924" duration="111018000" />
+      <workItem from="1485876842924" duration="113050000" />
     </task>
     <servers />
   </component>
@@ -1554,7 +1549,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="350471000" />
+    <option name="totallyTimeSpent" value="352503000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1566,7 +1561,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="13" y="49" width="1417" height="813" extended-state="0" />
+    <frame x="8" y="38" width="1417" height="813" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1654,30 +1649,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/worktile-logic/src/test/java/com/sjtu/worktile/DemoApplicationTests.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/worktile-logic/src/test/java/com/sjtu/worktile/BaseTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="327">
-          <caret line="59" column="1" selection-start-line="59" selection-start-column="1" selection-end-line="59" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/worktile-logic/src/test/java/com/sjtu/worktile/ShiroTests.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/worktile-logic/src/test/java/com/sjtu/worktile/ReflectionTests.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -1968,14 +1939,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/controller/UserController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="42" column="37" selection-start-line="42" selection-start-column="37" selection-end-line="42" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/controller/MeController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="249">
@@ -2007,38 +1970,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/helper/JwtHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="39" column="78" selection-start-line="39" selection-start-column="73" selection-end-line="39" selection-end-column="78" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/configuration/Const.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
           <caret line="10" column="28" selection-start-line="10" selection-start-column="28" selection-end-line="10" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/service/UserService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="245">
-          <caret line="110" column="5" selection-start-line="110" selection-start-column="5" selection-end-line="110" selection-end-column="5" />
-          <folding>
-            <element signature="e#3200#3208#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/filter/FormLoginFilter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1170">
-          <caret line="94" column="20" selection-start-line="94" selection-start-column="20" selection-end-line="94" selection-end-column="20" />
           <folding />
         </state>
       </provider>
@@ -2077,6 +2012,32 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/msg/LoginMsg.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="26" column="43" selection-start-line="26" selection-start-column="43" selection-end-line="26" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/helper/JwtHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="470">
+          <caret line="39" column="78" selection-start-line="39" selection-start-column="73" selection-end-line="39" selection-end-column="78" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/controller/UserController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="42" column="37" selection-start-line="42" selection-start-column="37" selection-end-line="42" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/filter/LogoutFilter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="232">
@@ -2087,10 +2048,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/msg/LoginMsg.java">
+    <entry file="file://$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/filter/FormLoginFilter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="262">
-          <caret line="26" column="43" selection-start-line="26" selection-start-column="43" selection-end-line="26" selection-end-column="43" />
+        <state relative-caret-position="422">
+          <caret line="58" column="20" selection-start-line="58" selection-start-column="20" selection-end-line="58" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/service/UserService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1132">
+          <caret line="110" column="5" selection-start-line="110" selection-start-column="5" selection-end-line="110" selection-end-column="5" />
+          <folding>
+            <element signature="e#3200#3208#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/controller/TeamController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="34" column="47" selection-start-line="34" selection-start-column="47" selection-end-line="34" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/model/mappers/TUserRoleMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/worktile-logic/src/main/java/com/sjtu/worktile/service/TeamService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="292">
+          <caret line="56" column="16" selection-start-line="56" selection-start-column="16" selection-end-line="56" selection-end-column="16" />
           <folding />
         </state>
       </provider>

@@ -1,0 +1,112 @@
+<div class="dialog dialog-team-create">
+    <div class=dialog-head>
+        <span class=dialog-close>
+            <i class="wtfont wtf-close" ng-click=vm.js_close()></i>
+        </span>
+        <div class=dialog-title ng-if=vm.is_first_landing>{{'dialog_team_create.title_name_newer'|translate}}</div>
+        <div class=dialog-title ng-if=!vm.is_first_landing>{{'dialog_team_create.title_name'|translate}}</div>
+        <div class="dialog-step mlr-28">
+            <ul class=flex_row>
+                <li class=flex_se1 ng-class="{'step_cursor':vm.step_index==1, 'step_active':vm.step_index>1}">{{'dialog_team_create.step_1_baseinfo'|translate}}</li>
+                <li class=flex_se1 ng-class="{'step_cursor':vm.step_index==2, 'step_active':vm.step_index>2}">{{'dialog_team_create.step_2_invite'|translate}}</li>
+                <li class=flex_se1 ng-class="{'step_cursor':vm.step_index==3}">{{'dialog_team_create.step_3_done'|translate}}</li></ul>
+        </div>
+    </div>
+    <div class=dialog-body>
+        <div ng-switch on=vm.step_index>
+            <div ng-switch-when=1>
+                <form name=team_create_step1 w5c-form-validate="" class=w5c-form novalidate="" role=form>
+                    <div class=team_s1_title>{{'dialog_team_create.title_desc'|translate}}</div>
+                    <div class="w-590 m-0-auto">
+                        <input class=form-control type=text placeholder="{{'dialog_team_create.form_team_name_placeholder'|translate}}" ng-maxlength=100 ng-pattern=$root.global.constant.regex.exclude_url name=team_name required="" wt-autofocus="" ng-model=vm.team_name uib-tooltip="{{((team_create_step1.team_name.$dirty&&team_create_step1.team_name.$invalid&&team_create_step1.team_name.$error.pattern)?'form_valid.teamname_pattern':'')|translate }}" tooltip-placement=right>
+                        <input class="form-control mt-10" type=text placeholder="{{'dialog_team_create.form_team_phone_placeholder'|translate}}" ng-pattern=$root.global.constant.regex.mobile name=team_phone required="" ng-model=vm.team_phone>
+                        <select class="form-control mt-10" name=team_industry_text required="" ng-model=vm.team_industry_text ng-options="ins for ins in vm.all_industries" ng-change=vm.js_team_industy_change()>
+                            <option value="" disabled=disabled>{{'dialog_team_create.form_team_industry_placeholder'|translate}}</option></select>
+                        <a href=javascript:; ng-hide=vm.show_more_options class="color-text-act-green help-inlineblock mt-10" ng-click="vm.show_more_options=true">{{'dialog_team_create.show_more_info'|translate}}</a>
+                        <div class=mt-10 ng-show=vm.show_more_options>
+                            <div class=mt-10>
+                                <select class="form-control mt-10" name=team_scale_text ng-model=vm.team_scale ng-options="v.value as v.text for v in vm.team_scales">
+                                    <option value="" disabled=disabled>{{'dialog_team_create.form_team_scale_placeholder'|translate}}</option></select>
+                            </div>
+                            <div class=mt-10>
+                                <div class="col-sm-4 pl-0 pr-0">
+                                    <select class=form-control ng-model=vm.province ng-options="province as province.n for province in vm.provinces">
+                                        <option value="">{{'dialog_team_create.form_team_province_placeholder'|translate}}</option></select>
+                                </div>
+                                <div class="col-sm-4 pr-0">
+                                    <select class=form-control ng-model=vm.city ng-options="city as city.n for city in vm.province.s">
+                                        <option value="">{{'dialog_team_create.form_team_city_placeholder'|translate}}</option></select>
+                                </div>
+                                <div class="col-sm-4 pr-0">
+                                    <select class=form-control ng-model=vm.district ng-options="city as city.n for city in vm.city.s">
+                                        <option value="">{{'dialog_team_create.form_team_district_placeholder'|translate}}</option></select>
+                                </div>
+                            </div>
+                        </div>
+                        <a href=javascript:; ng-show=vm.show_more_options class="color-text-act-green help-inlineblock mt-10" ng-click="vm.show_more_options=false">{{'dialog_team_create.hide_more_info'|translate}}</a></div>
+                    <div class="w-590 m-0-auto mt_21">
+                        <button class="btn btn-success" w5c-form-submit=vm.js_next_step($event)>{{'common.btn_next_step'|translate}}</button>
+                        <button class="btn btn-cancel btn-link w_120" ng-click=vm.js_close()>{{'common.btn_cancel'|translate}}</button></div>
+                </form>
+            </div>
+            <div ng-switch-when=2>
+                <form name=team_create_step2 w5c-form-validate="" class=w5c-form novalidate="" role=form>
+                    <div class="form-group w-590 mlr-auto" ng-if="!vm.is_first_landing && vm.contact_members.length>0">
+                        <div class=contact_member_search>{{'dialog_team_create.form_title_contact'|translate}}
+                            <span>
+                                <i class="wtfont wtf-search"></i>
+                                <input ng-model=search_user_input type=text placeholder="{{'dialog_team_create.form_contact_find_placeholder'|translate}}"></span>
+                        </div>
+                        <div class=contact_member>
+                            <ul class=clearfix ng-hide="contact_members_filtered_results.length==0">
+                                <li class="flex_row js-popbox" ng-class="{'selected':member.selected}" ng-repeat="member in contact_members_filtered_results = (vm.contact_members|filterMembers:search_user_input)" ng-click=vm.js_contact_selected_toggle(member.uid)>
+                                    <wt-avatar member=member size=40 class=member_pic></wt-avatar>
+                                    <span class="member_name flex_se1">{{[member.display_name,10]|cutstr}}</span>
+                                    <i class="fa fa-check-circle-o"></i>
+                                </li>
+                            </ul>
+                            <div class="empty-panel pt-20 pb_20" ng-show="contact_members_filtered_results.length==0">
+                                <span>{{'dialog_team_create.warn_empty_find_contact'|translate}}</span></div>
+                        </div>
+                    </div>
+                    <div class="form-group w-590 mlr-auto">
+                        <div class="text-center mt-20 pb-10" ng-if=vm.is_first_landing>{{'dialog_team_create.title_invite_newer'|translate}}</div>
+                        <div ng-if=!vm.is_first_landing>{{'dialog_team_create.title_invite'|translate}}</div>
+                        <div>
+                            <div class=email_list_item ng-repeat="obj in vm.team_invite_email">
+                                <input class="form-control mt-10" type=email wt-validator-name="'team_invite_email_'+$index" placeholder="{{'dialog_team_create.form_invite_by_email'|translate}}" wt-autofocus="" wt-autofocus-enable="$index==0" ng-model=obj.email>
+                                <span ng-if="$index != 0" class=item_remove>
+                                    <i class="fa fa fa-times-circle-o" ng-click=vm.js_remove_email_textbox($index)></i>
+                                </span>
+                            </div>
+                            <div class=ml-12>
+                                <button class="btn btn-link-fancy" ng-click=vm.js_add_invite_member_input()>{{'dialog_team_create.btn_more_add'|translate}}</button></div>
+                            <div class="mt-20 ml-12 color-text-grayer">
+                                <i class="fa fa-info-circle mr-5"></i>{{'dialog_team_create.tips_invite_can_after'|translate}}</div>
+                        </div>
+                    </div>
+                    <div class="flex_row w-590 m-0-auto mt_21">
+                        <div class="flex_se1 flex_bw_100">
+                            <button class="btn btn-success" w5c-form-submit=vm.js_next_step($event,team_create_step2)>{{'common.btn_next_step'|translate}}</button>
+                            <button class="btn btn-cancel btn-link w_120" ng-click=vm.js_close()>{{'common.btn_cancel'|translate}}</button></div>
+                        <div class="flex_se1 text-right">
+                            <button class="btn btn-link-fancy" ng-click=vm.js_next_step($event)>{{'dialog_team_create.btn_skip_invite'|translate}}</button></div>
+                    </div>
+                </form>
+            </div>
+            <div ng-switch-when=3>
+                <div class=team_create_info_show>
+                    <div class=info>{{'dialog_team_create.title_done_confirm'|translate}}</div>
+                    <div class="fs-21 mt_30 color-text-act-green">{{[vm.team_name,20]|cutstr}}</div>
+                    <div class=mt-20>{{vm.team_industry_text}}</div>
+                    <div class="text-center mt-20">
+                        <wt-avatar member=member size=40 class=member_pic ng-repeat="member in vm.contact_members_selected|limitTo : 4 "></wt-avatar>
+                        <span ng-if="vm.contact_members_selected.length>4" class="member_pic avatar avatar-40">•••</span></div>
+                </div>
+                <div class="w-590 m-0-auto mt_30">
+                    <button class="btn btn-success" wt-loading-status=vm.saving data-loading-text="{{'common.saving'|translate}}" ng-click=vm.js_team_add()>{{'common.btn_save'|translate}}</button>
+                    <button class="btn btn-cancel btn-link w_120" ng-click=vm.js_close()>{{'common.btn_cancel'|translate}}</button></div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,69 @@
+<div class="dialog dialog-upgrade-pro" ng-switch on=vm.step>
+    <div ng-switch-default>
+        <div class="dialog-head border-bottom">
+            <span class=dialog-close>
+                <i class="wtfont wtf-close" ng-click=vm.js_close()></i>
+            </span>
+            <div class=dialog-title>{{'dialog_upgrade_pro.title_name_notice'|translate}}</div></div>
+        <div class=dialog-body>
+            <div class=inner-notice translate=dialog_upgrade_pro.notice_content></div>
+        </div>
+        <div class=dialog-foot>
+            <a href="//pro.worktile.com/specialist?utm_source=std_upgrade_dialog" class="btn btn-link pull-right color-text-act-blue" target=_blank>{{'dialog_upgrade_pro.get_help'|translate}}</a>
+            <button ng-click=vm.js_next() class="btn btn-success">{{'dialog_upgrade_pro.btn_notice_know'|translate}}</button>
+            <button type=button ng-click=vm.js_close() class="btn btn-link btn-cancel ml-10">{{'common.btn_cancel'|translate}}</button></div>
+    </div>
+    <div ng-switch-when=1>
+        <div class=dialog-head>
+            <span class=dialog-close>
+                <i class="wtfont wtf-close" ng-click=vm.js_close()></i>
+            </span>
+            <div class=dialog-title>{{'dialog_upgrade_pro.title_name_bindphone'|translate}}</div></div>
+        <form name=user_new_phone_form w5c-form-validate="" class=wt-form novalidate>
+            <div class=dialog-body>
+                <div class=form-group>
+                    <div class="input-group input-group--phone">
+                        <div class=input-group-btn>
+                            <button type=button class="btn btn-default dropdown-toggle" data-toggle=dropdown>{{vm.phone_prefix.name}}
+                                <span class=caret></span></button>
+                            <ul class=dropdown-menu role=menu>
+                                <li ng-repeat="prefix in vm.phone_prefixs" ng-click=vm.js_change_phone_prefix(prefix)>
+                                    <a href=javascript:;>{{prefix.name}} {{prefix.val}}</a></li>
+                            </ul>
+                        </div>
+                        <div class="input-group-btn input-group-btn--phone-prefix">
+                            <input type=number class=form-control name=new_phone_prefix ng-model=vm.phone_prefix.val readonly=true required ng-pattern=$root.global.constant.regex.mobile_area></div>
+                        <input name=new_phone autofocus="" type=text class=form-control ng-model=vm.new_phone placeholder="{{'dialog_upgrade_pro.placeholder_bind_phone'|translate}}" ng-change=vm.js_change_phone() required ng-pattern=$root.global.constant.regex.mobile_probable wt-remote-unique-check="{url:'/api/user/phone/check?phone='+(vm.new_phone|encodeURIComponent)}"></div>
+                </div>
+                <div class=form-group>
+                    <div class=row>
+                        <div class=col-xs-8>
+                            <input class=form-control type=text placeholder="{{'dialog_upgrade_pro.placeholder_phone_verify_code'|translate}}" name=phone_code ng-model=vm.phone_code required></div>
+                        <button class="btn btn-success fs-17 col-xs-4" type=button ng-click=vm.js_get_phone_code(user_new_phone_form) ng-disabled=!user_new_phone_form.new_phone.$valid||vm.waiting_for_phone_code ng-bind=vm.new_phone_text></button>
+                    </div>
+                </div>
+                <div class="alert alert-danger mt-10" ng-show="user_new_phone_form.$errors.length > 0">
+                    <i class="fa fa-times-circle"></i>{{user_new_phone_form.$errors[0]}}</div>
+            </div>
+            <div class=dialog-foot>
+                <a href="//pro.worktile.com/specialist?utm_source=std_upgrade_dialog" class="btn btn-link pull-right color-text-act-blue" target=_blank>{{'dialog_upgrade_pro.get_help'|translate}}</a>
+                <button w5c-form-submit="vm.js_user_change_phone(user_new_phone_form, vm.new_phone)" class="btn btn-success mr_15" data-loading-text="{{'common.sending'|translate}}" wt-loading-status=vm.is_sending_phone>{{'dialog_upgrade_pro.btn_bind_phone'|translate}}</button>
+                <button type=button ng-click=vm.js_close() class="btn btn-link btn-cancel ml-10">{{'common.btn_cancel'|translate}}</button></div>
+        </form>
+    </div>
+    <div ng-switch-when=2>
+        <div class=dialog-head>
+            <span class=dialog-close>
+                <i class="wtfont wtf-close" ng-click=vm.js_close()></i>
+            </span>
+            <div class=dialog-title>{{'dialog_upgrade_pro.title_name'|translate}}</div></div>
+        <div class=dialog-body>
+            <div class=two-link>
+                <a href=javascript:; class=new-user ng-class="{'active':vm.type=='new'}" ng-click="vm.js_select_type('new')">{{'dialog_upgrade_pro.new_user'|translate}}</a>
+                <a href=javascript:; ng-click="vm.js_select_type('old')" ng-class="{'active':vm.type=='old'}" class=old-user>{{'dialog_upgrade_pro.old_user'|translate}}</a></div>
+        </div>
+        <div class=dialog-foot>
+            <a href="//pro.worktile.com/specialist?utm_source=std_upgrade_dialog" class="btn btn-link pull-right color-text-act-blue" target=_blank>{{'dialog_upgrade_pro.get_help'|translate}}</a>
+            <a ng-href={{vm.upgrade_url}} target=_blank class="btn btn-success" ng-disabled="vm.upgrade_url==''">{{'dialog_upgrade_pro.btn_go_upgrade'|translate}}</a></div>
+    </div>
+</div>

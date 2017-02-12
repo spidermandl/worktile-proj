@@ -8,9 +8,8 @@
 define(['app'], function (app) {
  	'use strict';
 
-	app.service('globalDataContext', ['$http','api','$rootScope','localStorageService','$state',
-		function ($http,api,$rootScope,localStorageService,$state) {
-
+	app.service('globalDataContext', ['$http','api','$rootScope','localStorageService','$state','config',
+		function ($http,api,$rootScope,localStorageService,$state,config) {
 			/**
 			*用户登出
 			*/
@@ -40,6 +39,8 @@ define(['app'], function (app) {
 				//loading_done : true,
 
 				me : null,//用户基本信息
+
+				constant : config,//常量
 			};
 
 			return {

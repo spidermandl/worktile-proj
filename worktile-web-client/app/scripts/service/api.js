@@ -11,6 +11,41 @@ define(['app'], function (app) {
 	app.service('api', ['$http','localStorageService','util',
 		function ($http,localStorageService,util) {
 			return {
+				/************************************************************************
+				 *get 父类方法
+				 ************************************************************************/
+				http_get_template : function(link,success,error){
+					var token = localStorageService.get('token');
+					if (token == null) {
+						return;
+					}
+                    $http({
+                        method: 'GET', 
+                        url: link,
+                        headers: {
+                            'Authorization': "Bearer "+token, 
+                            'Content-Type' :"application/json;charset=utf-8",
+                        }, 
+                    })
+                    .then(function(response) {
+                        return response.data;
+                    })
+                    .then(
+                        function(data) {
+                        	if (success != null) {//回调函数
+                        		success(data);
+                        	}
+                        },
+                        function(error){
+                        	if (failure != null) {//回调函数
+                        		failure(error);
+                        	}
+                        }
+                    );
+				},
+				/************************************************************************
+				 *用户登录
+				 ************************************************************************/
 				signin : function(input,success,failure){
 					$http.defaults.headers.post['Content-Type'] = 
                   		'application/x-www-form-urlencoded;charset=utf-8';
@@ -51,67 +86,34 @@ define(['app'], function (app) {
                             }
                         );
 				},
-				/**
+				/************************************************************************
 				* 获取用户信息api
-				*/
+				*************************************************************************/
 				me_profile : function(success,failure){
-					var token = localStorageService.get('token');
-					if (token == null) {
-						return;
-					}
-                    $http({
-                            method: 'GET', 
-                            url: 'http://localhost:8080/api/me/profile',
-                            headers: {
-                                'Authorization': "Bearer "+token, 
-                                'Content-Type' :"application/json;charset=utf-8",
-                            },  
-                        })
-                        .then(function(response) {
-                            return response.data;
-                        })
-                        .then(
-                            function(data) {
-                            	if (success != null) {//回调函数
-                            		success(data);
-                            	}
-                            },
-                            function(error){
-                            	if (failure != null) {//回调函数
-                            		failure(error);
-                            	}
-                            }
-                        );
+					this.http_get_template(
+						'http://localhost:8080/api/me/profile',
+						success,failure);
+				},
+				/**************************************************************************
+				**登出api
+				**************************************************************************/
+				me_logout : function(success,failure){
+					this.http_get_template(
+						'http://localhost:8080/user/logout',
+						success,failure);
+				},
+				/**************************************************************************
+				**获取联系人(所有team中成员)api
+				**************************************************************************/
+				me_contacts : function(success,failure){
+					this.http_get_template(
+						'http://localhost:8080/api/user/teams/contacts',
+						success,failure);
 				},
 
-				/**
-				* 登出api
-				**/
-				me_logout : function(success,failure){
-					var token = localStorageService.get('token');
-					if (token == null) {
-						return;
-					}
-                    $http({
-                        method: 'GET', 
-                        url: 'http://localhost:8080/user/logout',
-                    })
-                    .then(function(response) {
-                        return response.data;
-                    })
-                    .then(
-                        function(data) {
-                        	if (success != null) {//回调函数
-                        		success(data);
-                        	}
-                        },
-                        function(error){
-                        	if (failure != null) {//回调函数
-                        		failure(error);
-                        	}
-                        }
-                    );
-				}
+
+
+
 
 			}
 		}

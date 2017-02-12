@@ -22,6 +22,7 @@
         'ui.bootstrap',//Bootstrap工具插件
         'LocalStorageModule',//本地存储
         'underscore',//underscore 方法库
+        'pascalprecht.translate',//多语言库
       ]);
 
     app.init = function () {
@@ -33,8 +34,11 @@
     //,'$urlRouterProvider','$stateProvider'
     app.config(['$routeProvider','$urlRouterProvider','$stateProvider',"w5cValidatorProvider",
                 "$locationProvider",'$httpProvider','config','localStorageServiceProvider',
+                '$translateProvider',
         function ($routeProvider,$urlRouterProvider,$stateProvider,w5cValidatorProvider,
-                  $locationProvider,$httpProvider,config,localStorageServiceProvider) {
+                  $locationProvider,$httpProvider,config,localStorageServiceProvider
+                  ,$translateProvider
+                  ) {
           /**路由配置
            ********************************************************
            */
@@ -177,31 +181,41 @@
                 // parent: 'home',
             });
 
-          /*
-           ===========================================================
-           */
-          // 用户名验证配置
-          // 全局配置
-          w5cValidatorProvider.config({
+            /*
+            ===========================================================
+            */
+            // 用户名验证配置
+            // 全局配置
+            w5cValidatorProvider.config({
               blurTrig   : false,
               showError  : false,
               removeError: true
 
-          });
-          // 设置验证提示信息
-          w5cValidatorProvider.setRules(config.VALIDATE_ERROR);
-          // use the HTML5 History API
-          $locationProvider.html5Mode(true);
+            });
+            // 设置验证提示信息
+            w5cValidatorProvider.setRules(config.VALIDATE_ERROR);
+            // use the HTML5 History API
+            $locationProvider.html5Mode(true);
 
-          //本地存储
-          localStorageServiceProvider.setDefaultToCookie(false);
-          // //http设置
-          //$httpProvider.defaults.useXDomain = true;
-          // //$httpProvider.defaults.withCredentials = true;  
-          //$httpProvider.defaults.headers.common = { 'Access-Control-Allow-Origin' : '*'};
-          //$httpProvider.defaults.headers.common['Authorization'] = 'Bearer ' ;
-          //delete $httpProvider.defaults.headers.common['X-Requested-With'];             
-      }]);
+            //本地存储
+            localStorageServiceProvider.setDefaultToCookie(false);
+            // //http设置
+            //$httpProvider.defaults.useXDomain = true;
+            // //$httpProvider.defaults.withCredentials = true;  
+            //$httpProvider.defaults.headers.common = { 'Access-Control-Allow-Origin' : '*'};
+            //$httpProvider.defaults.headers.common['Authorization'] = 'Bearer ' ;
+            //delete $httpProvider.defaults.headers.common['X-Requested-With'];    
+
+            // Register a loader for the static files
+            // So, the module will search missing translation tables under the specified urls.
+            // Those urls are [prefix][langKey][suffix].
+            // Tell the module what language to use by default
+            $translateProvider.useStaticFilesLoader({
+                prefix: "/shared/i18n/",
+                suffix: ".json",//?v=" + wt.appConfig.version
+            }).preferredLanguage('zh-cn').useSanitizeValueStrategy("escapeParameters");
+                     
+        }]);
 
     return app;
 });
