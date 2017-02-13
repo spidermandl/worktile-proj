@@ -32,7 +32,7 @@ public class TeamListMsg extends PairMsg {
     public static class Team{
         public int team_id = 0;//团队id
         public String name = null;//团队name
-        public int count = 0;//团队人数
+        public long count = 0;//团队人数
         public int publicity = 0; //团队公开性
         public String logo = null;//团队logo
     }

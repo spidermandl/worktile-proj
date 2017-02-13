@@ -10,7 +10,7 @@
 	//angular.module('jtWorkApp')
 	console.log("identity相关");
   //父类
-	app.controller('BaseCtrl', ['$scope','config',function ($scope,config) {
+	app.controller('BaseCtrl', ['$scope','config','$translate',function ($scope,config,$translate) {
 		$scope.action_type = 0;
 
 		$scope.vm = {
@@ -40,7 +40,7 @@
 				email:null,
 				display_name:null,
 			},
-			signup_phone_text:config.STRING.signup_phone_text,
+			signup_phone_text: $translate.instant('outer_signup.signup_phone_text'),//config.STRING.signup_phone_text,
 			check_platform : {//客户端平台检测
 				is_mobile : false,
 			},
@@ -57,7 +57,7 @@
 
 			//==========================忘记密码相关===============================
 			forgotmode : 'phone',
-			phone_code_text: config.STRING.phone_code_text,
+			phone_code_text: $translate.instant('outer_forgot.phone_code_text'),//config.STRING.phone_code_text,
 			send_success : false,//忘记密码请求发送成功
 			//==============================公共方法================================
 			//登录邮箱验证
@@ -135,9 +135,6 @@
 			$controller('BaseCtrl', {$scope: $scope});
 			$scope.action_type = 1;
 			$scope.regist_phone_reminde_msg = null;
-			$scope['$root.global.constant.regex.mobile_area'] = config.mobile_area;
-			$scope['$root.global.constant.regex.mobile_probable'] = config.mobile_probable;
-			$scope['$root.global.constant.regex.display_name'] = config.email;
 			$scope.regist_phone_code_reminde_msg = false;
 			$scope.regist_email_reminde_msg = false;
 			$scope.regist_password_reminde_msg = false;
@@ -149,7 +146,15 @@
 			};
 
 	}])
+	//忘记密码界面
+	.controller('ForgotCtrl', ['$scope', '$controller',
+		function ($scope, $controller) {
+	 		$controller('BaseCtrl', {$scope: $scope});		
+	 		$scope.action_type = 2;		
+ 			
+ 	}])
 	;
+
 });
 
 

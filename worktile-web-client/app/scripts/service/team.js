@@ -36,8 +36,8 @@ define(['app'], function (app) {
                     windowClass: "dialog-w680",
                     templateUrl: config.templateUrls.left_menu_dialog_team_create,
                     //"/app/js/service/team/dialog_team_create.html",
-                    controller: ["$scope", "$rootScope", "$location",
-                    function(a, f, g) {
+                    controller: ["$scope", "$rootScope", "$location",'api',
+                    function(a, f, g, api) {
                         function h() {
                             j.is_first_landing || (j.team_invite_email = [{
                                 email: ""
@@ -45,15 +45,18 @@ define(['app'], function (app) {
                             j.all_industries = _.toArray(config.team_industries),//kzi.constant.team_industries),
                             j.all_industries.splice(0, 1),
                             _.each(j.all_industries,
-                                function(a, b) {
-                                    j.all_industries[b] = c.instant(a)
+                                function(index, key) {
+                                    j.all_industries[key] = c.instant(index);
                                 }),
                             j.team_scales = f.global.constant.scale,
                             _.each(j.team_scales,
-                                function(a, b) {
-                                    j.team_scales[b].text = c.instant(a.text)
+                                function(value, index) {
+                                    j.team_scales[index].text = c.instant(value.text);
                                 })
-                            //     ,
+                                ,
+                            api.me_contacts(function(json) {
+                                    j.contact_members = json.data;
+                                })
                             // wt.data.account.get_contacts(function(a) {
                             //         j.contact_members = a.data;
                             //     },
@@ -98,32 +101,35 @@ define(['app'], function (app) {
                             if (! (j.step_index > j.step_max)) {
                                 switch (j.step_index) {
                                 case 2:
-                                    b ? (j.team_invite_email = _.filter(j.team_invite_email,
-                                    function(a) {
-                                        return "" != a.email
-                                    }), j.contact_members_selected = _.filter(j.contact_members,
-                                    function(a) {
-                                        return a.selected === !0
-                                    })) : j.is_first_landing ? j.team_invite_email = [{
-                                        email: ""
-                                    },
-                                    {
-                                        phone: "",
-                                        email: ""
-                                    }] : j.team_invite_email = [{
-                                        email: ""
-                                    }],
-                                    j.contact_members_selected.unshift(f.global.me)
+                                    b ? (j.team_invite_email = 
+                                                _.filter(j.team_invite_email,
+                                                        function(item) {
+                                                            return "" != item.email;
+                                                        }),
+                                         j.contact_members_selected = 
+                                                _.filter(j.contact_members,
+                                                        function(item) {
+                                                            return item.selected === !0;
+                                                        }))
+                                    : 
+                                    j.is_first_landing ? j.team_invite_email = 
+                                                            [{email: ""},{
+                                                                phone: "",
+                                                                email: ""
+                                                            }] 
+                                                        : j.team_invite_email = 
+                                                            [{email: ""}],
+                                                        j.contact_members_selected.unshift(f.global.me);
                                 }
                                 return j.step_index++,
-                                a.preventDefault(),
-                                !1
+                                    a.preventDefault(),
+                                    !1
                             }
                         },
                         j.js_team_industy_change = function() {
-                            _.each(kzi.constant.team_industries,
-                            function(a, b) {
-                                c.instant(a) == j.team_industry_text && (j.team_industry = b)
+                            _.each(config.team_industries,//kzi.constant.team_industries,
+                            function(index, key) {
+                                c.instant(index) == j.team_industry_text && (j.team_industry = key)
                             })
                         },
                         j.js_contact_selected_toggle = function(a) {

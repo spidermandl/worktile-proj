@@ -1790,7 +1790,8 @@
     "second": "秒",
     "link_goto_feedback": "寻求客服帮助",
     "link_signin": "返回登录",
-    "link_signup": "免费注册"
+    "link_signup": "免费注册",
+    "phone_code_text": "获取验证码"
   },
   "outer_login": {
     "btn_login": "登 录",
@@ -1841,7 +1842,8 @@
     "tips_for_mobile1": "为了您更好的使用和体验 Worktile",
     "tips_for_mobile2": "请您下载 Worktile 移动客户端",
     "username_placeholder": "用户名",
-    "display_name_placeholder": "姓名"
+    "display_name_placeholder": "姓名",
+    "signup_phone_text": "获取验证码"
   },
   "outer_user": {
     "err_email_not_exist": "该邮箱地址不存在，请重新输入",

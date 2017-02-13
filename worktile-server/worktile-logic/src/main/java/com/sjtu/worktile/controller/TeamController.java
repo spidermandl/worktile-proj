@@ -1,6 +1,8 @@
 package com.sjtu.worktile.controller;
 
 import com.sjtu.worktile.model.TTeam;
+import com.sjtu.worktile.model.TUser;
+import com.sjtu.worktile.msg.TeamContactsMsg;
 import com.sjtu.worktile.msg.TeamListMsg;
 import com.sjtu.worktile.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,10 +43,31 @@ public class TeamController extends BaseController{
             TeamListMsg.Team t = new TeamListMsg.Team();
             t.team_id = team.getId();
             t.name = team.getName();
-            t.count = teamService.getTeamCount(team.getId());//性能可能出现瓶颈
+            t.count = teamService.getTeamCount(team.getId());
             t.publicity = team.getPublicity();
             t.logo = team.getLogo();
         }
         return outMsg;
+    }
+
+    /**
+     * 获取所有组的联系人
+     * @param request
+     */
+    @RequestMapping(value = "contacts", method = RequestMethod.GET)
+    @ResponseBody
+    public TeamContactsMsg.OutMsg contacts(final HttpServletRequest request){
+        int uid = super.getUserID(request);
+        List<TUser> users = teamService.getAllTeamContacts(uid);
+        TeamContactsMsg.OutMsg msg = new TeamContactsMsg.OutMsg();
+        msg.data = new ArrayList<>();
+        for (TUser u:users){
+            TeamContactsMsg.OutMsg.Data data = new TeamContactsMsg.OutMsg.Data();
+            data.uid = uid;
+            data.icon = u.getHead();
+            data.display_name = u.getSignature()==null?u.getAccount():u.getSignature();
+            msg.data.add(data);
+        }
+        return msg;
     }
 }

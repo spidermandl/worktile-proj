@@ -14,7 +14,7 @@ define(['app'], function (app) {
 				/************************************************************************
 				 *get 父类方法
 				 ************************************************************************/
-				http_get_template : function(link,success,error){
+				http_get_template : function(link,success,failure){
 					var token = localStorageService.get('token');
 					if (token == null) {
 						return;
@@ -107,7 +107,7 @@ define(['app'], function (app) {
 				**************************************************************************/
 				me_contacts : function(success,failure){
 					this.http_get_template(
-						'http://localhost:8080/api/user/teams/contacts',
+						'http://localhost:8080/api/team/contacts',
 						success,failure);
 				},
 

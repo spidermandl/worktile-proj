@@ -167,11 +167,13 @@
                 url: '/signup',
                 templateUrl: config.templateUrls.signup,
                 controller: 'RegisterCtrl',
+                parent: "root",
             })
             .state('/forgot',{//忘记密码
                 url: '/forgot',
                 templateUrl: config.templateUrls.forgot,
                 controller: 'ForgotCtrl',
+                parent: "root",
             }).state("dashboard.default", {
                 url: "",
                 templateUrl: config.templateUrls['dashboard.default'],
@@ -214,7 +216,7 @@
                 prefix: "/shared/i18n/",
                 suffix: ".json",//?v=" + wt.appConfig.version
             }).preferredLanguage('zh-cn').useSanitizeValueStrategy("escapeParameters");
-                     
+
         }]);
 
     return app;

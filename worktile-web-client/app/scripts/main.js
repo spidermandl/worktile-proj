@@ -35,6 +35,7 @@
             left_menu_avatar : 'directive/left_menu_avatar',
             //filter
             //translate : 'filter/translate',
+            filters : 'filter/filters',
             //provider
             popbox : 'provider/popbox',
 　　　　 },
@@ -58,8 +59,8 @@
                 deps: ['left_nemu'],
             },
             left_nemu: {
-                deps: ['popbox','left_menu_project','left_menu_avatar','work','team'],
-            }
+                deps: ['filters','popbox','left_menu_project','left_menu_avatar','work','team'],
+            },
 	    },
     });
 

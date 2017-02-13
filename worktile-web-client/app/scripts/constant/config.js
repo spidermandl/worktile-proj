@@ -33,10 +33,12 @@
 			about: 'views/about.html',
 		},
 		//正则表达式
-		mobile_area: "^[0-9]{1,4}$",
-		mobile_probable: "^[0-9]{6,15}$",
-		mobile: ["^(\\+?0?86\\-?)?1[345789]\\d{9}$|", "^(\\+?27|0)\\d{9}$|", "^(\\+?61|0)4\\d{8}|", "^(\\+?33|0)[67]\\d{8}$|", "^(\\+351)?9[1236]\\d{7}$"].join(""),
-		email: "^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$",
+		regex:{
+			mobile_area: "^[0-9]{1,4}$",
+			mobile_probable: "^[0-9]{6,15}$",
+			mobile: ["^(\\+?0?86\\-?)?1[345789]\\d{9}$|", "^(\\+?27|0)\\d{9}$|", "^(\\+?61|0)4\\d{8}|", "^(\\+?33|0)[67]\\d{8}$|", "^(\\+351)?9[1236]\\d{7}$"].join(""),
+			email: "^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$",
+		},
 		//电话前缀
 		phone_prefixs:[
 				{ name : '中国', val: 86,},
@@ -60,33 +62,34 @@
 	        13 : "CONS.team_industries.other"
 	    },
 	    scale : [{
-	        value: 1,
-	        text: "CONS.scale.1-10"
-	    },
-	    {
-	        value: 2,
-	        text: "CONS.scale.11-20"
-	    },
-	    {
-	        value: 3,
-	        text: "CONS.scale.21-50"
-	    },
-	    {
-	        value: 4,
-	        text: "CONS.scale.51-100"
-	    },
-	    {
-	        value: 5,
-	        text: "CONS.scale.101-200"
-	    },
-	    {
-	        value: 6,
-	        text: "CONS.scale.201-500"
-	    },
-	    {
-	        value: 7,
-	        text: "CONS.scale.500+"
-	    }],
+			    value: 1,
+		        text: "CONS.scale.1-10"
+		    },
+		    {
+		        value: 2,
+		        text: "CONS.scale.11-20"
+		    },
+		    {
+		        value: 3,
+		        text: "CONS.scale.21-50"
+		    },
+		    {
+		        value: 4,
+		        text: "CONS.scale.51-100"
+		    },
+		    {
+		        value: 5,
+		        text: "CONS.scale.101-200"
+		    },
+		    {
+		        value: 6,
+		        text: "CONS.scale.201-500"
+		    },
+		    {
+		        value: 7,
+		        text: "CONS.scale.500+"
+		    }],
+		    
 		//输入验证错误提示信息
 		VALIDATE_ERROR : {
 			login_name : {
