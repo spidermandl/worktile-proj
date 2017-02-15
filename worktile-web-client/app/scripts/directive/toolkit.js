@@ -193,9 +193,9 @@ define(['app'], function (app) {
 			restrict: "A",
 			link: function(a, b, c) {
 				a.$watch(c.sortable, function(a, c) {
-					null == a ? b.sortable({
-						disabled: !0
-					}) : b.sortable(a)
+					// null == a ? b.sortable({
+					// 	disabled: !0
+					// }) : b.sortable(a)
 				})
 			}
 		}

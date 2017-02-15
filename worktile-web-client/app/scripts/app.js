@@ -49,13 +49,28 @@
                 url: '/home',
                 views:{
                     'proxy':{
-                        template: '',
+                        //template: '',
+                        template: "<ui-view></ui-view>",
+                        // templateUrl: function($rootScope) {
+                        //     if ($rootScope.frame == 'guest'){
+                        //         return 'views/work/base_login.html';
+                        //     }
+                        //     if ($rootScope.frame = 'work') {
+                        //         return 'views/work/base_work.html';
+                        //     }
+                        //     return '';
+                        // },
                         controller: 
                             function($rootScope,$state,$http,localStorageService) {
+                                console.log('----------------home');
+                                // if($rootScope.isLogin() == true){
+                                //     $state.go("dashboard");
+                                // }else{
+                                //     $state.go("signin");
+                                // }
                                 //返回未登录前的页面
                                 var goOuterPage = function(){
                                     localStorageService.set('token',null);
-                                    $rootScope.frame = 'guest';
                                     $state.go("signin");
                                 };
                                 
@@ -83,7 +98,6 @@
                                                 goOuterPage();
                                                 return;
                                             }
-                                            $rootScope.frame = 'work';
                                             $state.go("dashboard");
                                         },
                                         function(error){
@@ -91,6 +105,14 @@
                                         }
                                     );
                             },
+                            // resolve: {
+                            //     global: ["globalDataContext",
+                            //     function(context) {
+                            //         console.log('first');
+                            //         return context.loadAll();
+                            //     }]
+                            // },
+                            
                             
                         //css: ['css/base_outer.css','css/base_inner.css'],
                     },
@@ -123,7 +145,7 @@
                 templateUrl: config.templateUrls.dashboard_calendar,
                 controller: "DashboardCalendarCtrl",
                 header_menu: "dashboard",
-                //parent: "home",
+                parent: "root",
                 //need_load: "true"
             })
             .state("calendar_subscribe", {

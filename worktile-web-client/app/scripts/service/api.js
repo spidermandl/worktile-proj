@@ -32,9 +32,11 @@ define(['app'], function (app) {
                     })
                     .then(
                         function(data) {
-                        	if (success != null) {//回调函数
-                        		success(data);
-                        	}
+                    		if(_.isNumber(data.error_code)){
+                    			failure(data);
+                    		}else{
+                    			success(data);
+                    		}
                         },
                         function(error){
                         	if (failure != null) {//回调函数
@@ -67,7 +69,11 @@ define(['app'], function (app) {
 		            	.then(
 		            		function(data) {
                             	if (success != null) {//回调函数
-                            		success(data);
+                            		if(_.isNumber(data.error_code)){
+                            			failure(data);
+                            		}else{
+                            			success(data);
+                            		}
                             	}
                             	if (promise !=null) {
                             		promise();

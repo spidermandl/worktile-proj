@@ -25,6 +25,15 @@ define(['app'], function (app) {
 				);
 			};
 			/**
+			 * 用户是否登录
+			 */
+			$rootScope.isLogin = function(){
+				if (localStorageService.get('token')==null || context.me ==null) {
+					return false;
+				}
+				return true;
+			};
+			/**
 			 * 全局上下文数据
 			 */
 			var context = {
@@ -49,11 +58,11 @@ define(['app'], function (app) {
 						dismiss: function(a) {
 							var b = i.getTeam(a);
 							i.teams.splice(i.teams.indexOf(b), 1),
-								i.projects = _.reject(i.projects,
-									function(b) {
-										return b.team_id === a
-									}),
-								i.setTeamProjects()
+							i.projects = _.reject(i.projects,
+								function(b) {
+									return b.team_id === a
+								}),
+							i.setTeamProjects()
 						},
 						sync: function(a, b) {
 							var c = i.getTeam(a);
@@ -127,19 +136,17 @@ define(['app'], function (app) {
 					/**
 					* 加载个人信息
 					*/
-					if (context.me == null) {
+					if ($rootScope.isLogin() == false) {
 						api.me_profile(
 							function(data){
 								context.me = data.data;
-								context.frame = 'work';
 							},
 							function(error){
-								context.frame = 'guest';
+								context.me = null;
 							}
 						);
-					}else{
-						context.frame = 'work';
 					}
+
 					return context;
 
 		            // if (!_.isEmpty(i.projects)) {
