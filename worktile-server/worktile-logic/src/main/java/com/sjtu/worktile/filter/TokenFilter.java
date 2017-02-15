@@ -3,6 +3,7 @@ package com.sjtu.worktile.filter;
 import com.sjtu.worktile.configuration.Const;
 import com.sjtu.worktile.exception.AppException;
 import com.sjtu.worktile.helper.JwtHelper;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.SignatureException;
 
 import javax.servlet.ServletRequest;
@@ -33,7 +34,7 @@ public class TokenFilter extends AbsPathFilter {
         try {
             request.setAttribute("claims", JwtHelper.parseJWT(token, Const.JWT_TOEKN_SECRET_KEY));
         }
-        catch (final SignatureException e) {
+        catch (final JwtException e) {
             return redirectToErrorUrl(req,response,new AppException(AppException.CATEGORY.TOKEN_PARSE_FAILURE));
         }
         return true;

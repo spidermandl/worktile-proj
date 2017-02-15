@@ -8,7 +8,7 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="industry" jdbcType="INTEGER" property="industry" />
-    <result column="scale" jdbcType="INTEGER" property="scale" />
+    <result column="scale" jdbcType="VARCHAR" property="scale" />
     <result column="province" jdbcType="VARCHAR" property="province" />
     <result column="city" jdbcType="VARCHAR" property="city" />
     <result column="district" jdbcType="VARCHAR" property="district" />
@@ -150,7 +150,7 @@
       description)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{createrId,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{industry,jdbcType=INTEGER}, 
-      #{scale,jdbcType=INTEGER}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{scale,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
       #{district,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, #{publicity,jdbcType=INTEGER}, 
       #{defaultTag,jdbcType=VARCHAR}, #{defaultProjectId,jdbcType=INTEGER}, #{defaultTemplateId,jdbcType=INTEGER}, 
       #{pending1,jdbcType=VARCHAR}, #{pending2,jdbcType=VARCHAR}, #{pending3,jdbcType=VARCHAR}, 
@@ -237,7 +237,7 @@
         #{industry,jdbcType=INTEGER},
       </if>
       <if test="scale != null">
-        #{scale,jdbcType=INTEGER},
+        #{scale,jdbcType=VARCHAR},
       </if>
       <if test="province != null">
         #{province,jdbcType=VARCHAR},
@@ -305,7 +305,7 @@
         industry = #{record.industry,jdbcType=INTEGER},
       </if>
       <if test="record.scale != null">
-        scale = #{record.scale,jdbcType=INTEGER},
+        scale = #{record.scale,jdbcType=VARCHAR},
       </if>
       <if test="record.province != null">
         province = #{record.province,jdbcType=VARCHAR},
@@ -356,7 +356,7 @@
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       industry = #{record.industry,jdbcType=INTEGER},
-      scale = #{record.scale,jdbcType=INTEGER},
+      scale = #{record.scale,jdbcType=VARCHAR},
       province = #{record.province,jdbcType=VARCHAR},
       city = #{record.city,jdbcType=VARCHAR},
       district = #{record.district,jdbcType=VARCHAR},
@@ -381,7 +381,7 @@
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       industry = #{record.industry,jdbcType=INTEGER},
-      scale = #{record.scale,jdbcType=INTEGER},
+      scale = #{record.scale,jdbcType=VARCHAR},
       province = #{record.province,jdbcType=VARCHAR},
       city = #{record.city,jdbcType=VARCHAR},
       district = #{record.district,jdbcType=VARCHAR},
@@ -416,7 +416,7 @@
         industry = #{industry,jdbcType=INTEGER},
       </if>
       <if test="scale != null">
-        scale = #{scale,jdbcType=INTEGER},
+        scale = #{scale,jdbcType=VARCHAR},
       </if>
       <if test="province != null">
         province = #{province,jdbcType=VARCHAR},
@@ -464,7 +464,7 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       industry = #{industry,jdbcType=INTEGER},
-      scale = #{scale,jdbcType=INTEGER},
+      scale = #{scale,jdbcType=VARCHAR},
       province = #{province,jdbcType=VARCHAR},
       city = #{city,jdbcType=VARCHAR},
       district = #{district,jdbcType=VARCHAR},
@@ -486,7 +486,7 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       industry = #{industry,jdbcType=INTEGER},
-      scale = #{scale,jdbcType=INTEGER},
+      scale = #{scale,jdbcType=VARCHAR},
       province = #{province,jdbcType=VARCHAR},
       city = #{city,jdbcType=VARCHAR},
       district = #{district,jdbcType=VARCHAR},

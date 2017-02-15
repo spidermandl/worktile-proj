@@ -29,15 +29,15 @@ define(['app'], function (app) {
     });
 
 
-    app.service('TeamService', ["$uibModal", "globalDataContext","$translate", "ycTrack","config",
-        function(a, b, c,d,config) {
+    app.service('TeamService', ["$uibModal", "globalDataContext","$translate", "ycTrack","config",'api',
+        function(a, b, c,d,config,api) {
             this.showAdd = function() {
                 var e = a.open({
                     windowClass: "dialog-w680",
                     templateUrl: config.templateUrls.left_menu_dialog_team_create,
                     //"/app/js/service/team/dialog_team_create.html",
-                    controller: ["$scope", "$rootScope", "$location",'api',
-                    function(a, f, g, api) {
+                    controller: ["$scope", "$rootScope", "$location",
+                    function(a, f, g) {
                         function h() {
                             j.is_first_landing || (j.team_invite_email = [{
                                 email: ""
@@ -54,7 +54,7 @@ define(['app'], function (app) {
                                     j.team_scales[index].text = c.instant(value.text);
                                 })
                                 ,
-                            api.me_contacts(function(json) {
+                            api.me_contacts(function(json) {//获取联系人
                                     j.contact_members = json.data;
                                 })
                             // wt.data.account.get_contacts(function(a) {
@@ -97,6 +97,9 @@ define(['app'], function (app) {
                             e.close(),
                             i()
                         },
+                        /**
+                         *创建团队下一步按钮事件
+                         **/
                         j.js_next_step = function(a, b) {
                             if (! (j.step_index > j.step_max)) {
                                 switch (j.step_index) {
@@ -146,52 +149,112 @@ define(['app'], function (app) {
                         j.js_remove_email_textbox = function(a) {
                             j.team_invite_email.splice(a, 1)
                         },
+                        /**
+                         * 向服务器保存要创建的团队
+                         **/
                         j.js_team_add = function() {
                             j.saving = !0,
-                            j.contact_members.length > 0 && (_.each(j.contact_members,
-                            function(a) {
-                                a.selected === !0 && j.team_invite_email.push(a)
-                            }), j.team_invite_email = _.filter(j.team_invite_email,
-                            function(a) {
-                                return "" != a.email
-                            }));
-                            var a = null,
-                            e = {
-                                province: j.province && j.province.n || "",
-                                city: j.city && j.city.n || "",
-                                district: j.district && j.district.n || ""
-                            };
-                            wt.data.team.add(j.team_name, j.team_phone, j.team_is_support, j.team_desc, j.team_industry, j.team_scale, e,
-                            function(e) {
-                                if (d.track("create_team", "done", "创建团队弹窗"), a = e.data, 0 == j.team_invite_email.length && 0 == j.contact_members_selected.length) return a.member_count = 1,
-                                b.teams.push(a),
-                                void g.path("/teams/" + a.team_id);
-                                var f = j.team_invite_email.concat(j.contact_members_selected);
-                                wt.data.team.invite_member(a.team_id, f, "", [],
-                                function(b) {
-                                    d.track("team_invite", "done", "创建团队弹窗"),
-                                    a.member_count = 1 * b.data.length + 1
-                                },
-                                function() {
-                                    kzi.msg.error(c.instant("team_service.err_invite_member"))
-                                },
-                                function() {
-                                    b.teams.push(a),
-                                    g.path("/teams/" + a.team_id)
-                                })
-                            },
-                            function(a) {
-                                kzi.msg.error(c.instant("team_service.err_team_add"))
-                            },
-                            function() {
-                                j.saving = !1,
-                                j.js_close()
-                            })
+                            //获取选中的邀请人email
+                            j.contact_members.length > 0 && 
+                            (_.each(j.contact_members,
+                                    function(item) {
+                                        item.selected === !0 && j.team_invite_email.push(item)
+                                    }), 
+                            j.team_invite_email = _.filter(
+                                j.team_invite_email,
+                                function(item) {
+                                    return "" != item.email;
+                                }));
+                            var a = null;
+                            //发送创建team api
+                            api.create_team({
+                                        name: j.team_name, 
+                                        phone: j.team_phone,
+                                        is_support: j.team_is_support, 
+                                        desc: j.team_desc, 
+                                        industry: j.team_industry, 
+                                        scale: j.team_scale,
+                                        province: j.province && j.province.n || "",
+                                        city: j.city && j.city.n || "",
+                                        district: j.district && j.district.n || "",
+                                    },
+                                    function(e) {
+                                        if (d.track("create_team", "done", "创建团队弹窗"), 
+                                            a = e.data, 
+                                            0 == j.team_invite_email.length && 0 == j.contact_members_selected.length) 
+                                                return a.member_count = 1,
+                                        b.teams.push(a),
+                                        void g.path("/teams/" + a.team_id);
+                                        var f = j.team_invite_email.concat(j.contact_members_selected);
+                                        //发送邀请成员加入api
+                                        wt.data.team.invite_member(a.team_id, f, "", [],
+                                        function(b) {
+                                            d.track("team_invite", "done", "创建团队弹窗"),
+                                            a.member_count = 1 * b.data.length + 1
+                                        },
+                                        function() {
+                                            kzi.msg.error(c.instant("team_service.err_invite_member"))
+                                        },
+                                        function() {
+                                            b.teams.push(a),
+                                            g.path("/teams/" + a.team_id)
+                                        })
+                                    },
+                                    function(a) {
+                                        kzi.msg.error(c.instant("team_service.err_team_add"));
+                                    },
+                                    function() {
+                                        j.saving = !1,
+                                        j.js_close()
+                                    }
+                                );
+                            // wt.data.team.add(
+                            //     j.team_name, 
+                            //     j.team_phone, 
+                            //     j.team_is_support, 
+                            //     j.team_desc, 
+                            //     j.team_industry, 
+                            //     j.team_scale, 
+                            //     {
+                            //         province: j.province && j.province.n || "",
+                            //         city: j.city && j.city.n || "",
+                            //         district: j.district && j.district.n || ""
+                            //     },
+                            //     function(e) {
+                            //         if (d.track("create_team", "done", "创建团队弹窗"), 
+                            //             a = e.data, 
+                            //             0 == j.team_invite_email.length && 0 == j.contact_members_selected.length) 
+                            //                 return a.member_count = 1,
+                            //         b.teams.push(a),
+                            //         void g.path("/teams/" + a.team_id);
+                            //         var f = j.team_invite_email.concat(j.contact_members_selected);
+                            //         //发送邀请成员加入api
+                            //         wt.data.team.invite_member(a.team_id, f, "", [],
+                            //         function(b) {
+                            //             d.track("team_invite", "done", "创建团队弹窗"),
+                            //             a.member_count = 1 * b.data.length + 1
+                            //         },
+                            //         function() {
+                            //             kzi.msg.error(c.instant("team_service.err_invite_member"))
+                            //         },
+                            //         function() {
+                            //             b.teams.push(a),
+                            //             g.path("/teams/" + a.team_id)
+                            //         })
+                            //     },
+                            //     function(a) {
+                            //         kzi.msg.error(c.instant("team_service.err_team_add"));
+                            //     },
+                            //     function() {
+                            //         j.saving = !1,
+                            //         j.js_close()
+                            //     });
+
                         },
                         e.result.then(null,
-                        function() {
-                            i()
-                        })
+                            function() {
+                                i();
+                            })
                     }]
                 })
             },

@@ -4,15 +4,14 @@ import com.sjtu.worktile.model.TTeam;
 import com.sjtu.worktile.model.TUser;
 import com.sjtu.worktile.msg.TeamContactsMsg;
 import com.sjtu.worktile.msg.TeamListMsg;
+import com.sjtu.worktile.msg.TeamNewMsg;
 import com.sjtu.worktile.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -69,5 +68,39 @@ public class TeamController extends BaseController{
             msg.data.add(data);
         }
         return msg;
+    }
+
+    /**
+     * 创建team
+     * @param request
+     */
+    @RequestMapping(value = "create", method = RequestMethod.POST)
+    @ResponseBody
+    public TeamNewMsg.OutMsg create(final HttpServletRequest request,
+                                    @RequestParam("name") String name,
+                                    @RequestParam("phone") String phone,
+                                    @RequestParam("is_support") String is_support,
+                                    @RequestParam("desc") String desc,
+                                    @RequestParam("industry") int industry,
+                                    @RequestParam("scale") String scale,
+                                    @RequestParam("province") String province,
+                                    @RequestParam("city") String city,
+                                    @RequestParam("district") String district
+                                    ){
+        int uid = super.getUserID(request);
+        TTeam tTeam = new TTeam();
+        tTeam.setName(name);
+        tTeam.setDescription(desc);
+        tTeam.setCreaterId(uid);
+        tTeam.setCreateTime(new Date());
+        tTeam.setIndustry(industry);
+        tTeam.setScale(scale);
+        tTeam.setProvince(province);
+        tTeam.setCity(city);
+        tTeam.setDistrict(district);
+
+        teamService.createTeam(tTeam);
+
+        return new TeamNewMsg.OutMsg();
     }
 }

@@ -80,4 +80,12 @@ public class TeamService {
         }
         return tUserMapper.selectByExample(uQuery);
     }
+
+    /**
+     * 创建team
+     * @param team
+     */
+    public void createTeam(TTeam team){
+        tTeamMapper.insert(team);
+    }
 }

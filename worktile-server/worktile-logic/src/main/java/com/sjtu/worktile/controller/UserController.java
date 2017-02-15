@@ -79,4 +79,13 @@ public class UserController {
         return out;
     }
 
+    /**
+     * 获取登录验证码
+     * @param request
+     */
+    @RequestMapping(value = "login/code",method = RequestMethod.GET)
+    public void getCode(final HttpServletRequest request){
+
+    }
+
 }

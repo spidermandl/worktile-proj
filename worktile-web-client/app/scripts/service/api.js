@@ -44,9 +44,49 @@ define(['app'], function (app) {
                     );
 				},
 				/************************************************************************
+				 *post 父类方法
+				 ************************************************************************/
+				http_post_template : function(link,body,success,failure,promise){
+					var token = localStorageService.get('token');
+					if (token == null) {
+						return;
+					}
+					$http.defaults.headers.post['Content-Type'] = 
+                  		//'application/json;charset=utf-8';
+                  		'application/x-www-form-urlencoded;charset=utf-8';
+              		$http.defaults.headers.post['Authorization'] =
+              			"Bearer "+token;
+                    return $http.post(
+			                link,
+			                //body
+			                util.transformPostRequest(body)
+		                )
+                        .then(function(response) {
+                            return response.data;
+                        })
+		            	.then(
+		            		function(data) {
+                            	if (success != null) {//回调函数
+                            		success(data);
+                            	}
+                            	if (promise !=null) {
+                            		promise();
+                            	}
+                            },
+                            function(error){
+                            	if (failure != null) {//回调函数
+                            		failure(error);
+                            	}
+                            	if (promise !=null) {
+                            		promise();
+                            	}
+                            }
+                        );
+				},
+				/************************************************************************
 				 *用户登录
 				 ************************************************************************/
-				signin : function(input,success,failure){
+				signin : function(input,success,failure,promise){
 					$http.defaults.headers.post['Content-Type'] = 
                   		'application/x-www-form-urlencoded;charset=utf-8';
 
@@ -58,18 +98,18 @@ define(['app'], function (app) {
 		                    phone: input.phone,
 		                })
 		                )
-					// return $http({
-			  //           	method: 'POST',
-			  //               url : 'http://localhost:8080/user/login',
-			  //               data: util.transformPostRequest({
-					//                     username: input.name,
-					//                     password: input.password,
-					//                     phone: input.phone,
-					//                 }),
-			  //               headers: {
-					// 			'Content-Type' :"application/json;charset=utf-8",
-			  //               },
-		   //          	})
+						// return $http({
+						//         method: 'POST',
+						//         url : 'http://localhost:8080/user/login',
+						//         data: util.transformPostRequest({
+						//                     username: input.name,
+						//                     password: input.password,
+						//                     phone: input.phone,
+						//                 }),
+						//         headers: {
+						// 				'Content-Type' :"application/json;charset=utf-8",
+						//         },
+						//      })
                         .then(function(response) {
                             return response.data;
                         })
@@ -78,13 +118,27 @@ define(['app'], function (app) {
                             	if (success != null) {//回调函数
                             		success(data);
                             	}
+                            	if (promise !=null) {
+                            		promise();
+                            	}
                             },
                             function(error){
                             	if (failure != null) {//回调函数
                             		failure(error);
                             	}
+                            	if (promise !=null) {
+                            		promise();
+                            	}
                             }
                         );
+				},
+				/************************************************************************
+				* 获取登录验证码
+				*************************************************************************/
+				getcode : function(success,failure){
+					this.http_get_template(
+						'http://localhost:8080/user/login/code',
+						success,failure);
 				},
 				/************************************************************************
 				* 获取用户信息api
@@ -110,8 +164,15 @@ define(['app'], function (app) {
 						'http://localhost:8080/api/team/contacts',
 						success,failure);
 				},
-
-
+				/**************************************************************************
+				**创建team api
+				**************************************************************************/
+				create_team : function(body,success,failure,promise){
+					this.http_post_template(
+						'http://localhost:8080/api/team/create',
+						body,success,failure,promise
+						);
+				}
 
 
 

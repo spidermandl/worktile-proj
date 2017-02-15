@@ -80,54 +80,260 @@
 		};
 	}])
 	//登录界面
-	.controller('LoginCtrl', ['$scope','config','$controller','IdentityService','$state','localStorageService',
-		function ($scope,config, $controller,service,$state,localStorageService) {
-			$controller('BaseCtrl', {$scope: $scope});
-			$scope.action_type = 0;
-			//状态对象
-			$scope.status = {};
-			$scope.status.code = 0;
-			$scope.iscode = false;//登录输入图片验证码
-			//输入信息
-			$scope.signin_user = {
-				name : null,
-				password : null,
-				imgsrc : null,//验证码图片src
-				code : null,
-				is_login_ing : null,
-				factor : null,
-				is_signfactoing : null,
-				recovery_code : null,
-				is_signrecoverying : null,
+	.controller('LoginCtrl', ['$scope','config','$controller','IdentityService','$state','localStorageService','api','$location',
+		function ($scope,config, $controller,service,$state,localStorageService,api,location) {
+			//$controller('BaseCtrl', {$scope: $scope});
+			$scope.vm = {
+				weixin_login: !1,
+				weixin_login_obj: null,
+				weixin_unionid: "",
+				//check_platform: kzi.helper.check_platform()
 			};
+			// a.global.title = e.instant("outer_user.title_login");
+			// var g = kzi.helper.get_query("name"),
+			// 	i = kzi.helper.get_query("return_url");
+			$scope.status = {
+				message: "",
+				code: 0
+			}, 
+			$scope.signin_user = {}, 
+			$scope.is_login_ing = !1,
+			//i && "" !== i ? $scope.return_path = decodeURIComponent(i) : null !== a.global.return_path && (b.return_path = a.global.return_path, a.global.return_path = null), a.global.is_login && h(f.check_platform, b.return_path), g && (b.login_name = g), 
+			//获取验证码
+			$scope.getcode = function() {
+				api.getcode(function(data) {
+						$scope.signin_user.imgsrc = data.image, 
+						$scope.signin_user.image_md5 = data.image_md5
+					}, function(data) {}, function(data) {});
+			}, 
+			$scope.iscode = !1, 
+			$scope.signin = function(d) {
+				$scope.signin_user.is_login_ing = !0, 
+				$scope.status = {
+					message: "",
+					code: 0
+				}, 
+				api.signin($scope.signin_user, 
+							function(data) {
+								$scope.iscode = !1;
+								// data.session.twofactor_enabled ? $scope.status.code = 1 : 
+								// 		f.weixin_unionid ? c.location.href = "/login_weixin_success?unionid=" + f.weixin_unionid : h(f.check_platform, i)
 
-			//登录请求
-			$scope.signin = function(){
-				//service.signin(login_form.login_name,login_form.login_password);
-				service.signin(this.signin_user,
-					function(data) {
-	                    if (data.token !=null) {
-                			localStorageService.set('token',data.token);
-		                    $state.go("dashboard");
-		                    return;
-	                    }
-	                    //错误处理
-	                    console.log(data);
-	                    var errors = config.errors.user_error;
-	                    if (data.error_code == errors.not_found.code) {
-	                    	console.log(errors.not_found.msg);
-	                    }else if(data.error_code == errors.invalid_userinfo.code){
-	                    	console.log(errors.invalid_userinfo.msg);
-	                    }else if(data.error_code == errors.signin_limit.code){
-	                    	console.log(errors.signin_limit.msg);
-	                    }
-	                },
-	                function(error){
-	                    $scope.signin_user.username = '';
-	                    $scope.signin_user.password = '';
-	                }
-				);
+			                    if (data.token !=null) {
+		                			localStorageService.set('token',data.token);
+				                    $state.go("dashboard");
+				                    return;
+			                    }
+			                    //错误处理
+			                    console.log(data);
+			                    var errors = config.errors.user_error;
+			                    if (data.error_code == errors.not_found.code) {
+			                    	console.log(errors.not_found.msg);
+			                    }else if(data.error_code == errors.invalid_userinfo.code){
+			                    	console.log(errors.invalid_userinfo.msg);
+			                    }else if(data.error_code == errors.signin_limit.code){
+									
+									$scope.iscode = !0;
+									$scope.getcode(); 
+									var c = _.find(kzi.statuses.user_error, {
+										code: data.code
+									});
+									c ? d.$errors.unshift(c.msg) : d.$errors.unshift(e.instant("outer_user.fail_login_try_again"))
+			                    }
+							
+							}, 
+							function(data) {
+			                    $scope.signin_user.username = '';
+                    			$scope.signin_user.password = '';
+							}, 
+							function() {
+								$scope.signin_user.is_login_ing = !1;
+							}), 
+				$scope.js_signin_twofactor = function(a) {
+					$scope.signin_user.is_signfactoing = !0, 
+					wt.data.user.signin_twofactor(
+						$scope.signin_user.factor, 
+						$scope.signin_user.name, 
+						$scope.signin_user.password, 
+						function(a) {
+							h(f.check_platform, i)
+						}, 
+						function() {
+							a.$errors.unshift(e.instant("outer_user.err_twofactor_code"));
+						}, 
+						function() {
+							$scope.signin_user.is_signfactoing = !1;
+						})
+				}, 
+				$scope.js_signin_recovery = function(a) {
+					$scope.signin_user.is_signrecoverying = !0, 
+					wt.data.user.signin_recovery(
+						$scope.signin_user.recovery_code, 
+						$scope.signin_user.name, 
+						$scope.signin_user.password, 
+						function(a) {
+							f.weixin_unionid ? c.location.href = "/login_weixin_success?unionid=" + f.weixin_unionid : h(f.check_platform, i);
+						}, 
+						function() {
+							a.$errors.unshift(e.instant("outer_user.err_recovery_code"))
+						}, 
+						function() {
+							$scope.signin_user.is_signrecoverying = !1;
+						})
+				}
+			}, 
+			$scope.vm.js_change_login_mode = function(mode) {
+				function get_wechat_page() {
+					null == $scope.vm.weixin_login_obj && 
+					($scope.vm.weixin_login_obj = new WxLogin({
+						id: "weixin_qr_code",
+						appid: "wxeb56c6262610fd9d",
+						scope: "snsapi_login",
+						redirect_uri: encodeURIComponent(location.origin + "/weixin/auth"),
+						state: $scope.return_path,
+						style: "",
+						href: ""
+					}))
+				}
+				switch(mode || "default") {
+					case "default":
+						$scope.vm.weixin_login = !1;
+						break;
+					case "weixin":
+						$scope.vm.weixin_login = !0, get_wechat_page();
+						break;
+					case "binding":
+						$scope.vm.status.code = 0;
+				}
 			};
+			var j = document.createElement("script");
+			j.src = "https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js", $("body").append(j)
+
+
+
+
+
+			// $scope.action_type = 0;
+			// //状态对象
+			// $scope.status = {};
+			// $scope.status.code = 0;
+			// $scope.iscode = false;//登录输入图片验证码
+			// //输入信息
+			// $scope.signin_user = {
+			// 	name : null,
+			// 	password : null,
+			// 	imgsrc : null,//验证码图片src
+			// 	code : null,
+			// 	is_login_ing : null,
+			// 	factor : null,
+			// 	is_signfactoing : null,
+			// 	recovery_code : null,
+			// 	is_signrecoverying : null,
+			// };
+
+			// //登录请求
+			// $scope.signin = function(){
+			// 	//service.signin(login_form.login_name,login_form.login_password);
+			// 	service.signin(this.signin_user,
+			// 		function(data) {
+	  //                   if (data.token !=null) {
+   //              			localStorageService.set('token',data.token);
+		 //                    $state.go("dashboard");
+		 //                    return;
+	  //                   }
+	  //                   //错误处理
+	  //                   console.log(data);
+	  //                   var errors = config.errors.user_error;
+	  //                   if (data.error_code == errors.not_found.code) {
+	  //                   	console.log(errors.not_found.msg);
+	  //                   }else if(data.error_code == errors.invalid_userinfo.code){
+	  //                   	console.log(errors.invalid_userinfo.msg);
+	  //                   }else if(data.error_code == errors.signin_limit.code){
+	  //                   	console.log(errors.signin_limit.msg);
+	  //                   }
+	  //               },
+	  //               function(error){
+	  //                   $scope.signin_user.username = '';
+	  //                   $scope.signin_user.password = '';
+	  //               }
+			// 	);
+			// };
+
+
+
+			//["$rootScope", "$scope", "$window", "$location", "$translate"]
+			// var f = b.vm = {
+			// 	weixin_login: !1,
+			// 	weixin_login_obj: null,
+			// 	weixin_unionid: "",
+			// 	check_platform: kzi.helper.check_platform()
+			// };
+			// a.global.title = e.instant("outer_user.title_login");
+			// var g = kzi.helper.get_query("name"),
+			// 	i = kzi.helper.get_query("return_url");
+			// b.status = {
+			// 	message: "",
+			// 	code: 0
+			// }, b.signin_user = {}, b.is_login_ing = !1, i && "" !== i ? b.return_path = decodeURIComponent(i) : null !== a.global.return_path && (b.return_path = a.global.return_path, a.global.return_path = null), a.global.is_login && h(f.check_platform, b.return_path), g && (b.login_name = g), b.getcode = function() {
+			// 	a.getcode(function(a) {
+			// 		b.signin_user.imgsrc = a.image, b.signin_user.image_md5 = a.image_md5
+			// 	}, function(a) {}, function(a) {})
+			// }, b.iscode = !1, b.signin = function(d) {
+			// 	b.signin_user.is_login_ing = !0, b.status = {
+			// 		message: "",
+			// 		code: 0
+			// 	}, a.login(b.signin_user.name, b.signin_user.password, b.signin_user.code, b.signin_user.image_md5, null, function(a) {
+			// 		b.iscode = !1, a.data.session.twofactor_enabled ? b.status.code = 1 : f.weixin_unionid ? c.location.href = "/login_weixin_success?unionid=" + f.weixin_unionid : h(f.check_platform, i)
+			// 	}, function(a) {
+			// 		var c;
+			// 		a && (2034 === a.code && (b.iscode = !0, b.getcode()), c = _.find(kzi.statuses.user_error, {
+			// 			code: a.code
+			// 		})), c ? d.$errors.unshift(c.msg) : d.$errors.unshift(e.instant("outer_user.fail_login_try_again"))
+			// 	}, function() {
+			// 		b.signin_user.is_login_ing = !1
+			// 	}), b.js_signin_twofactor = function(a) {
+			// 		b.signin_user.is_signfactoing = !0, wt.data.user.signin_twofactor(b.signin_user.factor, b.signin_user.name, b.signin_user.password, function(a) {
+			// 			h(f.check_platform, i)
+			// 		}, function() {
+			// 			a.$errors.unshift(e.instant("outer_user.err_twofactor_code"))
+			// 		}, function() {
+			// 			b.signin_user.is_signfactoing = !1
+			// 		})
+			// 	}, b.js_signin_recovery = function(a) {
+			// 		b.signin_user.is_signrecoverying = !0, wt.data.user.signin_recovery(b.signin_user.recovery_code, b.signin_user.name, b.signin_user.password, function(a) {
+			// 			f.weixin_unionid ? c.location.href = "/login_weixin_success?unionid=" + f.weixin_unionid : h(f.check_platform, i);
+			// 		}, function() {
+			// 			a.$errors.unshift(e.instant("outer_user.err_recovery_code"))
+			// 		}, function() {
+			// 			b.signin_user.is_signrecoverying = !1
+			// 		})
+			// 	}
+			// }, f.js_change_login_mode = function(a) {
+			// 	function c() {
+			// 		null == f.weixin_login_obj && (f.weixin_login_obj = new WxLogin({
+			// 			id: "weixin_qr_code",
+			// 			appid: "wxeb56c6262610fd9d",
+			// 			scope: "snsapi_login",
+			// 			redirect_uri: encodeURIComponent(location.origin + "/weixin/auth"),
+			// 			state: b.return_path,
+			// 			style: "",
+			// 			href: ""
+			// 		}))
+			// 	}
+			// 	var d = a || "default";
+			// 	switch(d) {
+			// 		case "default":
+			// 			f.weixin_login = !1;
+			// 			break;
+			// 		case "weixin":
+			// 			f.weixin_login = !0, c();
+			// 			break;
+			// 		case "binding":
+			// 			b.status.code = 0
+			// 	}
+			// };
+			// var j = document.createElement("script");
+			// j.src = "https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js", $("body").append(j)
 	}])
 	//注册界面
 	.controller('RegisterCtrl', ['$scope', '$controller','config',

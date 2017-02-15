@@ -33,6 +33,7 @@
 			left_nemu : 'directive/left_menu',
             left_menu_project : 'directive/left_menu_project',
             left_menu_avatar : 'directive/left_menu_avatar',
+            toolkit : 'directive/toolkit',
             //filter
             //translate : 'filter/translate',
             filters : 'filter/filters',
@@ -47,7 +48,7 @@
                 deps: ['configuration','util'],
             },
             global:{
-                deps:['api'],
+                deps: ['api','toolkit'],
             },
             identity: {
                 deps: ['account'],

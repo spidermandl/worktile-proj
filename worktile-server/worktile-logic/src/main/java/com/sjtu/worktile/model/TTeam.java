@@ -15,7 +15,7 @@ public class TTeam {
 
     private Integer industry;
 
-    private Integer scale;
+    private String scale;
 
     private String province;
 
@@ -89,12 +89,12 @@ public class TTeam {
         this.industry = industry;
     }
 
-    public Integer getScale() {
+    public String getScale() {
         return scale;
     }
 
-    public void setScale(Integer scale) {
-        this.scale = scale;
+    public void setScale(String scale) {
+        this.scale = scale == null ? null : scale.trim();
     }
 
     public String getProvince() {
