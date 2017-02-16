@@ -28,6 +28,7 @@
 			left_menu_avatar: 'views/work/toolbar/avatar.html',
 			left_menu_avatar_setting: '/views/work/toolbar/pop_avatar_self.html',
 			left_menu_dialog_team_create: '/views/work/toolbar/dialog_team_create.html',
+			team_logo: '/views/work/toolbar/team/team_logo.html',
 			'dashboard.default': 'views/work/dashboard/dashboard_task.html',
 			calendar_event_create: 'views/work/dashboard/dialog_event_create.html',//创建日历event
 			about: 'views/about.html',
@@ -89,7 +90,7 @@
 		        value: 7,
 		        text: "CONS.scale.500+"
 		    }],
-		    
+
 		//输入验证错误提示信息
 		VALIDATE_ERROR : {
 			login_name : {

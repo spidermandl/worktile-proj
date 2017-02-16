@@ -43,8 +43,9 @@ public class TeamController extends BaseController{
             t.team_id = team.getId();
             t.name = team.getName();
             t.count = teamService.getTeamCount(team.getId());
-            t.publicity = team.getPublicity();
+            t.visibility = team.getPublicity();
             t.logo = team.getLogo();
+            outMsg.data.teams.add(t);
         }
         return outMsg;
     }
@@ -98,6 +99,7 @@ public class TeamController extends BaseController{
         tTeam.setProvince(province);
         tTeam.setCity(city);
         tTeam.setDistrict(district);
+        tTeam.setPublicity(1);
 
         teamService.createTeam(tTeam);
 

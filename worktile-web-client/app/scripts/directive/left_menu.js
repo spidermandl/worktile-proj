@@ -8,8 +8,8 @@
 define(['app'], function (app) {
 	'use strict';
 
-	app.directive('wtLeftmenu', ['$rootScope','$state','$popbox','config',
-		function($rootScope,$state,$popbox,config) {
+	app.directive('wtLeftmenu', ['$rootScope','$state','$popbox','config','globalDataContext',
+		function($rootScope,$state,$popbox,config,globalDataContext) {
 	    return {
 	      	restrict: 'E',
 	      	templateUrl: config.templateUrls.left_menu,
@@ -74,14 +74,14 @@ define(['app'], function (app) {
 	                        target: event,
 	                        templateUrl: config.templateUrls.left_menu_avatar_setting,
 	                        controller: ["$scope", "popbox", //"feedbackService", "$uibModal",
-	                        function(a, b, c, d) {
-	                            a.popbox = b;
-	                            var e = a.vm = {};
-	                            e.js_show_feedback = function() {
+	                        function(scope, popbox, c, d) {
+	                            scope.popbox = popbox;
+	                            scope.vm = {};
+	                            scope.vm.js_show_feedback = function() {
 	                                c.show(),
-	                                b.close()
+	                                popbox.close()
 	                            },
-	                            e.js_pop_mobild_download = function() {
+	                            scope.vm.js_pop_mobild_download = function() {
 	                                var a = d.open({
 	                                    windowClass: "dialog-w530",
 	                                    templateUrl: "/ycjs/directive/leftmenu/dialog_mobile_download.html",
@@ -93,9 +93,9 @@ define(['app'], function (app) {
 	                                        };
 	                                    }]
 	                                });
-	                                b.close();
+	                                popbox.close();
 	                            },
-	                            e.js_pop_watch_wechat = function() {
+	                            scope.vm.js_pop_watch_wechat = function() {
 	                                var a = d.open({
 	                                    windowClass: "dialog-w530",
 	                                    templateUrl: "/ycjs/directive/leftmenu/dialog_watch_wechat.html",
@@ -107,9 +107,9 @@ define(['app'], function (app) {
 	                                        };
 	                                    }]
 	                                });
-	                                b.close();
+	                                popbox.close();
 	                            },
-	                            e.js_pop_solutions = function() {
+	                            scope.vm.js_pop_solutions = function() {
 	                                var a = d.open({
 	                                    windowClass: "dialog-w530",
 	                                    templateUrl: "/ycjs/directive/leftmenu/dialog_solutions.html",
@@ -121,10 +121,10 @@ define(['app'], function (app) {
 	                                        };
 	                                    }]
 	                                });
-	                                b.close();
+	                                popbox.close();
 	                            },
-	                            e.js_close = function() {
-	                                b.close();
+	                            scope.vm.js_close = function() {
+	                                popbox.close();
 	                            }
 	                        }],
 	                        onCloseComplete: function() {
@@ -143,23 +143,27 @@ define(['app'], function (app) {
 						    controller: ["$scope", "popbox", 
 						    			"TeamService", "$uibModal", 
 						    			// "$window", "$translate", "$interval",
-							    function(b, c, d, f){//}, g, h, i) {
+							    function($scope, c, d, f){//}, g, h, i) {
 							        function j() {
-							            // k.teams = jQuery.filter(jQuery.clone(e.teams),
-							            // function(a) {
-							            //     return "-1" !== a.team_id
-							            // })
+							            $scope.vm.teams = _.filter(
+							            	_.clone(globalDataContext.teams),
+								            function(a) {
+								                return "-1" !== a.team_id;
+								            }
+								        );
+								        console.log($scope.vm.teams);
 							        }
-							        b.popbox = c;
-							        var k = b.vm = {
+
+							        $scope.popbox = c;
+							        $scope.vm = {
 							            teams: []
 							        };
 							        j(),
-							        k.js_show_add_team = function() {
+							        $scope.vm.js_show_add_team = function() {
 							            d.showAdd(),
 							            c.close()
 							        },
-							        k.js_pop_create_pro = function() {
+							        $scope.vm.js_pop_create_pro = function() {
 							            var b = f.open({
 							                windowClass: "dialog-w680",
 							                templateUrl: "/ycjs/directive/leftmenu/dialog_upgrade_pro.html",
@@ -264,9 +268,9 @@ define(['app'], function (app) {
 							                    }
 							                }]
 							            });
-							            c.close()
+							            c.close();
 							        },
-							        k.js_close = function() {
+							        $scope.vm.js_close = function() {
 							            c.close();
 							        }
 							    }],
