@@ -49,69 +49,59 @@
                 url: '/home',
                 views:{
                     'proxy':{
-                        //template: '',
-                        template: "<ui-view></ui-view>",
-                        // templateUrl: function($rootScope) {
-                        //     if ($rootScope.frame == 'guest'){
-                        //         return 'views/work/base_login.html';
-                        //     }
-                        //     if ($rootScope.frame = 'work') {
-                        //         return 'views/work/base_work.html';
-                        //     }
-                        //     return '';
-                        // },
+                        template: '',
                         controller: 
                             function($rootScope,$state,$http,localStorageService) {
                                 console.log('----------------home');
-                                // if($rootScope.isLogin() == true){
-                                //     $state.go("dashboard");
-                                // }else{
-                                //     $state.go("signin");
-                                // }
-                                //返回未登录前的页面
-                                var goOuterPage = function(){
-                                    localStorageService.set('token',null);
+                                if($rootScope.isLogin()){
+                                    $state.go("dashboard");
+                                }else{
                                     $state.go("signin");
-                                };
-                                
-                                var token = localStorageService.get('token');
-                                if( token == null){//没有授权token
-                                    goOuterPage();
-                                    return;
                                 }
-                                //$http.defaults.headers.common['authorization']= "Bearer "+token;
-                                $http({
-                                        method: 'GET', 
-                                        url: 'http://localhost:8080/api/me/profile',
-                                        //withCredentials: true, 
-                                        headers: {
-                                            'Authorization': "Bearer "+token, 
-                                            'Content-Type' :"application/json;charset=utf-8",
-                                        },  
-                                    })
-                                    .then(function(response) {
-                                        return response.data;
-                                    })
-                                    .then(
-                                        function(data) {
-                                            if (data.error_code !=null) {
-                                                goOuterPage();
-                                                return;
-                                            }
-                                            $state.go("dashboard");
-                                        },
-                                        function(error){
-                                            goOuterPage();
-                                        }
-                                    );
+                                //返回未登录前的页面
+                                // var goOuterPage = function(){
+                                //     localStorageService.set('token',null);
+                                //     $state.go("signin");
+                                // };
+                                
+                                // var token = localStorageService.get('token');
+                                // if( token == null){//没有授权token
+                                //     goOuterPage();
+                                //     return;
+                                // }
+                                // //$http.defaults.headers.common['authorization']= "Bearer "+token;
+                                // $http({
+                                //         method: 'GET', 
+                                //         url: 'http://localhost:8080/api/me/profile',
+                                //         //withCredentials: true, 
+                                //         headers: {
+                                //             'Authorization': "Bearer "+token, 
+                                //             'Content-Type' :"application/json;charset=utf-8",
+                                //         },  
+                                //     })
+                                //     .then(function(response) {
+                                //         return response.data;
+                                //     })
+                                //     .then(
+                                //         function(data) {
+                                //             if (data.error_code !=null) {
+                                //                 goOuterPage();
+                                //                 return;
+                                //             }
+                                //             $state.go("dashboard");
+                                //         },
+                                //         function(error){
+                                //             goOuterPage();
+                                //         }
+                                //     );
                             },
-                            // resolve: {
-                            //     global: ["globalDataContext",
-                            //     function(context) {
-                            //         console.log('first');
-                            //         return context.loadAll();
-                            //     }]
-                            // },
+                            resolve: {
+                                global: ["globalDataContext",
+                                function(context) {
+                                    console.log('proxy load');
+                                    return context.loadAll();
+                                }]
+                            },
                             
                             
                         //css: ['css/base_outer.css','css/base_inner.css'],

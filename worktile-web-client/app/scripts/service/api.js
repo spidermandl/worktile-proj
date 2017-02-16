@@ -8,16 +8,19 @@
 define(['app'], function (app) {
  	'use strict';
 
-	app.service('api', ['$http','localStorageService','util',
-		function ($http,localStorageService,util) {
+	app.service('api', ['$http','localStorageService','util','$q',
+		function ($http,localStorageService,util,$q) {
 			return {
 				/************************************************************************
 				 *get 父类方法
 				 ************************************************************************/
-				http_get_template : function(link,success,failure){
+				http_get_template : function(link,success,failure,promise){
+					var deferred = $q.defer();
 					var token = localStorageService.get('token');
 					if (token == null) {
-						return;
+						deferred.resolve(null);
+						return deferred.promise;
+						//return;
 					}
                     $http({
                         method: 'GET', 
@@ -32,18 +35,30 @@ define(['app'], function (app) {
                     })
                     .then(
                         function(data) {
-                    		if(_.isNumber(data.error_code)){
-                    			failure(data);
-                    		}else{
+                        	if (promise !=null) {
+                        		promise();
+                        	}
+                    		if (_.isNumber(data.error_code) == false && success!= null) {
                     			success(data);
+                    			deferred.resolve(data);
+                    			return;
                     		}
+                    		if (failure != null) 
+                    			failure(data);
+                    		deferred.resolve(data);
                         },
                         function(error){
+                        	deferred.resolve(error);
+                        	if (promise !=null) {
+                        		promise();
+                        	}
                         	if (failure != null) {//回调函数
                         		failure(error);
                         	}
                         }
                     );
+
+                    return deferred.promise;
 				},
 				/************************************************************************
 				 *post 父类方法
@@ -142,7 +157,7 @@ define(['app'], function (app) {
 				* 获取登录验证码
 				*************************************************************************/
 				getcode : function(success,failure){
-					this.http_get_template(
+					return this.http_get_template(
 						'http://localhost:8080/user/login/code',
 						success,failure);
 				},
@@ -150,7 +165,7 @@ define(['app'], function (app) {
 				* 获取用户信息api
 				*************************************************************************/
 				me_profile : function(success,failure){
-					this.http_get_template(
+					return this.http_get_template(
 						'http://localhost:8080/api/me/profile',
 						success,failure);
 				},
@@ -158,7 +173,7 @@ define(['app'], function (app) {
 				**登出api
 				**************************************************************************/
 				me_logout : function(success,failure){
-					this.http_get_template(
+					return this.http_get_template(
 						'http://localhost:8080/user/logout',
 						success,failure);
 				},
@@ -166,7 +181,7 @@ define(['app'], function (app) {
 				**获取联系人(所有team中成员)api
 				**************************************************************************/
 				me_contacts : function(success,failure){
-					this.http_get_template(
+					return this.http_get_template(
 						'http://localhost:8080/api/team/contacts',
 						success,failure);
 				},
@@ -174,13 +189,11 @@ define(['app'], function (app) {
 				**创建team api
 				**************************************************************************/
 				create_team : function(body,success,failure,promise){
-					this.http_post_template(
+					return this.http_post_template(
 						'http://localhost:8080/api/team/create',
 						body,success,failure,promise
 						);
 				}
-
-
 
 			}
 		}

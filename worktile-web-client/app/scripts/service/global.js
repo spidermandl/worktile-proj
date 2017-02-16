@@ -124,8 +124,7 @@ define(['app'], function (app) {
 							});
 							c && (c.visibility = b)
 						}
-					}
-					
+					},
 			};
 
 			return {
@@ -136,18 +135,26 @@ define(['app'], function (app) {
 					/**
 					* 加载个人信息
 					*/
-					if ($rootScope.isLogin() == false) {
-						api.me_profile(
-							function(data){
-								context.me = data.data;
-							},
-							function(error){
-								context.me = null;
-							}
-						);
-					}
 
-					return context;
+					if ($rootScope.isLogin()) {
+						return context;
+					}
+					
+					return $q.all([api.me_profile()]).
+								then(
+									function(array){
+										context.me =array[0].data;
+										return context;
+									},
+									function(array){
+										// _.map(array[0].data,
+										// 	function(error){
+										// 		context.me = null;
+										// 	});
+										return context;
+									}
+								);
+
 
 		            // if (!_.isEmpty(i.projects)) {
 		            //     var c = a.defer();
