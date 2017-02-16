@@ -7,9 +7,8 @@
  */
  define(['app'], function (app) {
  	'use strict';
-	//angular.module('jtWorkApp')
-	console.log("identity相关");
-  //父类
+
+  	//父类
 	app.controller('BaseCtrl', ['$scope','config','$translate',function ($scope,config,$translate) {
 		$scope.action_type = 0;
 
@@ -80,8 +79,8 @@
 		};
 	}])
 	//登录界面
-	.controller('LoginCtrl', ['$scope','config','$controller','IdentityService','$state','localStorageService','api','$location',
-		function ($scope,config, $controller,service,$state,localStorageService,api,location) {
+	.controller('LoginCtrl', ['$scope','config','$controller','IdentityService','$state','localStorageService','api','$location','globalDataContext',
+		function ($scope,config, $controller,service,$state,localStorageService,api,location,globalDataContext) {
 			//$controller('BaseCtrl', {$scope: $scope});
 			$scope.vm = {
 				weixin_login: !1,
@@ -119,13 +118,14 @@
 								// data.session.twofactor_enabled ? $scope.status.code = 1 : 
 								// 		f.weixin_unionid ? c.location.href = "/login_weixin_success?unionid=" + f.weixin_unionid : h(f.check_platform, i)
 
-			                    if (data.token !=null) {
-		                			localStorageService.set('token',data.token);
-				                    $state.go("dashboard");
-				                    return;
-			                    }
-			                    //错误处理
-			                    console.log(data);
+	                			localStorageService.set('token',data.token);
+	                			globalDataContext.load_profile();
+							}, 
+							function(data) {
+			                    $scope.signin_user.username = '';
+                    			$scope.signin_user.password = '';
+
+                    			//错误处理
 			                    var errors = config.errors.user_error;
 			                    if (data.error_code == errors.not_found.code) {
 			                    	console.log(errors.not_found.msg);
@@ -140,11 +140,6 @@
 									});
 									c ? d.$errors.unshift(c.msg) : d.$errors.unshift(e.instant("outer_user.fail_login_try_again"))
 			                    }
-							
-							}, 
-							function(data) {
-			                    $scope.signin_user.username = '';
-                    			$scope.signin_user.password = '';
 							}, 
 							function() {
 								$scope.signin_user.is_login_ing = !1;

@@ -7,7 +7,7 @@
  */
 define(['app'], function (app) {
 	'use strict';
-	console.log("dashboard相关");
+
 	//父类
 	app.controller('WorkCtrl', ['$scope','$rootScope','config',function ($scope,$rootScope,config) {
 		//全局访问变量
@@ -45,7 +45,7 @@ define(['app'], function (app) {
                 labels: []
             }
         };
-		//console.log($rootScope.$root);//
+		//console.log($rootScope.$root);
 		//$rootScope.global['loading_done'] = true;
         vm.loaded = true;
         vm.toggle_task = function(b, c, d) {
@@ -238,7 +238,7 @@ define(['app'], function (app) {
             // m()
         };
 
-        
+
 
 	}])
 	.controller('DashboardCalendarCtrl', ['$scope','$rootScope','$uibModal','config',

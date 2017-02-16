@@ -73,6 +73,7 @@ public class UserController {
             e.printStackTrace();
             ErrorMsg.OutMsg error = new ErrorMsg.OutMsg();
             error.error_code = e.getErrorCode();
+
             return error;
         }
 

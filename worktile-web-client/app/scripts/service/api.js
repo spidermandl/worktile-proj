@@ -193,6 +193,15 @@ define(['app'], function (app) {
 						'http://localhost:8080/api/team/create',
 						body,success,failure,promise
 						);
+				},
+				/**************************************************************************
+				**获取用户所属team list api
+				**************************************************************************/
+				team_list : function(success,failure,promise){
+					return this.http_get_template(
+							'http://localhost:8080/api/team/list',
+							success,failure,promise
+						);
 				}
 
 			}

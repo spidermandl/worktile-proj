@@ -21,11 +21,6 @@ public class RegisterMsg extends PairMsg {
     public static class OutMsg implements ResponseMsg{
         public int code = MSG_CODE;
         public Data data = new Data() {
-            public String uid = null;//用户id
-            public String account = null;//用户名
-            public String nickname = null;//用户昵称
-            public String group_id = null;//用户角色
-            public int last_login_time =0;//最近登录时间
         };
 
     }

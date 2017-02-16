@@ -17,6 +17,7 @@ define(['app'], function (app) {
 				api.me_logout(
 					function(data){
 						localStorageService.set('token',null);
+						$rootScope.bind =false;
 						//$rootScope.global = null;
 						$state.go('home');
 					},
@@ -25,14 +26,19 @@ define(['app'], function (app) {
 				);
 			};
 			/**
+			 * 用户是否登录flag
+			 */
+			$rootScope.bind = false;
+			/**
 			 * 用户是否登录
 			 */
 			$rootScope.isLogin = function(){
-				if (localStorageService.get('token')==null || context.me ==null) {
-					return false;
-				}
-				return true;
+				return this.bind;
 			};
+			$rootScope.setLogin = function(){
+				this.bind = true;
+			};
+
 			/**
 			 * 全局上下文数据
 			 */
@@ -129,21 +135,44 @@ define(['app'], function (app) {
 
 			return {
 				/**
+				 * 获取用户信息
+				 */
+				load_profile : function(){
+					api.me_profile(
+						function(data){
+							context.me =data;
+							$rootScope.bind = true;
+							$state.go("dashboard");
+						},
+						function(data){
+							context.me =null;
+							$rootScope.bind = false;
+						}
+					);
+				},
+
+				/**
 				 * 加载所有缓存信息
 				 **/
 				loadAll :function(){
 					/**
-					* 加载个人信息
-					*/
-
-					if ($rootScope.isLogin()) {
+					 * 判断是否需要重新登录
+					 **/
+					if ($rootScope.bind==false && localStorageService.get('token')==null) {
 						return context;
 					}
-					
+
+					if ($rootScope.bind) {
+						return context;
+					}
+					/**
+					* 加载个人信息
+					*/
 					return $q.all([api.me_profile()]).
 								then(
 									function(array){
 										context.me =array[0].data;
+										$rootScope.bind = true;
 										return context;
 									},
 									function(array){
@@ -151,6 +180,7 @@ define(['app'], function (app) {
 										// 	function(error){
 										// 		context.me = null;
 										// 	});
+										$rootScope.bind = false;
 										return context;
 									}
 								);

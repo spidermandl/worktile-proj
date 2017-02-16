@@ -15,7 +15,7 @@ public class ProjectController {
     /**
      * 获取项目列表
      */
-    @RequestMapping(value = "create", method = RequestMethod.POST)
+    @RequestMapping(value = "all", method = RequestMethod.POST)
     public void all(){
 
     }
