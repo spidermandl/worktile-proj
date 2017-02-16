@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/admin/admin.iml" filepath="$PROJECT_DIR$/admin/admin.iml" />
       <module fileurl="file://$PROJECT_DIR$/test/test.iml" filepath="$PROJECT_DIR$/test/test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/worktile-logic/worktile.iml" filepath="$PROJECT_DIR$/worktile-logic/worktile.iml" />
       <module fileurl="file://$PROJECT_DIR$/worktile-logic/worktile-logic.iml" filepath="$PROJECT_DIR$/worktile-logic/worktile-logic.iml" />
       <module fileurl="file://$PROJECT_DIR$/worktile-proj.iml" filepath="$PROJECT_DIR$/worktile-proj.iml" />
       <module fileurl="file://$PROJECT_DIR$/worktile-web/worktile-web.iml" filepath="$PROJECT_DIR$/worktile-web/worktile-web.iml" />

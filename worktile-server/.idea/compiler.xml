@@ -24,6 +24,7 @@
         <processorPath useClasspath="true" />
         <module name="admin" />
         <module name="test" />
+        <module name="worktile" />
         <module name="worktile-logic" />
         <module name="worktile-proj" />
         <module name="worktile-web" />
@@ -32,6 +33,7 @@
     <bytecodeTargetLevel target="1.6">
       <module name="admin" target="1.6" />
       <module name="test" target="1.7" />
+      <module name="worktile" target="1.7" />
       <module name="worktile-logic" target="1.7" />
       <module name="worktile-proj" target="1.5" />
       <module name="worktile-web" target="1.7" />
