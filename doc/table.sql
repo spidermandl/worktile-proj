@@ -71,11 +71,11 @@ DROP TABLE IF EXISTS `t_project`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_project` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `owner_id` int(11) NOT NULL ,
+  `owner_id` int(11) NOT NULL,
   `name` varchar(20) DEFAULT NULL,
   `limit` int(5) DEFAULT NULL,
   `description` text,
-  `publicity` int(2),
+  `team_id` int(11) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `pending1` varchar(20) DEFAULT NULL,
   `pending2` varchar(20) DEFAULT NULL,
@@ -135,10 +135,10 @@ DROP TABLE IF EXISTS `t_task_assignment`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_task_assignment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `task_id` int(11) NOT NULL ,
-  `follower_id` int(11),
-  `assigner_id` int(11),
-  `attach_id` int(11),
+  `task_id` int(11) NOT NULL,
+  `follower_id` int(11) DEFAULT NULL,
+  `assigner_id` int(11) DEFAULT NULL,
+  `attach_id` int(11) DEFAULT NULL,
   `pending1` varchar(20) DEFAULT NULL,
   `pending2` varchar(20) DEFAULT NULL,
   `pending3` varchar(20) DEFAULT NULL,
@@ -164,8 +164,8 @@ DROP TABLE IF EXISTS `t_task_attachment`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_task_attachment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `task_id` int(11) NOT NULL ,
-  `user_id` int(11) NOT NULL ,
+  `task_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `description` varchar(20) DEFAULT NULL,
   `location` varchar(20) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
@@ -197,8 +197,8 @@ DROP TABLE IF EXISTS `t_task_check_item`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_task_check_item` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sender_id` int(11) NOT NULL ,
-  `task_id` int(11) NOT NULL ,
+  `sender_id` int(11) NOT NULL,
+  `task_id` int(11) NOT NULL,
   `content` text,
   `achievement` int(2) DEFAULT NULL,
   `pending1` varchar(20) DEFAULT NULL,
@@ -226,11 +226,11 @@ DROP TABLE IF EXISTS `t_task_comment`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_task_comment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sender_id` int(11) NOT NULL ,
-  `task_id` int(11) NOT NULL ,
+  `sender_id` int(11) NOT NULL,
+  `task_id` int(11) NOT NULL,
   `content` text,
   `attachment` varchar(48) DEFAULT NULL,
-  `comment_id` int(11),
+  `comment_id` int(11) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `pending1` varchar(20) DEFAULT NULL,
   `pending2` varchar(20) DEFAULT NULL,
@@ -257,8 +257,8 @@ DROP TABLE IF EXISTS `t_task_log`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_task_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL ,
-  `task_id` int(11) NOT NULL ,
+  `user_id` int(11) NOT NULL,
+  `task_id` int(11) NOT NULL,
   `type` int(2) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `content` text,
@@ -287,8 +287,8 @@ DROP TABLE IF EXISTS `t_task_tag`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_task_tag` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL ,
-  `task_id` int(11) NOT NULL ,
+  `user_id` int(11) NOT NULL,
+  `task_id` int(11) NOT NULL,
   `name` varchar(20) DEFAULT NULL,
   `color` int(10) DEFAULT NULL,
   `pending1` varchar(20) DEFAULT NULL,
@@ -305,6 +305,47 @@ CREATE TABLE `t_task_tag` (
 LOCK TABLES `t_task_tag` WRITE;
 /*!40000 ALTER TABLE `t_task_tag` DISABLE KEYS */;
 /*!40000 ALTER TABLE `t_task_tag` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_team`
+--
+
+DROP TABLE IF EXISTS `t_team`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_team` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) DEFAULT NULL,
+  `description` text,
+  `creater_id` int(11) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `industry` int(2) DEFAULT NULL,
+  `scale` varchar(20) DEFAULT NULL,
+  `province` varchar(20) DEFAULT NULL,
+  `city` varchar(20) DEFAULT NULL,
+  `district` varchar(20) DEFAULT NULL,
+  `logo` varchar(48) DEFAULT NULL,
+  `publicity` int(2) DEFAULT NULL,
+  `default_tag` varchar(20) DEFAULT NULL,
+  `default_project_id` int(11) DEFAULT NULL,
+  `default_template_id` int(11) DEFAULT NULL,
+  `pending1` varchar(20) DEFAULT NULL,
+  `pending2` varchar(20) DEFAULT NULL,
+  `pending3` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_team`
+--
+
+LOCK TABLES `t_team` WRITE;
+/*!40000 ALTER TABLE `t_team` DISABLE KEYS */;
+INSERT INTO `t_team` VALUES (1,'aaa',NULL,4,'2017-02-14 23:18:56',NULL,0,'0',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,'aaa','',4,'2017-02-15 00:35:50',NULL,1,NULL,'','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+/*!40000 ALTER TABLE `t_team` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -332,7 +373,7 @@ CREATE TABLE `t_user` (
   `pending2` varchar(20) DEFAULT NULL,
   `pending3` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -341,6 +382,7 @@ CREATE TABLE `t_user` (
 
 LOCK TABLES `t_user` WRITE;
 /*!40000 ALTER TABLE `t_user` DISABLE KEYS */;
+INSERT INTO `t_user` VALUES (4,'desmond','c5dea055dfcfb15cd9c24018bf821916',NULL,NULL,NULL,NULL,NULL,'13585871125',NULL,'2017-01-08 21:07:10',NULL,'b9c9e7ef2dd9bc374a5d8d5e8f8a999e',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `t_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -356,6 +398,7 @@ CREATE TABLE `t_user_role` (
   `user_id` int(11) DEFAULT NULL,
   `role_id` int(11) DEFAULT NULL,
   `project_id` int(11) DEFAULT NULL,
+  `team_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -378,4 +421,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-12-28 11:18:51
+-- Dump completed on 2017-02-16  9:26:57
