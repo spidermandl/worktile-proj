@@ -4,3 +4,5 @@
 */bower_components
 */target
 */.sass-cache
+*/.idea/*
+*/worktile-proj.iml
