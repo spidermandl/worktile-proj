@@ -9,7 +9,7 @@ public class TProject {
 
     private String name;
 
-    private Integer limit;
+    private Integer crewCap;
 
     private Integer teamId;
 
@@ -47,12 +47,12 @@ public class TProject {
         this.name = name == null ? null : name.trim();
     }
 
-    public Integer getLimit() {
-        return limit;
+    public Integer getCrewCap() {
+        return crewCap;
     }
 
-    public void setLimit(Integer limit) {
-        this.limit = limit;
+    public void setCrewCap(Integer crewCap) {
+        this.crewCap = crewCap;
     }
 
     public Integer getTeamId() {

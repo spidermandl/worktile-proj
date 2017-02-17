@@ -45,12 +45,12 @@ public class AccountTests extends BaseTest{
                 .post(RequestBody.create(MEDIA_TYPE_TEXT,JSON.toJSONString(new RegisterMsg.InMsg(){
                     {
                         phone="12444444444";//用户电话
-                        username="aaa";//用户名
+                        username="aab";//用户名
                         password="aaa";//用户密码
                     }
                 }))).build();
         Response response = client.newCall(request).execute();
-        System.out.println(response.body().toString());
+        System.out.println(response.body().string());
 
     }
 

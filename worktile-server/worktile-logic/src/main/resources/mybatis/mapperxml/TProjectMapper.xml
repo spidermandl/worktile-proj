@@ -5,7 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="owner_id" jdbcType="INTEGER" property="ownerId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="limit" jdbcType="INTEGER" property="limit" />
+    <result column="crew_cap" jdbcType="INTEGER" property="crewCap" />
     <result column="team_id" jdbcType="INTEGER" property="teamId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="pending1" jdbcType="VARCHAR" property="pending1" />
@@ -74,7 +74,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, owner_id, name, limit, team_id, create_time, pending1, pending2, pending3
+    id, owner_id, name, crew_cap, team_id, create_time, pending1, pending2, pending3
   </sql>
   <sql id="Blob_Column_List">
     description
@@ -131,11 +131,11 @@
   </delete>
   <insert id="insert" parameterType="com.sjtu.worktile.model.TProject">
     insert into t_project (id, owner_id, name, 
-      limit, team_id, create_time, 
+      crew_cap, team_id, create_time, 
       pending1, pending2, pending3, 
       description)
     values (#{id,jdbcType=INTEGER}, #{ownerId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{limit,jdbcType=INTEGER}, #{teamId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{crewCap,jdbcType=INTEGER}, #{teamId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{pending1,jdbcType=VARCHAR}, #{pending2,jdbcType=VARCHAR}, #{pending3,jdbcType=VARCHAR}, 
       #{description,jdbcType=LONGVARCHAR})
   </insert>
@@ -151,8 +151,8 @@
       <if test="name != null">
         name,
       </if>
-      <if test="limit != null">
-        limit,
+      <if test="crewCap != null">
+        crew_cap,
       </if>
       <if test="teamId != null">
         team_id,
@@ -183,8 +183,8 @@
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="limit != null">
-        #{limit,jdbcType=INTEGER},
+      <if test="crewCap != null">
+        #{crewCap,jdbcType=INTEGER},
       </if>
       <if test="teamId != null">
         #{teamId,jdbcType=INTEGER},
@@ -224,8 +224,8 @@
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
-      <if test="record.limit != null">
-        limit = #{record.limit,jdbcType=INTEGER},
+      <if test="record.crewCap != null">
+        crew_cap = #{record.crewCap,jdbcType=INTEGER},
       </if>
       <if test="record.teamId != null">
         team_id = #{record.teamId,jdbcType=INTEGER},
@@ -255,7 +255,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       owner_id = #{record.ownerId,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
-      limit = #{record.limit,jdbcType=INTEGER},
+      crew_cap = #{record.crewCap,jdbcType=INTEGER},
       team_id = #{record.teamId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       pending1 = #{record.pending1,jdbcType=VARCHAR},
@@ -271,7 +271,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       owner_id = #{record.ownerId,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
-      limit = #{record.limit,jdbcType=INTEGER},
+      crew_cap = #{record.crewCap,jdbcType=INTEGER},
       team_id = #{record.teamId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       pending1 = #{record.pending1,jdbcType=VARCHAR},
@@ -290,8 +290,8 @@
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="limit != null">
-        limit = #{limit,jdbcType=INTEGER},
+      <if test="crewCap != null">
+        crew_cap = #{crewCap,jdbcType=INTEGER},
       </if>
       <if test="teamId != null">
         team_id = #{teamId,jdbcType=INTEGER},
@@ -318,7 +318,7 @@
     update t_project
     set owner_id = #{ownerId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
-      limit = #{limit,jdbcType=INTEGER},
+      crew_cap = #{crewCap,jdbcType=INTEGER},
       team_id = #{teamId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       pending1 = #{pending1,jdbcType=VARCHAR},
@@ -331,7 +331,7 @@
     update t_project
     set owner_id = #{ownerId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
-      limit = #{limit,jdbcType=INTEGER},
+      crew_cap = #{crewCap,jdbcType=INTEGER},
       team_id = #{teamId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       pending1 = #{pending1,jdbcType=VARCHAR},
