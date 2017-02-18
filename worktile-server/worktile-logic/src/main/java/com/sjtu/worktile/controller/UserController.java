@@ -55,7 +55,7 @@ public class UserController extends BaseController{
     @RequestMapping(value = "register",method = RequestMethod.POST)
     @ResponseBody
     public PairMsg.ResponseMsg register(@RequestBody final RegisterMsg.InMsg body,
-                                        final HttpServletRequest request, final HttpServletResponse response){
+                                        final HttpServletRequest request, final HttpServletResponse response) throws AppException{
         TUser user = new TUser();
         user.setAccount(body.username);
         user.setPhone(body.phone);
@@ -67,10 +67,7 @@ public class UserController extends BaseController{
             userService.createUser(user);
         } catch (AppException e) {
             e.printStackTrace();
-            ErrorMsg.OutMsg error = new ErrorMsg.OutMsg();
-            error.error_code = e.getErrorCode();
-
-            return error;
+            throw e;
         }
 
         return out;
