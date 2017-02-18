@@ -58,42 +58,6 @@
                                 }else{
                                     $state.go("signin");
                                 }
-                                //返回未登录前的页面
-                                // var goOuterPage = function(){
-                                //     localStorageService.set('token',null);
-                                //     $state.go("signin");
-                                // };
-                                
-                                // var token = localStorageService.get('token');
-                                // if( token == null){//没有授权token
-                                //     goOuterPage();
-                                //     return;
-                                // }
-                                // //$http.defaults.headers.common['authorization']= "Bearer "+token;
-                                // $http({
-                                //         method: 'GET', 
-                                //         url: 'http://localhost:8080/api/me/profile',
-                                //         //withCredentials: true, 
-                                //         headers: {
-                                //             'Authorization': "Bearer "+token, 
-                                //             'Content-Type' :"application/json;charset=utf-8",
-                                //         },  
-                                //     })
-                                //     .then(function(response) {
-                                //         return response.data;
-                                //     })
-                                //     .then(
-                                //         function(data) {
-                                //             if (data.error_code !=null) {
-                                //                 goOuterPage();
-                                //                 return;
-                                //             }
-                                //             $state.go("dashboard");
-                                //         },
-                                //         function(error){
-                                //             goOuterPage();
-                                //         }
-                                //     );
                             },
                             resolve: {
                                 global: ["globalDataContext",
@@ -102,8 +66,7 @@
                                     return context.loadAll();
                                 }]
                             },
-                            
-                            
+                          
                         //css: ['css/base_outer.css','css/base_inner.css'],
                     },
                 },
@@ -113,6 +76,7 @@
                 template: "<ui-view></ui-view>",//留给子state渲染
                 controller: function($rootScope, global) {
                     console.log('----------------root global');
+                    //console.log(global);
                     //设置全局变量
                     $rootScope.global = global;
                 },

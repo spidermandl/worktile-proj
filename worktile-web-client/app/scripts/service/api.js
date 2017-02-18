@@ -36,7 +36,6 @@ define(['app'], function (app) {
                     })
                     .then(
                         function(data) {
-                        	console.log(data);
                         	if (promise !=null) {
                         		promise();
                         	}
@@ -47,11 +46,10 @@ define(['app'], function (app) {
                     		}
                     		if (failure != null) 
                     			failure(data);
-                    		deferred.resolve(data);
+                    		deferred.reject(data);
                         },
                         function(error){
-                        	console.log(error);
-                        	deferred.resolve(error);
+                        	deferred.reject(error);
                         	if (promise !=null) {
                         		promise();
                         	}

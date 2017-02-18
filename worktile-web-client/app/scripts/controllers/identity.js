@@ -119,7 +119,7 @@
 								// 		f.weixin_unionid ? c.location.href = "/login_weixin_success?unionid=" + f.weixin_unionid : h(f.check_platform, i)
 
 	                			localStorageService.set('token',data.token);
-	                			globalDataContext.load_profile();
+	                			globalDataContext.load_profile();//进入登录
 							}, 
 							function(data) {
 			                    $scope.signin_user.username = '';

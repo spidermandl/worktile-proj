@@ -35,9 +35,6 @@ define(['app'], function (app) {
 			$rootScope.isLogin = function(){
 				return this.bind;
 			};
-			$rootScope.setLogin = function(){
-				this.bind = true;
-			};
 
 			/**
 			 * 全局上下文数据
@@ -138,7 +135,7 @@ define(['app'], function (app) {
 				 * 获取用户信息
 				 */
 				load_profile : function(){
-					api.me_profile(
+					return api.me_profile(
 						function(msg){
 							context.me =msg.data;
 							$rootScope.bind = true;
@@ -165,64 +162,72 @@ define(['app'], function (app) {
 					if ($rootScope.bind) {
 						return context;
 					}
+ 
 					/**
-					* 加载个人信息
-					*/
-					return $q.all([api.me_profile(),
-								    api.team_list()]).
-								then(
-									function(msgs){
-										context.me =msgs[0].data;
-										$rootScope.bind = true;
+					 * 数据请求
+					 */
+					return this.load_profile()//加载个人信息
+					.then(
+						function(msg){
+							console.log("================= load_profile success");
+							context.me =msg.data;
+							$rootScope.bind = true;
+							/**
+							* 加载所有账号信息
+							*/
+							return 
+								$q.all([api.team_list()]).
+									then(
+										function(msgs){
+											_.map(msgs[0].data.teams,
+								                function(a) {
+								                    var b = globalDataContext.getTeam(a.team_id);
+								                    b ? (delete b.faked, _.extend(b, a)) : 
+								                    	globalDataContext.teams.push(a);
+								                });
+											
+											return context;
+										},
+										function(msgs){
+											return context;
+										}
+									);
 
-										_.map(msgs[1].data.teams,
-							                function(a) {
-							                    var b = globalDataContext.getTeam(a.team_id);
-							                    b ? (delete b.faked, _.extend(b, a)) : 
-							                    	globalDataContext.teams.push(a);
-							                });
-										
 
-										return context;
-									},
-									function(msgs){
-										// _.map(msgs[0].data,
-										// 	function(error){
-										// 		context.me = null;
-										// 	});
-										$rootScope.bind = false;
-										return context;
-									}
-								);
-
-
-			            // if (!_.isEmpty(i.projects)) {
-			            //     var c = a.defer();
-			            //     return c.resolve(i),
-			            //     c.promise
-			            // }
-			            // return a.all([wt.data.team.get_list(), wt.data.project.get_all("active"), wt.data.notice.unread_count(), wt.data.account.get_contacts()]).then(function(a) {
-			            //     return _.map(a[0].data.data,
-			            //     function(a) {
-			            //         var b = i.getTeam(a.team_id);
-			            //         b ? (delete b.faked, _.extend(b, a)) : i.teams.push(a)
-			            //     }),
-			            //     i.projects = _.sortBy(a[1].data.data,
-			            //     function(a) {
-			            //         return a.pos
-			            //     }),
-			            //     i.star_projects = _.filter(i.projects,
-			            //     function(a) {
-			            //         return a.is_star
-			            //     }),
-			            //     b.global.unread_count = a[2].data.data,
-			            //     i.contacts = a[3].data.data,
-			            //     i.setTeamProjects(),
-			            //     i
-			            // },
-			            // function(a) {
-			            //     return i
-			            // })
+						},function(msg){
+							console.log("================= load_profile failure");
+							$rootScope.bind = false;
+							localStorageService.set('token',null);
+							//$state.go('home');
+						}
+					);
+		            // if (!_.isEmpty(i.projects)) {
+		            //     var c = a.defer();
+		            //     c.resolve(i);
+		            //     return c.promise;
+		            // }
+		            // return a.all([wt.data.team.get_list(), wt.data.project.get_all("active"), wt.data.notice.unread_count(), wt.data.account.get_contacts()]).then(function(a) {
+		            //     return _.map(a[0].data.data,
+		            //     function(a) {
+		            //         var b = i.getTeam(a.team_id);
+		            //         b ? (delete b.faked, _.extend(b, a)) : i.teams.push(a)
+		            //     }),
+		            //     i.projects = _.sortBy(a[1].data.data,
+		            //     function(a) {
+		            //         return a.pos
+		            //     }),
+		            //     i.star_projects = _.filter(i.projects,
+		            //     function(a) {
+		            //         return a.is_star
+		            //     }),
+		            //     b.global.unread_count = a[2].data.data,
+		            //     i.contacts = a[3].data.data,
+		            //     i.setTeamProjects(),
+		            //     i
+		            // },
+		            // function(a) {
+		            //     return i
+		            // })
 				},
 
 				contacts : [],
