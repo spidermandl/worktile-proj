@@ -15,6 +15,7 @@ define(['app'], function (app) {
 				 *get 父类方法
 				 ************************************************************************/
 				http_get_template : function(link,success,failure,promise){
+					console.log(link);
 					var deferred = $q.defer();
 					var token = localStorageService.get('token');
 					if (token == null) {
@@ -35,6 +36,7 @@ define(['app'], function (app) {
                     })
                     .then(
                         function(data) {
+                        	console.log(data);
                         	if (promise !=null) {
                         		promise();
                         	}
@@ -48,6 +50,7 @@ define(['app'], function (app) {
                     		deferred.resolve(data);
                         },
                         function(error){
+                        	console.log(error);
                         	deferred.resolve(error);
                         	if (promise !=null) {
                         		promise();
@@ -64,6 +67,7 @@ define(['app'], function (app) {
 				 *post 父类方法
 				 ************************************************************************/
 				http_post_template : function(link,body,success,failure,promise){
+					console.log(link);
 					var token = localStorageService.get('token');
 					if (token == null) {
 						return;

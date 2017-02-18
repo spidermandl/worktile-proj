@@ -39,7 +39,9 @@ public class FormLoginFilter extends AbsPathFilter {
             try {
                 loginSuccess = login(req);
             } catch (AppException e) {
-                return redirectToErrorUrl(req,resp,e);//重定向到error控制器
+                request.setAttribute("exception",e);
+                return true;
+                //return redirectToErrorUrl(req,resp,e);//重定向到error控制器
             }
             if(loginSuccess) {
                 return true;//继续过滤器链

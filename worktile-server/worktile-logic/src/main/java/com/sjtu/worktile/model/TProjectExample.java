@@ -295,63 +295,63 @@ public class TProjectExample {
             return (Criteria) this;
         }
 
-        public Criteria andLimitIsNull() {
-            addCriterion("limit is null");
+        public Criteria andCrewCapIsNull() {
+            addCriterion("crew_cap is null");
             return (Criteria) this;
         }
 
-        public Criteria andLimitIsNotNull() {
-            addCriterion("limit is not null");
+        public Criteria andCrewCapIsNotNull() {
+            addCriterion("crew_cap is not null");
             return (Criteria) this;
         }
 
-        public Criteria andLimitEqualTo(Integer value) {
-            addCriterion("limit =", value, "limit");
+        public Criteria andCrewCapEqualTo(Integer value) {
+            addCriterion("crew_cap =", value, "crewCap");
             return (Criteria) this;
         }
 
-        public Criteria andLimitNotEqualTo(Integer value) {
-            addCriterion("limit <>", value, "limit");
+        public Criteria andCrewCapNotEqualTo(Integer value) {
+            addCriterion("crew_cap <>", value, "crewCap");
             return (Criteria) this;
         }
 
-        public Criteria andLimitGreaterThan(Integer value) {
-            addCriterion("limit >", value, "limit");
+        public Criteria andCrewCapGreaterThan(Integer value) {
+            addCriterion("crew_cap >", value, "crewCap");
             return (Criteria) this;
         }
 
-        public Criteria andLimitGreaterThanOrEqualTo(Integer value) {
-            addCriterion("limit >=", value, "limit");
+        public Criteria andCrewCapGreaterThanOrEqualTo(Integer value) {
+            addCriterion("crew_cap >=", value, "crewCap");
             return (Criteria) this;
         }
 
-        public Criteria andLimitLessThan(Integer value) {
-            addCriterion("limit <", value, "limit");
+        public Criteria andCrewCapLessThan(Integer value) {
+            addCriterion("crew_cap <", value, "crewCap");
             return (Criteria) this;
         }
 
-        public Criteria andLimitLessThanOrEqualTo(Integer value) {
-            addCriterion("limit <=", value, "limit");
+        public Criteria andCrewCapLessThanOrEqualTo(Integer value) {
+            addCriterion("crew_cap <=", value, "crewCap");
             return (Criteria) this;
         }
 
-        public Criteria andLimitIn(List<Integer> values) {
-            addCriterion("limit in", values, "limit");
+        public Criteria andCrewCapIn(List<Integer> values) {
+            addCriterion("crew_cap in", values, "crewCap");
             return (Criteria) this;
         }
 
-        public Criteria andLimitNotIn(List<Integer> values) {
-            addCriterion("limit not in", values, "limit");
+        public Criteria andCrewCapNotIn(List<Integer> values) {
+            addCriterion("crew_cap not in", values, "crewCap");
             return (Criteria) this;
         }
 
-        public Criteria andLimitBetween(Integer value1, Integer value2) {
-            addCriterion("limit between", value1, value2, "limit");
+        public Criteria andCrewCapBetween(Integer value1, Integer value2) {
+            addCriterion("crew_cap between", value1, value2, "crewCap");
             return (Criteria) this;
         }
 
-        public Criteria andLimitNotBetween(Integer value1, Integer value2) {
-            addCriterion("limit not between", value1, value2, "limit");
+        public Criteria andCrewCapNotBetween(Integer value1, Integer value2) {
+            addCriterion("crew_cap not between", value1, value2, "crewCap");
             return (Criteria) this;
         }
 

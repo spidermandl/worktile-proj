@@ -22,13 +22,10 @@ import java.util.*;
  */
 @RestController
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends BaseController{
     @Autowired
     private UserService userService;
 
-    public UserController() {
-
-    }
 
     /**
      * 登录用户api
@@ -38,7 +35,6 @@ public class UserController {
      */
     @RequestMapping(value = "login", method = RequestMethod.POST)
     @ResponseBody
-    //public LoginMsg.OutMsg login(@RequestBody final LoginMsg.InMsg request)
     public LoginMsg.OutMsg login(final HttpServletRequest request, final HttpServletResponse response)
             throws ServletException {
         /**

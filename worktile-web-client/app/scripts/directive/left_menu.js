@@ -151,7 +151,8 @@ define(['app'], function (app) {
 								                return "-1" !== a.team_id;
 								            }
 								        );
-								        console.log($scope.vm.teams);
+								        // console.log(globalDataContext.teams);
+								        // console.log($scope.vm.teams);
 							        }
 
 							        $scope.popbox = c;
@@ -177,7 +178,8 @@ define(['app'], function (app) {
 							                        g.waiting_for_phone_code = !0,
 							                        g.timerInterval = i(function() {
 							                            g.new_phone_text = parseInt(g.new_phone_text.match("([0-9]{1,3})")[0], 10),
-							                            1 === g.new_phone_text ? e() : (g.new_phone_text--, g.new_phone_text = g.new_phone_text = h.instant("common.resend_phone_code", {
+							                            1 === g.new_phone_text ? e() : 
+							                            	(g.new_phone_text--, g.new_phone_text = g.new_phone_text = h.instant("common.resend_phone_code", {
 							                                second: g.new_phone_text
 							                            }))
 							                        },

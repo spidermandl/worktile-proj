@@ -21,7 +21,7 @@ public class CorsFilter extends AbsPathFilter {
         if(((HttpServletRequest)req).getHeader("Origin") != null) {
             ((HttpServletResponse) resp).setHeader("Access-Control-Allow-Origin", "*");
             ((HttpServletResponse) resp).setHeader("Access-Control-Allow-Methods", "DELETE, HEAD, GET, OPTIONS, POST, PUT");
-            ((HttpServletResponse) resp).setHeader("Access-Control-Allow-Headers", Const.CROS_ALLOWED_HEADER+", Content-Type, X-Requested-With");
+            ((HttpServletResponse) resp).setHeader("Access-Control-Allow-Headers", Const.CROS_ALLOWED_HEADER+", Content-Type");//, X-Requested-With");
         }
     }
 

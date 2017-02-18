@@ -31,7 +31,6 @@ public class TeamService {
     public List<TTeam> getSelfTeam(int uid){
         TTeamExample query = new TTeamExample();
         query.or().andCreaterIdEqualTo(uid);
-
         return tTeamMapper.selectByExample(query);
     }
 

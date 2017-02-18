@@ -3,6 +3,7 @@ package com.sjtu.worktile;
 import com.alibaba.fastjson.JSON;
 import com.sjtu.worktile.configuration.Const;
 import com.sjtu.worktile.msg.LoginMsg;
+import com.sjtu.worktile.msg.RegisterMsg;
 import com.squareup.okhttp.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,7 +22,7 @@ public class AccountTests extends BaseTest{
 
     @Test
     public void register() throws Exception{
-        MediaType MEDIA_TYPE_TEXT = MediaType.parse("text/plain");
+       /* MediaType MEDIA_TYPE_TEXT = MediaType.parse("text/plain");
         String postBody = "Hello World";
         Request request = new Request.Builder()
                 .url(domain_url)
@@ -33,6 +34,22 @@ public class AccountTests extends BaseTest{
             throw new IOException("服务器端错误: " + response);
         }
 
+        System.out.println(response.body().string());*/
+        /**
+         * 用户注册
+         */
+        String url=domain_url+"/user/register";
+        Request request = new Request.Builder()
+                .url(url)
+                .addHeader("raw","raw")
+                .post(RequestBody.create(MEDIA_TYPE_TEXT,JSON.toJSONString(new RegisterMsg.InMsg(){
+                    {
+                        phone="12444444444";//用户电话
+                        username="aab";//用户名
+                        password="aaa";//用户密码
+                    }
+                }))).build();
+        Response response = client.newCall(request).execute();
         System.out.println(response.body().string());
 
     }
