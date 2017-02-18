@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
-<<<<<<< HEAD
  * Created by lenovo on 2017/2/17.
  */
 @Service
