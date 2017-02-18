@@ -1,0 +1,15 @@
+<div class=team-dashboard wt-minheight=112>
+    <div ng-if="team!=null">
+        <wt-team-dashboard-overview team-id=team.team_id data=vm.overview></wt-team-dashboard-overview>
+        <ul class="portlet ui-sortable" sortable=vm.stats_sort_options>
+            <li ng-repeat="stats in vm.stats_list track by stats.type+stats.pid" class=portlet-item>
+                <wt-dashboard-stats stats=stats></wt-dashboard-stats>
+            </li>
+            <li></li>
+        </ul>
+        <a class="team-dashboard-add js-popbox" data-align=left data-placement=top ng-click=vm.js_pop_add_stats($event)>
+            <i class="wtfont wtf-add"></i>
+            <p>{{'team_graphs.desc'|translate}}</p>
+        </a>
+    </div>
+</div>

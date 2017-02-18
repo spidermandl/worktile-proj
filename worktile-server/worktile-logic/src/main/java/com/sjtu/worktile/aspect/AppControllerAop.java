@@ -29,8 +29,7 @@ public class AppControllerAop {
             +" && "+
             "args(request,..)")
     public void doBefore(JoinPoint joinPoint,HttpServletRequest request) throws AppException {
-
-        System.out.println("------------------appExceptionFromHead");
+        //System.out.println("------------------appExceptionFromHead");
         final AppException e = (AppException) request.getAttribute("exception");
         if (e!=null)
             throw e;

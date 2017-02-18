@@ -16,18 +16,18 @@ define(['app'], function (app) {
 	      	link: function (scope,element,attrs) {
 				function n() {
 					vm.collapse_recent_project = 
-						jQuery.indexOf(vm.leftmenu_projects_collapse, "collapse_recent_project") !== -1;
-					var b = jQuery.map(a.teams,
+						_.indexOf(vm.leftmenu_projects_collapse, "collapse_recent_project") !== -1;
+					var b = _.map(a.teams,
 						function(a) {
-							var b = jQuery.clone(a);
-							return b.collapse = jQuery.indexOf(vm.leftmenu_projects_collapse, a.team_id) !== -1,
-								b.show_projects = jQuery.clone(a.projects),
+							var b = _.clone(a);
+							return b.collapse = _.indexOf(vm.leftmenu_projects_collapse, a.team_id) !== -1,
+								b.show_projects = _.clone(a.projects),
 								b
 						});
 					vm.teams = b,
-						jQuery.each(vm.teams,
+						_.each(vm.teams,
 							function(a) {
-								jQuery.filter(a.projects,
+								_.filter(a.projects,
 									function(a) {
 										vm.query_all_teams_projects.push(a.pid)
 									})

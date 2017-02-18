@@ -12,14 +12,14 @@ define(['app'], function (app) {
 		function ($http,localStorageService,util,$q) {
 			return {
 				/************************************************************************
-				 *get 父类方法
+				 * get 父类方法
 				 ************************************************************************/
 				http_get_template : function(link,success,failure,promise){
 					console.log(link);
 					var deferred = $q.defer();
 					var token = localStorageService.get('token');
 					if (token == null) {
-						deferred.resolve(null);
+						deferred.reject(null);
 						return deferred.promise;
 						//return;
 					}
@@ -39,8 +39,10 @@ define(['app'], function (app) {
                         	if (promise !=null) {
                         		promise();
                         	}
-                    		if (_.isNumber(data.error_code) == false && success!= null) {
-                    			success(data);
+                    		if (_.isNumber(data.error_code) == false) {
+                    			if(success!= null){
+                    				success(data);
+                    			}
                     			deferred.resolve(data);
                     			return;
                     		}
@@ -62,7 +64,7 @@ define(['app'], function (app) {
                     return deferred.promise;
 				},
 				/************************************************************************
-				 *post 父类方法
+				 * post 父类方法
 				 ************************************************************************/
 				http_post_template : function(link,body,success,failure,promise){
 					console.log(link);
@@ -204,6 +206,14 @@ define(['app'], function (app) {
 							'http://localhost:8080/api/team/list',
 							success,failure,promise
 						);
+				},
+				/**************************************************************************
+				**获取team基本信息 api
+				**************************************************************************/
+				team_basic : function(team_id){
+					return this.http_get_template(
+						'http://localhost:8080/api/team/'+team_id+'/basic'
+					);
 				}
 
 			}

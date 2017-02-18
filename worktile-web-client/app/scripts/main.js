@@ -29,6 +29,7 @@
 			identity : 'controllers/identity',//身份进入
 			dashboard : 'controllers/dashboard',
             search : 'controllers/search',
+            team_ctrl: 'controllers/team_ctrl',
 			//指令
 			left_nemu : 'directive/left_menu',
             left_menu_project : 'directive/left_menu_project',
@@ -60,6 +61,9 @@
             search: {
                 deps: ['left_nemu'],
             },
+            team_ctrl: {
+                deps: [],
+            },
             left_nemu: {
                 deps: ['filters','popbox','left_menu_project','left_menu_avatar','work','team'],
             },
@@ -76,6 +80,7 @@
             'identity',
             'dashboard',
             'search',
+            'team_ctrl',
         ],
         function (app) {
             app.init();

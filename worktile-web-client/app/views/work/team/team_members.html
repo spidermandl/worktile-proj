@@ -1,0 +1,84 @@
+<dl class="frame team_members" wt-minheight=112>
+    <dd class=frame-dd>
+        <div class=frame-lr-right>
+            <dl class=dl-filter>
+                <div class=admin_btn_area ng-if=parent_vm.user_is_team_admin>
+                    <button class="btn w-100p btn-success btn--fancy" ng-click=vm.js_add_team_member()>{{'team_team_members.title'|translate}}</button>
+                    <button class="btn w-100p mt-10" ng-click=vm.js_goto_team_admin()>{{'team_team_members.title_member_setting'|translate}}</button>
+                    <hr></div>
+                <dt class=mt-10>
+                    <span class=title>{{'team_team_members.title_filter'|translate}}</span></dt>
+                <dd>
+                    <ul class=checkable>
+                        <li ng-class="{'selected': vm.filter_type=='normals'}" ng-click="vm.js_reset_filter_type('normals')">
+                            <a href=javascript:;>{{'team_team_members.team_members'|translate}}</a></li>
+                        <li ng-class="{'selected': vm.filter_type=='guests'}" ng-click="vm.js_reset_filter_type('guests')">
+                            <a href=javascript:;>{{'team_team_members.team_visitor'|translate}}</a></li>
+                    </ul>
+                </dd>
+                <dd>
+                    <a href="//worktile.com/upgrade?utm_source=free_team_members_list" target=_blank>
+                        <i class="fa fa-info-circle"></i>{{'team_team_members.link_try_pro'|translate}}</a>
+                </dd>
+            </dl>
+        </div>
+        <div class=frame-lr-left>
+            <div class=empty-panel ng-if="vm.members.normals.length==0 && vm.members.inviteds.length==0 && vm.filter_type=='normals'">
+                <i class="wtfont wtf-user"></i>
+                <br>
+                <span>{{'team_team_members.warn_empty_team_member'|translate}}</span></div>
+            <div class=empty-panel ng-if="vm.members.guests.length==0 && vm.filter_type=='guests'">
+                <i class="wtfont wtf-user"></i>
+                <br>
+                <span>{{'team_team_members.warn_empty_visitor'|translate}}</span></div>
+            <div class="part-loading mt-20" ng-hide=vm.part_loading_done></div>
+            <div ng-if="vm.part_loading_done && vm.filter_type=='normals'">
+                <div class=frame-dt>
+                    <span class=title>{{'team_team_members.members'|translate}}</span></div>
+                <div class=frame-dd>
+                    <ul class=team_members_list>
+                        <li class="item flex_row" ng-repeat="member in vm.members.normals">
+                            <span class="item_avatar flex_se1">
+                                <wt-avatar member=member size=42 status=true class=js-popbox wt-member-control team=team data-align=left></wt-avatar>
+                                <span class=name>{{[member.display_name,10]|cutstr}}</span></span>
+                            <span class=flex_se1>{{member.email}}</span>
+                            <span class="members_project_status flex_row w_252 mr_20">
+                                <span class="pending {{member.overview.uncompleted==0?'empty':''}} flex_se1" tooltip-placement=top uib-tooltip="{{'team_team_members.todo'|translate}}">{{member.overview.uncompleted}}</span>
+                                <span class="expired {{member.overview.expired==0?'empty':''}} flex_se1" tooltip-placement=top uib-tooltip="{{'team_team_members.expire'|translate}}">{{member.overview.expired}}</span>
+                                <span class="complete {{member.overview.completed==0?'empty':''}} flex_se1" tooltip-placement=top uib-tooltip="{{'team_team_members.done'|translate}}">{{member.overview.completed}}</span></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div ng-if="vm.part_loading_done && vm.members.inviteds.length>0 && vm.filter_type=='normals'" class=mt_30>
+                <div class=frame-dt>
+                    <span class=title>{{'team_team_members.pending'|translate}}</span></div>
+                <div class=frame-dd>
+                    <ul class="clearfix ml-20">
+                        <li class="pull-left mt_30 mr_45 text-center" ng-repeat="member in vm.members.inviteds">
+                            <wt-avatar member=member size=42 status=true class=js-popbox wt-member-control data-align=left></wt-avatar>
+                            <div class="text-overflow w-76 mt_5">{{member.display_name}}</div></li>
+                    </ul>
+                </div>
+            </div>
+            <div ng-if="vm.part_loading_done && (vm.members.guests.length>0 && vm.filter_type=='guests')">
+                <div class=frame-dt>
+                    <span class=title>{{'team_team_members.members'|translate}}</span></div>
+                <div class=frame-dd>
+                    <ul class=team_members_list>
+                        <li class="item flex_row" ng-repeat="member in vm.members.guests">
+                            <span class="item_avatar flex_se1">
+                                <wt-avatar member=member size=42 status=true class=js-popbox wt-member-control data-align=left></wt-avatar>
+                                <span class=name>{{[member.display_name,10]|cutstr}}</span></span>
+                            <span class=flex_se1>{{member.email}}</span>
+                            <span class="members_project_status flex_row w_252 mr_20">
+                                <span class="pending {{member.overview.uncompleted==0?'empty':''}} flex_se1" tooltip-placement=top uib-tooltip="{{'team_team_members.todo'|translate}}">{{member.overview.uncompleted}}</span>
+                                <span class="expired {{member.overview.expired==0?'empty':''}} flex_se1" tooltip-placement=top uib-tooltip="{{'team_team_members.expire'|translate}}">{{member.overview.expired}}</span>
+                                <span class="complete {{member.overview.completed==0?'empty':''}} flex_se1" tooltip-placement=top uib-tooltip="{{'team_team_members.done'|translate}}">{{member.overview.completed}}</span></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </dd>
+</dl>

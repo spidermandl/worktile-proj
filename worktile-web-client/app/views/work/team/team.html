@@ -1,0 +1,57 @@
+<div class=layout_content>
+    <div class=layout_content_main>
+        <div class=mod-navbar ng-if="vm.public_team!=null">
+            <div class=main>
+                <div class=title>
+                    <h3>
+                        <i class="wtfont wtf-team"></i>
+                        <span ng-bind=[vm.public_team.info.name,40]|cutstr></span>
+                    </h3>
+                    <a href=javascript:; class=ml-15 tooltip-placement=bottom uib-tooltip={{vm.public_team.info.visibility|teamVisibility}} show-team-visibility-options ng-click=show($event)>
+                        <i ng-class="{'icon-private':vm.public_team.info.visibility==1,'icon-public':vm.public_team.info.visibility==2}"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class=mod-navbar ng-if="team!=null">
+            <div class=main>
+                <div class=title ng-if=!vm.display_team_setting>
+                    <h3>
+                        <i class="wtfont wtf-team"></i>
+                        <a href=javascript:; class="js-popbox team_name" data-placement=bottom data-align=left ng-click=vm.js_view_team_info($event); ng-bind=[team.name,40]|cutstr></a>
+                    </h3>
+                    <a href=javascript:; class=ml-15 tooltip-placement=bottom uib-tooltip={{team.visibility|teamVisibility}} show-team-visibility-options ng-click=show($event)>
+                        <i ng-class="{'icon-private':team.visibility == 1,'icon-public':team.visibility == 2}"></i>
+                    </a>
+                </div>
+                <div class=title ng-if=vm.display_team_setting>
+                    <h3>
+                        <i class="wtfont wtf-team"></i>{{'team_page.title'|translate}}</h3>
+                </div>
+                <div class=main_toolbar>
+                    <a href=javascript:; class="btn btn--fancy" ng-if="vm.state.current.name=='team.calendar'" ng-click=vm.js_toggle_team_filter()>{{'team_page.filter'|translate}}</a></div>
+                <div class=center-menu>
+                    <ul>
+                        <li ng-if=global.team_module.view_base|permission:team.permission>
+                            <a ui-sref=team.projects ui-sref-active=active ng-click="vm.display_team_setting=false;vm.js_toggle_filter(null)">{{'common.txt_project'|translate}}</a></li>
+                        <li ng-if=global.team_module.view_base|permission:team.permission>
+                            <a ui-sref=team.members ui-sref-active=active ng-click="vm.display_team_setting=false;vm.js_toggle_filter(null)">{{'common.txt_member'|translate}}</a></li>
+                        <li ng-if=global.team_module.view|permission:team.permission>
+                            <a ui-sref=team.tasks ui-sref-active=active ng-click="vm.display_team_setting=false;vm.js_toggle_filter(null)">{{'common.txt_task'|translate}}</a></li>
+                        <li ng-if=global.team_module.view|permission:team.permission>
+                            <a ui-sref=team.calendar ui-sref-active=active ng-click="vm.display_team_setting=false;vm.js_toggle_filter(null)">{{'common.txt_calendar'|translate}}</a></li>
+                        <li ng-if=global.team_module.view_base|permission:team.permission>
+                            <a ui-sref=team.graphs ui-sref-active=active ng-click="vm.display_team_setting=false;vm.js_toggle_filter(null)">{{'common.txt_graph'|translate}}</a></li>
+                        <li>
+                            <a href=javascript:; ng-if=!vm.user_is_team_admin ng-click=vm.js_toggle_filter(null) ui-sref=team.quit ui-sref-active=active>{{'common.txt_set'|translate}}</a>
+                            <a href=javascript:; ng-if=vm.user_is_team_admin ng-click="vm.js_toggle_filter(null);vm.display_team_setting = true" ui-sref=team.admin ui-sref-active=active>{{'common.txt_set'|translate}}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="height-nonav height-nonav--notab" ng-class="{'height-nonav--notab':vm.public_team}" wt-scroll>
+            <ui-view></ui-view>
+        </div>
+    </div>
+    <ui-view name=sidebar wt-sidebar-toggle=vm.teamCalendarFilterData.team_calendar_filter_status></ui-view>
+</div>

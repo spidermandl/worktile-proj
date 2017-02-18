@@ -87,4 +87,31 @@ public class TeamService {
     public void createTeam(TTeam team){
         tTeamMapper.insert(team);
     }
+
+    /**
+     * 获取团队基本信息
+     * @param team_id
+     * @return
+     */
+    public TTeam getTeamInfoById(int team_id){
+        return tTeamMapper.selectByPrimaryKey(team_id);
+    }
+
+    /**
+     * 获取用户在团队中的角色
+     * @param uid
+     * @param team_id
+     * @return
+     */
+    @Deprecated
+    public TUserRole getRoleInTeam(int uid,int team_id){
+        TUserRoleExample query = new TUserRoleExample();
+        TUserRoleExample.Criteria criteria = query.createCriteria();
+        criteria.andUserIdEqualTo(uid).andTeamIdEqualTo(team_id);
+
+        List<TUserRole> roles = tUserRoleMapper.selectByExample(query);
+        if (roles!=null && roles.size()==1)
+            return roles.get(0);
+        return null;
+    }
 }

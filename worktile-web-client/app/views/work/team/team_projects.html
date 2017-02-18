@@ -1,0 +1,88 @@
+<div class=team_project>
+    <div ng-if= "parent_vm.public_team!=null" class=team-public-dashboard wt-minheight=112>
+        <div class=team-public-dashboard-right>
+            <dl class=frame>
+                <dt>{{parent_vm.public_team.info.name}}</dt>
+                <dd class=text-muted>
+                    <div class= "p_5 pt-10">{{'team_projects2.industry'|translate}}： &nbsp; {{parent_vm.public_team.info.industry|teamIndustries}}</div>
+                    <div class=p_5 ng-show= "parent_vm.public_team.info.desc==''">{{'team_projects2.empty_team_desc'|translate}}</div>
+                    <div class=p_5 ng-show= "parent_vm.public_team.info.desc!=''">{{parent_vm.public_team.info.desc}}</div>
+                    <div class=p_5>{{'team_projects2.info_create_by_date'|translate:{when:(parent_vm.public_team.info.create_date|dateFormatZHCN)} }}</div></dd>
+            </dl>
+            <dl class=frame>
+                <dt>{{'team_projects2.title_members'|translate}}</dt>
+                <dd>
+                    <ul class=checkable>
+                        <li ng-repeat= "member in parent_vm.public_team.members track by member.uid">
+                            <wt-avatar member=member name=true></wt-avatar>
+                        </li>
+                    </ul>
+                </dd>
+            </dl>
+        </div>
+        <dl class= "frame team_project" wt-minheight=82>
+            <dt class=frame-dt>
+                <span class=title>{{'team_projects2.title_projects'|translate}}</span></dt>
+            <div class=empty-panel ng-if= "parent_vm.public_team.projects.length==0">
+                <i class= "wtfont wtf-project"></i>
+                <br>
+                <span>{{'team_projects2.warn_empty_project'|translate}}</span></div>
+            <dd class=frame-dd ng-if= "parent_vm.public_team.projects.length>0">
+                <ul class=team_project_list>
+                    <wt-project-grid-item ng-repeat= "project in parent_vm.public_team.projects track by project.pid" project=project like=star></wt-project-grid-item>
+                </ul>
+            </dd>
+        </dl>
+    </div>
+    <dl class=frame ng-if= "team!=null" wt-minheight=112>
+        <dd class=frame-dd>
+            <div class=frame-lr-right>
+                <dl class=dl-filter>
+                    <div class=admin_btn_area ng-if=parent_vm.user_is_team_admin>
+                        <button class= "btn w-100p btn-success btn--fancy js-popbox" ng-click=vm.js_new_project($event)>{{'team_projects2.btn_add_project'|translate}}</button>
+                        <button class= "btn w-100p mt-10" ui-sref=team.admin.projects ui-sref-active=active ng-if=parent_vm.user_is_team_owner>{{'team_projects2.prject_manager'|translate}}</button>
+                        <hr></div>
+                    <dt>
+                        <span class=title>{{'team_projects2.title_filter'|translate}}</span></dt>
+                    <dd>
+                        <ul class=checkable>
+                            <li ng-class= "{'selected': vm.filter_type=='me'}" ng-click= "vm.js_reset_filter_type('me')">
+                                <a href=javascript:;>{{'team_projects2.my_join'|translate}}</a></li>
+                            <li ng-class= "{'selected': vm.filter_type=='team'}" ng-click= "vm.js_reset_filter_type('team')">
+                                <a href=javascript:;>{{'team_projects2.team_protected'|translate}}</a></li>
+                        </ul>
+                    </dd>
+                </dl>
+            </div>
+            <div class=frame-lr-left>
+                <div class=empty-panel ng-if= "vm.part_loading_done&&vm.projects.participateds.length==0&&vm.filter_type=='me'">
+                    <i class= "wtfont wtf-project"></i>
+                    <br>
+                    <span>{{'team_projects2.warn_empty_my_join'|translate}}</span></div>
+                <div class=empty-panel ng-if= "vm.projects.teampublics.length==0&&vm.filter_type=='team'">
+                    <i class= "wtfont wtf-project"></i>
+                    <br>
+                    <span>{{'team_projects2.warn_empty_protected'|translate}}</span></div>
+                <div class= "part-loading mt-20" ng-hide=vm.part_loading_done></div>
+                <div ng-if= "vm.projects.participateds.length>0 && vm.filter_type=='me'">
+                    <div class=frame-dt>
+                        <span class=title>{{'team_projects2.title_projects'|translate}}</span></div>
+                    <div class=frame-dd ng-if= "vm.projects.participateds.length>0 && vm.filter_type=='me'">
+                        <ul class=team_project_list>
+                            <wt-project-grid-item ng-repeat= "project in vm.projects.participateds" project=project like=star></wt-project-grid-item>
+                        </ul>
+                    </div>
+                </div>
+                <div ng-if= "vm.projects.teampublics.length>0 && vm.filter_type=='team'">
+                    <div class=frame-dt>
+                        <span class=title>{{'team_projects2.title_projects'|translate}}</span></div>
+                    <div class=frame-dd>
+                        <ul class=team_project_list>
+                            <wt-project-grid-item ng-repeat= "project in vm.projects.teampublics" project=project like=favorite></wt-project-grid-item>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </dd>
+    </dl>
+</div>

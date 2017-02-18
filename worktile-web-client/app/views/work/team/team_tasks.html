@@ -1,0 +1,49 @@
+<dl class= "frame team_tasks" wt-minheight=112>
+    <dd class=frame-dd>
+        <div class=frame-lr-right>
+            <dl class=dl-filter>
+                <dt>
+                    <span class=title>{{'team_team_tasks.title_filter'|translate}}</span></dt>
+                <dd>
+                    <ul class=checkable>
+                        <li ng-class= "{'selected': vm.filter_type_reg=='uncompleted'}" ng-click= "js_reset_filter_type('uncompleted')">
+                            <a href=javascript:;>{{'team_team_tasks.uncompleted'|translate}}</a></li>
+                        <li ng-class= "{'selected': vm.filter_type_reg=='expired'}" ng-click= "js_reset_filter_type('expired')">
+                            <a href=javascript:;>{{'team_team_tasks.expired'|translate}}</a></li>
+                        <li ng-class= "{'selected': vm.filter_type_reg=='completed'}" ng-click= "js_reset_filter_type('completed')">
+                            <a href=javascript:;>{{'team_team_tasks.completed'|translate}}</a></li>
+                    </ul>
+                </dd>
+                <hr>
+                <dt>
+                    <span class=title>{{'team_team_tasks.member_filter'|translate}}</span></dt>
+                <dd>
+                    <ul class=checkable>
+                        <li ng-class= "{'selected': vm.filter_user_reg==member.uid}" ng-repeat= "member in team.members" ng-click=js_toggle_filter_user(member.uid)>
+                            <wt-avatar member=member size=30 wt-disable-pop name=[member.display_name,10]|cutstr></wt-avatar>
+                        </li>
+                        <li ng-class= "{'selected': vm.filter_user_reg=='none'}" ng-click= "js_toggle_filter_user('none')">
+                            <a class= "avatar avatar-ban" href=javascript:;>
+                                <i class= "wtfont wtf-ban"></i>
+                                <span class=avatar-name>{{'team_team_tasks.unassign_task'|translate}}</span></a>
+                        </li>
+                    </ul>
+                </dd>
+            </dl>
+        </div>
+        <div class=frame-lr-left>
+            <div class=frame-dt>
+                <span class=title>{{'common.txt_task'|translate}}</span></div>
+            <div class=empty-panel ng-show= "tasks.length == 0 && !loading_tasks">
+                <i class= "fa fa-check-square-o"></i>
+                <br>
+                <span>{{'team_team_tasks.warn'|translate}}</span></div>
+            <div class=slide-trigger>
+                <wt-task task=task arg-view-type=item arg-show-project=true ng-repeat= "task in tasks track by task.tid" ng-click=$root.locator.openTask(task.pid,task.tid)></wt-task>
+            </div>
+            <div class=loading-more-panel>
+                <div class=part-loading ng-if=loading_tasks></div>
+                <button class=btn ng-if= "!loading_tasks && vm.is_has_more_task" ng-click=load_tasks()>{{'common.btn_loading'|translate}}</button></div>
+        </div>
+    </dd>
+</dl>

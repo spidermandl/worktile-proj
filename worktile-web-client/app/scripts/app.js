@@ -154,10 +154,131 @@
                 url: "",
                 templateUrl: config.templateUrls['dashboard.default'],
                 controller: "DashboardTaskCtrl",
-                // header_menu: "dashboard",
+                header_menu: "dashboard",
                 // need_load: !1,
                 // parent: 'home',
-            });
+            })
+            .state("team", {
+                url: "/teams/:team_id",
+                templateUrl: config.templateUrls.team_main,
+                abstract: !0,
+                header_menu: "team",
+                parent: "root",
+                need_load: !0,
+                controller: "TeamCtrl",
+                resolve: {
+                    team: ["$stateParams","api",
+                    function(param,api) {
+                        return api.team_basic(param.team_id).
+                            then(
+                                function(msg) {
+                                    return msg.data;
+                                },
+                                function(msg) {
+                                    return null;
+                                }
+                            );
+                    }]
+                }
+            })
+            .state("team.projects", {
+                url: "",
+                templateUrl: config.templateUrls.team_projects,
+                controller: "TeamProjectsCtrl",
+                header_menu: "team",
+                need_load: !0
+            }).state("team.members", {
+                url: "/members",
+                templateUrl: config.templateUrls.team_members,
+                controller: "teamMembersCtrl",
+                header_menu: "team",
+                need_load: !0
+            }).state("team.tasks", {
+                url: "/tasks",
+                templateUrl: config.templateUrls.team_tasks,
+                controller: "team_tasks_ctrl",
+                header_menu: "team",
+                parent: "team",
+                need_load: !0
+            }).state("team.graphs", {
+                url: "/graphs",
+                templateUrl: config.templateUrls.team_graphs,
+                controller: "team_graphs_ctrl",
+                header_menu: "team",
+                parent: "team",
+                need_load: !0
+            }).state("team.calendar", {
+                url: "/calendar",
+                header_menu: "team",
+                parent: "team",
+                need_load: !0,
+                views: {
+                    "": {
+                        templateUrl: config.templateUrls.team_calendar,
+                        controller: "teamCalendarCtrl"
+                    },
+                    sidebar: {
+                        templateUrl: config.templateUrls.team_calendar_sidebar,
+                        controller: "teamCalendarSidebarCtrl"
+                    }
+                }
+            }).state("team.quit", {
+                url: "/quit",
+                templateUrl: "/tpl/team/team_quit.html",
+                controller: "teamQuitCtrl",
+                header_menu: "team",
+                need_load: !0
+            }).state("team.admin", {
+                url: "/admin",
+                templateUrl: "/tpl/team/team_admin.html",
+                header_menu: "team",
+                parent: "team",
+                need_load: !0,
+                controller: "teamAdminHomeCtrl"
+            }).state("team.admin.custom", {
+                url: "/custom",
+                templateUrl: "/tpl/team/team_admin_custom.html",
+                controller: "teamAdminCustomCtrl",
+                header_menu: "team",
+                need_load: !0
+            }).state("team.admin.basic", {
+                url: "/basic",
+                templateUrl: "/tpl/team/team_admin_basic.html",
+                controller: "teamAdminBasicCtrl",
+                header_menu: "team",
+                need_load: !0
+            }).state("team.admin.members", {
+                url: "/members",
+                templateUrl: "/tpl/team/team_admin_members.html",
+                controller: "teamAdminMembersCtrl",
+                header_menu: "team",
+                need_load: !0
+            }).state("team.admin.projects", {
+                url: "/projects",
+                templateUrl: "/tpl/team/team_admin_projects.html",
+                controller: "teamAdminProjectsCtrl",
+                header_menu: "team",
+                need_load: !0
+            }).state("team.admin.security", {
+                url: "/security",
+                templateUrl: "/tpl/team/team_admin_security.html",
+                controller: "teamAdminSecurityCtrl",
+                header_menu: "team",
+                need_load: !0
+            }).state("team.create", {
+                url: "/security",
+                templateUrl: "/tpl/team/pop_team_create.html",
+                controller: "team_create_ctrl",
+                header_menu: "team",
+                need_load: !0
+            }).state("team.join", {
+                url: "/security",
+                templateUrl: "/tpl/team/team_join.html",
+                controller: "team_join_ctrl",
+                header_menu: "team",
+                need_load: !0
+            })
+            ;
 
             /*
             ===========================================================

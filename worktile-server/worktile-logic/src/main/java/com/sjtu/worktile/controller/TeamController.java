@@ -3,9 +3,11 @@ package com.sjtu.worktile.controller;
 import com.sjtu.worktile.model.TTeam;
 import com.sjtu.worktile.model.TUser;
 import com.sjtu.worktile.msg.TeamContactsMsg;
+import com.sjtu.worktile.msg.TeamInfoMsg;
 import com.sjtu.worktile.msg.TeamListMsg;
 import com.sjtu.worktile.msg.TeamNewMsg;
 import com.sjtu.worktile.service.TeamService;
+import com.sjtu.worktile.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +23,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/team")
 public class TeamController extends BaseController{
+    @Autowired
+    private UserService userService;
     @Autowired
     private TeamService teamService;
 
@@ -104,5 +108,56 @@ public class TeamController extends BaseController{
         teamService.createTeam(tTeam);
 
         return new TeamNewMsg.OutMsg();
+    }
+
+    /**
+     * 获取团队基本信息
+     * @param request
+     * @param team_id
+     * @return
+     */
+    @RequestMapping(value = "{team_id}/basic", method = RequestMethod.GET)
+    @ResponseBody
+    public TeamInfoMsg.OutMsg contacts(final HttpServletRequest request,@PathVariable int team_id){
+        int uid = super.getUserID(request);
+        TUser user = userService.findUserByID(uid);
+        TTeam team =teamService.getTeamInfoById(team_id);
+        TeamInfoMsg.OutMsg msg = new TeamInfoMsg.OutMsg();
+
+        msg.data.team_id = team.getId();
+        msg.data.url = null;//团队url
+        msg.data.name =team.getName();
+        msg.data.pic = team.getLogo();//logo
+        msg.data.desc = team.getDescription();//team 描述
+        msg.data.status = 0;
+        msg.data.edition = 1;
+        msg.data.create_date = team.getCreateTime();
+        msg.data.visibility = team.getPublicity(); //团队类型， 1:私有,2:公开
+        msg.data.industry = team.getIndustry();
+        msg.data.default_pids = null;//默认pids
+        msg.data.default_labels = null;//默认标签
+        msg.data.template_id = team.getDefaultTemplateId()==null?0:team.getDefaultTemplateId();//模板id
+        msg.data.phone= null;//团队phone
+        msg.data.link_join_code =null;
+        msg.data.is_dingteam = 0;//是否为dingding 项目
+        msg.data.curr_role = 1;//当前用户角色: 1:管理员，2:成员，3:访客，4:来宾,公开项目可以访问
+        msg.data.is_owner = uid == team.getCreaterId()?1:0;//是否为创建者
+        msg.data.member_count = (int)teamService.getTeamCount(team_id);//成员数量
+        msg.data.permission = 31;//当前用户权限: 31:管理员，15:成员，7:访客，5:来宾，0:无法操作
+        msg.data.project_count = 1;//团队中项目数量
+
+        msg.data.owner.uid = user.getId();
+        msg.data.owner.name = user.getAccount();
+        msg.data.owner.email= user.getEmail();
+        msg.data.owner.display_name = user.getSignature()==null?user.getAccount():user.getSignature();
+        msg.data.owner.avatar = user.getHead();//用户头像
+        msg.data.owner.desc = null;
+        msg.data.owner.status = 1;//用户状态：1：正常，2：邀请，3：需要邮件确认
+        msg.data.owner.phone_prefix = null;
+        msg.data.owner.phone = user.getPhone();
+        msg.data.owner.title = null;
+        msg.data.owner.department = user.getDepartment();
+
+        return msg;
     }
 }
