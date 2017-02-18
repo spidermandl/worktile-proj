@@ -1,7 +1,7 @@
 /**
  * @ngdoc function
  * @name jtWorkApp.directive:wtProjectsMenu
- * @description 项目控制栏s
+ * @description 项目控制栏
  * # wtProjectsMenu
  * left menu directive
  */

@@ -8,12 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Author: Desmond
@@ -22,12 +20,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/project")
 public class ProjectController extends BaseController{
-     @Autowired
-     private ProjectService projectService;
-
+    @Autowired
+    private ProjectService projectService;
     /**
      * 获取项目列表
      */
+
     @RequestMapping(value = "list", method = RequestMethod.GET)
     @ResponseBody
     public ProjectListMsg.OutMsg list(final HttpServletRequest request){
@@ -46,5 +44,6 @@ public class ProjectController extends BaseController{
             outMsg.data.projects.add(t);
         }
         return outMsg;
+
     }
 }

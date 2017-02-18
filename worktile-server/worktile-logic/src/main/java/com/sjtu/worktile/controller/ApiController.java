@@ -15,7 +15,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api")
-public class ApiController {
+public class ApiController extends BaseController{
     @SuppressWarnings("unchecked")
     @RequestMapping(value = "role/{role}", method = RequestMethod.GET)
     public Boolean login(@PathVariable final String role,

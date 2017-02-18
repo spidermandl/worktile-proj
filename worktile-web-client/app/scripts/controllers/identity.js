@@ -205,9 +205,6 @@
 			j.src = "https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js", $("body").append(j)
 
 
-
-
-
 			// $scope.action_type = 0;
 			// //状态对象
 			// $scope.status = {};

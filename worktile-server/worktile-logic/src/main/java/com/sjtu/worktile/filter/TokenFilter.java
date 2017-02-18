@@ -35,8 +35,10 @@ public class TokenFilter extends AbsPathFilter {
             request.setAttribute("claims", JwtHelper.parseJWT(token, Const.JWT_TOEKN_SECRET_KEY));
         }
         catch (final JwtException e) {
-            return redirectToErrorUrl(req,response,new AppException(AppException.CATEGORY.TOKEN_PARSE_FAILURE));
+            request.setAttribute("exception",new AppException(AppException.CATEGORY.TOKEN_PARSE_FAILURE));
+            //return redirectToErrorUrl(req,response,new AppException(AppException.CATEGORY.TOKEN_PARSE_FAILURE));
+        }finally {
+            return true;
         }
-        return true;
     }
 }
