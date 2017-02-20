@@ -19,10 +19,7 @@ public class TeamListMsg extends PairMsg {
 
     public static class OutMsg implements ResponseMsg {
         public int code = MSG_CODE;
-        public Data data = new Data();
-        public class Data implements ResponseMsg.Data{
-            public List<Team> teams = null;//团队信息
-        }
+        public List<Team> data = new ArrayList<>();
 
     }
 

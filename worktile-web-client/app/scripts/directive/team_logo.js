@@ -26,6 +26,7 @@ define(['app'], function (app) {
                     size < 45 && (size = 40),size >= 45 && (size = 80),size >= 85 && (size = 180),
                     $scope.$watch("team",
                         function(team) {
+                            //console.log(team);
                             null != team && 
                             ("default_logo.png" === team.pic || 
                                 _.isEmpty(team.pic) ? 

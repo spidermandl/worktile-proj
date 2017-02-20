@@ -19,7 +19,7 @@ public class TeamProjectMsg extends PairMsg {
 
     public static class OutMsg implements ResponseMsg {
         public int code = MSG_CODE;
-        public List<ProjectListMsg.Project> data = new ArrayList<>();
+        public List<Project> data = new ArrayList<>();
 
     }
 

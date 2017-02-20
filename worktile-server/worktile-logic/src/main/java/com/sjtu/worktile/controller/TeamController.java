@@ -40,16 +40,13 @@ public class TeamController extends BaseController{
         List<TTeam> teams = teamService.getSelfTeam(uid);
         TeamListMsg.OutMsg outMsg = new TeamListMsg.OutMsg();
         for (TTeam team : teams){
-            if(outMsg.data.teams==null){
-                outMsg.data.teams = new ArrayList<>();
-            }
             TeamListMsg.Team t = new TeamListMsg.Team();
             t.team_id = team.getId();
             t.name = team.getName();
             t.count = teamService.getTeamCount(team.getId());
             t.visibility = team.getPublicity();
             t.logo = team.getLogo();
-            outMsg.data.teams.add(t);
+            outMsg.data.add(t);
         }
         return outMsg;
     }

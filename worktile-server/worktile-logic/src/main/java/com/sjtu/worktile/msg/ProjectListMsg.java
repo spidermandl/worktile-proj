@@ -20,18 +20,18 @@ public class ProjectListMsg extends PairMsg {
 
     public static class OutMsg implements ResponseMsg {
         public int code = MSG_CODE;
-        public List<ProjectListMsg.Project> data = new ArrayList<>();
+        public List<Project> data = new ArrayList<>();
 
-    }
+        /**
+         * Project输出格式
+         */
+        public static class Project{
+            public int project_id=0;//项目id
+            public String name=null;//项目名
+            public int crew_cap=0;//项目人数上限
+            public String description=null;//项目描述
+        }
 
-    /**
-     * Project输出格式
-     */
-    public static class Project{
-        public int project_id=0;//项目id
-        public String name=null;//项目名
-        public int crew_cap=0;//项目人数上限
-        public String description=null;//项目描述
     }
 
     @Override

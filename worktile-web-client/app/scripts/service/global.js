@@ -198,8 +198,10 @@ define(['app'], function (app) {
 							return $q.all([api.team_list()]).
 									then(
 										function(msgs){
+											console.log(msgs[0].data);
 											_.map(msgs[0].data,
 								                function(a) {
+								                	console.log(a);
 								                    var b = globalDataContext.getTeam(a.team_id);
 								                    b ? (delete b.faked, _.extend(b, a)) : 
 								                    	globalDataContext.teams.push(a);
