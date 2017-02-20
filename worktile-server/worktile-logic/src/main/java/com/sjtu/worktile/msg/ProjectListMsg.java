@@ -1,5 +1,6 @@
 package com.sjtu.worktile.msg;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,22 +20,19 @@ public class ProjectListMsg extends PairMsg {
 
     public static class OutMsg implements ResponseMsg {
         public int code = MSG_CODE;
-        public Data data = new Data();
+        public List<ProjectListMsg.Project> data = new ArrayList<>();
 
-        public class Data implements ResponseMsg.Data {
-            public List<Project> projects = null;//项目信息
-        }
     }
 
-        /**
-         * Project输出格式
-         */
-        public static class Project{
-            public int project_id=0;//项目id
-            public String name=null;//项目名
-            public int crew_cap=0;//项目人数上限
-            public String description=null;//项目描述
-        }
+    /**
+     * Project输出格式
+     */
+    public static class Project{
+        public int project_id=0;//项目id
+        public String name=null;//项目名
+        public int crew_cap=0;//项目人数上限
+        public String description=null;//项目描述
+    }
 
     @Override
     void initMsg(){

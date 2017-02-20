@@ -33,15 +33,12 @@ public class ProjectController extends BaseController{
         List<TProject> projects=projectService.getSelfProject(uid);
         ProjectListMsg.OutMsg outMsg =new ProjectListMsg.OutMsg();
         for(TProject project :projects){
-            if(outMsg.data.projects==null){
-                outMsg.data.projects=new ArrayList<>();
-            }
             ProjectListMsg.Project t=new ProjectListMsg.Project();
             t.project_id=project.getId();
             t.name=project.getName();
             t.crew_cap=project.getCrewCap();
             t.description=project.getDescription();
-            outMsg.data.projects.add(t);
+            outMsg.data.add(t);
         }
         return outMsg;
 

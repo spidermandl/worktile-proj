@@ -6,6 +6,46 @@
  *
  * Main module of the application.
  */
+ // angular.module("wtApp", [
+ //    "pascalprecht.translate", 
+ //    "ngSanitize","ngAnimate", "ng-key-selection", "ngFileUpload", "ngJcrop", 
+ //    "ui.bootstrap", "ui.router","ui.event","ui.keypress", "ui.calendar", "ui.select", 
+ //    "sf.treeRepeat", 
+ //    "pasvaz.bindonce", 
+ //    "monospaced.elastic", 
+ //    "w5c.validator", 
+ //    "ycTemplate", "ycTrack", "ycLogger", "ycConstantXSSWhiteList", 
+ //    "shared.config", "shared.w5cvalidator", 
+ //    "app.config", "app.constant", 
+ //    "wt.tpls", 
+ //    "wt.activity.ctrl", "wt.project.ctrl", "wt.team.ctrl", "wt.team.admin.ctrl", "wt.calendar.ctrl", 
+ //    "wt.dashboard.ctrl", "wt.account.ctrl", "wt.task.ctrl", "wt.event.ctrl", "wt.post.ctrl", "wt.file.ctrl", 
+ //    "wt.page.ctrl", "wt.share.ctrl", "wt.mail.ctrl", "wt.not_found.ctrl", 
+ //    "wt.globalDataContext", 
+ //    "wt.feed", 
+ //    "wt.locator", 
+ //    "wt.service.data", "wt.service.project", "wt.service.profile", "wt.service.team", "wt.service.task", 
+ //    "wt.service.timingtask", "wt.service.event", "wt.service.file", "wt.service.linkentity", 
+ //    "wt.service.quickSwitch", "wt.service.shortcutKey", "wt.service.privilege", "wt.service.shimo",
+ //    "wt.temp_data", 
+ //    "wt.bus", 
+ //    "wt.directive", "wt.directive.comment", "wt.directive.avatar", "wt.directive.task", "wt.directive.attachment", 
+ //    "wt.directive.markdown", "wt.directive.notice", "wt.directive.leftmenu", "wt.directive.dropwindow", 
+ //    "wt.directive.datepicker", "wt.directive.atwho", "wt.directive.height", "wt.directive.scroll", 
+ //    "wt.directive.activityFeed", "wt.directive.uploadfile", "wt.directive.activity", "wt.directive.dragfile", 
+ //    "wt.directive.pastefile", "wt.directive.event", "wt.directive.graph", "wt.directive.post_item", 
+ //    "wt.directive.page", "wt.directive.page_item", "wt.directive.file_item", "wt.directive.slide", 
+ //    "wt.directive.project", "wt.directive.archiveentry_item", "wt.directive.member_control", 
+ //    "wt.directive.notice_panel", "wt.directive.search_panel", "wt.directive.broadcast", 
+ //    "wt.directive.complete_account", "wt.directive.feedback", "wt.directive.file",
+ //    "wt.filter", 
+ //    "ui.bootstrap.popbox", 
+ //    "ui.sortable",  
+ //    "wt.genius", 
+ //    "wt.new.editor", 
+ //    "wt.autosave", 
+ //    ])
+
  define(['configuration','util'],function (configuration,util,require) {
     'use strict';
 
@@ -169,6 +209,9 @@
                 resolve: {
                     team: ["$stateParams","api",
                     function(param,api) {
+                        /**
+                        * 获取team基本信息
+                        */
                         return api.team_basic(param.team_id).
                             then(
                                 function(msg) {

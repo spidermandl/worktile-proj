@@ -1,5 +1,6 @@
 package com.sjtu.worktile.msg;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ public class TeamContactsMsg extends PairMsg{
 
     public static class OutMsg implements ResponseMsg {
         public int code = MSG_CODE;
-        public List<Data> data = null;
+        public List<Data> data = new ArrayList<>();
         /**
          * 个人信息输出格式
          */

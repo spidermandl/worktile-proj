@@ -2,31 +2,11 @@
  * @ngdoc function
  * @name jtWorkApp.service:IdentityService
  * @description
- * 登录前相关api service
+ * team 相关api service
  * Controller of the jtWorkApp
  */
 define(['app'], function (app) {
     'use strict';
-
-    app.service('ycTrack',function(){
-        return this.identify = function(a) {
-            window.sa && sa.identify(a, !0)
-        },
-        this.track = function(a, b, c, d) {
-            var e = "ng-err" === a;
-            a = "wt_std_" + a;
-            var f = a + "_" + b;
-            if (window.sa && !e) {
-                var g = {};
-                c && (g.from = c),
-                c && (g.from = c),
-                d && (g.type = d),
-                sa.track(f, g)
-            }
-            window._hmt ? window._hmt.push(["_trackEvent", a, b, c, d]) : console.info(["CATEGORY:" + a, ", ACTION:" + b, c ? ", from " + c: "", d ? ", type " + d: ""].join(""))
-        },
-        this
-    });
 
 
     app.service('TeamService', ["$uibModal", "globalDataContext","$translate", "ycTrack","config",'api',
@@ -461,4 +441,49 @@ define(['app'], function (app) {
             }
         }
     ])
+    .service('teamCalendarFilterData', 
+        function() {
+            this.myCalendar = {};
+            this.team_calendar_filter_status = !1;
+            this.filter_only_task = !1;
+            this.filter_only_schedule = !1;
+            this.team_calendar_filter_type = 0;
+            this.team_calendar_filter_pids = "";
+            this.team_all_projects = [];
+            this.team_calendar_filter_member_uids = "";
+            this.team_all_member = [];
+            this.clear_filter = function() {
+                this.filter_only_schedule = !1;
+                    this.filter_only_task = !1,
+                    this.team_calendar_filter_type = 0;
+                    this.team_calendar_filter_pids = "";
+                    _.each(this.team_all_projects,
+                        function(a) {
+                            a.is_checked = !0
+                        }),
+                    this.team_calendar_filter_member_uids = "";
+                    _.each(this.team_all_member,
+                        function(a) {
+                            a.is_checked = !1
+                        });
+                    this.removeEvents();
+                    this.refetchEvents();
+            };
+            this.removeEvents = function() {
+                this.myCalendar.fullCalendar("removeEvents");
+            };
+            this.refetchEvents = function() {
+                this.myCalendar.fullCalendar("refetchEvents");
+            }
+
+    })
+
+
+
+
+
+
+
+
+
 })

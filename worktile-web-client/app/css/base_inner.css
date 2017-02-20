@@ -8047,7 +8047,7 @@ ul.upload-file-process li .fa-close {
 	width:100%;
 	height:59px;
 	text-align:center;
-	background:url(//cdn.worktile.com/images/loading_all2.gif?v=4.5.19) center center no-repeat
+	background:url(/images/loading_all2.gif) center center no-repeat
 }
 .loading {
 	margin-left:auto;

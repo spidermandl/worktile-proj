@@ -64,7 +64,7 @@ public class TeamController extends BaseController{
         int uid = super.getUserID(request);
         List<TUser> users = teamService.getAllTeamContacts(uid);
         TeamContactsMsg.OutMsg msg = new TeamContactsMsg.OutMsg();
-        msg.data = new ArrayList<>();
+        //msg.data = new ArrayList<>();
         for (TUser u:users){
             TeamContactsMsg.OutMsg.Data data = new TeamContactsMsg.OutMsg.Data();
             data.uid = uid;

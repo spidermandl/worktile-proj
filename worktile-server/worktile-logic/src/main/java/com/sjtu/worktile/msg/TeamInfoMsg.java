@@ -40,25 +40,11 @@ public class TeamInfoMsg extends PairMsg {
             public int curr_role = 1;//当前用户角色: 1:管理员，2:成员，3:访客，4:来宾,公开项目可以访问
             public int is_owner = 1;//是否为创建者
             public int member_count = 0;//成员数量
-            public Owner owner = new Owner();
+            public User owner = new User();
             public int permission = 31;//当前用户权限: 31:管理员，15:成员，7:访客，5:来宾，0:无法操作
             public int project_count = 1;//团队中项目数量
         }
 
-        public static class Owner{
-            public int uid =0;
-            public String name = null;
-            public String email= null;
-            public String display_name = null;
-            public String avatar = null;//用户头像
-            public String desc = null;
-            public int status = 1;//用户状态：1：正常，2：邀请，3：需要邮件确认
-            public String phone_prefix = null;
-            public String phone = null;
-            public String title = null;
-            public String department = null;
-
-        }
 
     }
     @Override
