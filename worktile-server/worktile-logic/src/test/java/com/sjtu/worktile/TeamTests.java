@@ -32,4 +32,26 @@ public class TeamTests extends BaseTest {
         Response response = client.newCall(request).execute();
         System.out.println(response.body().string());
     }
+
+    /**
+     * /api/team/contacts
+     * @throws Exception
+     */
+    @Test
+    public void teamContacts() throws Exception{
+        String token = super.getToken();
+
+        String url = domain_url+"/api/team/contacts";
+        /**
+         * 正确用户名登录
+         */
+        Request request = new Request.Builder()
+                .url(url)
+                .addHeader("raw","raw")
+                .addHeader("Authorization", Const.TOKEN_PREFIX+token)
+                .get().build();
+
+        Response response = client.newCall(request).execute();
+        System.out.println(response.body().string());
+    }
 }

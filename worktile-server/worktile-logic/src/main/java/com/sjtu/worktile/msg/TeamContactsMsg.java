@@ -5,6 +5,7 @@ import java.util.List;
 
 /**
  * Created by Desmond on 13/02/2017.
+ * 获取所有团队里的联系人
  */
 public class TeamContactsMsg extends PairMsg{
     /**

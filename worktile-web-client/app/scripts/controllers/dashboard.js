@@ -26,7 +26,7 @@ define(['app'], function (app) {
 			$scope.vm.part_loading_done = !1;
 				api.get_dashboard_task(
 					function(a) {
-						q(a.data)
+						q(a.data);
 					},
 					null,
 					function() {

@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -52,7 +51,7 @@ public class TeamController extends BaseController{
     }
 
     /**
-     * 获取所有组的联系人
+     * 获取所有team相关的联系人
      * @param request
      */
     @RequestMapping(value = "contacts", method = RequestMethod.GET)
