@@ -51,7 +51,7 @@ abstract public class PairMsg {
         /**
          * 用户信息 输出格式
          */
-        static class User {
+        public static class User {
             public int uid =0;
             public String name = null;
             public String email= null;
@@ -70,7 +70,7 @@ abstract public class PairMsg {
         /**
          * 项目信息 输出格式
          */
-        static class Project{
+        public static class Project{
             public int pid = 0;
             public String name =null;
             public int team_id= 0;

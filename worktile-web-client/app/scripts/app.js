@@ -63,6 +63,7 @@
         'LocalStorageModule',//本地存储
         'underscore',//underscore 方法库
         'pascalprecht.translate',//多语言库
+        'ngFileUpload',//文件上传库
       ]);
 
     app.init = function () {
@@ -207,7 +208,7 @@
                 need_load: !0,
                 controller: "TeamCtrl",
                 resolve: {
-                    team: ["$stateParams","api",
+                    team_basic_info: ["$stateParams","api",
                     function(param,api) {
                         /**
                         * 获取team基本信息
@@ -233,20 +234,20 @@
             }).state("team.members", {
                 url: "/members",
                 templateUrl: config.templateUrls.team_members,
-                controller: "teamMembersCtrl",
+                controller: "TeamMembersCtrl",
                 header_menu: "team",
                 need_load: !0
             }).state("team.tasks", {
                 url: "/tasks",
                 templateUrl: config.templateUrls.team_tasks,
-                controller: "team_tasks_ctrl",
+                controller: "TeamTasksCtrl",
                 header_menu: "team",
                 parent: "team",
                 need_load: !0
             }).state("team.graphs", {
                 url: "/graphs",
                 templateUrl: config.templateUrls.team_graphs,
-                controller: "team_graphs_ctrl",
+                controller: "TeamGraphsCtrl",
                 header_menu: "team",
                 parent: "team",
                 need_load: !0
@@ -258,11 +259,11 @@
                 views: {
                     "": {
                         templateUrl: config.templateUrls.team_calendar,
-                        controller: "teamCalendarCtrl"
+                        controller: "TeamCalendarCtrl"
                     },
                     sidebar: {
                         templateUrl: config.templateUrls.team_calendar_sidebar,
-                        controller: "teamCalendarSidebarCtrl"
+                        controller: "TeamCalendarSidebarCtrl"
                     }
                 }
             }).state("team.quit", {

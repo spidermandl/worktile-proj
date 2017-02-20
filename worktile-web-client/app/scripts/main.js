@@ -26,6 +26,8 @@
             api: 'service/api',
             team: 'service/team',
             track: 'service/track',
+            project: 'service/project',
+            upload: 'service/upload',
             //controller
 			identity : 'controllers/identity',//身份进入
 			dashboard : 'controllers/dashboard',
@@ -69,7 +71,7 @@
                 deps: ['filters','popbox','left_menu_project','left_menu_avatar','work','team'],
             },
             team: {
-                deps: ['track','team_logo'],
+                deps: ['track','team_logo','project','upload'],
             },
 	    },
     });

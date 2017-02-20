@@ -1,11 +1,9 @@
 package com.sjtu.worktile.controller;
 
+import com.sjtu.worktile.model.TProject;
 import com.sjtu.worktile.model.TTeam;
 import com.sjtu.worktile.model.TUser;
-import com.sjtu.worktile.msg.TeamContactsMsg;
-import com.sjtu.worktile.msg.TeamInfoMsg;
-import com.sjtu.worktile.msg.TeamListMsg;
-import com.sjtu.worktile.msg.TeamNewMsg;
+import com.sjtu.worktile.msg.*;
 import com.sjtu.worktile.service.TeamService;
 import com.sjtu.worktile.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +58,6 @@ public class TeamController extends BaseController{
         int uid = super.getUserID(request);
         List<TUser> users = teamService.getAllTeamContacts(uid);
         TeamContactsMsg.OutMsg msg = new TeamContactsMsg.OutMsg();
-        //msg.data = new ArrayList<>();
         for (TUser u:users){
             TeamContactsMsg.OutMsg.Data data = new TeamContactsMsg.OutMsg.Data();
             data.uid = uid;
@@ -153,6 +150,38 @@ public class TeamController extends BaseController{
         msg.data.owner.phone = user.getPhone();
         msg.data.owner.title = null;
         msg.data.owner.department = user.getDepartment();
+
+        return msg;
+    }
+
+    /**
+     * 获取团队项目
+     * @param request
+     * @param team_id
+     * @return
+     */
+    @RequestMapping(value = "{team_id}/projects", method = RequestMethod.GET)
+    @ResponseBody
+    public TeamProjectMsg.OutMsg projects(final HttpServletRequest request, @PathVariable int team_id) {
+        int uid = super.getUserID(request);
+        List<TProject> projects = teamService.getTeamProjects(team_id);
+        TeamProjectMsg.OutMsg msg = new TeamProjectMsg.OutMsg();
+        for (TProject pro : projects){
+            TeamProjectMsg.OutMsg.Project p = new PairMsg.ResponseMsg.Project();
+            p.pid = pro.getId();
+            p.name =pro.getName();
+            p.team_id= pro.getTeamId();
+            p.desc = pro.getDescription();
+            p.archived= 0;//是否存档，0：未存档，1：已存档
+            p.pic =null;
+            p.bg = null;
+            p.visibility= 0;
+            p.is_star= 0;//是否常用项目，0：非常用项目，1：常用项目
+            p.pos= 0;
+            p.member_count= 0;
+            p.curr_role= 1;
+            p.permission= 31;//当前用户权限: 31:管理员，15:成员，7:访客，5:来宾，0:无法操作
+        }
 
         return msg;
     }

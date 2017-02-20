@@ -32,15 +32,15 @@
                     <a href=javascript:; class="btn btn--fancy" ng-if="vm.state.current.name=='team.calendar'" ng-click=vm.js_toggle_team_filter()>{{'team_page.filter'|translate}}</a></div>
                 <div class=center-menu>
                     <ul>
-                        <li ng-if=global.team_module.view_base|permission:team.permission>
+                        <li ng-if=$root.global.team_module.view_base|permission:team.permission>
                             <a ui-sref=team.projects ui-sref-active=active ng-click="vm.display_team_setting=false;vm.js_toggle_filter(null)">{{'common.txt_project'|translate}}</a></li>
-                        <li ng-if=global.team_module.view_base|permission:team.permission>
+                        <li ng-if=$root.global.team_module.view_base|permission:team.permission>
                             <a ui-sref=team.members ui-sref-active=active ng-click="vm.display_team_setting=false;vm.js_toggle_filter(null)">{{'common.txt_member'|translate}}</a></li>
-                        <li ng-if=global.team_module.view|permission:team.permission>
+                        <li ng-if=$root.global.team_module.view|permission:team.permission>
                             <a ui-sref=team.tasks ui-sref-active=active ng-click="vm.display_team_setting=false;vm.js_toggle_filter(null)">{{'common.txt_task'|translate}}</a></li>
-                        <li ng-if=global.team_module.view|permission:team.permission>
+                        <li ng-if=$root.global.team_module.view|permission:team.permission>
                             <a ui-sref=team.calendar ui-sref-active=active ng-click="vm.display_team_setting=false;vm.js_toggle_filter(null)">{{'common.txt_calendar'|translate}}</a></li>
-                        <li ng-if=global.team_module.view_base|permission:team.permission>
+                        <li ng-if=$root.global.team_module.view_base|permission:team.permission>
                             <a ui-sref=team.graphs ui-sref-active=active ng-click="vm.display_team_setting=false;vm.js_toggle_filter(null)">{{'common.txt_graph'|translate}}</a></li>
                         <li>
                             <a href=javascript:; ng-if=!vm.user_is_team_admin ng-click=vm.js_toggle_filter(null) ui-sref=team.quit ui-sref-active=active>{{'common.txt_set'|translate}}</a>

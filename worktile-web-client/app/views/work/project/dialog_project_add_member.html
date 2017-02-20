@@ -1,0 +1,115 @@
+<div class="dialog dialog-project-add-member">
+    <div class=dialog-head>
+        <span class=dialog-close>
+            <i class="wtfont wtf-close" ng-click=vm.js_close()></i>
+        </span>
+        <div class=dialog-title>{{'dialog_project_add_member.title_name'|translate}}</div>
+        <div class="dialog-tab mlr-28">
+            <ul class=flex_row>
+                <li ng-class="{'step_cursor':vm.step_index==1}">
+                    <a href=javascript:; ng-click=vm.js_step(1)>{{'dialog_project_add_member.from_team'|translate}}</a></li>
+                <li ng-class="{'step_cursor':vm.step_index==2}">
+                    <a href=javascript:; ng-click=vm.js_step(2)>{{'dialog_project_add_member.from_email'|translate}}</a></li>
+                <li ng-class="{'step_cursor':vm.step_index==3}">
+                    <a href=javascript:; ng-click=vm.js_step(3)>{{'dialog_project_add_member.from_qrcode'|translate}}</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class=dialog-body>
+        <div ng-switch on=vm.step_index>
+            <div ng-switch-when=1>
+                <div class=part-loading ng-if=!vm.part_loading_done></div>
+                <form name=team_contacts_form ng-if=vm.part_loading_done class=w5c-form novalidate="" role=form>
+                    <div class="form-group w-590 mlr-auto">
+                        <div class=contact_member_search>
+                            <i class="wtfont wtf-search"></i>
+                            <input class=form-control name=filter_contacts_input ng-model=vm.filter_contacts_input type=text wt-autofocus="" placeholder="{{'dialog_project_add_member.form_filter_contact_placeholder'|translate}}"></div>
+                        <div class=contact_member>
+                            <div>
+                                <h4 ng-if="members_filtered_results.length!=0">{{'dialog_project_add_member.title_from_team_member'|translate}}
+                                    <a href=javascript:; class="add-full btn btn-success btn-sm" ng-if="vm.filter_contacts_input==undefined||vm.filter_contacts_input==''" ng-click=vm.js_contact_add_all()>{{'dialog_project_add_member.btn_add_all'|translate}}</a></h4>
+                                <ul class=clearfix ng-hide="members_filtered_results.length==0">
+                                    <li class=flex_row ng-repeat="member in members_filtered_results = (vm.unassigned_team_members|filterMembersInfo:vm.filter_contacts_input)">
+                                        <wt-avatar member=member size=40 class=member_pic wt-disable-pop></wt-avatar>
+                                        <span class="member_name flex_se1">{{[member.display_name,15]|cutstr}}</span>
+                                        <a class="btn btn-success btn-sm" href=javascript:; ng-click=vm.js_contact_add(member)>{{'dialog_project_add_member.btn_add'|translate}}</a></li>
+                                </ul>
+                                <h4 ng-if="visitors_filtered_results.length!=0" class=mt-20>{{'dialog_project_add_member.title_from_team_visitor'|translate}}
+                                    <a href=javascript:; class=toggle-link ng-if="vm.filter_contacts_input==undefined||vm.filter_contacts_input==''" ng-click=vm.js_toggle_visitors_fold();>{{{true:('dialog_project_add_member.visitors_fold_show'|translate),false:('dialog_project_add_member.visitors_fold_hide'|translate)}[vm.visitors_fold]}}
+                                        <i class=fa ng-class="{true:'fa-angle-down',false:'fa-angle-up'}[vm.visitors_fold]"></i></a>
+                                </h4>
+                                <ul class=clearfix ng-hide="visitors_filtered_results.length==0||(vm.visitors_fold && (vm.filter_contacts_input==undefined||vm.filter_contacts_input=='') )">
+                                    <li class=flex_row ng-repeat="member in visitors_filtered_results=(vm.unassigned_team_visitors|filterMembersInfo:vm.filter_contacts_input)">
+                                        <wt-avatar member=member size=40 class=member_pic wt-disable-pop></wt-avatar>
+                                        <span class="member_name flex_se1">{{[member.display_name,15]|cutstr}}</span>
+                                        <a class="btn btn-success btn-sm" href=javascript:; ng-click=vm.js_contact_add(member)>{{'dialog_project_add_member.btn_add'|translate}}</a></li>
+                                </ul>
+                                <br></div>
+                            <div class="empty-panel pt-20 pb_20" ng-show="vm.unassigned_team_members.length==0&&vm.unassigned_team_visitors.length==0">
+                                <span>{{'dialog_project_add_member.warn_empty_team_member'|translate}}</span></div>
+                            <div class="empty-panel pt-20 pb_20" ng-show="(vm.unassigned_team_members.length!=0||vm.unassigned_team_visitors.length!=0)&&members_filtered_results.length==0&&visitors_filtered_results.length==0">
+                                <span>{{'dialog_project_add_member.warn_empty_filter_condition'|translate}}</span></div>
+                        </div>
+                    </div>
+                    <div class="contact_member_selected border-top" ng-if="vm.contact_members_selected.length>0">{{'dialog_project_add_member.added_msg'|translate:{count:vm.contact_members_selected.length} }}
+                        <ul class=avatars>
+                            <li ng-repeat="member in vm.contact_members_selected" wt-member-control member=member>
+                                <wt-avatar member=member size=30 wt-disable-pop></wt-avatar></li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <div ng-switch-when=2>
+                <form name=team_add_member w5c-form-validate="" class=w5c-form novalidate="" role=form>
+                    <div class="form-group w-590 mlr-auto">
+                        <div class=contact_member_search>
+                            <i class="wtfont wtf-search"></i>
+                            <div class=input-group>
+                                <input class=form-control name=search_user_input ng-model=vm.search_user_input type=text wt-autofocus="" required ng-change=vm.change_keyword() placeholder="{{'dialog_project_add_member.form_find_member_placeholder'|translate}}">
+                                <div class=input-group-btn>
+                                    <button class="btn btn-success fs-17" type=button w5c-form-submit=vm.js_search_member(team_add_member) ng-disabled=!team_add_member.search_user_input.$valid||vm.is_searching>{{'dialog_project_add_member.btn_invite'|translate}}</button></div>
+                            </div>
+                        </div>
+                        <div class=contact_member>
+                            <ul>
+                                <li class=flex_row ng-repeat="member in vm.search_member">
+                                    <wt-avatar member=member size=40 class=member_pic wt-disable-pop></wt-avatar>
+                                    <span class="member_name flex_se1">{{[member.display_name,25]|cutstr}}</span>
+                                    <a href=javascript:; class="btn btn-success btn-sm" ng-click=vm.js_contact_add(member) ng-disabled="member.status==3">{{{1:'dialog_project_add_member.membrer_status_sended',2:'dialog_project_add_member.membrer_status_add',3:'dialog_project_add_member.membrer_status_added',4:'dialog_project_add_member.membrer_status_resend'}[member.status]|translate}}</a></li>
+                            </ul>
+                            <div class="empty-panel pt-20 pb_20" ng-if="vm.search_user_input==undefined">
+                                <span>{{'dialog_project_add_member.tooltip_enter_email_phone'|translate}}</span></div>
+                            <div class="empty-panel pt-20 pb_20" ng-if=vm.error_show_not_support_phone>
+                                <span>{{'dialog_project_add_member.warn_not_support_mobile_newer'|translate}}</span></div>
+                        </div>
+                    </div>
+                    <div class="contact_member_selected border-top" ng-if="vm.contact_members_invited.length>0">{{'dialog_project_add_member.invite_count'|translate:{count:vm.contact_members_invited.length} }}
+                        <ul class=avatars>
+                            <li ng-repeat="member in vm.contact_members_invited" wt-member-control member=member>
+                                <wt-avatar member=member size=30 wt-disable-pop></wt-avatar></li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <div ng-switch-when=3>
+                <div ng-if=!vm.invite_link_open class="text-center p-20">
+                    <div class=p-20>
+                        <img src=/img/links/team_invite_share.png alt=""></div>
+                    <button ng-click=vm.js_invite_link_open() type=button class="btn btn-success btn--big">{{'dialog_project_add_member.btn_open_invite_link'|translate}}</button>
+                    <div class="mt-20 ml-12 text-center color-text-grayer">{{'dialog_project_add_member.desc_invite_link'|translate}}</div></div>
+                <div ng-if=vm.invite_link_open>
+                    <div class=form-group>
+                        <input class=form-control ng-model=vm.invite_link type=text wt-click-select=""></div>
+                    <ul class=invite-list>
+                        <li class=ml-20>
+                            <div class=qrcode ng-bind-html=vm.invite_qrcode></div>
+                            <span>{{'dialog_project_add_member.text_wechat_invite'|translate}}</span></li>
+                        <li translate=dialog_project_add_member.desc_scan_qrcode></li>
+                    </ul>
+                    <div class="info text-center">{{'dialog_project_add_member.desc_close_link'|translate}}
+                        <button class="btn btn-sm btn-redline" ng-click=vm.js_invite_link_close()>{{'dialog_project_add_member.btn_close_link'|translate}}</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

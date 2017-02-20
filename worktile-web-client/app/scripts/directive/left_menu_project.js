@@ -8,16 +8,19 @@
 define(['app'], function (app) {
 	'use strict';
 
-	app.directive('wtProjectsMenu', ['$rootScope','$state','config',
-		function($rootScope,$state,config) {
+	app.directive('wtProjectsMenu', ['$rootScope','$state','config','$stateParams','globalDataContext',
+		function($rootScope,$state,config,$stateParams,globalDataContext) {
+		//["globalDataContext", "$state", "$stateParams", "$location", "$rootScope", "$timeout", "$animate", "projectService", "wtScrollService", "filterFilter", "projectsService"]
+	    //          a               b            c              d            e            f           g              h                  i                j                 k
 	    return {
 	      	restrict: 'E',
 	      	templateUrl: config.templateUrls.left_menu_project,
+	      	//                g,    l,      m
 	      	link: function (scope,element,attrs) {
 				function n() {
 					vm.collapse_recent_project = 
 						_.indexOf(vm.leftmenu_projects_collapse, "collapse_recent_project") !== -1;
-					var b = _.map(a.teams,
+					var b = _.map(globalDataContext.teams,
 						function(a) {
 							var b = _.clone(a);
 							return b.collapse = _.indexOf(vm.leftmenu_projects_collapse, a.team_id) !== -1,
@@ -34,8 +37,10 @@ define(['app'], function (app) {
 							})
 				}
 				var vm = scope.vm = {
-					selected_pid: c.pid,
-					leftmenu_projects_collapse: kzi.localData.get("leftmenu_projects_collapse") ? kzi.localData.get("leftmenu_projects_collapse").split(",") : [],
+					selected_pid: $stateParams.pid,
+					leftmenu_projects_collapse: [],
+						// kzi.localData.get("leftmenu_projects_collapse") ? 
+						// 		kzi.localData.get("leftmenu_projects_collapse").split(",") : [],
 					collapse_recent_project: !1,
 					teams: [],
 					projects: [],
@@ -45,11 +50,11 @@ define(['app'], function (app) {
 					current_pid: "",
 					current_star_project: !0,
 					on_query: !1,
-					star_projects: a.star_projects,
-					recent_projects: a.recent_projects
+					star_projects: globalDataContext.star_projects,
+					recent_projects: globalDataContext.recent_projects
 				};
 				n(),
-					scope.$on(kzi.constant.event_names.shortcut_key_select_prjs,
+					scope.$on(config.event_names.shortcut_key_select_prjs,
 						function(a, b) {
 							switch(b.event.preventDefault(), b.keyCode) {
 								case 13:
@@ -206,8 +211,8 @@ define(['app'], function (app) {
 					}
 				},
 				vm.js_remove_recent_project = function(b) {
-					a.cache.recent_open.remove("project", b),
-						vm.recent_projects = a.recent_projects
+					a.cache.recent_open.remove("project", b);
+					vm.recent_projects = a.recent_projects;
 				},
 				vm.js_collapse_projects = function(a) {
 					a ? (a.collapse = !a.collapse, jQuery.indexOf(vm.leftmenu_projects_collapse, a.team_id) === -1 ? vm.leftmenu_projects_collapse.push(a.team_id) : vm.leftmenu_projects_collapse = jQuery.reject(vm.leftmenu_projects_collapse,
@@ -219,7 +224,7 @@ define(['app'], function (app) {
 							})),
 						kzi.localData.set("leftmenu_projects_collapse", vm.leftmenu_projects_collapse)
 				},
-				scope.$on(kzi.constant.event_names.project_star_change,
+				scope.$on(config.event_names.project_star_change,
 					function(b, c) {
 						vm.star_projects = a.star_projects
 					})

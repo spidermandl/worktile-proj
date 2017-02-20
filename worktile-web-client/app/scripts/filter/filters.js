@@ -438,18 +438,20 @@ define(['app'], function (app) {
         }
     }]).filter("permission", [function() {
         return function(a, b) {
+            // console.log(a);
+            // console.log(b);
             return ! (!a || !b) && a & b
         }
-    }]).filter("teamVisibility", ["$translate",
-    function(a) {
-        return function(b) {
-            switch (b) {
-            case kzi.constant.team_visibility.private:
-                return a.instant("filter.team_visibility_private");
-            case kzi.constant.team_visibility.public:
-                return a.instant("filter.team_visibility_public");
-            default:
-                return ""
+    }]).filter("teamVisibility", ["$translate","config",
+    function(translate,config) {
+        return function(visibility) {
+            switch (visibility) {
+                case config.team_visibility.private:
+                    return translate.instant("filter.team_visibility_private");
+                case config.team_visibility.public:
+                    return translate.instant("filter.team_visibility_public");
+                default:
+                    return ""
             }
         }
     }]).filter("clientName", ["$translate",

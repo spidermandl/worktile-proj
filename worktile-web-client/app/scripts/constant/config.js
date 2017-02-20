@@ -35,6 +35,9 @@
 			team_members: 'views/work/team/team_members.html',
 			team_projects: 'views/work/team/team_projects.html',
 			team_tasks: 'views/work/team/team_tasks.html',
+			project_dialog_create: 'views/work/project/dialog_project_create.html',
+			project_dialog_create_preview_template: 'views/work/project/project_dialog_create_preview_template.html',
+			project_dialog_add_member: 'views/work/project/dialog_project_add_member.html',
 			'dashboard.default': 'views/work/dashboard/dashboard_task.html',
 			calendar_event_create: 'views/work/dashboard/dialog_event_create.html',//创建日历event
 			about: 'views/about.html',
@@ -235,6 +238,29 @@
 			team_remove_stats: "team_remove_stats",
 			autosave_cancel: "autosave_cancel",
 			broadcast_show: "broadcast_show"
+		},
+		team_visibility : {
+			private: 1,
+			public: 2
+		},
+		team_permission : {
+			owner: 31,
+			admin: 15,
+			member: 3,
+			guest: 1,
+			deny: 0
+		},
+		team_module : {
+			setting: 16,
+			add_project: 8,
+			add_member: 4,
+			view: 2,
+			view_base: 1
+		},
+		prj_visibility : {
+			private: 1,
+			protected: 2,
+			public: 3
 		},
      	errors : error,
 

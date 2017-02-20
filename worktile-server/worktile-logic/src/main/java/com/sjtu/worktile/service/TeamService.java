@@ -1,6 +1,7 @@
 package com.sjtu.worktile.service;
 
 import com.sjtu.worktile.model.*;
+import com.sjtu.worktile.model.mappers.TProjectMapper;
 import com.sjtu.worktile.model.mappers.TTeamMapper;
 import com.sjtu.worktile.model.mappers.TUserMapper;
 import com.sjtu.worktile.model.mappers.TUserRoleMapper;
@@ -22,6 +23,8 @@ public class TeamService {
     private TUserRoleMapper tUserRoleMapper;
     @Autowired
     private TUserMapper tUserMapper;
+    @Autowired
+    private TProjectMapper tProjectMapper;
 
     /**
      * 获取用户所在的组
@@ -113,5 +116,17 @@ public class TeamService {
         if (roles!=null && roles.size()==1)
             return roles.get(0);
         return null;
+    }
+
+    /**
+     * 获取团队项目
+     * @param team_id
+     * @return
+     */
+    public List<TProject> getTeamProjects(int team_id){
+        TProjectExample query = new TProjectExample();
+        TProjectExample.Criteria criteria = query.createCriteria();
+        criteria.andTeamIdEqualTo(team_id);
+        return tProjectMapper.selectByExample(query);
     }
 }

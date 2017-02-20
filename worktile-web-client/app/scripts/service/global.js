@@ -38,6 +38,7 @@ define(['app'], function (app) {
 
 			/**
 			 * 全局上下文数据
+			 * loadAll 的返回值
 			 */
 			var context = {
 				frame :null, //首页面类型 work or guest
@@ -54,6 +55,7 @@ define(['app'], function (app) {
 
 				constant : config,//常量
 
+				team_module: config.team_module,
 				/**
 				 * team相关
 				 */
@@ -129,7 +131,6 @@ define(['app'], function (app) {
 					}
 				},
 			};
-
 			var globalDataContext = {
 				contacts : [],
 				teams : [],
@@ -198,10 +199,9 @@ define(['app'], function (app) {
 							return $q.all([api.team_list()]).
 									then(
 										function(msgs){
-											console.log(msgs[0].data);
+											//console.log(msgs[0].data);
 											_.map(msgs[0].data,
 								                function(a) {
-								                	console.log(a);
 								                    var b = globalDataContext.getTeam(a.team_id);
 								                    b ? (delete b.faked, _.extend(b, a)) : 
 								                    	globalDataContext.teams.push(a);
@@ -480,7 +480,6 @@ define(['app'], function (app) {
 				// 		})
 				// },
 			};
-
 			return globalDataContext;
 		}
 	]);

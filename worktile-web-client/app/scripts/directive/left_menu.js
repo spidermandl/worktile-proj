@@ -152,7 +152,7 @@ define(['app'], function (app) {
 								            }
 								        );
 								        // console.log(globalDataContext.teams);
-								        console.log($scope.vm.teams);
+								        // console.log($scope.vm.teams);
 							        }
 
 							        $scope.popbox = c;

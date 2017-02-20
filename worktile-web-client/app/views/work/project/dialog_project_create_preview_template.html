@@ -1,0 +1,28 @@
+<div class="dialog dialog-project-create-preview-template">
+    <div class="dialog-head border-bottom">
+        <span class=dialog-close>
+            <i class="wtfont wtf-close" ng-click=vm.close()></i>
+        </span>
+        <div class=dialog-title>{{'dialog_project_create_preview_template.title_name'|translate:{template_name:vm.template.name} }}</div></div>
+    <div class="dialog-body entries_panel" wt-scroll='{"dir":"x"}'>
+        <div class=entries_panel_sortarea>
+            <div class=entry ng-repeat="entry in vm.template.entries">
+                <div class=entry_header>
+                    <div class=entry_header_title>
+                        <h2>
+                            <span>{{entry.name}}</span></h2>
+                    </div>
+                </div>
+                <div class=entry-task-panel wt-scroll="">
+                    <div ng-repeat="task in entry.tasks" class="task task_style task-card" entry=entry>
+                        <div class=entry-task-main>
+                            <a href=javascript:; class=entry-task-check>
+                                <i class="fa fa-square-o"></i>
+                            </a>
+                            <a href=javascript:; class=entry-task-title>{{task.title}}</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

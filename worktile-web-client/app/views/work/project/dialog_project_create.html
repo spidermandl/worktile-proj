@@ -1,0 +1,66 @@
+<div class="dialog dialog-project-create">
+    <div class="dialog-head border-bottom">
+        <span class=dialog-close>
+            <i class="wtfont wtf-close" ng-click=vm.close()></i>
+        </span>
+        <div class=dialog-title ng-if="vm.step_index==0">{{'dialog_project_create.title_name'|translate}}</div>
+        <div class=dialog-title ng-if="vm.step_index==1">{{'dialog_project_create.step_select_template'|translate}}</div></div>
+    <div class=dialog-body>
+        <div ng-switch on=vm.step_index>
+            <div ng-switch-default>
+                <form name=add_project_form w5c-form-validate class="w5c-form w-590 m-0-auto" novalidate role=form>
+                    <div class=form-group>
+                        <h5>{{'dialog_project_create.form_title_team'|translate}}</h5>
+                        <select ng-change=vm.change_project_team() name=projectTeam class=form-control ng-model=vm.new_project.team_id required="" ng-options="team.team_id as team.name for team in vm.teams">
+                            <option value="" selected=selected disabled=disabled>{{'dialog_project_create.placeholder_team'|translate}}</option></select>
+                    </div>
+                    <div class=form-group>
+                        <h5>{{'dialog_project_create.form_title_project_info'|translate}}</h5>
+                        <div>
+                            <input name=projectName ng-model=vm.new_project.name wt-autofocus="" ng-maxlength=200 placeholder="{{'dialog_project_create.placeholder_project_name'|translate}}" class=form-control type=text required></div>
+                    </div>
+                    <div class=form-group>
+                        <div>
+                            <textarea name=projectDesc ng-model=vm.new_project.desc placeholder="{{'dialog_project_create.placeholder_project_desc'|translate}}" class=form-control></textarea>
+                        </div>
+                    </div>
+                    <div class=form-group>
+                        <h5>{{'dialog_project_create.form_title_visibility'|translate}}</h5>
+                        <select class=form-control name=projectVisibility ng-model=vm.new_project.visibility required="" ng-options="item.id as item.name for item in vm.visibilities">
+                            <option value="" selected=selected disabled=disabled>{{'dialog_project_create.placeholder_visibility'|translate}}</option></select>
+                    </div>
+                    <div class=form-group>{{'dialog_project_create.tooltip_current_template'|translate}}
+                        <a href=javascript:; class=color-text-act-blue ng-click=vm.js_goto_template_list()>{{vm.current_template.name}}
+                            <i class="fa fa-angle-double-right"></i></a>
+                    </div>
+                    <div class=form-group>
+                        <button wt-loading-status=vm.saving data-loading-text="{{'common.saving'|translate}}" w5c-form-submit=vm.js_project_add($event) class="btn btn-success">{{'common.btn_save'|translate}}</button>
+                        <button class="btn btn-link btn-cancel" ng-click=vm.close()>{{'common.btn_cancel'|translate}}</button></div>
+                </form>
+            </div>
+            <div ng-switch-when=1>
+                <div class="w-590 m-0-auto">
+                    <dl class=project-templates>
+                        <dt>
+                            <a href=javascript:; ng-class="{'current':vm.filter_templates_category==null}" ng-click=vm.js_filter_templates_category()>{{'common.txt_all'|translate}}</a>
+                            <a href=javascript:; ng-repeat="templates_category in vm.system_templates" ng-class="{'current':vm.filter_templates_category==templates_category.category}" ng-click=vm.js_filter_templates_category(templates_category.category)>{{templates_category.category}}</a></dt>
+                        <dd wt-scroll="">
+                            <ul ng-repeat="templates_category in vm.system_templates" ng-if="vm.filter_templates_category==null||vm.filter_templates_category==templates_category.category">
+                                <li ng-repeat="template in templates_category.projects" ng-class="{'selected':template.id===vm.current_template.id}" ng-click=vm.js_select_template(template)>
+                                    <a href=javascript:; ng-style={backgroundImage:(template|getTemplateBg)}>
+                                        <h5 class=preview ng-click=vm.js_preview_template($event,template)>{{'common.txt_preview'|translate}}</h5>
+                                        <h5 class=name>{{template.name}}</h5></a>
+                                </li>
+                            </ul>
+                        </dd>
+                    </dl>
+                    <div class="form-group mt-10">
+                        <button ng-click=vm.js_select_template_ok() class="btn btn-success">{{'common.btn_ok'|translate}}</button>
+                        <button class="btn btn-link btn-cancel" ng-click=vm.js_cancel_select_template()>{{'common.btn_cancel'|translate}}</button></div>
+                </div>
+            </div>
+        </div>
+        <a ng-href="{{'/teams/'+vm.new_project.team_id+'/admin/custom'}}" target=_blank class=create-prj-footer ng-if="vm.step_index==1">
+            <i class="fa fa-info-circle"></i>{{'dialog_project_create.tips_go_team_setting_template'|translate}}</a>
+    </div>
+</div>

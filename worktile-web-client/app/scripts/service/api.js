@@ -218,11 +218,13 @@ define(['app'], function (app) {
 				/**************************************************************************
 				**获取team project信息 api
 				**************************************************************************/
-				team_project : function(){
+				get_team_projects : function(team_id,success,failure,promise){
 					return this.http_get_template(
-						'http://localhost:8080/api/team/'+team_id+'/project'
+						'http://localhost:8080/api/team/'+team_id+'/projects',
+						success,failure,promise
 					);
 				},
+				
 				/**************************************************************************
 				**获取未完成任务信息 api
 				**************************************************************************/
