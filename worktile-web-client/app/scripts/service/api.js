@@ -8,7 +8,7 @@
 define(['app'], function (app) {
  	'use strict';
 
-	app.service('api', ['$http','localStorageService','util','$q',
+	app.service('api', ['$http','localStorageService','Util','$q',
 		function ($http,localStorageService,util,$q) {
 			return {
 				/************************************************************************

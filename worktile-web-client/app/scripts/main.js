@@ -19,8 +19,8 @@
         	configuration : 'constant/config',
             error : 'constant/error',
             //service
-            util : 'service/util',
             global : 'service/global',
+            util : 'service/util',
             account : 'service/account',
             work : 'service/work',
             api: 'service/api',
@@ -50,10 +50,10 @@
                 deps: ['error'],//deps 载入依赖模块
             },
             app: {
-                deps: ['configuration','util'],
+                deps: ['configuration'],
             },
             global:{
-                deps: ['api','toolkit'],
+                deps: ['util','api','toolkit'],
             },
             identity: {
                 deps: ['account'],

@@ -46,7 +46,7 @@
  //    "wt.autosave", 
  //    ])
 
- define(['configuration','util'],function (configuration,util,require) {
+ define(['configuration'],function (configuration,require) {
     'use strict';
 
     var app = angular
@@ -71,7 +71,6 @@
     };
 
     app.constant('config',configuration);
-    app.constant('util',util);
     //,'$urlRouterProvider','$stateProvider'
     app.config(['$routeProvider','$urlRouterProvider','$stateProvider',"w5cValidatorProvider",
                 "$locationProvider",'$httpProvider','config','localStorageServiceProvider',
