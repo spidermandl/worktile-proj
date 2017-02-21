@@ -10,7 +10,7 @@ public interface TTaskCheckItemMapper {
 
     int deleteByExample(TTaskCheckItemExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(TTaskCheckItem record);
 
@@ -20,7 +20,7 @@ public interface TTaskCheckItemMapper {
 
     List<TTaskCheckItem> selectByExample(TTaskCheckItemExample example);
 
-    TTaskCheckItem selectByPrimaryKey(Integer id);
+    TTaskCheckItem selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") TTaskCheckItem record, @Param("example") TTaskCheckItemExample example);
 

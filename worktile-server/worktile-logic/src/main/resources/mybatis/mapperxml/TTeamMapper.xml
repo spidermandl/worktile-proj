@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sjtu.worktile.model.mappers.TTeamMapper">
   <resultMap id="BaseResultMap" type="com.sjtu.worktile.model.TTeam">
-    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="id" jdbcType="BIGINT" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="creater_id" jdbcType="INTEGER" property="createrId" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="industry" jdbcType="INTEGER" property="industry" />
@@ -15,8 +15,8 @@
     <result column="logo" jdbcType="VARCHAR" property="logo" />
     <result column="publicity" jdbcType="INTEGER" property="publicity" />
     <result column="default_tag" jdbcType="VARCHAR" property="defaultTag" />
-    <result column="default_project_id" jdbcType="INTEGER" property="defaultProjectId" />
-    <result column="default_template_id" jdbcType="INTEGER" property="defaultTemplateId" />
+    <result column="default_project_id" jdbcType="BIGINT" property="defaultProjectId" />
+    <result column="default_template_id" jdbcType="BIGINT" property="defaultTemplateId" />
     <result column="pending1" jdbcType="VARCHAR" property="pending1" />
     <result column="pending2" jdbcType="VARCHAR" property="pending2" />
     <result column="pending3" jdbcType="VARCHAR" property="pending3" />
@@ -122,17 +122,17 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from t_team
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from t_team
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.sjtu.worktile.model.TTeamExample">
     delete from t_team
@@ -148,11 +148,11 @@
       default_tag, default_project_id, default_template_id, 
       pending1, pending2, pending3, 
       description)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{createrId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{industry,jdbcType=INTEGER}, 
       #{scale,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
       #{district,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, #{publicity,jdbcType=INTEGER}, 
-      #{defaultTag,jdbcType=VARCHAR}, #{defaultProjectId,jdbcType=INTEGER}, #{defaultTemplateId,jdbcType=INTEGER}, 
+      #{defaultTag,jdbcType=VARCHAR}, #{defaultProjectId,jdbcType=BIGINT}, #{defaultTemplateId,jdbcType=BIGINT}, 
       #{pending1,jdbcType=VARCHAR}, #{pending2,jdbcType=VARCHAR}, #{pending3,jdbcType=VARCHAR}, 
       #{description,jdbcType=LONGVARCHAR})
   </insert>
@@ -219,13 +219,13 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=INTEGER},
+        #{id,jdbcType=BIGINT},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
       <if test="createrId != null">
-        #{createrId,jdbcType=INTEGER},
+        #{createrId,jdbcType=BIGINT},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -258,10 +258,10 @@
         #{defaultTag,jdbcType=VARCHAR},
       </if>
       <if test="defaultProjectId != null">
-        #{defaultProjectId,jdbcType=INTEGER},
+        #{defaultProjectId,jdbcType=BIGINT},
       </if>
       <if test="defaultTemplateId != null">
-        #{defaultTemplateId,jdbcType=INTEGER},
+        #{defaultTemplateId,jdbcType=BIGINT},
       </if>
       <if test="pending1 != null">
         #{pending1,jdbcType=VARCHAR},
@@ -287,13 +287,13 @@
     update t_team
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+        id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.createrId != null">
-        creater_id = #{record.createrId,jdbcType=INTEGER},
+        creater_id = #{record.createrId,jdbcType=BIGINT},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -326,10 +326,10 @@
         default_tag = #{record.defaultTag,jdbcType=VARCHAR},
       </if>
       <if test="record.defaultProjectId != null">
-        default_project_id = #{record.defaultProjectId,jdbcType=INTEGER},
+        default_project_id = #{record.defaultProjectId,jdbcType=BIGINT},
       </if>
       <if test="record.defaultTemplateId != null">
-        default_template_id = #{record.defaultTemplateId,jdbcType=INTEGER},
+        default_template_id = #{record.defaultTemplateId,jdbcType=BIGINT},
       </if>
       <if test="record.pending1 != null">
         pending1 = #{record.pending1,jdbcType=VARCHAR},
@@ -350,9 +350,9 @@
   </update>
   <update id="updateByExampleWithBLOBs" parameterType="map">
     update t_team
-    set id = #{record.id,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=BIGINT},
       name = #{record.name,jdbcType=VARCHAR},
-      creater_id = #{record.createrId,jdbcType=INTEGER},
+      creater_id = #{record.createrId,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       industry = #{record.industry,jdbcType=INTEGER},
@@ -363,8 +363,8 @@
       logo = #{record.logo,jdbcType=VARCHAR},
       publicity = #{record.publicity,jdbcType=INTEGER},
       default_tag = #{record.defaultTag,jdbcType=VARCHAR},
-      default_project_id = #{record.defaultProjectId,jdbcType=INTEGER},
-      default_template_id = #{record.defaultTemplateId,jdbcType=INTEGER},
+      default_project_id = #{record.defaultProjectId,jdbcType=BIGINT},
+      default_template_id = #{record.defaultTemplateId,jdbcType=BIGINT},
       pending1 = #{record.pending1,jdbcType=VARCHAR},
       pending2 = #{record.pending2,jdbcType=VARCHAR},
       pending3 = #{record.pending3,jdbcType=VARCHAR},
@@ -375,9 +375,9 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update t_team
-    set id = #{record.id,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=BIGINT},
       name = #{record.name,jdbcType=VARCHAR},
-      creater_id = #{record.createrId,jdbcType=INTEGER},
+      creater_id = #{record.createrId,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       industry = #{record.industry,jdbcType=INTEGER},
@@ -388,8 +388,8 @@
       logo = #{record.logo,jdbcType=VARCHAR},
       publicity = #{record.publicity,jdbcType=INTEGER},
       default_tag = #{record.defaultTag,jdbcType=VARCHAR},
-      default_project_id = #{record.defaultProjectId,jdbcType=INTEGER},
-      default_template_id = #{record.defaultTemplateId,jdbcType=INTEGER},
+      default_project_id = #{record.defaultProjectId,jdbcType=BIGINT},
+      default_template_id = #{record.defaultTemplateId,jdbcType=BIGINT},
       pending1 = #{record.pending1,jdbcType=VARCHAR},
       pending2 = #{record.pending2,jdbcType=VARCHAR},
       pending3 = #{record.pending3,jdbcType=VARCHAR}
@@ -404,7 +404,7 @@
         name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="createrId != null">
-        creater_id = #{createrId,jdbcType=INTEGER},
+        creater_id = #{createrId,jdbcType=BIGINT},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -437,10 +437,10 @@
         default_tag = #{defaultTag,jdbcType=VARCHAR},
       </if>
       <if test="defaultProjectId != null">
-        default_project_id = #{defaultProjectId,jdbcType=INTEGER},
+        default_project_id = #{defaultProjectId,jdbcType=BIGINT},
       </if>
       <if test="defaultTemplateId != null">
-        default_template_id = #{defaultTemplateId,jdbcType=INTEGER},
+        default_template_id = #{defaultTemplateId,jdbcType=BIGINT},
       </if>
       <if test="pending1 != null">
         pending1 = #{pending1,jdbcType=VARCHAR},
@@ -455,12 +455,12 @@
         description = #{description,jdbcType=LONGVARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.sjtu.worktile.model.TTeam">
     update t_team
     set name = #{name,jdbcType=VARCHAR},
-      creater_id = #{createrId,jdbcType=INTEGER},
+      creater_id = #{createrId,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       industry = #{industry,jdbcType=INTEGER},
@@ -471,18 +471,18 @@
       logo = #{logo,jdbcType=VARCHAR},
       publicity = #{publicity,jdbcType=INTEGER},
       default_tag = #{defaultTag,jdbcType=VARCHAR},
-      default_project_id = #{defaultProjectId,jdbcType=INTEGER},
-      default_template_id = #{defaultTemplateId,jdbcType=INTEGER},
+      default_project_id = #{defaultProjectId,jdbcType=BIGINT},
+      default_template_id = #{defaultTemplateId,jdbcType=BIGINT},
       pending1 = #{pending1,jdbcType=VARCHAR},
       pending2 = #{pending2,jdbcType=VARCHAR},
       pending3 = #{pending3,jdbcType=VARCHAR},
       description = #{description,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.sjtu.worktile.model.TTeam">
     update t_team
     set name = #{name,jdbcType=VARCHAR},
-      creater_id = #{createrId,jdbcType=INTEGER},
+      creater_id = #{createrId,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       industry = #{industry,jdbcType=INTEGER},
@@ -493,11 +493,11 @@
       logo = #{logo,jdbcType=VARCHAR},
       publicity = #{publicity,jdbcType=INTEGER},
       default_tag = #{defaultTag,jdbcType=VARCHAR},
-      default_project_id = #{defaultProjectId,jdbcType=INTEGER},
-      default_template_id = #{defaultTemplateId,jdbcType=INTEGER},
+      default_project_id = #{defaultProjectId,jdbcType=BIGINT},
+      default_template_id = #{defaultTemplateId,jdbcType=BIGINT},
       pending1 = #{pending1,jdbcType=VARCHAR},
       pending2 = #{pending2,jdbcType=VARCHAR},
       pending3 = #{pending3,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sjtu.worktile.model.mappers.TTaskCommentMapper">
   <resultMap id="BaseResultMap" type="com.sjtu.worktile.model.TTaskComment">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="sender_id" jdbcType="INTEGER" property="senderId" />
-    <result column="task_id" jdbcType="INTEGER" property="taskId" />
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="sender_id" jdbcType="BIGINT" property="senderId" />
+    <result column="task_id" jdbcType="BIGINT" property="taskId" />
     <result column="attachment" jdbcType="VARCHAR" property="attachment" />
-    <result column="comment_id" jdbcType="INTEGER" property="commentId" />
+    <result column="comment_id" jdbcType="BIGINT" property="commentId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="pending1" jdbcType="VARCHAR" property="pending1" />
     <result column="pending2" jdbcType="VARCHAR" property="pending2" />
@@ -112,17 +112,17 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from t_task_comment
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from t_task_comment
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.sjtu.worktile.model.TTaskCommentExample">
     delete from t_task_comment
@@ -135,8 +135,8 @@
       attachment, comment_id, create_time, 
       pending1, pending2, pending3, 
       content)
-    values (#{id,jdbcType=INTEGER}, #{senderId,jdbcType=INTEGER}, #{taskId,jdbcType=INTEGER}, 
-      #{attachment,jdbcType=VARCHAR}, #{commentId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=BIGINT}, #{senderId,jdbcType=BIGINT}, #{taskId,jdbcType=BIGINT}, 
+      #{attachment,jdbcType=VARCHAR}, #{commentId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
       #{pending1,jdbcType=VARCHAR}, #{pending2,jdbcType=VARCHAR}, #{pending3,jdbcType=VARCHAR}, 
       #{content,jdbcType=LONGVARCHAR})
   </insert>
@@ -176,19 +176,19 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=INTEGER},
+        #{id,jdbcType=BIGINT},
       </if>
       <if test="senderId != null">
-        #{senderId,jdbcType=INTEGER},
+        #{senderId,jdbcType=BIGINT},
       </if>
       <if test="taskId != null">
-        #{taskId,jdbcType=INTEGER},
+        #{taskId,jdbcType=BIGINT},
       </if>
       <if test="attachment != null">
         #{attachment,jdbcType=VARCHAR},
       </if>
       <if test="commentId != null">
-        #{commentId,jdbcType=INTEGER},
+        #{commentId,jdbcType=BIGINT},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -217,19 +217,19 @@
     update t_task_comment
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+        id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.senderId != null">
-        sender_id = #{record.senderId,jdbcType=INTEGER},
+        sender_id = #{record.senderId,jdbcType=BIGINT},
       </if>
       <if test="record.taskId != null">
-        task_id = #{record.taskId,jdbcType=INTEGER},
+        task_id = #{record.taskId,jdbcType=BIGINT},
       </if>
       <if test="record.attachment != null">
         attachment = #{record.attachment,jdbcType=VARCHAR},
       </if>
       <if test="record.commentId != null">
-        comment_id = #{record.commentId,jdbcType=INTEGER},
+        comment_id = #{record.commentId,jdbcType=BIGINT},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -253,11 +253,11 @@
   </update>
   <update id="updateByExampleWithBLOBs" parameterType="map">
     update t_task_comment
-    set id = #{record.id,jdbcType=INTEGER},
-      sender_id = #{record.senderId,jdbcType=INTEGER},
-      task_id = #{record.taskId,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=BIGINT},
+      sender_id = #{record.senderId,jdbcType=BIGINT},
+      task_id = #{record.taskId,jdbcType=BIGINT},
       attachment = #{record.attachment,jdbcType=VARCHAR},
-      comment_id = #{record.commentId,jdbcType=INTEGER},
+      comment_id = #{record.commentId,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       pending1 = #{record.pending1,jdbcType=VARCHAR},
       pending2 = #{record.pending2,jdbcType=VARCHAR},
@@ -269,11 +269,11 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update t_task_comment
-    set id = #{record.id,jdbcType=INTEGER},
-      sender_id = #{record.senderId,jdbcType=INTEGER},
-      task_id = #{record.taskId,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=BIGINT},
+      sender_id = #{record.senderId,jdbcType=BIGINT},
+      task_id = #{record.taskId,jdbcType=BIGINT},
       attachment = #{record.attachment,jdbcType=VARCHAR},
-      comment_id = #{record.commentId,jdbcType=INTEGER},
+      comment_id = #{record.commentId,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       pending1 = #{record.pending1,jdbcType=VARCHAR},
       pending2 = #{record.pending2,jdbcType=VARCHAR},
@@ -286,16 +286,16 @@
     update t_task_comment
     <set>
       <if test="senderId != null">
-        sender_id = #{senderId,jdbcType=INTEGER},
+        sender_id = #{senderId,jdbcType=BIGINT},
       </if>
       <if test="taskId != null">
-        task_id = #{taskId,jdbcType=INTEGER},
+        task_id = #{taskId,jdbcType=BIGINT},
       </if>
       <if test="attachment != null">
         attachment = #{attachment,jdbcType=VARCHAR},
       </if>
       <if test="commentId != null">
-        comment_id = #{commentId,jdbcType=INTEGER},
+        comment_id = #{commentId,jdbcType=BIGINT},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -313,31 +313,31 @@
         content = #{content,jdbcType=LONGVARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.sjtu.worktile.model.TTaskComment">
     update t_task_comment
-    set sender_id = #{senderId,jdbcType=INTEGER},
-      task_id = #{taskId,jdbcType=INTEGER},
+    set sender_id = #{senderId,jdbcType=BIGINT},
+      task_id = #{taskId,jdbcType=BIGINT},
       attachment = #{attachment,jdbcType=VARCHAR},
-      comment_id = #{commentId,jdbcType=INTEGER},
+      comment_id = #{commentId,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       pending1 = #{pending1,jdbcType=VARCHAR},
       pending2 = #{pending2,jdbcType=VARCHAR},
       pending3 = #{pending3,jdbcType=VARCHAR},
       content = #{content,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.sjtu.worktile.model.TTaskComment">
     update t_task_comment
-    set sender_id = #{senderId,jdbcType=INTEGER},
-      task_id = #{taskId,jdbcType=INTEGER},
+    set sender_id = #{senderId,jdbcType=BIGINT},
+      task_id = #{taskId,jdbcType=BIGINT},
       attachment = #{attachment,jdbcType=VARCHAR},
-      comment_id = #{commentId,jdbcType=INTEGER},
+      comment_id = #{commentId,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       pending1 = #{pending1,jdbcType=VARCHAR},
       pending2 = #{pending2,jdbcType=VARCHAR},
       pending3 = #{pending3,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

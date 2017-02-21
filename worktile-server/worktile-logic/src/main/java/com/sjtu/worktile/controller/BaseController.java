@@ -19,9 +19,9 @@ abstract public class BaseController {
      * @param request
      * @return
      */
-    protected int getUserID(final HttpServletRequest request){
+    protected long getUserID(final HttpServletRequest request){
         final Claims claims = (Claims) request.getAttribute("claims");
-        return (Integer) claims.get(Const.TOKEN_UID);
+        return (Long) claims.get(Const.TOKEN_UID);
     }
 
     /**

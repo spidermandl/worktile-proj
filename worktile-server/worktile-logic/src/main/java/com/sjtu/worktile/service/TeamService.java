@@ -31,7 +31,7 @@ public class TeamService {
      * @param uid
      * @return
      */
-    public List<TTeam> getSelfTeam(int uid){
+    public List<TTeam> getSelfTeam(long uid){
         TTeamExample query = new TTeamExample();
         query.or().andCreaterIdEqualTo(uid);
         return tTeamMapper.selectByExample(query);
@@ -42,7 +42,7 @@ public class TeamService {
      * @param tid
      * @return
      */
-    public long getTeamCount(int tid){
+    public long getTeamCount(long tid){
         TUserRoleExample query = new TUserRoleExample();
         query.or().andTeamIdEqualTo(tid);
         return tUserRoleMapper.countByExample(query);
@@ -54,7 +54,7 @@ public class TeamService {
      * @param uid
      * @return
      */
-    public List<TUser> getAllTeamContacts(int uid){
+    public List<TUser> getAllTeamContacts(long uid){
         /**
          * 根据teamid查找userrole
          */
@@ -73,7 +73,7 @@ public class TeamService {
         HashMap<Long,Boolean> uids = new HashMap<>();
         TUserExample uQuery = new TUserExample();
         for (TUserRole r : roles){//除去相同的人
-            int id = r.getUserId();
+            long id = r.getUserId();
             if (!uids.containsKey(id)){
                 TUserExample.Criteria criteria = uQuery.createCriteria();
                 criteria.andIdEqualTo(id);
@@ -96,7 +96,7 @@ public class TeamService {
      * @param team_id
      * @return
      */
-    public TTeam getTeamInfoById(int team_id){
+    public TTeam getTeamInfoById(long team_id){
         return tTeamMapper.selectByPrimaryKey(team_id);
     }
 
@@ -107,7 +107,7 @@ public class TeamService {
      * @return
      */
     @Deprecated
-    public TUserRole getRoleInTeam(int uid,int team_id){
+    public TUserRole getRoleInTeam(long uid,long team_id){
         TUserRoleExample query = new TUserRoleExample();
         TUserRoleExample.Criteria criteria = query.createCriteria();
         criteria.andUserIdEqualTo(uid).andTeamIdEqualTo(team_id);
@@ -123,7 +123,7 @@ public class TeamService {
      * @param team_id
      * @return
      */
-    public List<TProject> getTeamProjects(int team_id){
+    public List<TProject> getTeamProjects(long team_id){
         TProjectExample query = new TProjectExample();
         TProjectExample.Criteria criteria = query.createCriteria();
         criteria.andTeamIdEqualTo(team_id);

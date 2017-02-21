@@ -10,7 +10,7 @@ public interface TTeamMapper {
 
     int deleteByExample(TTeamExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(TTeam record);
 
@@ -20,7 +20,7 @@ public interface TTeamMapper {
 
     List<TTeam> selectByExample(TTeamExample example);
 
-    TTeam selectByPrimaryKey(Integer id);
+    TTeam selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") TTeam record, @Param("example") TTeamExample example);
 

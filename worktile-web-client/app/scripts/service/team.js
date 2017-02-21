@@ -10,7 +10,7 @@ define(['app'], function (app) {
 
 
     app.service('TeamService', ["$uibModal", "globalDataContext","$translate", "ycTrack","config",'api',
-        function(a, b, c,d,config,api) {
+        function(a, b, c, d, config, api) {
             this.showAdd = function() {
                 var e = a.open({
                     windowClass: "dialog-w680",

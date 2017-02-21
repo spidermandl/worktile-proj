@@ -50,7 +50,7 @@ public class UserService {
      * @param id
      * @return
      */
-    public TUser findUserByID(int id){
+    public TUser findUserByID(long id){
         return tUserMapper.selectByPrimaryKey(id);
     }
 

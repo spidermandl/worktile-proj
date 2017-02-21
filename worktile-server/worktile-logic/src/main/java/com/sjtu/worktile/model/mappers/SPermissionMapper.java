@@ -10,7 +10,7 @@ public interface SPermissionMapper {
 
     int deleteByExample(SPermissionExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(SPermission record);
 
@@ -18,7 +18,7 @@ public interface SPermissionMapper {
 
     List<SPermission> selectByExample(SPermissionExample example);
 
-    SPermission selectByPrimaryKey(Integer id);
+    SPermission selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") SPermission record, @Param("example") SPermissionExample example);
 

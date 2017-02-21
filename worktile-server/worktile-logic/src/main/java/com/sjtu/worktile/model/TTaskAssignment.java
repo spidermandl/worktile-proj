@@ -1,15 +1,15 @@
 package com.sjtu.worktile.model;
 
 public class TTaskAssignment {
-    private Integer id;
+    private Long id;
 
-    private Integer taskId;
+    private Long taskId;
 
-    private Integer followerId;
+    private Long followerId;
 
-    private Integer assignerId;
+    private Long assignerId;
 
-    private Integer attachId;
+    private Long attachId;
 
     private String pending1;
 
@@ -17,43 +17,43 @@ public class TTaskAssignment {
 
     private String pending3;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getTaskId() {
+    public Long getTaskId() {
         return taskId;
     }
 
-    public void setTaskId(Integer taskId) {
+    public void setTaskId(Long taskId) {
         this.taskId = taskId;
     }
 
-    public Integer getFollowerId() {
+    public Long getFollowerId() {
         return followerId;
     }
 
-    public void setFollowerId(Integer followerId) {
+    public void setFollowerId(Long followerId) {
         this.followerId = followerId;
     }
 
-    public Integer getAssignerId() {
+    public Long getAssignerId() {
         return assignerId;
     }
 
-    public void setAssignerId(Integer assignerId) {
+    public void setAssignerId(Long assignerId) {
         this.assignerId = assignerId;
     }
 
-    public Integer getAttachId() {
+    public Long getAttachId() {
         return attachId;
     }
 
-    public void setAttachId(Integer attachId) {
+    public void setAttachId(Long attachId) {
         this.attachId = attachId;
     }
 

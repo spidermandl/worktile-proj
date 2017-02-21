@@ -24,7 +24,7 @@ public class MeController extends BaseController{
     @RequestMapping(value = "profile", method = RequestMethod.GET)
     @ResponseBody
     public MeMsg.OutMsg me(final HttpServletRequest request){
-        int uid = super.getUserID(request);
+        long uid = super.getUserID(request);
         MeMsg.OutMsg outMsg = new MeMsg.OutMsg();
         TUser user = userService.findUserByID(uid);
         /**

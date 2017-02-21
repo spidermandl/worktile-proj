@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sjtu.worktile.model.mappers.TProjectMapper">
   <resultMap id="BaseResultMap" type="com.sjtu.worktile.model.TProject">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="owner_id" jdbcType="INTEGER" property="ownerId" />
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="owner_id" jdbcType="BIGINT" property="ownerId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="crew_cap" jdbcType="INTEGER" property="crewCap" />
-    <result column="team_id" jdbcType="INTEGER" property="teamId" />
+    <result column="team_id" jdbcType="BIGINT" property="teamId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="pending1" jdbcType="VARCHAR" property="pending1" />
     <result column="pending2" jdbcType="VARCHAR" property="pending2" />
@@ -111,17 +111,17 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from t_project
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from t_project
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.sjtu.worktile.model.TProjectExample">
     delete from t_project
@@ -134,8 +134,8 @@
       crew_cap, team_id, create_time, 
       pending1, pending2, pending3, 
       description)
-    values (#{id,jdbcType=INTEGER}, #{ownerId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{crewCap,jdbcType=INTEGER}, #{teamId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=BIGINT}, #{ownerId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
+      #{crewCap,jdbcType=INTEGER}, #{teamId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
       #{pending1,jdbcType=VARCHAR}, #{pending2,jdbcType=VARCHAR}, #{pending3,jdbcType=VARCHAR}, 
       #{description,jdbcType=LONGVARCHAR})
   </insert>
@@ -175,10 +175,10 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=INTEGER},
+        #{id,jdbcType=BIGINT},
       </if>
       <if test="ownerId != null">
-        #{ownerId,jdbcType=INTEGER},
+        #{ownerId,jdbcType=BIGINT},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -187,7 +187,7 @@
         #{crewCap,jdbcType=INTEGER},
       </if>
       <if test="teamId != null">
-        #{teamId,jdbcType=INTEGER},
+        #{teamId,jdbcType=BIGINT},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -216,10 +216,10 @@
     update t_project
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+        id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.ownerId != null">
-        owner_id = #{record.ownerId,jdbcType=INTEGER},
+        owner_id = #{record.ownerId,jdbcType=BIGINT},
       </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
@@ -228,7 +228,7 @@
         crew_cap = #{record.crewCap,jdbcType=INTEGER},
       </if>
       <if test="record.teamId != null">
-        team_id = #{record.teamId,jdbcType=INTEGER},
+        team_id = #{record.teamId,jdbcType=BIGINT},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -252,11 +252,11 @@
   </update>
   <update id="updateByExampleWithBLOBs" parameterType="map">
     update t_project
-    set id = #{record.id,jdbcType=INTEGER},
-      owner_id = #{record.ownerId,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=BIGINT},
+      owner_id = #{record.ownerId,jdbcType=BIGINT},
       name = #{record.name,jdbcType=VARCHAR},
       crew_cap = #{record.crewCap,jdbcType=INTEGER},
-      team_id = #{record.teamId,jdbcType=INTEGER},
+      team_id = #{record.teamId,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       pending1 = #{record.pending1,jdbcType=VARCHAR},
       pending2 = #{record.pending2,jdbcType=VARCHAR},
@@ -268,11 +268,11 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update t_project
-    set id = #{record.id,jdbcType=INTEGER},
-      owner_id = #{record.ownerId,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=BIGINT},
+      owner_id = #{record.ownerId,jdbcType=BIGINT},
       name = #{record.name,jdbcType=VARCHAR},
       crew_cap = #{record.crewCap,jdbcType=INTEGER},
-      team_id = #{record.teamId,jdbcType=INTEGER},
+      team_id = #{record.teamId,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       pending1 = #{record.pending1,jdbcType=VARCHAR},
       pending2 = #{record.pending2,jdbcType=VARCHAR},
@@ -285,7 +285,7 @@
     update t_project
     <set>
       <if test="ownerId != null">
-        owner_id = #{ownerId,jdbcType=INTEGER},
+        owner_id = #{ownerId,jdbcType=BIGINT},
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
@@ -294,7 +294,7 @@
         crew_cap = #{crewCap,jdbcType=INTEGER},
       </if>
       <if test="teamId != null">
-        team_id = #{teamId,jdbcType=INTEGER},
+        team_id = #{teamId,jdbcType=BIGINT},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -312,31 +312,31 @@
         description = #{description,jdbcType=LONGVARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.sjtu.worktile.model.TProject">
     update t_project
-    set owner_id = #{ownerId,jdbcType=INTEGER},
+    set owner_id = #{ownerId,jdbcType=BIGINT},
       name = #{name,jdbcType=VARCHAR},
       crew_cap = #{crewCap,jdbcType=INTEGER},
-      team_id = #{teamId,jdbcType=INTEGER},
+      team_id = #{teamId,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       pending1 = #{pending1,jdbcType=VARCHAR},
       pending2 = #{pending2,jdbcType=VARCHAR},
       pending3 = #{pending3,jdbcType=VARCHAR},
       description = #{description,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.sjtu.worktile.model.TProject">
     update t_project
-    set owner_id = #{ownerId,jdbcType=INTEGER},
+    set owner_id = #{ownerId,jdbcType=BIGINT},
       name = #{name,jdbcType=VARCHAR},
       crew_cap = #{crewCap,jdbcType=INTEGER},
-      team_id = #{teamId,jdbcType=INTEGER},
+      team_id = #{teamId,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       pending1 = #{pending1,jdbcType=VARCHAR},
       pending2 = #{pending2,jdbcType=VARCHAR},
       pending3 = #{pending3,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

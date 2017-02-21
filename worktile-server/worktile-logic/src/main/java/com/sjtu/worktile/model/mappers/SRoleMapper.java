@@ -10,7 +10,7 @@ public interface SRoleMapper {
 
     int deleteByExample(SRoleExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(SRole record);
 
@@ -18,7 +18,7 @@ public interface SRoleMapper {
 
     List<SRole> selectByExample(SRoleExample example);
 
-    SRole selectByPrimaryKey(Integer id);
+    SRole selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") SRole record, @Param("example") SRoleExample example);
 

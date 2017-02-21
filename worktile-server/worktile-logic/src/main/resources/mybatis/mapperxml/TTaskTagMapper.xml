@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sjtu.worktile.model.mappers.TTaskTagMapper">
   <resultMap id="BaseResultMap" type="com.sjtu.worktile.model.TTaskTag">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="task_id" jdbcType="INTEGER" property="taskId" />
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="task_id" jdbcType="BIGINT" property="taskId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="color" jdbcType="INTEGER" property="color" />
     <result column="pending1" jdbcType="VARCHAR" property="pending1" />
@@ -87,15 +87,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from t_task_tag
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from t_task_tag
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.sjtu.worktile.model.TTaskTagExample">
     delete from t_task_tag
@@ -107,7 +107,7 @@
     insert into t_task_tag (id, user_id, task_id, 
       name, color, pending1, 
       pending2, pending3)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{taskId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{taskId,jdbcType=BIGINT}, 
       #{name,jdbcType=VARCHAR}, #{color,jdbcType=INTEGER}, #{pending1,jdbcType=VARCHAR}, 
       #{pending2,jdbcType=VARCHAR}, #{pending3,jdbcType=VARCHAR})
   </insert>
@@ -141,13 +141,13 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=INTEGER},
+        #{id,jdbcType=BIGINT},
       </if>
       <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
+        #{userId,jdbcType=BIGINT},
       </if>
       <if test="taskId != null">
-        #{taskId,jdbcType=INTEGER},
+        #{taskId,jdbcType=BIGINT},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -176,13 +176,13 @@
     update t_task_tag
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+        id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.userId != null">
-        user_id = #{record.userId,jdbcType=INTEGER},
+        user_id = #{record.userId,jdbcType=BIGINT},
       </if>
       <if test="record.taskId != null">
-        task_id = #{record.taskId,jdbcType=INTEGER},
+        task_id = #{record.taskId,jdbcType=BIGINT},
       </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
@@ -206,9 +206,9 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update t_task_tag
-    set id = #{record.id,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=INTEGER},
-      task_id = #{record.taskId,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      task_id = #{record.taskId,jdbcType=BIGINT},
       name = #{record.name,jdbcType=VARCHAR},
       color = #{record.color,jdbcType=INTEGER},
       pending1 = #{record.pending1,jdbcType=VARCHAR},
@@ -222,10 +222,10 @@
     update t_task_tag
     <set>
       <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
+        user_id = #{userId,jdbcType=BIGINT},
       </if>
       <if test="taskId != null">
-        task_id = #{taskId,jdbcType=INTEGER},
+        task_id = #{taskId,jdbcType=BIGINT},
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
@@ -243,17 +243,17 @@
         pending3 = #{pending3,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.sjtu.worktile.model.TTaskTag">
     update t_task_tag
-    set user_id = #{userId,jdbcType=INTEGER},
-      task_id = #{taskId,jdbcType=INTEGER},
+    set user_id = #{userId,jdbcType=BIGINT},
+      task_id = #{taskId,jdbcType=BIGINT},
       name = #{name,jdbcType=VARCHAR},
       color = #{color,jdbcType=INTEGER},
       pending1 = #{pending1,jdbcType=VARCHAR},
       pending2 = #{pending2,jdbcType=VARCHAR},
       pending3 = #{pending3,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

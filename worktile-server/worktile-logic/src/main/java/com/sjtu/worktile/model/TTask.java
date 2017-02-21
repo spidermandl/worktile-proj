@@ -3,13 +3,13 @@ package com.sjtu.worktile.model;
 import java.util.Date;
 
 public class TTask {
-    private Integer id;
+    private Long id;
 
     private String title;
 
     private String description;
 
-    private Integer createrId;
+    private Long createrId;
 
     private Integer type;
 
@@ -17,7 +17,7 @@ public class TTask {
 
     private Date updateTime;
 
-    private Integer parentId;
+    private Long parentId;
 
     private Date endTime;
 
@@ -27,11 +27,11 @@ public class TTask {
 
     private String pending3;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -51,11 +51,11 @@ public class TTask {
         this.description = description == null ? null : description.trim();
     }
 
-    public Integer getCreaterId() {
+    public Long getCreaterId() {
         return createrId;
     }
 
-    public void setCreaterId(Integer createrId) {
+    public void setCreaterId(Long createrId) {
         this.createrId = createrId;
     }
 
@@ -83,11 +83,11 @@ public class TTask {
         this.updateTime = updateTime;
     }
 
-    public Integer getParentId() {
+    public Long getParentId() {
         return parentId;
     }
 
-    public void setParentId(Integer parentId) {
+    public void setParentId(Long parentId) {
         this.parentId = parentId;
     }
 

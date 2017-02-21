@@ -29,7 +29,7 @@ public class TaskController extends BaseController {
     @RequestMapping(value = "uncompleted", method = RequestMethod.GET)
     @ResponseBody
     public TaskListMsg.OutMsg list(final HttpServletRequest request){
-        int uid=super.getUserID(request);
+        long uid=super.getUserID(request);
         TaskListMsg.OutMsg msg = new TaskListMsg.OutMsg();
         return msg;
     }
@@ -47,12 +47,12 @@ public class TaskController extends BaseController {
      */
     @RequestMapping(value="create",method=RequestMethod.POST)
     @ResponseBody
-    public PairMsg.ResponseMsg create(@RequestParam("parent_id") int parent_id,
-                                      @RequestParam("entry_id") int entry_id,
+    public PairMsg.ResponseMsg create(@RequestParam("parent_id") long parent_id,
+                                      @RequestParam("entry_id") long entry_id,
                                       @RequestParam("title") String title,
                                       @RequestParam("type") int type,
                                       final HttpServletRequest request)throws AppException{
-        int uid=super.getUserID(request);
+        long uid=super.getUserID(request);
         TTask tTask=new TTask();
         tTask.setParentId(parent_id);
         tTask.setCreaterId(uid);

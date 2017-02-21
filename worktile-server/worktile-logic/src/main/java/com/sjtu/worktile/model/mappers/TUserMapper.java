@@ -10,7 +10,7 @@ public interface TUserMapper {
 
     int deleteByExample(TUserExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(TUser record);
 
@@ -18,7 +18,7 @@ public interface TUserMapper {
 
     List<TUser> selectByExample(TUserExample example);
 
-    TUser selectByPrimaryKey(Integer id);
+    TUser selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") TUser record, @Param("example") TUserExample example);
 

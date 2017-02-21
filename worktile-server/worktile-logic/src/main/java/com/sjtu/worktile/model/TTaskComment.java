@@ -3,15 +3,15 @@ package com.sjtu.worktile.model;
 import java.util.Date;
 
 public class TTaskComment {
-    private Integer id;
+    private Long id;
 
-    private Integer senderId;
+    private Long senderId;
 
-    private Integer taskId;
+    private Long taskId;
 
     private String attachment;
 
-    private Integer commentId;
+    private Long commentId;
 
     private Date createTime;
 
@@ -23,27 +23,27 @@ public class TTaskComment {
 
     private String content;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getSenderId() {
+    public Long getSenderId() {
         return senderId;
     }
 
-    public void setSenderId(Integer senderId) {
+    public void setSenderId(Long senderId) {
         this.senderId = senderId;
     }
 
-    public Integer getTaskId() {
+    public Long getTaskId() {
         return taskId;
     }
 
-    public void setTaskId(Integer taskId) {
+    public void setTaskId(Long taskId) {
         this.taskId = taskId;
     }
 
@@ -55,11 +55,11 @@ public class TTaskComment {
         this.attachment = attachment == null ? null : attachment.trim();
     }
 
-    public Integer getCommentId() {
+    public Long getCommentId() {
         return commentId;
     }
 
-    public void setCommentId(Integer commentId) {
+    public void setCommentId(Long commentId) {
         this.commentId = commentId;
     }
 

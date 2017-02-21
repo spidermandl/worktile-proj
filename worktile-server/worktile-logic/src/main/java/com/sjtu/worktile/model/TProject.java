@@ -3,15 +3,15 @@ package com.sjtu.worktile.model;
 import java.util.Date;
 
 public class TProject {
-    private Integer id;
+    private Long id;
 
-    private Integer ownerId;
+    private Long ownerId;
 
     private String name;
 
     private Integer crewCap;
 
-    private Integer teamId;
+    private Long teamId;
 
     private Date createTime;
 
@@ -23,19 +23,19 @@ public class TProject {
 
     private String description;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getOwnerId() {
+    public Long getOwnerId() {
         return ownerId;
     }
 
-    public void setOwnerId(Integer ownerId) {
+    public void setOwnerId(Long ownerId) {
         this.ownerId = ownerId;
     }
 
@@ -55,11 +55,11 @@ public class TProject {
         this.crewCap = crewCap;
     }
 
-    public Integer getTeamId() {
+    public Long getTeamId() {
         return teamId;
     }
 
-    public void setTeamId(Integer teamId) {
+    public void setTeamId(Long teamId) {
         this.teamId = teamId;
     }
 

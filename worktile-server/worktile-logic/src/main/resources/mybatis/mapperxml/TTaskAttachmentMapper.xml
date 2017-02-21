@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sjtu.worktile.model.mappers.TTaskAttachmentMapper">
   <resultMap id="BaseResultMap" type="com.sjtu.worktile.model.TTaskAttachment">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="task_id" jdbcType="INTEGER" property="taskId" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="task_id" jdbcType="BIGINT" property="taskId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="location" jdbcType="VARCHAR" property="location" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -92,15 +92,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from t_task_attachment
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from t_task_attachment
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.sjtu.worktile.model.TTaskAttachmentExample">
     delete from t_task_attachment
@@ -114,7 +114,7 @@
       name, size, suffix, 
       pending1, pending2, pending3
       )
-    values (#{id,jdbcType=INTEGER}, #{taskId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=BIGINT}, #{taskId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, 
       #{description,jdbcType=VARCHAR}, #{location,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{name,jdbcType=VARCHAR}, #{size,jdbcType=VARCHAR}, #{suffix,jdbcType=VARCHAR}, 
       #{pending1,jdbcType=VARCHAR}, #{pending2,jdbcType=VARCHAR}, #{pending3,jdbcType=VARCHAR}
@@ -162,13 +162,13 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=INTEGER},
+        #{id,jdbcType=BIGINT},
       </if>
       <if test="taskId != null">
-        #{taskId,jdbcType=INTEGER},
+        #{taskId,jdbcType=BIGINT},
       </if>
       <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
+        #{userId,jdbcType=BIGINT},
       </if>
       <if test="description != null">
         #{description,jdbcType=VARCHAR},
@@ -209,13 +209,13 @@
     update t_task_attachment
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+        id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.taskId != null">
-        task_id = #{record.taskId,jdbcType=INTEGER},
+        task_id = #{record.taskId,jdbcType=BIGINT},
       </if>
       <if test="record.userId != null">
-        user_id = #{record.userId,jdbcType=INTEGER},
+        user_id = #{record.userId,jdbcType=BIGINT},
       </if>
       <if test="record.description != null">
         description = #{record.description,jdbcType=VARCHAR},
@@ -251,9 +251,9 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update t_task_attachment
-    set id = #{record.id,jdbcType=INTEGER},
-      task_id = #{record.taskId,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=BIGINT},
+      task_id = #{record.taskId,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=BIGINT},
       description = #{record.description,jdbcType=VARCHAR},
       location = #{record.location,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -271,10 +271,10 @@
     update t_task_attachment
     <set>
       <if test="taskId != null">
-        task_id = #{taskId,jdbcType=INTEGER},
+        task_id = #{taskId,jdbcType=BIGINT},
       </if>
       <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
+        user_id = #{userId,jdbcType=BIGINT},
       </if>
       <if test="description != null">
         description = #{description,jdbcType=VARCHAR},
@@ -304,12 +304,12 @@
         pending3 = #{pending3,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.sjtu.worktile.model.TTaskAttachment">
     update t_task_attachment
-    set task_id = #{taskId,jdbcType=INTEGER},
-      user_id = #{userId,jdbcType=INTEGER},
+    set task_id = #{taskId,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT},
       description = #{description,jdbcType=VARCHAR},
       location = #{location,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -319,6 +319,6 @@
       pending1 = #{pending1,jdbcType=VARCHAR},
       pending2 = #{pending2,jdbcType=VARCHAR},
       pending3 = #{pending3,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

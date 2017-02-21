@@ -26,7 +26,7 @@ public class ProjectListMsg extends PairMsg {
          * Project输出格式
          */
         public static class Project{
-            public int project_id=0;//项目id
+            public long project_id=0;//项目id
             public String name=null;//项目名
             public int crew_cap=0;//项目人数上限
             public String description=null;//项目描述

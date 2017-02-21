@@ -10,7 +10,7 @@ public interface TTaskAttachmentMapper {
 
     int deleteByExample(TTaskAttachmentExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(TTaskAttachment record);
 
@@ -18,7 +18,7 @@ public interface TTaskAttachmentMapper {
 
     List<TTaskAttachment> selectByExample(TTaskAttachmentExample example);
 
-    TTaskAttachment selectByPrimaryKey(Integer id);
+    TTaskAttachment selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") TTaskAttachment record, @Param("example") TTaskAttachmentExample example);
 

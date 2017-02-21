@@ -33,7 +33,7 @@ public class TeamController extends BaseController{
     @RequestMapping(value = "list", method = RequestMethod.GET)
     @ResponseBody
     public TeamListMsg.OutMsg list(final HttpServletRequest request){
-        int uid = super.getUserID(request);
+        long uid = super.getUserID(request);
         List<TTeam> teams = teamService.getSelfTeam(uid);
         TeamListMsg.OutMsg outMsg = new TeamListMsg.OutMsg();
         for (TTeam team : teams){
@@ -55,7 +55,7 @@ public class TeamController extends BaseController{
     @RequestMapping(value = "contacts", method = RequestMethod.GET)
     @ResponseBody
     public TeamContactsMsg.OutMsg contacts(final HttpServletRequest request){
-        int uid = super.getUserID(request);
+        long uid = super.getUserID(request);
         List<TUser> users = teamService.getAllTeamContacts(uid);
         TeamContactsMsg.OutMsg msg = new TeamContactsMsg.OutMsg();
         for (TUser u:users){
@@ -85,7 +85,7 @@ public class TeamController extends BaseController{
                                     @RequestParam("city") String city,
                                     @RequestParam("district") String district
                                     ){
-        int uid = super.getUserID(request);
+        long uid = super.getUserID(request);
         TTeam tTeam = new TTeam();
         tTeam.setName(name);
         tTeam.setDescription(desc);
@@ -111,8 +111,8 @@ public class TeamController extends BaseController{
      */
     @RequestMapping(value = "{team_id}/basic", method = RequestMethod.GET)
     @ResponseBody
-    public TeamInfoMsg.OutMsg contacts(final HttpServletRequest request,@PathVariable int team_id){
-        int uid = super.getUserID(request);
+    public TeamInfoMsg.OutMsg contacts(final HttpServletRequest request,@PathVariable long team_id){
+        long uid = super.getUserID(request);
         TUser user = userService.findUserByID(uid);
         TTeam team =teamService.getTeamInfoById(team_id);
         TeamInfoMsg.OutMsg msg = new TeamInfoMsg.OutMsg();
@@ -163,7 +163,7 @@ public class TeamController extends BaseController{
     @RequestMapping(value = "{team_id}/projects", method = RequestMethod.GET)
     @ResponseBody
     public TeamProjectMsg.OutMsg projects(final HttpServletRequest request, @PathVariable int team_id) {
-        int uid = super.getUserID(request);
+        long uid = super.getUserID(request);
         List<TProject> projects = teamService.getTeamProjects(team_id);
         TeamProjectMsg.OutMsg msg = new TeamProjectMsg.OutMsg();
         for (TProject pro : projects){

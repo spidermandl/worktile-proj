@@ -8,7 +8,7 @@
     'use strict';
 
     app.factory("Util",["$http", "$rootScope", "$translate",
-    	function($http, rootScope, translate){
+    	function($http, $rootScope, $translate){
     		//[$http, rootScope, translate]
     		//    a       b           c
 			var d = {},
@@ -77,9 +77,10 @@
 				/*********************************************************************************
 				*
 				**********************************************************************************/
-
 				user: {
-					get: function(a, b, c) {}
+					get: function(a, b, c) {
+
+					}
 				},
 				team: {
 					find_add_prj_teams: function() {
@@ -96,19 +97,21 @@
 						}
 						return a = _.filter(a,
 							function(a) {
-								return 1 === a.curr_role || "-1" === a.team_id || a.permission & b.global.team_module.add_project
+								return 1 === a.curr_role || 
+										"-1" === a.team_id || 
+										a.permission & b.global.team_module.add_project;
 							})
 					},
 					get_add_prj_teams: function(a) {
 						var d = _.clone(a);
 						return d = _.filter(d,
 								function(a) {
-									return a.permission & b.global.team_module.add_project
+									return a.permission & $rootScope.global.team_module.add_project;
 								}),
 							_.find(d, {
 								team_id: "-1"
 							}) || d.unshift({
-								name: c.instant("bus.personal_project"),
+								name: $translate.instant("bus.personal_project"),
 								team_id: "-1",
 								curr_role: "1"
 							}),
@@ -220,7 +223,7 @@
 									}),
 								f = _.sortBy(f, "pos"),
 								d(f)
-						})
+						});
 					},
 					check_extension: function() {},
 					get_visibilities: function(a) {

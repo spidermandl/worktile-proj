@@ -3,11 +3,11 @@ package com.sjtu.worktile.model;
 import java.util.Date;
 
 public class TTeam {
-    private Integer id;
+    private Long id;
 
     private String name;
 
-    private Integer createrId;
+    private Long createrId;
 
     private Date createTime;
 
@@ -29,9 +29,9 @@ public class TTeam {
 
     private String defaultTag;
 
-    private Integer defaultProjectId;
+    private Long defaultProjectId;
 
-    private Integer defaultTemplateId;
+    private Long defaultTemplateId;
 
     private String pending1;
 
@@ -41,11 +41,11 @@ public class TTeam {
 
     private String description;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -57,11 +57,11 @@ public class TTeam {
         this.name = name == null ? null : name.trim();
     }
 
-    public Integer getCreaterId() {
+    public Long getCreaterId() {
         return createrId;
     }
 
-    public void setCreaterId(Integer createrId) {
+    public void setCreaterId(Long createrId) {
         this.createrId = createrId;
     }
 
@@ -145,19 +145,19 @@ public class TTeam {
         this.defaultTag = defaultTag == null ? null : defaultTag.trim();
     }
 
-    public Integer getDefaultProjectId() {
+    public Long getDefaultProjectId() {
         return defaultProjectId;
     }
 
-    public void setDefaultProjectId(Integer defaultProjectId) {
+    public void setDefaultProjectId(Long defaultProjectId) {
         this.defaultProjectId = defaultProjectId;
     }
 
-    public Integer getDefaultTemplateId() {
+    public Long getDefaultTemplateId() {
         return defaultTemplateId;
     }
 
-    public void setDefaultTemplateId(Integer defaultTemplateId) {
+    public void setDefaultTemplateId(Long defaultTemplateId) {
         this.defaultTemplateId = defaultTemplateId;
     }
 

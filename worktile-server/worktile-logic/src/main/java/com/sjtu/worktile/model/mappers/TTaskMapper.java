@@ -10,7 +10,7 @@ public interface TTaskMapper {
 
     int deleteByExample(TTaskExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(TTask record);
 
@@ -18,7 +18,7 @@ public interface TTaskMapper {
 
     List<TTask> selectByExample(TTaskExample example);
 
-    TTask selectByPrimaryKey(Integer id);
+    TTask selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") TTask record, @Param("example") TTaskExample example);
 

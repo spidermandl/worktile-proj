@@ -2,14 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sjtu.worktile.model.mappers.TTaskMapper">
   <resultMap id="BaseResultMap" type="com.sjtu.worktile.model.TTask">
-    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="id" jdbcType="BIGINT" property="id" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="creater_id" jdbcType="INTEGER" property="createrId" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="pending1" jdbcType="VARCHAR" property="pending1" />
     <result column="pending2" jdbcType="VARCHAR" property="pending2" />
@@ -92,15 +92,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from t_task
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from t_task
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.sjtu.worktile.model.TTaskExample">
     delete from t_task
@@ -114,9 +114,9 @@
       update_time, parent_id, end_time, 
       pending1, pending2, pending3
       )
-    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
-      #{createrId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{parentId,jdbcType=INTEGER}, #{endTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{createrId,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{parentId,jdbcType=BIGINT}, #{endTime,jdbcType=TIMESTAMP}, 
       #{pending1,jdbcType=VARCHAR}, #{pending2,jdbcType=VARCHAR}, #{pending3,jdbcType=VARCHAR}
       )
   </insert>
@@ -162,7 +162,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=INTEGER},
+        #{id,jdbcType=BIGINT},
       </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
@@ -171,7 +171,7 @@
         #{description,jdbcType=VARCHAR},
       </if>
       <if test="createrId != null">
-        #{createrId,jdbcType=INTEGER},
+        #{createrId,jdbcType=BIGINT},
       </if>
       <if test="type != null">
         #{type,jdbcType=INTEGER},
@@ -183,7 +183,7 @@
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="parentId != null">
-        #{parentId,jdbcType=INTEGER},
+        #{parentId,jdbcType=BIGINT},
       </if>
       <if test="endTime != null">
         #{endTime,jdbcType=TIMESTAMP},
@@ -209,7 +209,7 @@
     update t_task
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+        id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
@@ -218,7 +218,7 @@
         description = #{record.description,jdbcType=VARCHAR},
       </if>
       <if test="record.createrId != null">
-        creater_id = #{record.createrId,jdbcType=INTEGER},
+        creater_id = #{record.createrId,jdbcType=BIGINT},
       </if>
       <if test="record.type != null">
         type = #{record.type,jdbcType=INTEGER},
@@ -230,7 +230,7 @@
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.parentId != null">
-        parent_id = #{record.parentId,jdbcType=INTEGER},
+        parent_id = #{record.parentId,jdbcType=BIGINT},
       </if>
       <if test="record.endTime != null">
         end_time = #{record.endTime,jdbcType=TIMESTAMP},
@@ -251,14 +251,14 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update t_task
-    set id = #{record.id,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=BIGINT},
       title = #{record.title,jdbcType=VARCHAR},
       description = #{record.description,jdbcType=VARCHAR},
-      creater_id = #{record.createrId,jdbcType=INTEGER},
+      creater_id = #{record.createrId,jdbcType=BIGINT},
       type = #{record.type,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      parent_id = #{record.parentId,jdbcType=INTEGER},
+      parent_id = #{record.parentId,jdbcType=BIGINT},
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
       pending1 = #{record.pending1,jdbcType=VARCHAR},
       pending2 = #{record.pending2,jdbcType=VARCHAR},
@@ -277,7 +277,7 @@
         description = #{description,jdbcType=VARCHAR},
       </if>
       <if test="createrId != null">
-        creater_id = #{createrId,jdbcType=INTEGER},
+        creater_id = #{createrId,jdbcType=BIGINT},
       </if>
       <if test="type != null">
         type = #{type,jdbcType=INTEGER},
@@ -289,7 +289,7 @@
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="parentId != null">
-        parent_id = #{parentId,jdbcType=INTEGER},
+        parent_id = #{parentId,jdbcType=BIGINT},
       </if>
       <if test="endTime != null">
         end_time = #{endTime,jdbcType=TIMESTAMP},
@@ -304,21 +304,21 @@
         pending3 = #{pending3,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.sjtu.worktile.model.TTask">
     update t_task
     set title = #{title,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
-      creater_id = #{createrId,jdbcType=INTEGER},
+      creater_id = #{createrId,jdbcType=BIGINT},
       type = #{type,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      parent_id = #{parentId,jdbcType=INTEGER},
+      parent_id = #{parentId,jdbcType=BIGINT},
       end_time = #{endTime,jdbcType=TIMESTAMP},
       pending1 = #{pending1,jdbcType=VARCHAR},
       pending2 = #{pending2,jdbcType=VARCHAR},
       pending3 = #{pending3,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

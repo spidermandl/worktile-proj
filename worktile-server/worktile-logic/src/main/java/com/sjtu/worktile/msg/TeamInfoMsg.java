@@ -21,7 +21,7 @@ public class TeamInfoMsg extends PairMsg {
         public int code = MSG_CODE;
         public TeamInfoMsg.OutMsg.Data data = new TeamInfoMsg.OutMsg.Data();
         public static class Data implements ResponseMsg{
-            public int team_id = 0;
+            public long team_id = 0;
             public String url = null;//团队url
             public String name =null;
             public String pic = null;//logo
@@ -33,7 +33,7 @@ public class TeamInfoMsg extends PairMsg {
             public int industry = 1;
             public int[] default_pids = null;//默认pids
             public int[] default_labels = null;//默认标签
-            public int template_id = 0;//模板id
+            public long template_id = 0;//模板id
             public String phone= null;//团队phone
             public String link_join_code =null;
             public int is_dingteam = 0;//是否为dingding 项目

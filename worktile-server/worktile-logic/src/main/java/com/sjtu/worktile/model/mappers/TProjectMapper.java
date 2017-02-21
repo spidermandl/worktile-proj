@@ -10,7 +10,7 @@ public interface TProjectMapper {
 
     int deleteByExample(TProjectExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(TProject record);
 
@@ -20,7 +20,7 @@ public interface TProjectMapper {
 
     List<TProject> selectByExample(TProjectExample example);
 
-    TProject selectByPrimaryKey(Integer id);
+    TProject selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") TProject record, @Param("example") TProjectExample example);
 

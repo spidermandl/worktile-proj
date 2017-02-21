@@ -10,7 +10,7 @@ public interface TTaskLogMapper {
 
     int deleteByExample(TTaskLogExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(TTaskLog record);
 
@@ -20,7 +20,7 @@ public interface TTaskLogMapper {
 
     List<TTaskLog> selectByExample(TTaskLogExample example);
 
-    TTaskLog selectByPrimaryKey(Integer id);
+    TTaskLog selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") TTaskLog record, @Param("example") TTaskLogExample example);
 

@@ -10,7 +10,7 @@ public interface TTaskCommentMapper {
 
     int deleteByExample(TTaskCommentExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(TTaskComment record);
 
@@ -20,7 +20,7 @@ public interface TTaskCommentMapper {
 
     List<TTaskComment> selectByExample(TTaskCommentExample example);
 
-    TTaskComment selectByPrimaryKey(Integer id);
+    TTaskComment selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") TTaskComment record, @Param("example") TTaskCommentExample example);
 

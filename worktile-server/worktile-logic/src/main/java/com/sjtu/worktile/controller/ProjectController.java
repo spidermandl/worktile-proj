@@ -29,7 +29,7 @@ public class ProjectController extends BaseController{
     @RequestMapping(value = "list", method = RequestMethod.GET)
     @ResponseBody
     public ProjectListMsg.OutMsg list(final HttpServletRequest request){
-        int uid=super.getUserID(request);
+        long uid=super.getUserID(request);
         List<TProject> projects=projectService.getSelfProject(uid);
         ProjectListMsg.OutMsg outMsg =new ProjectListMsg.OutMsg();
         for(TProject project :projects){

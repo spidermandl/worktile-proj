@@ -37,7 +37,7 @@ public class JwtHelper {
      * @param base64Security
      * @return
      */
-    public static String createJWT(String name, int userId, List<String> roles,
+    public static String createJWT(String name, long userId, List<String> roles,
                                    String audience, String issuer, long TTLMillis, String base64Security)
     {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;

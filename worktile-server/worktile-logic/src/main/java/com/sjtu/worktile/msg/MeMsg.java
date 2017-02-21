@@ -22,7 +22,7 @@ public class MeMsg extends PairMsg {
          * 个人信息输出格式
          */
         public class Data implements ResponseMsg.Data{
-            public int uid = 0;//用户id
+            public long uid = 0;//用户id
             public String display_name = null;//显示姓名
             public String icon = null;//头像
             public String username = null;//用户名

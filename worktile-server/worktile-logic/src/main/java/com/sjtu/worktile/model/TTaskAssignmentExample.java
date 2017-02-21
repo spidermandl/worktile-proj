@@ -114,52 +114,52 @@ public class TTaskAssignmentExample {
             return (Criteria) this;
         }
 
-        public Criteria andIdEqualTo(Integer value) {
+        public Criteria andIdEqualTo(Long value) {
             addCriterion("id =", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotEqualTo(Integer value) {
+        public Criteria andIdNotEqualTo(Long value) {
             addCriterion("id <>", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThan(Integer value) {
+        public Criteria andIdGreaterThan(Long value) {
             addCriterion("id >", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThanOrEqualTo(Integer value) {
+        public Criteria andIdGreaterThanOrEqualTo(Long value) {
             addCriterion("id >=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThan(Integer value) {
+        public Criteria andIdLessThan(Long value) {
             addCriterion("id <", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThanOrEqualTo(Integer value) {
+        public Criteria andIdLessThanOrEqualTo(Long value) {
             addCriterion("id <=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdIn(List<Integer> values) {
+        public Criteria andIdIn(List<Long> values) {
             addCriterion("id in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotIn(List<Integer> values) {
+        public Criteria andIdNotIn(List<Long> values) {
             addCriterion("id not in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdBetween(Integer value1, Integer value2) {
+        public Criteria andIdBetween(Long value1, Long value2) {
             addCriterion("id between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotBetween(Integer value1, Integer value2) {
+        public Criteria andIdNotBetween(Long value1, Long value2) {
             addCriterion("id not between", value1, value2, "id");
             return (Criteria) this;
         }
@@ -174,52 +174,52 @@ public class TTaskAssignmentExample {
             return (Criteria) this;
         }
 
-        public Criteria andTaskIdEqualTo(Integer value) {
+        public Criteria andTaskIdEqualTo(Long value) {
             addCriterion("task_id =", value, "taskId");
             return (Criteria) this;
         }
 
-        public Criteria andTaskIdNotEqualTo(Integer value) {
+        public Criteria andTaskIdNotEqualTo(Long value) {
             addCriterion("task_id <>", value, "taskId");
             return (Criteria) this;
         }
 
-        public Criteria andTaskIdGreaterThan(Integer value) {
+        public Criteria andTaskIdGreaterThan(Long value) {
             addCriterion("task_id >", value, "taskId");
             return (Criteria) this;
         }
 
-        public Criteria andTaskIdGreaterThanOrEqualTo(Integer value) {
+        public Criteria andTaskIdGreaterThanOrEqualTo(Long value) {
             addCriterion("task_id >=", value, "taskId");
             return (Criteria) this;
         }
 
-        public Criteria andTaskIdLessThan(Integer value) {
+        public Criteria andTaskIdLessThan(Long value) {
             addCriterion("task_id <", value, "taskId");
             return (Criteria) this;
         }
 
-        public Criteria andTaskIdLessThanOrEqualTo(Integer value) {
+        public Criteria andTaskIdLessThanOrEqualTo(Long value) {
             addCriterion("task_id <=", value, "taskId");
             return (Criteria) this;
         }
 
-        public Criteria andTaskIdIn(List<Integer> values) {
+        public Criteria andTaskIdIn(List<Long> values) {
             addCriterion("task_id in", values, "taskId");
             return (Criteria) this;
         }
 
-        public Criteria andTaskIdNotIn(List<Integer> values) {
+        public Criteria andTaskIdNotIn(List<Long> values) {
             addCriterion("task_id not in", values, "taskId");
             return (Criteria) this;
         }
 
-        public Criteria andTaskIdBetween(Integer value1, Integer value2) {
+        public Criteria andTaskIdBetween(Long value1, Long value2) {
             addCriterion("task_id between", value1, value2, "taskId");
             return (Criteria) this;
         }
 
-        public Criteria andTaskIdNotBetween(Integer value1, Integer value2) {
+        public Criteria andTaskIdNotBetween(Long value1, Long value2) {
             addCriterion("task_id not between", value1, value2, "taskId");
             return (Criteria) this;
         }
@@ -234,52 +234,52 @@ public class TTaskAssignmentExample {
             return (Criteria) this;
         }
 
-        public Criteria andFollowerIdEqualTo(Integer value) {
+        public Criteria andFollowerIdEqualTo(Long value) {
             addCriterion("follower_id =", value, "followerId");
             return (Criteria) this;
         }
 
-        public Criteria andFollowerIdNotEqualTo(Integer value) {
+        public Criteria andFollowerIdNotEqualTo(Long value) {
             addCriterion("follower_id <>", value, "followerId");
             return (Criteria) this;
         }
 
-        public Criteria andFollowerIdGreaterThan(Integer value) {
+        public Criteria andFollowerIdGreaterThan(Long value) {
             addCriterion("follower_id >", value, "followerId");
             return (Criteria) this;
         }
 
-        public Criteria andFollowerIdGreaterThanOrEqualTo(Integer value) {
+        public Criteria andFollowerIdGreaterThanOrEqualTo(Long value) {
             addCriterion("follower_id >=", value, "followerId");
             return (Criteria) this;
         }
 
-        public Criteria andFollowerIdLessThan(Integer value) {
+        public Criteria andFollowerIdLessThan(Long value) {
             addCriterion("follower_id <", value, "followerId");
             return (Criteria) this;
         }
 
-        public Criteria andFollowerIdLessThanOrEqualTo(Integer value) {
+        public Criteria andFollowerIdLessThanOrEqualTo(Long value) {
             addCriterion("follower_id <=", value, "followerId");
             return (Criteria) this;
         }
 
-        public Criteria andFollowerIdIn(List<Integer> values) {
+        public Criteria andFollowerIdIn(List<Long> values) {
             addCriterion("follower_id in", values, "followerId");
             return (Criteria) this;
         }
 
-        public Criteria andFollowerIdNotIn(List<Integer> values) {
+        public Criteria andFollowerIdNotIn(List<Long> values) {
             addCriterion("follower_id not in", values, "followerId");
             return (Criteria) this;
         }
 
-        public Criteria andFollowerIdBetween(Integer value1, Integer value2) {
+        public Criteria andFollowerIdBetween(Long value1, Long value2) {
             addCriterion("follower_id between", value1, value2, "followerId");
             return (Criteria) this;
         }
 
-        public Criteria andFollowerIdNotBetween(Integer value1, Integer value2) {
+        public Criteria andFollowerIdNotBetween(Long value1, Long value2) {
             addCriterion("follower_id not between", value1, value2, "followerId");
             return (Criteria) this;
         }
@@ -294,52 +294,52 @@ public class TTaskAssignmentExample {
             return (Criteria) this;
         }
 
-        public Criteria andAssignerIdEqualTo(Integer value) {
+        public Criteria andAssignerIdEqualTo(Long value) {
             addCriterion("assigner_id =", value, "assignerId");
             return (Criteria) this;
         }
 
-        public Criteria andAssignerIdNotEqualTo(Integer value) {
+        public Criteria andAssignerIdNotEqualTo(Long value) {
             addCriterion("assigner_id <>", value, "assignerId");
             return (Criteria) this;
         }
 
-        public Criteria andAssignerIdGreaterThan(Integer value) {
+        public Criteria andAssignerIdGreaterThan(Long value) {
             addCriterion("assigner_id >", value, "assignerId");
             return (Criteria) this;
         }
 
-        public Criteria andAssignerIdGreaterThanOrEqualTo(Integer value) {
+        public Criteria andAssignerIdGreaterThanOrEqualTo(Long value) {
             addCriterion("assigner_id >=", value, "assignerId");
             return (Criteria) this;
         }
 
-        public Criteria andAssignerIdLessThan(Integer value) {
+        public Criteria andAssignerIdLessThan(Long value) {
             addCriterion("assigner_id <", value, "assignerId");
             return (Criteria) this;
         }
 
-        public Criteria andAssignerIdLessThanOrEqualTo(Integer value) {
+        public Criteria andAssignerIdLessThanOrEqualTo(Long value) {
             addCriterion("assigner_id <=", value, "assignerId");
             return (Criteria) this;
         }
 
-        public Criteria andAssignerIdIn(List<Integer> values) {
+        public Criteria andAssignerIdIn(List<Long> values) {
             addCriterion("assigner_id in", values, "assignerId");
             return (Criteria) this;
         }
 
-        public Criteria andAssignerIdNotIn(List<Integer> values) {
+        public Criteria andAssignerIdNotIn(List<Long> values) {
             addCriterion("assigner_id not in", values, "assignerId");
             return (Criteria) this;
         }
 
-        public Criteria andAssignerIdBetween(Integer value1, Integer value2) {
+        public Criteria andAssignerIdBetween(Long value1, Long value2) {
             addCriterion("assigner_id between", value1, value2, "assignerId");
             return (Criteria) this;
         }
 
-        public Criteria andAssignerIdNotBetween(Integer value1, Integer value2) {
+        public Criteria andAssignerIdNotBetween(Long value1, Long value2) {
             addCriterion("assigner_id not between", value1, value2, "assignerId");
             return (Criteria) this;
         }
@@ -354,52 +354,52 @@ public class TTaskAssignmentExample {
             return (Criteria) this;
         }
 
-        public Criteria andAttachIdEqualTo(Integer value) {
+        public Criteria andAttachIdEqualTo(Long value) {
             addCriterion("attach_id =", value, "attachId");
             return (Criteria) this;
         }
 
-        public Criteria andAttachIdNotEqualTo(Integer value) {
+        public Criteria andAttachIdNotEqualTo(Long value) {
             addCriterion("attach_id <>", value, "attachId");
             return (Criteria) this;
         }
 
-        public Criteria andAttachIdGreaterThan(Integer value) {
+        public Criteria andAttachIdGreaterThan(Long value) {
             addCriterion("attach_id >", value, "attachId");
             return (Criteria) this;
         }
 
-        public Criteria andAttachIdGreaterThanOrEqualTo(Integer value) {
+        public Criteria andAttachIdGreaterThanOrEqualTo(Long value) {
             addCriterion("attach_id >=", value, "attachId");
             return (Criteria) this;
         }
 
-        public Criteria andAttachIdLessThan(Integer value) {
+        public Criteria andAttachIdLessThan(Long value) {
             addCriterion("attach_id <", value, "attachId");
             return (Criteria) this;
         }
 
-        public Criteria andAttachIdLessThanOrEqualTo(Integer value) {
+        public Criteria andAttachIdLessThanOrEqualTo(Long value) {
             addCriterion("attach_id <=", value, "attachId");
             return (Criteria) this;
         }
 
-        public Criteria andAttachIdIn(List<Integer> values) {
+        public Criteria andAttachIdIn(List<Long> values) {
             addCriterion("attach_id in", values, "attachId");
             return (Criteria) this;
         }
 
-        public Criteria andAttachIdNotIn(List<Integer> values) {
+        public Criteria andAttachIdNotIn(List<Long> values) {
             addCriterion("attach_id not in", values, "attachId");
             return (Criteria) this;
         }
 
-        public Criteria andAttachIdBetween(Integer value1, Integer value2) {
+        public Criteria andAttachIdBetween(Long value1, Long value2) {
             addCriterion("attach_id between", value1, value2, "attachId");
             return (Criteria) this;
         }
 
-        public Criteria andAttachIdNotBetween(Integer value1, Integer value2) {
+        public Criteria andAttachIdNotBetween(Long value1, Long value2) {
             addCriterion("attach_id not between", value1, value2, "attachId");
             return (Criteria) this;
         }

@@ -20,7 +20,7 @@ public class ProjectService {
      * @param uid
      * @return
      */
-    public List<TProject> getSelfProject(int uid){
+    public List<TProject> getSelfProject(long uid){
         TProjectExample query=new TProjectExample();
         query.or().andOwnerIdEqualTo(uid);
         return tProjectMapper.selectByExample(query);

@@ -9,8 +9,8 @@ define(['app'], function (app) {
     'use strict';
     app.service('ProjectService', 
     	["$uibModal","globalDataContext","$state","$translate","$location",
-    	"ycTrack","$UploadFile","config",'api',
-        function(a, b, c,d,e,f,g,config,api) {
+    	"ycTrack","$UploadFile","config",'api',"Util",
+        function(a, b, c,d,e,f,g,config,api,util) {
         	//["$uibModal", "globalDataContext", "$state", "$translate", "$location", "ycTrack", "$wtUploadFile"]
         	//       a                b              c           d             e           f             g
 			var h = this;
@@ -21,19 +21,19 @@ define(['app'], function (app) {
 						controller: ["$scope", "$uibModalInstance", "$rootScope",
 							function(h, i, j) {
 								function k() {
-									l.teams = wt.bus.team.get_add_prj_teams(b.teams),
-										wt.data.templates.get_list(function(a) {
-											l.system_templates = a.data,
-												_.each(l.system_templates,
-													function(a) {
-														_.each(a.projects,
-															function(a) {
-																a.type = 2
-															})
-													})
-										}),
-										n(),
-										e && l.change_project_team()
+									l.teams = util.team.get_add_prj_teams(globalDataContext.teams);
+									wt.data.templates.get_list(function(a) {
+										l.system_templates = a.data,
+											_.each(l.system_templates,
+												function(a) {
+													_.each(a.projects,
+														function(a) {
+															a.type = 2;
+														});
+												})
+									});
+									n();
+									e && l.change_project_team();
 								}
 								var l = h.vm = {
 										new_project: {

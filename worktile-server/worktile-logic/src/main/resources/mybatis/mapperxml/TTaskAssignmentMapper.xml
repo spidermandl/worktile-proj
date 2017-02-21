@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sjtu.worktile.model.mappers.TTaskAssignmentMapper">
   <resultMap id="BaseResultMap" type="com.sjtu.worktile.model.TTaskAssignment">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="task_id" jdbcType="INTEGER" property="taskId" />
-    <result column="follower_id" jdbcType="INTEGER" property="followerId" />
-    <result column="assigner_id" jdbcType="INTEGER" property="assignerId" />
-    <result column="attach_id" jdbcType="INTEGER" property="attachId" />
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="task_id" jdbcType="BIGINT" property="taskId" />
+    <result column="follower_id" jdbcType="BIGINT" property="followerId" />
+    <result column="assigner_id" jdbcType="BIGINT" property="assignerId" />
+    <result column="attach_id" jdbcType="BIGINT" property="attachId" />
     <result column="pending1" jdbcType="VARCHAR" property="pending1" />
     <result column="pending2" jdbcType="VARCHAR" property="pending2" />
     <result column="pending3" jdbcType="VARCHAR" property="pending3" />
@@ -87,15 +87,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from t_task_assignment
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from t_task_assignment
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.sjtu.worktile.model.TTaskAssignmentExample">
     delete from t_task_assignment
@@ -107,8 +107,8 @@
     insert into t_task_assignment (id, task_id, follower_id, 
       assigner_id, attach_id, pending1, 
       pending2, pending3)
-    values (#{id,jdbcType=INTEGER}, #{taskId,jdbcType=INTEGER}, #{followerId,jdbcType=INTEGER}, 
-      #{assignerId,jdbcType=INTEGER}, #{attachId,jdbcType=INTEGER}, #{pending1,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=BIGINT}, #{taskId,jdbcType=BIGINT}, #{followerId,jdbcType=BIGINT}, 
+      #{assignerId,jdbcType=BIGINT}, #{attachId,jdbcType=BIGINT}, #{pending1,jdbcType=VARCHAR}, 
       #{pending2,jdbcType=VARCHAR}, #{pending3,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.sjtu.worktile.model.TTaskAssignment">
@@ -141,19 +141,19 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=INTEGER},
+        #{id,jdbcType=BIGINT},
       </if>
       <if test="taskId != null">
-        #{taskId,jdbcType=INTEGER},
+        #{taskId,jdbcType=BIGINT},
       </if>
       <if test="followerId != null">
-        #{followerId,jdbcType=INTEGER},
+        #{followerId,jdbcType=BIGINT},
       </if>
       <if test="assignerId != null">
-        #{assignerId,jdbcType=INTEGER},
+        #{assignerId,jdbcType=BIGINT},
       </if>
       <if test="attachId != null">
-        #{attachId,jdbcType=INTEGER},
+        #{attachId,jdbcType=BIGINT},
       </if>
       <if test="pending1 != null">
         #{pending1,jdbcType=VARCHAR},
@@ -176,19 +176,19 @@
     update t_task_assignment
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+        id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.taskId != null">
-        task_id = #{record.taskId,jdbcType=INTEGER},
+        task_id = #{record.taskId,jdbcType=BIGINT},
       </if>
       <if test="record.followerId != null">
-        follower_id = #{record.followerId,jdbcType=INTEGER},
+        follower_id = #{record.followerId,jdbcType=BIGINT},
       </if>
       <if test="record.assignerId != null">
-        assigner_id = #{record.assignerId,jdbcType=INTEGER},
+        assigner_id = #{record.assignerId,jdbcType=BIGINT},
       </if>
       <if test="record.attachId != null">
-        attach_id = #{record.attachId,jdbcType=INTEGER},
+        attach_id = #{record.attachId,jdbcType=BIGINT},
       </if>
       <if test="record.pending1 != null">
         pending1 = #{record.pending1,jdbcType=VARCHAR},
@@ -206,11 +206,11 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update t_task_assignment
-    set id = #{record.id,jdbcType=INTEGER},
-      task_id = #{record.taskId,jdbcType=INTEGER},
-      follower_id = #{record.followerId,jdbcType=INTEGER},
-      assigner_id = #{record.assignerId,jdbcType=INTEGER},
-      attach_id = #{record.attachId,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=BIGINT},
+      task_id = #{record.taskId,jdbcType=BIGINT},
+      follower_id = #{record.followerId,jdbcType=BIGINT},
+      assigner_id = #{record.assignerId,jdbcType=BIGINT},
+      attach_id = #{record.attachId,jdbcType=BIGINT},
       pending1 = #{record.pending1,jdbcType=VARCHAR},
       pending2 = #{record.pending2,jdbcType=VARCHAR},
       pending3 = #{record.pending3,jdbcType=VARCHAR}
@@ -222,16 +222,16 @@
     update t_task_assignment
     <set>
       <if test="taskId != null">
-        task_id = #{taskId,jdbcType=INTEGER},
+        task_id = #{taskId,jdbcType=BIGINT},
       </if>
       <if test="followerId != null">
-        follower_id = #{followerId,jdbcType=INTEGER},
+        follower_id = #{followerId,jdbcType=BIGINT},
       </if>
       <if test="assignerId != null">
-        assigner_id = #{assignerId,jdbcType=INTEGER},
+        assigner_id = #{assignerId,jdbcType=BIGINT},
       </if>
       <if test="attachId != null">
-        attach_id = #{attachId,jdbcType=INTEGER},
+        attach_id = #{attachId,jdbcType=BIGINT},
       </if>
       <if test="pending1 != null">
         pending1 = #{pending1,jdbcType=VARCHAR},
@@ -243,17 +243,17 @@
         pending3 = #{pending3,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.sjtu.worktile.model.TTaskAssignment">
     update t_task_assignment
-    set task_id = #{taskId,jdbcType=INTEGER},
-      follower_id = #{followerId,jdbcType=INTEGER},
-      assigner_id = #{assignerId,jdbcType=INTEGER},
-      attach_id = #{attachId,jdbcType=INTEGER},
+    set task_id = #{taskId,jdbcType=BIGINT},
+      follower_id = #{followerId,jdbcType=BIGINT},
+      assigner_id = #{assignerId,jdbcType=BIGINT},
+      attach_id = #{attachId,jdbcType=BIGINT},
       pending1 = #{pending1,jdbcType=VARCHAR},
       pending2 = #{pending2,jdbcType=VARCHAR},
       pending3 = #{pending3,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
