@@ -23,7 +23,7 @@ public class TaskTests extends BaseTest {
         Request request = new Request.Builder()
                 .url(url)
                 .addHeader("raw","raw")
-                .addHeader("Authorization",  Const.TOKEN_PREFIX+token)
+                .addHeader("Authorization", Const.TOKEN_PREFIX+token)
                 .post(RequestBody.create(MEDIA_TYPE_TEXT, JSON.toJSONString(new TaskInsertMsg.InMsg(){
                     {
                         entry_id=1;//任务组id
