@@ -36,7 +36,7 @@ public class UserController extends BaseController{
     @RequestMapping(value = "login", method = RequestMethod.POST)
     @ResponseBody
     public LoginMsg.OutMsg login(final HttpServletRequest request, final HttpServletResponse response)
-            throws ServletException {
+            throws AppException  {
         /**
          * 生成返回消息
          */
@@ -78,7 +78,7 @@ public class UserController extends BaseController{
      * @param request
      */
     @RequestMapping(value = "login/code",method = RequestMethod.GET)
-    public void getCode(final HttpServletRequest request){
+    public void getCode(final HttpServletRequest request) throws AppException {
 
     }
 

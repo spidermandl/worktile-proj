@@ -1,5 +1,6 @@
 package com.sjtu.worktile.controller;
 
+import com.sjtu.worktile.exception.AppException;
 import io.jsonwebtoken.Claims;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,7 @@ public class ApiController extends BaseController{
     @SuppressWarnings("unchecked")
     @RequestMapping(value = "role/{role}", method = RequestMethod.GET)
     public Boolean login(@PathVariable final String role,
-                         final HttpServletRequest request) throws ServletException {
+                         final HttpServletRequest request)  throws AppException {
         final Claims claims = (Claims) request.getAttribute("claims");
 
         return ((List<String>) claims.get("roles")).contains(role);
@@ -27,7 +28,7 @@ public class ApiController extends BaseController{
 
     @RequestMapping(value = "home", method = RequestMethod.GET)
     public Boolean home(@PathVariable final String role,
-                         final HttpServletRequest request) throws ServletException {
+                         final HttpServletRequest request)  throws AppException  {
         final Claims claims = (Claims) request.getAttribute("claims");
 
         return true;

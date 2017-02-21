@@ -165,6 +165,7 @@ define(['app'], function (app) {
 						function(msg){
 							context.me =null;
 							$rootScope.bind = false;
+							//localStorageService.set('token',null);
 						}
 					);
 				},

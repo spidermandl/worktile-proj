@@ -19,9 +19,14 @@ abstract public class BaseController {
      * @param request
      * @return
      */
-    protected long getUserID(final HttpServletRequest request){
+    protected long getUserID(final HttpServletRequest request) throws AppException{
         final Claims claims = (Claims) request.getAttribute("claims");
-        return (Long) claims.get(Const.TOKEN_UID);
+        try {
+            long id = Long.parseLong(claims.get(Const.TOKEN_UID).toString());
+            return id;
+        }catch (Exception e){
+            throw new AppException(AppException.CATEGORY.TOKEN_PARSE_FAILURE);
+        }
     }
 
     /**

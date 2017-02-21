@@ -1,6 +1,7 @@
 package com.sjtu.worktile.controller;
 
 
+import com.sjtu.worktile.exception.AppException;
 import com.sjtu.worktile.model.TUser;
 import com.sjtu.worktile.msg.MeMsg;
 import com.sjtu.worktile.service.UserService;
@@ -23,7 +24,7 @@ public class MeController extends BaseController{
 
     @RequestMapping(value = "profile", method = RequestMethod.GET)
     @ResponseBody
-    public MeMsg.OutMsg me(final HttpServletRequest request){
+    public MeMsg.OutMsg me(final HttpServletRequest request) throws AppException{
         long uid = super.getUserID(request);
         MeMsg.OutMsg outMsg = new MeMsg.OutMsg();
         TUser user = userService.findUserByID(uid);

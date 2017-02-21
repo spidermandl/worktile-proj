@@ -28,7 +28,7 @@ public class TaskController extends BaseController {
      */
     @RequestMapping(value = "uncompleted", method = RequestMethod.GET)
     @ResponseBody
-    public TaskListMsg.OutMsg list(final HttpServletRequest request){
+    public TaskListMsg.OutMsg list(final HttpServletRequest request) throws AppException{
         long uid=super.getUserID(request);
         TaskListMsg.OutMsg msg = new TaskListMsg.OutMsg();
         return msg;

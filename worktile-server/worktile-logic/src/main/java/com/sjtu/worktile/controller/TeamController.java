@@ -1,5 +1,6 @@
 package com.sjtu.worktile.controller;
 
+import com.sjtu.worktile.exception.AppException;
 import com.sjtu.worktile.model.TProject;
 import com.sjtu.worktile.model.TTeam;
 import com.sjtu.worktile.model.TUser;
@@ -32,7 +33,7 @@ public class TeamController extends BaseController{
      */
     @RequestMapping(value = "list", method = RequestMethod.GET)
     @ResponseBody
-    public TeamListMsg.OutMsg list(final HttpServletRequest request){
+    public TeamListMsg.OutMsg list(final HttpServletRequest request) throws AppException {
         long uid = super.getUserID(request);
         List<TTeam> teams = teamService.getSelfTeam(uid);
         TeamListMsg.OutMsg outMsg = new TeamListMsg.OutMsg();
@@ -54,7 +55,7 @@ public class TeamController extends BaseController{
      */
     @RequestMapping(value = "contacts", method = RequestMethod.GET)
     @ResponseBody
-    public TeamContactsMsg.OutMsg contacts(final HttpServletRequest request){
+    public TeamContactsMsg.OutMsg contacts(final HttpServletRequest request) throws AppException {
         long uid = super.getUserID(request);
         List<TUser> users = teamService.getAllTeamContacts(uid);
         TeamContactsMsg.OutMsg msg = new TeamContactsMsg.OutMsg();
@@ -84,7 +85,7 @@ public class TeamController extends BaseController{
                                     @RequestParam("province") String province,
                                     @RequestParam("city") String city,
                                     @RequestParam("district") String district
-                                    ){
+                                    ) throws AppException {
         long uid = super.getUserID(request);
         TTeam tTeam = new TTeam();
         tTeam.setName(name);
@@ -111,7 +112,7 @@ public class TeamController extends BaseController{
      */
     @RequestMapping(value = "{team_id}/basic", method = RequestMethod.GET)
     @ResponseBody
-    public TeamInfoMsg.OutMsg contacts(final HttpServletRequest request,@PathVariable long team_id){
+    public TeamInfoMsg.OutMsg contacts(final HttpServletRequest request,@PathVariable long team_id) throws AppException {
         long uid = super.getUserID(request);
         TUser user = userService.findUserByID(uid);
         TTeam team =teamService.getTeamInfoById(team_id);
@@ -162,7 +163,7 @@ public class TeamController extends BaseController{
      */
     @RequestMapping(value = "{team_id}/projects", method = RequestMethod.GET)
     @ResponseBody
-    public TeamProjectMsg.OutMsg projects(final HttpServletRequest request, @PathVariable int team_id) {
+    public TeamProjectMsg.OutMsg projects(final HttpServletRequest request, @PathVariable int team_id) throws AppException {
         long uid = super.getUserID(request);
         List<TProject> projects = teamService.getTeamProjects(team_id);
         TeamProjectMsg.OutMsg msg = new TeamProjectMsg.OutMsg();

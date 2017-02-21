@@ -1,5 +1,6 @@
 package com.sjtu.worktile.controller;
 
+import com.sjtu.worktile.exception.AppException;
 import com.sjtu.worktile.model.TProject;
 import com.sjtu.worktile.msg.ProjectListMsg;
 import com.sjtu.worktile.service.ProjectService;
@@ -28,7 +29,7 @@ public class ProjectController extends BaseController{
 
     @RequestMapping(value = "list", method = RequestMethod.GET)
     @ResponseBody
-    public ProjectListMsg.OutMsg list(final HttpServletRequest request){
+    public ProjectListMsg.OutMsg list(final HttpServletRequest request) throws AppException {
         long uid=super.getUserID(request);
         List<TProject> projects=projectService.getSelfProject(uid);
         ProjectListMsg.OutMsg outMsg =new ProjectListMsg.OutMsg();
