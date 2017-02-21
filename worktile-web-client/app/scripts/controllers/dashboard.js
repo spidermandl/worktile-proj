@@ -340,15 +340,15 @@ define(['app'], function (app) {
 			},
 			$scope.vm.js_toggle_viewstatus = function(a) {
 				$scope.vm.mytaskViewStatus = a,
-					kzi.localData.set("mytaskViewStatus", a),
-					"gtd" === $scope.vm.mytaskViewStatus && ($scope.vm.isBoarded || k()),
-					"time" === $scope.vm.mytaskViewStatus && $scope.vm.isBoarded && l(),
-					"completed" === $scope.vm.mytaskViewStatus && ($scope.vm.page = 1, $scope.vm.has_more_completed_tasks = !0, p.completed_tasks = [], m()),
-					"update" !== $scope.vm.mytaskViewStatus && 
-					"my_watcher" !== $scope.vm.mytaskViewStatus && 
-					"my_create" !== $scope.vm.mytaskViewStatus && 
-					"all_tasks" !== $scope.vm.mytaskViewStatus || 
-					($scope.vm.page = 1, $scope.vm.has_more_tasks = !0, $scope.vm.tasks = [], n(!0))
+				kzi.localData.set("mytaskViewStatus", a),
+				"gtd" === $scope.vm.mytaskViewStatus && ($scope.vm.isBoarded || k()),
+				"time" === $scope.vm.mytaskViewStatus && $scope.vm.isBoarded && l(),
+				"completed" === $scope.vm.mytaskViewStatus && ($scope.vm.page = 1, $scope.vm.has_more_completed_tasks = !0, p.completed_tasks = [], m()),
+				"update" !== $scope.vm.mytaskViewStatus && 
+				"my_watcher" !== $scope.vm.mytaskViewStatus && 
+				"my_create" !== $scope.vm.mytaskViewStatus && 
+				"all_tasks" !== $scope.vm.mytaskViewStatus || 
+				($scope.vm.page = 1, $scope.vm.has_more_tasks = !0, $scope.vm.tasks = [], n(!0))
 			},
 			$scope.vm.js_show_task_quickcreate = function(a, b) {
 				b.task_bottom_enabled = !0,
@@ -520,6 +520,39 @@ define(['app'], function (app) {
 	}])
 	.controller('DashboardActivityFeedCtrl', ['$scope','$rootScope','config',
 		function ($scope,$rootScope,config) {
+			//["$rootScope", "$scope", "$translate", "ycTrack"]
+			//      a            b            c           d
+			function e() {
+				a.global.title = [c.instant("dashboard.title_name_feed"), " | ", c.instant("dashboard.title_name")].join(""),
+					f.loadingDone = !1,
+					wt.data.activity.get_feeds("all", 0, f.feedData.currentPage, kzi.config.default_count,
+						function(a) {
+							_.isEmpty(a.data) ? f.feedData.feeds = f.feedData.feeds || [] : (f.feedData.currentPage++, _.isEmpty(f.feedData.feeds) ? f.feedData.feeds = a.data : f.feedData.feeds = f.feedData.feeds.concat(a.data)),
+								a.data.length < kzi.config.default_count ? f.feedData.hasMore = !1 : f.feedData.hasMore = !0
+						},
+						null,
+						function() {
+							f.loadingDone = !0
+						})
+			}
+			d.track("dashboard_feed", "visit");
+			var f = b.vm = {
+				loadingDone: !0,
+				feedData: {
+					currentPage: 1,
+					feeds: [],
+					hasMore: !0
+				}
+			};
+			e(),
+				f.js_loadMoreActivityFeeds = function() {
+					e()
+				},
+				f.js_refresh_feed = function() {
+					f.feedData.feeds = [],
+						f.feedData.currentPage = 1,
+						e()
+				}
 
 	}])
 	.controller('DashboardEmailCtrl', ['$scope','$rootScope','config',

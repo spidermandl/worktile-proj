@@ -30,15 +30,16 @@ define(['app'], function (app) {
                                 //console.log(info);
                                 var h = ['<span class="avatar-face {{avatarFaceClass}}">{{avatarFaceInner}}{{avatarStatus}}</span>', "{{avatarBr}}", "{{avatarName}}", "{{avatarAtname}}", "{{avatarAppend}}"].join(""),
                                 i = 40;
-                                if (angular.isDefined(attr.size) && (i = parseInt(attr.size, 10)), 
-                                                                    element.addClass("avatar-" + i), 
-                                                                    i < 45 && (i = 40), i >= 45 && (i = 80), 
-                                                                    i >= 100 && (i = 180), 
-                                                                    element.attr("title", info.display_name), 
-                                                                    element.attr("member-id", info.uid), 
-                                                                    h = angular.isDefined(attr.faceclass) ? h.replace("{{avatarFaceClass}}", attr.faceclass) 
-                                                                                                        : h.replace("{{avatarFaceClass}}", ""), 
-                                                                    "default_avatar.png" === info.avatar || _.isEmpty(info.avatar)) {
+                                if (angular.isDefined(attr.size) 
+                                        && (i = parseInt(attr.size, 10)), 
+                                            element.addClass("avatar-" + i), 
+                                            i < 45 && (i = 40), i >= 45 && (i = 80), 
+                                            i >= 100 && (i = 180), 
+                                            element.attr("title", info.display_name), 
+                                            element.attr("member-id", info.uid), 
+                                            h = angular.isDefined(attr.faceclass) ? h.replace("{{avatarFaceClass}}", attr.faceclass) 
+                                                                                : h.replace("{{avatarFaceClass}}", ""), 
+                                            "default_avatar.png" === info.avatar || _.isEmpty(info.avatar)) {
                                     var j = /[u4e00-u9fa5]/;
                                     if (j.test(info.display_name)) 
                                         var k = info.display_name.substring(0, 2).toLocaleUpperCase();

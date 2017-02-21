@@ -23,20 +23,20 @@ define(['app'], function (app) {
 							target: event,
 							templateUrl: config.templateUrls.left_menu_shortcut_create,
 							controller: ["$scope", "popbox", 
-										// "teamService", "projectService", 
+										 "TeamService", "ProjectService", 
 										// "taskService", "eventService", "fileService",
-								function(scope, popbox){//, c, d, e, f, g) {
+								function(scope, popbox,teamService, projectService){//, c, d, e, f, g) {
 									scope.popbox = popbox;
 									scope.vm = {};
 									scope.vm.js_close = function() {
 										popbox.close();
 									};
 									scope.vm.add_team = function() {
-										c.showAdd();
+										teamService.showAdd();
 										popbox.close();
 									};
 									scope.vm.add_project = function() {
-										d.showAdd();
+										projectService.showAdd();
 										popbox.close();
 									};
 									scope.vm.add_task = function() {
