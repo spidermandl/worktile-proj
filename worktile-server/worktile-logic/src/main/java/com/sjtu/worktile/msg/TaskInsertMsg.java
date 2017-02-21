@@ -17,6 +17,7 @@ public class TaskInsertMsg extends PairMsg {
         public String title=null;//任务标题
     }
 
+
     public static class OutMsg implements ResponseMsg{
         public int code=MSG_CODE;
     }

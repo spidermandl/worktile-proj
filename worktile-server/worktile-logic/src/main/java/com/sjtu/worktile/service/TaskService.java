@@ -18,6 +18,6 @@ public class TaskService {
     private TTaskMapper tTaskMapper;
 
     public void insertTask(TTask tTask)throws AppException{
-        tTaskMapper.insert(tTask);
+         tTaskMapper.insert(tTask);
     }
 }
