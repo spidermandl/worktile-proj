@@ -13,7 +13,7 @@ public class TaskListMsg extends PairMsg {
     /**
      * 消息序列号
      */
-    private static final int MSG_CODE = 5004;
+    private static final int MSG_CODE = 5001;
 
     public static class InMsg implements RequestMsg{
         public int code = MSG_CODE;

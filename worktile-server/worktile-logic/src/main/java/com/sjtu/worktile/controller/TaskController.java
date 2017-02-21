@@ -3,16 +3,14 @@ package com.sjtu.worktile.controller;
 import com.sjtu.worktile.exception.AppException;
 import com.sjtu.worktile.model.TTask;
 import com.sjtu.worktile.msg.PairMsg;
-import com.sjtu.worktile.msg.TaskInsertMsg;
+import com.sjtu.worktile.msg.TaskNewMsg;
 import com.sjtu.worktile.msg.TaskListMsg;
 import com.sjtu.worktile.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Desmond on 10/01/2017.
@@ -36,24 +34,34 @@ public class TaskController extends BaseController {
         return msg;
     }
 
-    
+
     /**
      * 新增任务
+     * @param parent_id
+     * @param entry_id
+     * @param title
+     * @param type
      * @param request
      * @return
+     * @throws AppException
      */
-    @RequestMapping(value="insert",method=RequestMethod.POST)
+    @RequestMapping(value="create",method=RequestMethod.POST)
     @ResponseBody
-    public PairMsg.ResponseMsg insert(@RequestBody final TaskInsertMsg.InMsg body,
-                                      final HttpServletRequest request, final HttpServletResponse response)throws AppException{
+    public PairMsg.ResponseMsg create(@RequestParam("parent_id") int parent_id,
+                                      @RequestParam("entry_id") int entry_id,
+                                      @RequestParam("title") String title,
+                                      @RequestParam("type") int type,
+                                      final HttpServletRequest request)throws AppException{
         int uid=super.getUserID(request);
         TTask tTask=new TTask();
+        tTask.setParentId(parent_id);
         tTask.setCreaterId(uid);
-        tTask.setParentId(body.entry_id);
-        tTask.setTitle(body.title);
+        tTask.setParentId(entry_id);
+        tTask.setTitle(title);
+        tTask.setType(type);
         tTask.setCreateTime(new Date(System.currentTimeMillis()));
-        TaskInsertMsg.OutMsg out=new TaskInsertMsg.OutMsg();
-        taskService.insertTask(tTask);
+        TaskNewMsg.OutMsg out=new TaskNewMsg.OutMsg();
+        taskService.createTask(tTask);
         return  out;
     }
 }

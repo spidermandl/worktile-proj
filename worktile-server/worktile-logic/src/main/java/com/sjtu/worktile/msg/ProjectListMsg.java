@@ -12,7 +12,7 @@ public class ProjectListMsg extends PairMsg {
     /**
      * 消息序列号
      */
-    private static final int MSG_CODE=10009;
+    private static final int MSG_CODE=4001;
 
     public static class InMsg implements RequestMsg{
         public int code=MSG_CODE;

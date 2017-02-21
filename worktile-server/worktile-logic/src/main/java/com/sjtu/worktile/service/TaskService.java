@@ -17,7 +17,7 @@ public class TaskService {
     @Autowired
     private TTaskMapper tTaskMapper;
 
-    public void insertTask(TTask tTask)throws AppException{
+    public void createTask(TTask tTask)throws AppException{
          tTaskMapper.insert(tTask);
     }
 }

@@ -3,11 +3,11 @@ package com.sjtu.worktile.msg;
 /**
  * Created by lenovo on 2017/2/21.
  */
-public class TaskInsertMsg extends PairMsg {
+public class TaskNewMsg extends PairMsg {
     /**
      * 消息序列号
      */
-    private static final int MSG_CODE = 10020;
+    private static final int MSG_CODE = 5002;
 
     public static class InMsg implements RequestMsg{
         public int code=MSG_CODE;
