@@ -40,6 +40,7 @@
 			project_dialog_add_member: 'views/work/project/dialog_project_add_member.html',
 			'dashboard.default': 'views/work/dashboard/dashboard_task.html',
 			calendar_event_create: 'views/work/dashboard/dialog_event_create.html',//创建日历event
+			calendar_pop_event_create: 'views/work/dashboard/calendar/pop_add_event.html',
 			about: 'views/about.html',
 		},
 		//正则表达式
@@ -444,7 +445,7 @@
 					return c.util.isIE() && !!document.documentMode
 				},
 				winHeight: function() {
-					return b(a).height()
+					return window.jQuery(window).height()
 				},
 				docWidth: function() {
 					return b(document).width()
@@ -611,10 +612,16 @@
 					return !0
 				},
 				set: function(b, c) {
-					this.isLocalStorage ? a.localStorage.setItem(b, c) : this.initDom() && (this.dataDom.load(this.hname), this.dataDom.setAttribute(b, c), this.dataDom.save(this.hname))
+					this.isLocalStorage ? 
+						window.localStorage.setItem(b, c) : 
+						this.initDom() && (this.dataDom.load(this.hname), this.dataDom.setAttribute(b, c), this.dataDom.save(this.hname))
 				},
 				get: function(b) {
-					return this.isLocalStorage ? a.localStorage.getItem(b) : this.initDom() ? (this.dataDom.load(this.hname), this.dataDom.getAttribute(b)) : void 0
+					return this.isLocalStorage ? 
+						window.localStorage.getItem(b) : 
+						this.initDom() ? 
+							(this.dataDom.load(this.hname), this.dataDom.getAttribute(b)) : 
+							void 0
 				},
 				setObject: function(b, c) {
 					return this.isLocalStorage ? a.localStorage.setItem(b, JSON.stringify(c)) : null

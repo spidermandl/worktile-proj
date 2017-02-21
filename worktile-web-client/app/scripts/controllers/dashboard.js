@@ -8,15 +8,8 @@
 define(['app'], function (app) {
 	'use strict';
 
-	//父类
-	app.controller('WorkCtrl', ['$scope','$rootScope','config',function ($scope,$rootScope,config) {
-		//全局访问变量
-		// $rootScope.global = {
-		// 	loading_done:true,
-		// };
-	}])
-	.controller('DashboardTaskCtrl', ['$scope','$rootScope','config','ycTrack','$translate','api',
-		function ($scope,$rootScope,config,ycTrack,translate,api) {
+	app.controller('DashboardTaskCtrl', ['$scope','$rootScope','config','ycTrack','$translate','api','Util',
+		function ($scope,$rootScope,config,ycTrack,translate,api,util) {
 		
 		$rootScope.global.loading_done = true;//需要重构
 
@@ -138,7 +131,7 @@ define(['app'], function (app) {
 		};
 		$rootScope.global.title = [translate.instant("dashboard.title_name_my_tasks"), " | ", translate.instant("dashboard.title_name")].join("");
 		var q = function(a) {
-				if($scope.vm.taskAll = a.sort(wt.bus.task.compare_task), 
+				if($scope.vm.taskAll = a.sort(util.task.compare_task), 
 					$scope.vm.gtdEntrys = [ [],[],[],[] ], 
 					$($scope.vm.taskAll).each(function(a, b) {
 						var c = b.mark;
@@ -161,7 +154,7 @@ define(['app'], function (app) {
 					})
 			},
 			r = function(a) {
-				p.uncompleted_tasks = a.sort(wt.bus.task.compare_task),
+				p.uncompleted_tasks = a.sort(util.task.compare_task),
 					p.group_tasks = g.task.group_tasks_by_date(p.uncompleted_tasks)
 			},
 			s = function(a, b) {
@@ -418,107 +411,503 @@ define(['app'], function (app) {
 		
 
 	}])
-	.controller('DashboardCalendarCtrl', ['$scope','$rootScope','$uibModal','config',
-		function ($scope,$rootScope,$modal,config) {
+	/**************************************************************************************************************
+	 *
+	 **************************************************************************************************************/
+	.controller('DashboardCalendarCtrl', 
+		['$scope','$rootScope','$uibModal','config','ycTrack','$translate','uiCalendarConfig','$popbox',
+		function ($scope,$rootScope,$modal,config,ycTrack,$translate,uiCalendarConfig,$popbox) {
 			//$controller('WorkCtrl', {$scope: $scope,$rootScope: $rootScope});
-			$scope.vm = {
-				js_add_event:function(){
-					$modal.open({
-						//$uibModalStack
-		                windowClass: "dialog-w680",
-		                templateUrl: config.templateUrls.calendar_event_create,
-		                controller: ["$rootScope", "$scope", "$uibModalInstance",
-			                function($rootScope, $scope, $uibModalInstance) {
-			                    $scope.vm = {
-			                        saving: !1,
-			                        new_event: {
-			                            //attendees: [_.clone(a.global.me)]
-			                        },
-			                        change_event_project : function(){
-			                        	//this.new_event.attendees = [_.clone(a.global.me)]
-			                        },
-			                        js_toggle_member : function(){
-										// b.setting_toggle_member !== !0 && 
-										// 	(b.setting_toggle_member = !0, 
-										// 		wt.bus.member.set_event_attendees_toggle(i.new_event.pid, i.new_event, b,
-							   //                      function() {},
-							   //                      null,
-							   //                      function() {
-							   //                          b.setting_toggle_member = !1
-							   //                      }));
-			                        },
-			                        js_remove_attendee : function(a, b) {
-				                        // this.new_event.attendees = _.reject(this.new_event.attendees,
-				                        // function(a) {
-				                        //     return a.uid === b.uid;
-				                        // });
-			                    	},
-			                    	js_attendee_all : function(a, b, c, d) {
-			                        	//wt.bus.member.event_attend_all(i.new_event.pid, i.new_event, b, null, null, d);
-			                    	},
-			                    	submit_create_event : function(b) {
-				                        this.saving = !0;
-				                        // var g = _.map(this.new_event.attendees, "uid");
-				                        // wt.data.event.add(this.new_event.pid, 
-				                        // 	this.new_event.name, 
-				                        // 	this.new_event.location, 
-				                        // 	g, 
-				                        // 	this.new_event.start_date, 
-				                        // 	this.new_event.start_time, 
-				                        // 	this.new_event.end_date, 
-				                        // 	this.new_event.end_time, 
-				                        // 	this.new_event.repeat_interval.key,
-					                       //  function(b) {
-					                       //      e.track("add_event", "done", "新建日程弹窗"),
-					                       //      i.close(),
-					                       //      a.$broadcast(kzi.constant.event_names.on_event_add, b.data),
-					                       //      f && c.go("project.event.detail", {
-					                       //          pid: this.new_event.pid,
-					                       //          event_id: b.data[0].event_id,
-					                       //      },
-					                       //      {
-					                       //          reload: !0
-					                       //      });
-					                       //  },
-					                       //  function(a) {
-					                       //      13012 === a.code && kzi.msg.error(d.instant("event.name_too_large"));
-					                       //  },
-					                       //  function() {
-					                       //      i.saving = !1;
-					                       //  });
-			                    	},
-				                    close : function() {
-				                        $uibModalInstance.close();
-				                    }
-			                    };
-			                    // g.projects = b.getPacketProjects(),
-			                    // g.repeat_intervals = kzi.constant.event_repeat_intervals,
-			                    // _.each(g.repeat_intervals,
-			                    // function(a) {
-			                    //     a.desc = d.instant(a.desc);
-			                    // }),
-			                    // i.new_event.repeat_interval = g.repeat_intervals[0];
-			                    // var j = g.projects[0];
-			                    // c.params.pid && (j = _.find(g.projects, {
-			                    //     pid: c.params.pid
-			                    // })),
-			                    // i.new_event.team_id = j.team_id,
-			                    // i.new_event.pid = j.pid,
-			                    // i.new_event.permission = j.permission,
-			                }]
-		            });
+			//"$rootScope", "$scope", "$timeout", "$popbox", "uiCalendarConfig", "globalDataContext", "locator", "eventService", "$translate", "ycTrack"
+			//      a           b           c          d              e                      f            g            h               i            j
+			
+			function k() {
+				var a = m.myCalendar.fullCalendar("getView");
+				$("#calendar_title").html(a.title);
+				var b = new Date(a.start).getTime(),
+					c = new Date(a.end).getTime(),
+					d = (new Date).getTime();
+				d < b || d > c ? $("#calendar_today").css("visibility", "visible") : $("#calendar_today").css("visibility", "hidden")
+			}
+
+			function l() {
+				0 != $("#calendar").find(".fc-agendaWeek-view").size() && ($("#calendar").find(".fc-agendaWeek-view tbody td:eq(0)").css({
+					height: kzi.util.winHeight() - m.header_height - 40,
+					overflow: "auto",
+					display: "block"
+				}), $("#calendar").find(".fc-agendaWeek-view tbody td:eq(0)").find(".fc-time-grid-container").css({
+					height: "",
+					overflow: "auto"
+				}))
+			}
+			ycTrack.track("dashboard_calendar", "visit");
+			var m = $scope.vm = {
+				myCalendar: {},
+				header_height: 120,
+				calendar_view: "month",
+				show_my_task: !0,
+				show_all_events: 1,
+				calendar_project_filter_status: null,
+				cache_calendar_events: null
+			};
+			m.js_toggle_filter = function() {
+					"setting" === m.calendar_project_filter_status ? m.calendar_project_filter_status = null : m.calendar_project_filter_status = "setting"
 				},
-				calendar_view : 'month',
-			};
-			$scope.changeView = function(type){
-				this.vm.calendar_view = type;
-			};
+				$rootScope.global.title = 
+					[$translate.instant("dashboard.title_name_calendar"), " | ", $translate.instant("dashboard.title_name")].join(""),
+				$scope.project_ids = [],
+				$scope.filter_type = "all",
+				$scope.show_task_uid = $rootScope.global.me.uid,
+				$scope.show_task_team_id = null,
+				$scope.current_team = {},
+				$scope.show_completed_tasks = 1,
+				$scope.filterColumnFold = !0;
+			var n, o, p = null,
+				q = null,
+				r = function() {
+					$scope.show_completed_tasks = 0 === config.localData.get("cale_show_completed_tasks") ? 0 : 1,
+						m.show_all_events = 0 === config.localData.get("cale_show_all_events") ? 0 : 1;
+					var a = config.localData.get("calendar_checked_project_ids"); 
+					null != a ? 
+						"none" === a ? $scope.project_ids = [] : $scope.project_ids = a.split(",") 
+								: $scope.project_ids = null,
+						config.localData.get("calendar_view") ? 
+							m.calendar_view = config.localData.get("calendar_view") : 
+							config.localData.set("calendar_view", m.calendar_view),
+						config.localData.get("calendar_sidebar_view") ? 
+							$scope.calendar_sidebar_view = config.localData.get("calendar_sidebar_view") : 
+							$scope.calendar_sidebar_view = "event",
+						$scope.calendar_sidebar_view = "event"
+				},
+				s = function() {
+					var a = _.filter($scope.projects,
+							function(a) {
+								return a.is_checked
+							}),
+						c = _.map(a, "pid");
+					$scope.project_ids = c,
+						_.isEmpty(c) ? 
+							config.localData.set("calendar_checked_project_ids", "none") : 
+							config.localData.set("calendar_checked_project_ids", $scope.project_ids)
+				};
+			r();
+			var t = function() {
+					m.myCalendar.fullCalendar("refetchEvents")
+				},
+				u = function() {
+					m.myCalendar.fullCalendar("removeEvents")
+				},
+				v = function(a, c, d, e, f) {
+					if(_.isEmpty(p) || n !== a || o !== c) {
+						var g = _.map(b.projects, "pid");
+						wt.data.calendar.get_list(g, 1, a, c,
+							function(a) {
+								if(p = a.data, _.isFunction(d))
+									if(m.show_all_events) d(p);
+									else {
+										var b = [];
+										_.each(p,
+												function(a) {
+													a.extend.i_attended && b.push(a)
+												}),
+											d(b)
+									}
+							},
+							e, f)
+					} else {
+						if(_.isFunction(d))
+							if(m.show_all_events) d(p);
+							else {
+								var h = [];
+								_.each(p,
+										function(a) {
+											a.extend.i_attended && h.push(a)
+										}),
+									d(h)
+							}
+						_.isFunction(f) && f()
+					}
+				};
+			$scope.js_new_event_success = function(c) {
+					c.forEach(function(c) {
+						if(c.end.date >= n && c.start.date <= o) {
+							var d = _.find(b.projects, {
+								pid: c.pid
+							});
+							if(d) {
+								var e = wt.bus.event.event_to_calEvent(c, d.bg);
+								c.attendees && c.attendees.indexOf(a.global.me.uid) >= 0 ? e.extend.i_attended = 1 : e.extend.i_attended = 0,
+									d.is_calendar || (d.is_calendar = 1, _.defaults(d, {
+										is_checked: !0
+									}), b.calendar_projects.push(d), b.calendar_projects = _.sortBy(b.calendar_projects,
+										function(a) {
+											return a.pos
+										})),
+									p && (p.push(e), u(), t())
+							} else p = null,
+								u(),
+								t()
+						}
+					})
+				},
+				$scope.onEventClick = function(a, b, c) {
+					b.preventDefault(),
+						b.stopPropagation(),
+						a.extend && a.extend.xtype === config.xtype.event ? g.openEvent(a.extend.pid, a.id) : g.openTask(a.extend.pid, a.id)
+				},
+				$scope.onDayClick = function(c, e, f) {
+					if($rootScope.global.loading_done) {
+						var g = config.helper.mouse_position(e);
+						$(e.currentTarget).attr("data-placement", "right"),
+							$(e.currentTarget).attr("data-align", "top"),
+							$(e.currentTarget).addClass("js-popbox"),
+							$(e.currentTarget).attr("data-auto-adapt", "true"),
+							$popbox.popbox({
+								target: e,
+								templateUrl: config.templateUrls.calendar_pop_event_create,
+								controller: "newEventCtrl",
+								top: g.y,
+								left: g.x,
+								resolve: {
+									pop_data: function() {
+										return {
+											save_success: function(a) {
+												b.js_new_event_success(a)
+											},
+											start_date: c
+										}
+									}
+								}
+							}).open()
+					}
+				},
+				$scope.calendarEventSources = [{
+					events: function(a, b, c, d) {
+						function e(a) {
+							var b = a.data.events,
+								c = a.data.tasks;
+							_.each(b,
+									function(a) {
+										a.extend.recurrence_id && (a.editable = !1),
+											a.start.length < 25 && (a.start = moment.unix(a.start).format(), a.end = moment.unix(a.end).format())
+									}),
+								_.each(c,
+									function(a) {
+										var b = _.find(f.projects, {
+											pid: a.extend.pid
+										});
+										b && (a.borderColor = b.bg),
+											a.durationEditable = !1,
+											a.allDay = "23:59" === moment(a.extend.expire_date).format("HH:mm"),
+											a.allDay === !1 ? (a.start = moment(a.extend.expire_date).format(), a.end = moment(a.extend.expire_date).add(40, "minutes").format()) : a.start = moment.unix(a.start).startOf("day").format(),
+											1 === a.extend.completed ? a.className = "cal_task cal_task_completed slide-trigger" : a.className = "cal_task cal_task_uncompleted slide-trigger"
+									}),
+								m.cache_calendar_events = b.concat(c)
+						}
+						var g = moment(a.format()).unix() + "000",
+							h = moment(b.format()).unix() + "000";
+						null == m.cache_calendar_events ? wt.data.calendar.get_events_and_tasks(g, h,
+							function(a) {
+								e(a),
+									d(m.cache_calendar_events),
+									n = g,
+									o = h
+							},
+							null, null) : (d(m.cache_calendar_events), wt.data.calendar.get_events_and_tasks(g, h,
+							function(a) {
+								e(a),
+									m.myCalendar.fullCalendar("removeEvents"),
+									m.myCalendar.fullCalendar("addEventSource", m.cache_calendar_events),
+									n = g,
+									o = h
+							},
+							null, null))
+					}
+				}],
+				$scope.calendarConfig = {
+					header: !1,
+					height: config.util.winHeight() - m.header_height,
+					editable: !0,
+					droppable: !0,
+					nextDayThreshold: "00:00:00",
+					firstDay: 0,
+					weekMode: "liquid",
+					axisFormat: "HH:mm",
+					timeFormat: "✓",
+					defaultView: m.calendar_view,
+					dayClick: $scope.onDayClick,
+					loading: function(b) {
+						m.myCalendar = uiCalendarConfig.calendars.myCalendar,
+							k(),
+							b ? $rootScope.global.loading_done = !1 : $rootScope.global.loading_done = !0,
+							l()
+					},
+					eventClick: function(a, c, d) {
+						$scope.onEventClick(a, c, d)
+					},
+					eventDrop: function(a, b, c, d, e, g) {
+						var h = a.extend.pid;
+						if(a.extend.xtype === config.xtype.task && a.allDay === !1) {
+							var i = a.id,
+								j = a.extend.expire_date,
+								k = moment(j).add(b._data.days, "days").add(b._data.hours, "hours").valueOf();
+							wt.data.task.set_expire(h, i, k,
+								function(b) {
+									a.extend.expire_date = k,
+										a.extend.badges.expire_date = k,
+										f.cache.task.set_expire(i, k)
+								})
+						}
+						if(a.extend.xtype === config.xtype.event && a.allDay === !0) return a.allDay = !1,
+							void c();
+						if(0 !== b)
+							if(a.extend.xtype === config.xtype.task && a.allDay === !0) {
+								var i = a.id,
+									j = a.extend.expire_date,
+									k = moment(j).add(b, "days").endOf("day").valueOf();
+								wt.data.task.set_expire(h, i, k,
+									function() {
+										a.extend.expire_date = k,
+											a.extend.badges.expire_date = k,
+											f.cache.task.set_expire(i, k)
+									})
+							} else if(a.extend.xtype === config.xtype.event) {
+							var l = moment(a.start),
+								m = moment(a.end || a.start);
+							f.cache.event.update_date(h, a.id, l.format("YYYY-MM-DD"), l.format("HH:mm"), m.format("YYYY-MM-DD"), m.format("HH:mm"),
+								function() {
+									a.extend.end = m.valueOf()
+								})
+						}
+					},
+					eventResize: function(a, b, c) {
+						if("month" === m.calendar_view) {
+							var d = moment(a.start._i).format("HH"),
+								e = moment(a.start._i).format("mm");
+							a.extend.end = a.end.valueOf();
+							var g = moment(a.end._i).format("HH"),
+								h = moment(a.end._i).format("mm");
+							f.cache.event.update_date(a.extend.pid, a.id, a.start.format("YYYY-MM-DD"), d + ":" + e, a.end.format("YYYY-MM-DD"), g + ":" + h,
+								function() {
+									angular.noop()
+								})
+						}
+						if("agendaWeek" === m.calendar_view) {
+							var d = a.start.format("HH"),
+								e = a.start.format("mm");
+							a.extend.end = a.end.valueOf();
+							var g = a.end.format("HH"),
+								h = a.end.format("mm");
+							f.cache.event.update_date(a.extend.pid, a.id, a.start.format("YYYY-MM-DD"), d + ":" + e, a.end.format("YYYY-MM-DD"), g + ":" + h,
+								function() {
+									angular.noop()
+								})
+						}
+					},
+					windowResize: function() {
+						$(this).fullCalendar("option", "height", config.util.winHeight() - m.header_height),
+							l()
+					},
+					eventRender: function(a, b) {
+						b.attr("title", b.find(".fc-title").text())
+					},
+					views: {
+						agendaWeek: {
+							axisFormat: "Ah"
+						}
+					}
+				},
+				$scope.changeView = function(a) {
+					m.myCalendar.fullCalendar("changeView", a),
+						m.calendar_view = a,
+						config.localData.set("calendar_view", a),
+						k(),
+						u(),
+						t()
+				},
+				$scope.prev = function() {
+					m.myCalendar.fullCalendar("prev"),
+						k()
+				},
+				$scope.next = function() {
+					m.myCalendar.fullCalendar("next"),
+						k()
+				},
+				$scope.today = function() {
+					m.myCalendar.fullCalendar("today"),
+						k()
+				},
+				$scope.js_filter_calendar_toggle = function(a) {
+					a.is_checked ? a.is_checked = !1 : a.is_checked = !0,
+						s(),
+						u(),
+						t()
+				},
+				$scope.js_toggle_showall = function() {
+					1 == m.show_all_events ? m.show_all_events = 0 : m.show_all_events = 1,
+						kzi.localData.set("cale_show_all_events", m.show_all_events),
+						u(),
+						t()
+				},
+				$scope.js_team_members_toggle = function(a) {
+					b.current_team.team_id === a.team_id ? b.current_team.expand = !b.current_team.expand : (b.current_team.expand = !1, b.current_team = a, b.current_team.expand = !0, _.isEmpty(a.members) && (b.members_loading_done = !1, wt.data.team.get_team_members(a.team_id,
+						function(b) {
+							a.members = wt.bus.member.get_normal_members(b.data.members),
+								_.each(a.members,
+									function(b) {
+										b.team_id = a.team_id
+									})
+						},
+						null,
+						function() {
+							b.members_loading_done = !0
+						})))
+				},
+				$scope.js_view_member_tasks = function(a, c) {
+					b.show_task_uid = a.uid,
+						b.show_task_team_id = c.team_id,
+						m.show_my_task = !1,
+						q = null,
+						u(),
+						t()
+				},
+				$scope.js_view_my_tasks = function() {
+					b.show_task_uid = a.global.me.uid,
+						m.show_my_task = !0,
+						b.show_task_team_id = null,
+						q = null,
+						u(),
+						t()
+				},
+				$scope.js_show_completed_tasks = function() {
+					b.show_completed_tasks = b.show_completed_tasks ? 0 : 1,
+						config.localData.set("cale_show_completed_tasks", b.show_completed_tasks),
+						u(),
+						t()
+				},
+				$scope.js_toggle_right = function() {
+					b.filterColumnFold = !b.filterColumnFold,
+						c(function() {
+								$("#calendar").fullCalendar("render")
+							},
+							320)
+				},
+				$scope.js_change_calendar_siderview = function(a) {
+					b.calendar_sidebar_view !== a && 
+						(b.calendar_sidebar_view = a, config.localData.set("calendar_sidebar_view", b.calendar_sidebar_view), u(), t())
+				},
+				m.js_add_event = function() {
+					h.showAdd(!1)
+				},
+				$scope.$on(config.event_names.on_task_update,
+					function(a, b) {
+						var c = _.find(q, {
+							id: b.tid
+						});
+						c && (c.title = b.name, c.start = b.expire_date.toString().substring(0, 10)),
+							u(),
+							t()
+					}),
+				$scope.$on(config.event_names.on_event_add,
+					function(a, b) {
+						u(),
+							t()
+					}),
+				$scope.$on(config.event_names.on_task_trash,
+					function(a, b) {
+						var c = _.find(q, {
+							id: b.tid
+						});
+						c && (q = _.reject(q,
+								function(a) {
+									return a.id === b.tid
+								})),
+							u(),
+							t()
+					}),
+				$scope.$on(config.event_names.on_task_complete,
+					function(a, b) {
+						var c = _.find(q, {
+							id: b.tid
+						});
+						c && (b.completed ? (c.className = "cal_task cal_task_completed slide-trigger", c.extend.completed = 1) : (c.className = "cal_task cal_task_uncompleted slide-trigger", c.extend.completed = 0)),
+							u(),
+							t()
+					}),
+				$scope.$on(config.event_names.on_event_update,
+					function(b, c, d, e) {
+						if(p) {
+							var f = _.find(p, {
+								id: c.event_id
+							});
+							if(d === config.event_update_type.one && f && (f.title = c.name, f.start = moment(c.start.date).valueOf().toString().substring(0, 10), f.end = moment(c.end.date).valueOf().toString().substring(0, 10), _.find(c.attendees, {
+									uid: a.global.me.uid
+								}) ? f.extend.i_attended = 1 : f.extend.i_attended = 0, u(), t()), d === config.event_update_type.follow_up) {
+								var g = new Date(c.start.date) - new Date(f.start),
+									h = new Date(c.end.date) - new Date(c.start.date),
+									i = new Date(f.start);
+								g > 0 ? (p.forEach(function(a) {
+									var b = new Date(a.start);
+									a.extend.recurrence_id === c.recurrence_id && b >= i && (a.start = moment(a.start).add(g, "milliseconds"), a.end = moment(a.start).add(h, "milliseconds"), a.start = a.start.valueOf().toString().substring(0, 10), a.end = a.end.valueOf().toString().substring(0, 10), e && (a.extend.recurrence_id = e))
+								}), u(), t()) : (p = [], v(n, o,
+									function() {
+										u(),
+											t()
+									},
+									null,
+									function() {}))
+							}
+						}
+						u(),
+							t()
+					}),
+				$scope.$on(config.event_names.on_event_trash,
+					function(a, c, d) {
+						if(p) {
+							var e = parseInt(d);
+							switch(e) {
+								case config.event_trash_type.one:
+									p = _.reject(p,
+										function(a) {
+											return a.id === c.event_id
+										});
+									break;
+								case config.event_trash_type.follow_up:
+									p = _.reject(p,
+										function(a) {
+											var b = new Date(a.start).getTime();
+											return b >= c.start.date && a.extend.recurrence_id === c.recurrence_id
+										});
+									break;
+								case config.event_trash_type.all:
+									p = _.reject(p,
+										function(a) {
+											return a.extend.recurrence_id === c.recurrence_id
+										})
+							}
+						}
+						$scope.calendar_projects = _.filter($scope.projects,
+								function(a) {
+									return 1 === a.is_calendar
+								}),
+							u(),
+							t()
+					})
+		
 	}])
-	.controller('CalendarSubscribeCtrl', ['$scope','$rootScope','config',
+	/**************************************************************************************************************
+	 *
+	 **************************************************************************************************************/
+	.controller('CalendarSubscribeCtrl', 
+		['$scope','$rootScope','config',
 		function ($scope,$rootScope,config) {
 
 	}])
-	.controller('DashboardActivityFeedCtrl', ['$scope','$rootScope','config',
+	/**************************************************************************************************************
+	 *
+	 **************************************************************************************************************/
+	.controller('DashboardActivityFeedCtrl', 
+		['$scope','$rootScope','config',
 		function ($scope,$rootScope,config) {
 			//["$rootScope", "$scope", "$translate", "ycTrack"]
 			//      a            b            c           d
@@ -555,10 +944,16 @@ define(['app'], function (app) {
 				}
 
 	}])
+	/**************************************************************************************************************
+	 *
+	 **************************************************************************************************************/
 	.controller('DashboardEmailCtrl', ['$scope','$rootScope','config',
 		function ($scope,$rootScope,config) {
 
 	}])
+	/**************************************************************************************************************
+	 *
+	 **************************************************************************************************************/
 	.filter('indexOf',['config',function(config){
 		return function(input){
 			var collection = input[0];

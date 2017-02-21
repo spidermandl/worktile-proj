@@ -64,6 +64,7 @@
         'underscore',//underscore 方法库
         'pascalprecht.translate',//多语言库
         'ngFileUpload',//文件上传库
+        'ui.calendar',//日历功能
       ]);
 
     app.init = function () {

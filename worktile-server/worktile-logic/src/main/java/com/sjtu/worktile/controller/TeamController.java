@@ -186,4 +186,11 @@ public class TeamController extends BaseController{
 
         return msg;
     }
+
+    @RequestMapping(value = "{team_id}/project/templates", method = RequestMethod.GET)
+    @ResponseBody
+    public TeamTemplatesMsg.OutMsg templates(final HttpServletRequest request, @PathVariable int team_id) throws AppException {
+        TeamTemplatesMsg.OutMsg msg = new TeamTemplatesMsg.OutMsg();
+        return msg;
+    }
 }

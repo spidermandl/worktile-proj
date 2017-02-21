@@ -636,7 +636,8 @@ define(['app'], function (app) {
 						}
 						var h = moment(a.format()).unix() + "000",
 							i = moment(b.format()).unix() + "000";
-						null == l.cache_calendar ? wt.data.calendar.get_teams_events_and_tasks(l.team_id, 0, g.team_calendar_filter_pids, h, i,
+						null == l.cache_calendar ? 
+							wt.data.calendar.get_teams_events_and_tasks(l.team_id, 0, g.team_calendar_filter_pids, h, i,
 							function(a) {
 								f(a),
 									d(l.cache_calendar),

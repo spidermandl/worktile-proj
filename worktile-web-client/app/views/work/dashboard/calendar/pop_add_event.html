@@ -1,0 +1,104 @@
+<ul class=popbox-step ng-switch on=step>
+    <li ng-switch-default class=popbox-step-li>
+        <div class=popbox-header>
+            <button class="cancel fa fa-remove" ng-click=js_close()></button>
+            <h3>{{'pop_add_event.title_name'|translate}}</h3></div>
+        <div class=popbox-body ng-if="selected_projects.length == 0 && show_project_select">
+            <div class="alert alert-warning">{{'pop_add_event.warn_project_empty'|translate}}</div></div>
+        <div ng-class="{true:'max-h445',false:'max-h400'}[show_project_select]" wt-scroll>
+            <form ng-if="selected_projects.length > 0||!show_project_select" name=new_event_form w5c-form-validate="" class=wt-form novalidate role=form>
+                <div class="popbox-body pop-add-event">
+                    <textarea wt-enter=js_save_event(new_event_form) name=event_name ng-model=new_event.name placeholder="{{'pop_add_event.event_content'|translate}}" class=form-control required wt-focus></textarea>
+                    <div class=section-group ng-if=show_project_select>
+                        <lable>{{'common.txt_project'|translate}}：</lable>
+                        <ui-select ng-change=js_change_project() ng-if=!is_team_calendar ng-model=new_event.pid theme=select2 append-to-body=false class=project-select>
+                            <ui-select-match placeholder="{{'pop_add_event.choose_project'|translate}}：">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices group-by="'team_name'" repeat="project.pid as project in selected_projects|propsFilter:{name: $select.search}">
+                                <div class=text-overflow ng-bind-html=project.name|reHighlight:$select.search></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <ui-select ng-change=js_change_project() ng-if=is_team_calendar ng-model=new_event.pid theme=select2 append-to-body=true class=project-select>
+                            <ui-select-match placeholder="{{'pop_add_event.choose_project'|translate}}：">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices repeat="project.pid as project in selected_projects|propsFilter:{name: $select.search}">
+                                <div class=text-overflow ng-bind-html=project.name|reHighlight:$select.search></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div class=section-group>
+                        <lable>{{'pop_add_event.star'|translate}}：</lable>
+                        <input name=start_date ng-model=new_event.start_date placeholder="" type=text class="form-control control-first" ng-click="js_to_set_date('start_date')" readonly=readonly required>
+                        <select ng-model=new_event.start_hour ng-options="time for time in start_hour_sections" class="form-control hour-select"></select>
+                        <span class=separation>:</span>
+                        <select ng-model=new_event.start_minute ng-options="time as time for time in start_minute_sections" class="form-control minute-select"></select>
+                    </div>
+                    <div class=section-group>
+                        <lable>{{'pop_add_event.end'|translate}}：</lable>
+                        <input name=end_date ng-model=new_event.end_date placeholder="" type=text class="form-control control-first" ng-click="js_to_set_date('end_date')" readonly=readonly required>
+                        <select ng-model=new_event.end_hour class="form-control hour-select" ng-change=js_change_end_hour()>
+                            <option ng-repeat="v in end_hour_sections" ng-selected="new_event.end_hour == v" value={{v}}>{{v}}</option></select>
+                        <span class=separation>:</span>
+                        <select ng-model=new_event.end_minute class="form-control minute-select">
+                            <option ng-repeat="v in end_minute_sections" ng-selected="new_event.end_minute == v" value={{v}}>{{v}}</option></select>
+                    </div>
+                    <div class=section-group>
+                        <lable>{{'pop_add_event.location'|translate}}：</lable>
+                        <input name=event_location ng-model=new_event.location placeholder="{{'pop_add_event.options'|translate}}" type=text class="form-control location-input"></div>
+                    <div class=section-group>
+                        <lable>{{'pop_add_event.repeat'|translate}}：</lable>
+                        <select ng-model=new_event.repeat_interval ng-options="interval.desc for interval in repeat_intervals" class="form-control location-input"></select>
+                    </div>
+                    <div class=section-group>
+                        <lable>{{'pop_add_event.attend'|translate}}：</lable>
+                        <ul class=entity-members>
+                            <li data-ng-repeat="member in new_event.attendees">
+                                <a href=javascript:;>
+                                    <wt-avatar member=member faceclass=plr_5 size=40></wt-avatar>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="avatar-add js-popbox" href=javascript:; ng-click=js_to_attendee($event) data-placement=left>
+                                    <span class=o>＋</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class=section-group>
+                        <button w5c-form-submit=js_save_event(new_event_form) data-loading-text="{{'common.saving'|translate}}" class="btn btn-success btn--big mr_15" wt-loading-status=new_event.is_saving>{{'common.btn_save'|translate}}</button>
+                        <button ng-click=js_close() class="btn btn-link btn-cancel">{{'common.btn_cancel'|translate}}</button></div>
+                </div>
+            </form>
+        </div>
+    </li>
+    <li ng-switch-when=1 class=popbox-step-li>
+        <div class=popbox-header>
+            <button class="back fa fa-chevron-left" ng-click=js_step(0)></button>
+            <button class="cancel fa fa-remove" ng-click=js_close()></button>
+            <h3>{{set_date_title}}</h3></div>
+        <div class=popbox-body>
+            <wt-full-datepicker default-date=current_date set-date=js_set_date(date) min-date=min_date></wt-full-datepicker>
+        </div>
+    </li>
+    <li ng-switch-when=2 class=popbox-step-li>
+        <div class=popbox-header>
+            <button class="back fa fa-chevron-left" ng-click=js_step(0)></button>
+            <button class="cancel fa fa-remove" ng-click=js_close()></button>
+            <h3>{{'pop_add_event.attend'|translate}}</h3></div>
+        <div class=popbox-bodywrapper wt-scroll>
+            <div class=popbox-body>
+                <input type=text ng-model=search_user_input placeholder="{{'pop_add_event.search_member'|translate}}" class="form-control help-block">
+                <br>
+                <div class=part-loading ng-show=loading_members></div>
+                <ul class="popbox-menu checkable checkable--popboxmenu" data-ng-hide=loading_members>
+                    <li class=member-item ng-repeat="member in members|filterMembers:search_user_input" ng-class="{'selected':member.assigned==1}">
+                        <wt-avatar member=member tabindex=-1 ng-click=js_toggle_member(member) name=true faceclass=plr_5 atname=true size=30></wt-avatar>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class=hr ng-show=!loading_members></div>
+        <div class="popbox-footer popbox-footer-splite" ng-show=!loading_members>
+            <a class="action-item popbox-footer-splite-left" href=javascript:; ng-click=js_add_all(0)>
+                <span>{{'pop_add_event.all_add'|translate}}</span></a>
+            <a class="action-item popbox-footer-splite-right" href=javascript:; ng-click=js_step(0)>
+                <span>{{'common.txt_ok'|translate}}</span>({{ new_event.attendees.length }}/{{ members.length }})</a></div>
+    </li>
+</ul>

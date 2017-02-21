@@ -224,16 +224,32 @@ define(['app'], function (app) {
 						success,failure,promise
 					);
 				},
-				
+				/**************************************************************************
+				**获取team template list信息 api
+				**************************************************************************/
+				get_project_templates:function(team_id){
+					return this.http_get_template(
+						'http://localhost:8080/api/team/'+team_id+'/project/templates'
+					);
+				},
 				/**************************************************************************
 				**获取未完成任务信息 api
 				**************************************************************************/
 				get_dashboard_task:function(success,failure,promise){
 					return this.http_get_template(
-						'http://ocalhost:8080/api/task/uncompleted',
+						'http://localhost:8080/api/task/uncompleted',
 						success,failure,promise
 					);
 				},
+				/**************************************************************************
+				**获取静态项目模板列表 api
+				**************************************************************************/
+				get_template_list:function(){
+					return this.http_get_template(
+						'http://localhost:8080/api/template/list'
+					);
+				},
+				
 
 			}
 		}

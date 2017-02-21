@@ -193,6 +193,7 @@ define(['app'], function (app) {
 						function(msg){
 							console.log("================= load_profile success");
 							context.me =msg.data;
+							context.me.locale = 'zh-cn';
 							$rootScope.bind = true;
 							/**
 							* 加载所有账号信息
