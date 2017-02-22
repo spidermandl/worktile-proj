@@ -9,6 +9,9 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>worktile-logic</module>
+        <module>worktile-web</module>
+        <module>admin</module>
+        <module>test</module>
     </modules>
 
 </project>
