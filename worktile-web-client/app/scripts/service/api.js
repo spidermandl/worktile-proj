@@ -249,6 +249,15 @@ define(['app'], function (app) {
 						'http://localhost:8080/api/template/list'
 					);
 				},
+				/**************************************************************************
+				**获取静态项目模板列表 api
+				**************************************************************************/
+				get_feed_list:function(data){
+					return this.http_post_template(
+						'http://localhost:8080/api/template/list',
+						data
+					);
+				},
 				
 
 			}

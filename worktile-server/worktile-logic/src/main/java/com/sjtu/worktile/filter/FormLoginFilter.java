@@ -32,7 +32,7 @@ public class FormLoginFilter extends AbsPathFilter {
         HttpServletResponse resp = (HttpServletResponse) response;
         if(SecurityUtils.getSubject().isAuthenticated()) {
             //System.out.println("same subject");
-            return redirectToSuccessUrl(req,resp);//已经登录过
+            return true;//已经登录过
         }
         if(isLoginRequest(req)) {
             boolean loginSuccess = false; //登录

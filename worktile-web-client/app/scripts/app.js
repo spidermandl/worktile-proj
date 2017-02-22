@@ -133,6 +133,7 @@
                 templateUrl: config.templateUrls.dashboard_task,
                 controller: 'DashboardTaskCtrl',
                 parent: 'root',
+                need_load: "true",
                 //css: 'css/base_inner.css',
             })
             .state("calendar", {
@@ -141,7 +142,7 @@
                 controller: "DashboardCalendarCtrl",
                 header_menu: "dashboard",
                 parent: "root",
-                //need_load: "true"
+                need_load: "true"
             })
             .state("calendar_subscribe", {
                 url: "/calendar/subscribe",

@@ -432,7 +432,7 @@ define(['app'], function (app) {
 
 			function l() {
 				0 != $("#calendar").find(".fc-agendaWeek-view").size() && ($("#calendar").find(".fc-agendaWeek-view tbody td:eq(0)").css({
-					height: kzi.util.winHeight() - m.header_height - 40,
+					height: config.util.winHeight() - m.header_height - 40,
 					overflow: "auto",
 					display: "block"
 				}), $("#calendar").find(".fc-agendaWeek-view tbody td:eq(0)").find(".fc-time-grid-container").css({

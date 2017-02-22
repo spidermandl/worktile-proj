@@ -113,38 +113,39 @@
 					code: 0
 				}, 
 				api.signin($scope.signin_user, 
-							function(data) {
-								$scope.iscode = !1;
-								// data.session.twofactor_enabled ? $scope.status.code = 1 : 
-								// 		f.weixin_unionid ? c.location.href = "/login_weixin_success?unionid=" + f.weixin_unionid : h(f.check_platform, i)
+						function(data) {
+							$scope.iscode = !1;
+							// data.session.twofactor_enabled ? $scope.status.code = 1 : 
+							// 		f.weixin_unionid ? c.location.href = "/login_weixin_success?unionid=" + f.weixin_unionid : h(f.check_platform, i)
 
-	                			localStorageService.set('token',data.token);
-	                			//$state.go('dashboard');
-	                			globalDataContext.load_profile();//进入登录
-							}, 
-							function(data) {
-			                    $scope.signin_user.username = '';
-                    			$scope.signin_user.password = '';
+                			localStorageService.set('token',data.token);
+                			//globalDataContext.load_profile();//进入登录
+                			globalDataContext.loadAll();
 
-                    			//错误处理
-			                    var errors = config.errors.user_error;
-			                    if (data.error_code == errors.not_found.code) {
-			                    	console.log(errors.not_found.msg);
-			                    }else if(data.error_code == errors.invalid_userinfo.code){
-			                    	console.log(errors.invalid_userinfo.msg);
-			                    }else if(data.error_code == errors.signin_limit.code){
-									
-									$scope.iscode = !0;
-									$scope.getcode(); 
-									var c = _.find(kzi.statuses.user_error, {
-										code: data.code
-									});
-									c ? d.$errors.unshift(c.msg) : d.$errors.unshift(e.instant("outer_user.fail_login_try_again"))
-			                    }
-							}, 
-							function() {
-								$scope.signin_user.is_login_ing = !1;
-							}), 
+						}, 
+						function(data) {
+		                    $scope.signin_user.username = '';
+                			$scope.signin_user.password = '';
+
+                			//错误处理
+		                    var errors = config.errors.user_error;
+		                    if (data.error_code == errors.not_found.code) {
+		                    	console.log(errors.not_found.msg);
+		                    }else if(data.error_code == errors.invalid_userinfo.code){
+		                    	console.log(errors.invalid_userinfo.msg);
+		                    }else if(data.error_code == errors.signin_limit.code){
+								
+								$scope.iscode = !0;
+								$scope.getcode(); 
+								var c = _.find(kzi.statuses.user_error, {
+									code: data.code
+								});
+								c ? d.$errors.unshift(c.msg) : d.$errors.unshift(e.instant("outer_user.fail_login_try_again"))
+		                    }
+						}, 
+						function() {
+							$scope.signin_user.is_login_ing = !1;
+						}), 
 				$scope.js_signin_twofactor = function(a) {
 					$scope.signin_user.is_signfactoing = !0, 
 					wt.data.user.signin_twofactor(

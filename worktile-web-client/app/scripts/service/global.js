@@ -174,6 +174,7 @@ define(['app'], function (app) {
 				 * 加载所有缓存信息
 				 **/
 				loadAll :function(){
+					console.log("================= global loadAll ");
 					/**
 					 * 判断是否需要重新登录
 					 **/
