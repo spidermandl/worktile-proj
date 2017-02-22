@@ -40,4 +40,25 @@ public class TaskTests extends BaseTest {
         Response response = client.newCall(request).execute();
         System.out.println(response.body().string());
     }
+
+    @Test
+    public void revise()throws Exception{
+        /** 
+         * 修改任务
+         */
+        String url=domain_url+"/api/task/revise";
+        String token=super.getToken();
+        Request request = new Request.Builder()
+                .url(url)
+                .addHeader("raw","raw")
+                .addHeader("Authorization",  Const.TOKEN_PREFIX+token)
+                .post( new FormEncodingBuilder()
+                        .add("task_id", "5")
+                        .add("title", "bbb")
+                        .add("desc","bbb")
+                        .build()
+                ).build();
+        Response response = client.newCall(request).execute();
+        System.out.println(response.body().string());
+    }
 }
