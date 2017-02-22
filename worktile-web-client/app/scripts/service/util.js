@@ -104,18 +104,19 @@
 					},
 					get_add_prj_teams: function(a) {
 						var d = _.clone(a);
-						return d = _.filter(d,
-								function(a) {
-									return a.permission & $rootScope.global.team_module.add_project;
-								}),
-							_.find(d, {
-								team_id: "-1"
-							}) || d.unshift({
-								name: $translate.instant("bus.personal_project"),
-								team_id: "-1",
-								curr_role: "1"
-							}),
-							d
+						console.log(d);
+						d = _.filter(d,
+							function(a) {
+								return a.permission & $rootScope.global.team_module.add_project;
+							});
+						_.find(d, {
+							team_id: "-1"
+						}) || d.unshift({
+							name: $translate.instant("bus.personal_project"),
+							team_id: "-1",
+							curr_role: "1"
+						});
+						return d;
 					},
 					calculate_stats_pos: function(a, b) {
 						var c = 0;

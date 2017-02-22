@@ -19,7 +19,7 @@ public class TeamTemplatesMsg extends PairMsg{
 
     public static class OutMsg implements ResponseMsg {
         public int code = MSG_CODE;
-        public List<Template> data = new ArrayList<>();
+        public List<TeamTemplatesMsg.OutMsg.Template> data = new ArrayList<>();
 
         public static class Template{
             public long template_id= 0;

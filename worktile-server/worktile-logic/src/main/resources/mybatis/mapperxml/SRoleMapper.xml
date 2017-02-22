@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sjtu.worktile.model.mappers.SRoleMapper">
   <resultMap id="BaseResultMap" type="com.sjtu.worktile.model.SRole">
-    <id column="id" jdbcType="BIGINT" property="id" />
+    <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -81,15 +81,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from s_role
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from s_role
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.sjtu.worktile.model.SRoleExample">
     delete from s_role
@@ -99,7 +99,7 @@
   </delete>
   <insert id="insert" parameterType="com.sjtu.worktile.model.SRole">
     insert into s_role (id, name)
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR})
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.sjtu.worktile.model.SRole">
     insert into s_role
@@ -113,7 +113,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=BIGINT},
+        #{id,jdbcType=INTEGER},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -130,7 +130,7 @@
     update s_role
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=BIGINT},
+        id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
@@ -142,7 +142,7 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update s_role
-    set id = #{record.id,jdbcType=BIGINT},
+    set id = #{record.id,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -155,11 +155,11 @@
         name = #{name,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.sjtu.worktile.model.SRole">
     update s_role
     set name = #{name,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

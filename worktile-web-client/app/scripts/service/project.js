@@ -10,7 +10,7 @@ define(['app'], function (app) {
     app.service('ProjectService', 
     	["$uibModal","globalDataContext","$state","$translate","$location",
     	"ycTrack","$UploadFile","config",'api',"Util",
-        function(a, globalDataContext, c,d,e,f,g,config,api,util) {
+        function(a, globalDataContext, c,$translate,e,f,g,config,api,util) {
         	//["$uibModal", "globalDataContext", "$state", "$translate", "$location", "ycTrack", "$wtUploadFile"]
         	//       a                b              c           d             e           f             g
 			var h = this;
@@ -54,7 +54,7 @@ define(['app'], function (app) {
 									},
 									m = function() {
 										l.system_templates = _.reject(l.system_templates, {
-											category: d.instant("dialog_project_create.filter_title_team_template")
+											category: $translate.instant("dialog_project_create.filter_title_team_template")
 										})
 									},
 									n = function() {
@@ -62,8 +62,8 @@ define(['app'], function (app) {
 												type: null,
 												id: ""
 											};
-										d.use(j.global.me.locale).then(function() {
-											l.current_template.name = d.instant("dialog_project_create.current_template_empty");
+										$translate.use(j.global.me.locale).then(function() {
+											l.current_template.name = $translate.instant("dialog_project_create.current_template_empty");
 										});
 									},
 									o = function(a) {
@@ -77,44 +77,45 @@ define(['app'], function (app) {
 											})
 									},
 									p = function() {
-										return l.new_project.team_id ? 
-													(l.new_project.team_id && "-1" !== l.new_project.team_id ? 
-													api.get_project_templates(l.new_project.team_id)
-														.then(function(a) {
-															var b = a.data;
-															_.each(b,
-																function(a, b) {
-																	b + 1 <= 5 ? 
-																		a.image = b + 1 + ".jpg" : 
-																		a.image = b % 5 + 1 + ".jpg";
-																	a.type = 1;
-																	a.id = a.template_id;
-															}),
-															m(),
-															l.system_templates.unshift({
-																category: d.instant("dialog_project_create.filter_title_team_template"),
-																projects: b
+										if (l.new_project.team_id ){
+											if(l.new_project.team_id && "-1" !== l.new_project.team_id ){
+												return api.get_project_templates(l.new_project.team_id)
+													.then(function(a) {
+														var b = a.data;
+														_.each(b,
+															function(a, b) {
+																b + 1 <= 5 ? 
+																	a.image = b + 1 + ".jpg" : 
+																	a.image = b % 5 + 1 + ".jpg";
+																a.type = 1;
+																a.id = a.template_id;
+														}),
+														m(),
+														l.system_templates.unshift({
+															category: $translate.instant("dialog_project_create.filter_title_team_template"),
+															projects: b
+														});
+														var c = _.find(l.teams, {
+															team_id: l.new_project.team_id
+														});
+														if(null != c.template_id && "" !== c.template_id) {
+															var e = _.find(l.system_templates[0].projects, {
+																template_id: c.template_id
 															});
-															var c = _.find(l.teams, {
-																team_id: l.new_project.team_id
-															});
-															if(null != c.template_id && "" !== c.template_id) {
-																var e = _.find(l.system_templates[0].projects, {
-																	template_id: c.template_id
-																});
-																l.current_template = {
-																	type: 1,
-																	id: e.id,
-																	name: e.name
-																};
-															} else 
-																1 === l.current_template.type && n();
-														}) 
-													: 
-													(m(), 1 === l.current_template.type && n()), 
-														l.visibilities = wt.bus.project.get_visibilities(l.new_project.team_id), 
-														void(l.new_project.visibility || (l.new_project.visibility = kzi.constant.prj_visibility.private))) 
-											: void(l.visibilities = [])
+															l.current_template = {
+																type: 1,
+																id: e.id,
+																name: e.name
+															};
+														} else 
+															1 === l.current_template.type && n();
+													});
+												} 
+											//return (m(), 1 === l.current_template.type && n()), 
+											//		l.visibilities = wt.bus.project.get_visibilities(l.new_project.team_id), 
+											//			void(l.new_project.visibility || (l.new_project.visibility = config.prj_visibility.private))) 
+										}
+										// return void(l.visibilities = []);
 									};
 								l.js_filter_templates_category = function(a) {
 										l.filter_templates_category = a

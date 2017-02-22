@@ -23,16 +23,6 @@ public class TeamListMsg extends PairMsg {
 
     }
 
-    /**
-     * Team输出格式
-     */
-    public static class Team{
-        public long team_id = 0;//团队id
-        public String name = null;//团队name
-        public long count = 0;//团队人数
-        public int visibility = 1; //团队公开性
-        public String logo = null;//团队logo
-    }
 
     @Override
     void initMsg() {

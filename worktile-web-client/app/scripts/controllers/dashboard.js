@@ -907,8 +907,8 @@ define(['app'], function (app) {
 	 *
 	 **************************************************************************************************************/
 	.controller('DashboardActivityFeedCtrl', 
-		['$scope','$rootScope','config',
-		function ($scope,$rootScope,config) {
+		['$scope','$rootScope','config','ycTrack',
+		function ($scope,$rootScope,config,ycTrack) {
 			//["$rootScope", "$scope", "$translate", "ycTrack"]
 			//      a            b            c           d
 			function e() {
@@ -924,7 +924,7 @@ define(['app'], function (app) {
 							f.loadingDone = !0
 						})
 			}
-			d.track("dashboard_feed", "visit");
+			ycTrack.track("dashboard_feed", "visit");
 			var f = b.vm = {
 				loadingDone: !0,
 				feedData: {
