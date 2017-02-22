@@ -76,29 +76,27 @@ define(['app'], function (app) {
 												pid: d.pid
 											})
 									},
+									//创建项目第一个弹窗
 									p = function() {
-										if (l.new_project.team_id ){
-											if(l.new_project.team_id && "-1" !== l.new_project.team_id ){
-												return api.get_project_templates(l.new_project.team_id)
-													.then(function(a) {
+										return l.new_project.team_id ? 
+											(l.new_project.team_id && "-1" !== l.new_project.team_id ? 
+												api.get_project_templates(l.new_project.team_id).then(function(a) {
 														var b = a.data;
 														_.each(b,
-															function(a, b) {
-																b + 1 <= 5 ? 
-																	a.image = b + 1 + ".jpg" : 
-																	a.image = b % 5 + 1 + ".jpg";
-																a.type = 1;
-																a.id = a.template_id;
-														}),
-														m(),
-														l.system_templates.unshift({
-															category: $translate.instant("dialog_project_create.filter_title_team_template"),
-															projects: b
-														});
+																function(a, b) {
+																	b + 1 <= 5 ? a.image = b + 1 + ".jpg" : a.image = b % 5 + 1 + ".jpg",
+																		a.type = 1,
+																		a.id = a.template_id
+																}),
+															m(),
+															l.system_templates.unshift({
+																category: $translate.instant("dialog_project_create.filter_title_team_template"),
+																projects: b
+															});
 														var c = _.find(l.teams, {
 															team_id: l.new_project.team_id
 														});
-														if(null != c.template_id && "" !== c.template_id) {
+														if(null != c.template_id && "" !== c.template_id && 0 !== c.template_id) {
 															var e = _.find(l.system_templates[0].projects, {
 																template_id: c.template_id
 															});
@@ -106,16 +104,15 @@ define(['app'], function (app) {
 																type: 1,
 																id: e.id,
 																name: e.name
-															};
-														} else 
-															1 === l.current_template.type && n();
-													});
-												} 
-											//return (m(), 1 === l.current_template.type && n()), 
-											//		l.visibilities = wt.bus.project.get_visibilities(l.new_project.team_id), 
-											//			void(l.new_project.visibility || (l.new_project.visibility = config.prj_visibility.private))) 
-										}
-										// return void(l.visibilities = []);
+															}
+														} else 1 === l.current_template.type && n()
+												}) 
+												: (m(), 1 === l.current_template.type && n()),
+													l.visibilities = util.project.get_visibilities(l.new_project.team_id), 
+													void(l.new_project.visibility || (l.new_project.visibility = kzi.constant.prj_visibility.private))
+											) 
+											: 
+											void(l.visibilities = []);
 									};
 								l.js_filter_templates_category = function(a) {
 										l.filter_templates_category = a
@@ -157,11 +154,31 @@ define(['app'], function (app) {
 												]
 											})
 									},
+									//创建项目
 									l.js_project_add = function(a) {
-										l.saving || (l.saving = !0, "-1" === l.new_project.team_id || l.new_project.team_id === -1 ? wt.data.project.add_personal_project(l.new_project.name, l.new_project.desc, l.new_project.visibility, l.current_template.type, l.current_template.id, o, null,
-											function() {
-												l.saving = !1
-											}) : wt.data.project.add_team_project(l.new_project.team_id, l.new_project.name, l.new_project.desc, l.new_project.visibility, l.current_template.type, l.current_template.id, o, null, null), a.preventDefault())
+										l.saving || 
+											(l.saving = !0, 
+												"-1" === l.new_project.team_id || l.new_project.team_id === -1 ? 
+												wt.data.project.add_personal_project(
+													l.new_project.name, 
+													l.new_project.desc, 
+													l.new_project.visibility, 
+													l.current_template.type, 
+													l.current_template.id, 
+													o, null,
+													function() {
+														l.saving = !1
+													})
+												: 
+												wt.data.project.add_team_project(
+													l.new_project.team_id, 
+													l.new_project.name, 
+													l.new_project.desc, 
+													l.new_project.visibility, 
+													l.current_template.type, 
+													l.current_template.id, 
+													o, null, null), 
+												a.preventDefault())
 									},
 									l.change_project_team = function() {
 										l.new_project.visibility = config.prj_visibility.private;
@@ -201,7 +218,7 @@ define(['app'], function (app) {
 											}),
 											_.each(a,
 												function(a) {
-													b.indexOf(a.uid) < 0 ? a.role === kzi.constant.role.guest ? l.unassigned_team_visitors.push(a) : l.unassigned_team_members.push(a) : l.contact_members_exist.push(a);
+													b.indexOf(a.uid) < 0 ? a.role === config.role.guest ? l.unassigned_team_visitors.push(a) : l.unassigned_team_members.push(a) : l.contact_members_exist.push(a);
 												}),
 											_.each(l.project.members,
 												function(a) {
@@ -1185,3 +1202,6 @@ define(['app'], function (app) {
 
     }])
 })
+
+
+

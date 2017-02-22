@@ -254,7 +254,7 @@ define(['app'], function(app) {
 				 **************************************************************************/
 				get_feed_list: function(data, success, failure, promise) {
 					return this.http_post_template(
-						'http://localhost:8080/api/template/list',
+						'http://localhost:8080/api/feed/list',
 						data,
 						success, failure, promise
 					);

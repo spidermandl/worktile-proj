@@ -389,10 +389,10 @@ define(['app'], function (app) {
             };
             return kzi.config.wtbox_url + kzi.constant.get_file_icon(b)
         }
-    }]).filter("getTemplateBg", [function() {
+    }]).filter("getTemplateBg", ['config',function(config) {
         return function(a) {
             var b = "";
-            return b = 1 === a.type ? "url(" + kzi.config.cdnpath + "images/dialog_project_create/team-templates/" + a.image + ")": "url(" + kzi.config.cdnpath + "images/dialog_project_create/project-templates/" + a.image + ")"
+            return b = 1 === a.type ? "url(" + config.cdnpath + "images/dialog_project_create/team-templates/" + a.image + ")": "url(" + config.cdnpath + "images/dialog_project_create/project-templates/" + a.image + ")"
         }
     }]).filter("appClientName", ["$translate",
     function(a) {
