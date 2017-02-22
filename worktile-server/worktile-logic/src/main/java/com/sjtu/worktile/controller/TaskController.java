@@ -5,6 +5,7 @@ import com.sjtu.worktile.model.TTask;
 import com.sjtu.worktile.msg.PairMsg;
 import com.sjtu.worktile.msg.TaskNewMsg;
 import com.sjtu.worktile.msg.TaskListMsg;
+import com.sjtu.worktile.msg.TaskReviseMsg;
 import com.sjtu.worktile.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -63,5 +64,22 @@ public class TaskController extends BaseController {
         TaskNewMsg.OutMsg out=new TaskNewMsg.OutMsg();
         taskService.createTask(tTask);
         return  out;
+    }
+
+
+    @RequestMapping(value = "revise",method = RequestMethod.POST)
+    @ResponseBody
+    public PairMsg.ResponseMsg revise(@RequestParam("task_id") long task_id,
+                                      @RequestParam("desc") String desc,
+                                      @RequestParam("title") String title,
+                                      final  HttpServletRequest request)throws AppException{
+       // long uid=super.getUserID(request);
+        TTask tTask=taskService.findTaskById(task_id);
+        tTask.setTitle(title);
+        tTask.setDescription(desc);
+        tTask.setUpdateTime(new Date(System.currentTimeMillis()));
+        TaskReviseMsg.OutMsg out=new TaskReviseMsg.OutMsg();
+        taskService.reviseTask(tTask);
+        return out;
     }
 }
