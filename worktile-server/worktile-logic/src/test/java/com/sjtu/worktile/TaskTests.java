@@ -88,7 +88,7 @@ public class TaskTests extends BaseTest {
         /**
          * 取消分配任务
          */
-        String url=domain_url+"/api/task/unassign";
+        String url=domain_url+"/api/task/cancelassignment";
         String token=super.getToken();
         Request request = new Request.Builder()
                 .url(url)

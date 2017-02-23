@@ -113,7 +113,7 @@ public class TaskController extends BaseController {
         return out;
     }
 
-    @RequestMapping(value="unassign",method = RequestMethod.POST)
+    @RequestMapping(value="cancelassignment",method = RequestMethod.POST)
     @ResponseBody
     public PairMsg.ResponseMsg unassing(@RequestParam("task_assign_id") long task_assign_id,
                                         final HttpServletRequest request)throws AppException{
