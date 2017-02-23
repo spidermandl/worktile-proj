@@ -115,10 +115,10 @@ public class TaskController extends BaseController {
 
     @RequestMapping(value="cancelassignment",method = RequestMethod.POST)
     @ResponseBody
-    public PairMsg.ResponseMsg unassing(@RequestParam("task_assign_id") long task_assign_id,
+    public PairMsg.ResponseMsg canelassignment(@RequestParam("task_assign_id") long task_assign_id,
                                         final HttpServletRequest request)throws AppException{
-        TaskUnassignMsg.OutMsg out=new TaskUnassignMsg.OutMsg();
-        taskService.unassignTask(task_assign_id);
+        TaskCancelassignmentMsg.OutMsg out=new TaskCancelassignmentMsg.OutMsg();
+        taskService.cancelassignmentTask(task_assign_id);
         return out;
     }
 }

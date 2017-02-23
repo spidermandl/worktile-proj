@@ -3,7 +3,7 @@ package com.sjtu.worktile.msg;
 /**
  * Created by lenovo on 2017/2/23.
  */
-public class TaskUnassignMsg extends PairMsg {
+public class TaskCancelassignmentMsg extends PairMsg {
     /**
      * 消息序列号
      */
@@ -19,7 +19,7 @@ public class TaskUnassignMsg extends PairMsg {
     }
     @Override
     public void initMsg(){
-        inMsg=new TaskUnassignMsg.InMsg();
-        outMsg=new TaskUnassignMsg.OutMsg();
+        inMsg=new TaskCancelassignmentMsg.InMsg();
+        outMsg=new TaskCancelassignmentMsg.OutMsg();
     }
 }

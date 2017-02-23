@@ -66,7 +66,7 @@ public class TaskService {
      * @param task_assign_id
      * @throws AppException
      */
-    public void unassignTask(long task_assign_id)throws AppException{
+    public void cancelassignmentTask(long task_assign_id)throws AppException{
         tTaskAssignmentMapper.deleteByPrimaryKey(task_assign_id);
     }
 }

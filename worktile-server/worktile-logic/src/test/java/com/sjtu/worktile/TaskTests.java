@@ -84,7 +84,7 @@ public class TaskTests extends BaseTest {
     }
 
     @Test
-    public void unassign()throws Exception{
+    public void cancelassign()throws Exception{
         /**
          * 取消分配任务
          */
@@ -95,7 +95,7 @@ public class TaskTests extends BaseTest {
                 .addHeader("raw","raw")
                 .addHeader("Authorization",  Const.TOKEN_PREFIX+token)
                 .post( new FormEncodingBuilder()
-                        .add("task_assign_id", "2")
+                        .add("task_assign_id", "3")
                         .build()
                 ).build();
         Response response = client.newCall(request).execute();
