@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.Map;
+
 
 /**
  * Created by Desmond on 10/01/2017.
@@ -113,12 +115,43 @@ public class TaskController extends BaseController {
         return out;
     }
 
+    /**
+     * 取消分配任务
+     * @param task_assign_id
+     * @param request
+     * @return
+     * @throws AppException
+     */
     @RequestMapping(value="cancelassignment",method = RequestMethod.POST)
     @ResponseBody
     public PairMsg.ResponseMsg canelassignment(@RequestParam("task_assign_id") long task_assign_id,
                                         final HttpServletRequest request)throws AppException{
         TaskCancelassignmentMsg.OutMsg out=new TaskCancelassignmentMsg.OutMsg();
         taskService.cancelassignmentTask(task_assign_id);
+        return out;
+    }
+
+    /**
+     * 关注任务
+     * @param task_id
+     * @param follower_id
+     * @param attach_id
+     * @param request
+     * @return
+     * @throws AppException
+     */
+    @RequestMapping(value="watch",method=RequestMethod.POST)
+    @ResponseBody
+    public PairMsg.ResponseMsg watch(@RequestParam("task_id") long task_id,
+                                      @RequestParam("follower_id") long follower_id,
+                                      @RequestParam("attach_id") long attach_id,
+                                     final HttpServletRequest request)throws AppException{
+        TTaskAssignment tTaskAssignment=new TTaskAssignment();
+        tTaskAssignment.setTaskId(task_id);
+        tTaskAssignment.setFollowerId(follower_id);
+        tTaskAssignment.setAttachId(attach_id);
+        TaskWatchMsg.OutMsg out=new TaskWatchMsg.OutMsg();
+        taskService.watch(tTaskAssignment);
         return out;
     }
 }
