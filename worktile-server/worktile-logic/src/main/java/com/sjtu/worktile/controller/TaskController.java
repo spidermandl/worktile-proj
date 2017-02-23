@@ -2,16 +2,16 @@ package com.sjtu.worktile.controller;
 
 import com.sjtu.worktile.exception.AppException;
 import com.sjtu.worktile.model.TTask;
-import com.sjtu.worktile.msg.PairMsg;
-import com.sjtu.worktile.msg.TaskNewMsg;
-import com.sjtu.worktile.msg.TaskListMsg;
-import com.sjtu.worktile.msg.TaskReviseMsg;
+import com.sjtu.worktile.model.TTaskAssignment;
+import com.sjtu.worktile.msg.*;
 import com.sjtu.worktile.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.Map;
+
 
 /**
  * Created by Desmond on 10/01/2017.
@@ -66,7 +66,15 @@ public class TaskController extends BaseController {
         return  out;
     }
 
-
+    /**
+     * 修改任务
+     * @param task_id
+     * @param desc
+     * @param title
+     * @param request
+     * @return
+     * @throws AppException
+     */
     @RequestMapping(value = "revise",method = RequestMethod.POST)
     @ResponseBody
     public PairMsg.ResponseMsg revise(@RequestParam("task_id") long task_id,
@@ -80,6 +88,70 @@ public class TaskController extends BaseController {
         tTask.setUpdateTime(new Date(System.currentTimeMillis()));
         TaskReviseMsg.OutMsg out=new TaskReviseMsg.OutMsg();
         taskService.reviseTask(tTask);
+        return out;
+    }
+
+    /**
+     * 分配任务
+     * @param task_id
+     * @param assigner_id
+     * @param request
+     * @param attach_id
+     * @return
+     * @throws AppException
+     */
+    @RequestMapping(value="assign",method = RequestMethod.POST)
+    @ResponseBody
+    public PairMsg.ResponseMsg assign(@RequestParam("task_id") long task_id,
+                                           @RequestParam("assigner_id") long assigner_id,
+                                           @RequestParam("attach_id") long attach_id,
+                                           final HttpServletRequest request)throws AppException{
+        TTaskAssignment tTaskAssignment=new TTaskAssignment();
+        tTaskAssignment.setAssignerId(assigner_id);
+        tTaskAssignment.setTaskId(task_id);
+        tTaskAssignment.setAttachId(attach_id);
+        TaskAssignMsg.OutMsg out=new TaskAssignMsg.OutMsg();
+        taskService.assignTask(tTaskAssignment);
+        return out;
+    }
+
+    /**
+     * 取消分配任务
+     * @param task_assign_id
+     * @param request
+     * @return
+     * @throws AppException
+     */
+    @RequestMapping(value="cancelassignment",method = RequestMethod.POST)
+    @ResponseBody
+    public PairMsg.ResponseMsg canelassignment(@RequestParam("task_assign_id") long task_assign_id,
+                                        final HttpServletRequest request)throws AppException{
+        TaskCancelassignmentMsg.OutMsg out=new TaskCancelassignmentMsg.OutMsg();
+        taskService.cancelassignmentTask(task_assign_id);
+        return out;
+    }
+
+    /**
+     * 关注任务
+     * @param task_id
+     * @param follower_id
+     * @param attach_id
+     * @param request
+     * @return
+     * @throws AppException
+     */
+    @RequestMapping(value="watch",method=RequestMethod.POST)
+    @ResponseBody
+    public PairMsg.ResponseMsg watch(@RequestParam("task_id") long task_id,
+                                      @RequestParam("follower_id") long follower_id,
+                                      @RequestParam("attach_id") long attach_id,
+                                     final HttpServletRequest request)throws AppException{
+        TTaskAssignment tTaskAssignment=new TTaskAssignment();
+        tTaskAssignment.setTaskId(task_id);
+        tTaskAssignment.setFollowerId(follower_id);
+        tTaskAssignment.setAttachId(attach_id);
+        TaskWatchMsg.OutMsg out=new TaskWatchMsg.OutMsg();
+        taskService.watch(tTaskAssignment);
         return out;
     }
 }
