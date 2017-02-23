@@ -193,16 +193,17 @@ define(['app'], function (app) {
 					.then(
 						function(msg){
 							console.log("================= load_profile success");
-							context.me =msg.data;
+							context.me = msg.data;
 							context.me.locale = 'zh-cn';
 							$rootScope.bind = true;
 							/**
 							* 加载所有账号信息
 							*/
-							return $q.all([api.team_list()]).
+							return $q.all([api.team_list(),api.project_list()]).
 									then(
 										function(msgs){
 											//console.log(msgs[0].data);
+											//取出team数据
 											_.map(msgs[0].data,
 								                function(a) {
 								                    var b = globalDataContext.getTeam(a.team_id);
@@ -210,6 +211,12 @@ define(['app'], function (app) {
 								                    	globalDataContext.teams.push(a);
 								                });
 											//console.log(globalDataContext.teams);
+											//取出project数据
+							                globalDataContext.projects = _.sortBy(msgs[1].data,
+										        function(a) {
+										            return a.pos;
+										        });
+							                //console.log(globalDataContext.projects);
 											return context;
 										},
 										function(msgs){

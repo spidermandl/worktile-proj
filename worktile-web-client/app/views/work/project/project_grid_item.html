@@ -1,0 +1,14 @@
+<li class="item flex_row">
+    <a class="flex_se1 ml-20 color-text-dark" href=javascript:; ng-click=vm.go_project()>
+        <span class=project_icon>
+            <i ng-class=project.pic ng-style={color:project.bg}></i>
+        </span>
+        <span ng-bind=[project.name,40]|cutstr></span>
+    </a>
+    <span class="flex_row w_252 mr_20">
+        <div class="project_status flex_row">
+            <span class="pending {{project.overview.uncompleted==0?'empty':''}} flex_se1" tooltip-placement=top uib-tooltip="{{'project_grid_item.todo'|translate}}">{{project.overview.uncompleted}}</span>
+            <span class="expired {{project.overview.expired==0?'empty':''}} flex_se1" tooltip-placement=top uib-tooltip="{{'project_grid_item.expired'|translate}}">{{project.overview.expired}}</span>
+            <span class="complete {{project.overview.completed==0?'empty':''}} flex_se1" tooltip-placement=top uib-tooltip="{{'project_grid_item.done'|translate}}">{{project.overview.completed}}</span></div>
+    </span>
+</li>

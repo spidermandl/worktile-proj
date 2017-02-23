@@ -104,19 +104,22 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.sjtu.worktile.model.TTaskAssignment">
-    insert into t_task_assignment (id, task_id, follower_id, 
-      assigner_id, attach_id, pending1, 
-      pending2, pending3)
-    values (#{id,jdbcType=BIGINT}, #{taskId,jdbcType=BIGINT}, #{followerId,jdbcType=BIGINT}, 
-      #{assignerId,jdbcType=BIGINT}, #{attachId,jdbcType=BIGINT}, #{pending1,jdbcType=VARCHAR}, 
-      #{pending2,jdbcType=VARCHAR}, #{pending3,jdbcType=VARCHAR})
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_task_assignment (task_id, follower_id, assigner_id, 
+      attach_id, pending1, pending2, 
+      pending3)
+    values (#{taskId,jdbcType=BIGINT}, #{followerId,jdbcType=BIGINT}, #{assignerId,jdbcType=BIGINT}, 
+      #{attachId,jdbcType=BIGINT}, #{pending1,jdbcType=VARCHAR}, #{pending2,jdbcType=VARCHAR}, 
+      #{pending3,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.sjtu.worktile.model.TTaskAssignment">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into t_task_assignment
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="taskId != null">
         task_id,
       </if>
@@ -140,9 +143,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=BIGINT},
-      </if>
       <if test="taskId != null">
         #{taskId,jdbcType=BIGINT},
       </if>

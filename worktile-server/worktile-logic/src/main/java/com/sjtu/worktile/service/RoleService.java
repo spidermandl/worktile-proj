@@ -32,4 +32,5 @@ public class RoleService {
         return sPermissionMapper.selectByExample(query);
 
     }
+
 }

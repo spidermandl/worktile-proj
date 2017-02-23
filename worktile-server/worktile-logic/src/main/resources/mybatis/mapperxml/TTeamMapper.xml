@@ -141,27 +141,30 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.sjtu.worktile.model.TTeam">
-    insert into t_team (id, name, creater_id, 
-      create_time, update_time, industry, 
-      scale, province, city, 
-      district, logo, publicity, 
-      default_tag, default_project_id, default_template_id, 
-      pending1, pending2, pending3, 
-      description)
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{industry,jdbcType=INTEGER}, 
-      #{scale,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
-      #{district,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, #{publicity,jdbcType=INTEGER}, 
-      #{defaultTag,jdbcType=VARCHAR}, #{defaultProjectId,jdbcType=BIGINT}, #{defaultTemplateId,jdbcType=BIGINT}, 
-      #{pending1,jdbcType=VARCHAR}, #{pending2,jdbcType=VARCHAR}, #{pending3,jdbcType=VARCHAR}, 
-      #{description,jdbcType=LONGVARCHAR})
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_team (name, creater_id, create_time, 
+      update_time, industry, scale, 
+      province, city, district, 
+      logo, publicity, default_tag, 
+      default_project_id, default_template_id, pending1, 
+      pending2, pending3, description
+      )
+    values (#{name,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{industry,jdbcType=INTEGER}, #{scale,jdbcType=VARCHAR}, 
+      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{district,jdbcType=VARCHAR}, 
+      #{logo,jdbcType=VARCHAR}, #{publicity,jdbcType=INTEGER}, #{defaultTag,jdbcType=VARCHAR}, 
+      #{defaultProjectId,jdbcType=BIGINT}, #{defaultTemplateId,jdbcType=BIGINT}, #{pending1,jdbcType=VARCHAR}, 
+      #{pending2,jdbcType=VARCHAR}, #{pending3,jdbcType=VARCHAR}, #{description,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.sjtu.worktile.model.TTeam">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into t_team
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="name != null">
         name,
       </if>
@@ -218,9 +221,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=BIGINT},
-      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>

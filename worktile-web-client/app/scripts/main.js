@@ -38,7 +38,8 @@
             left_menu_project : 'directive/left_menu_project',
             left_menu_avatar : 'directive/left_menu_avatar',
             toolkit : 'directive/toolkit',
-            team_logo : "directive/team_logo",
+            team_logo : 'directive/team_logo',
+            project_item : 'directive/project_item',
             //filter
             //translate : 'filter/translate',
             filters : 'filter/filters',
@@ -65,7 +66,7 @@
                 deps: ['left_nemu'],
             },
             team_ctrl: {
-                deps: [],
+                deps: ['project_item'],
             },
             left_nemu: {
                 deps: ['filters','popbox','left_menu_project','left_menu_avatar','work','team'],

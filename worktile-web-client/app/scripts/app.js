@@ -322,6 +322,295 @@
                 controller: "team_join_ctrl",
                 header_menu: "team",
                 need_load: !0
+            }).state("projects", {
+                url: "/projects",
+                templateUrl: "/tpl/dashboard/projects.html",
+                controller: "dashboardProjectsCtrl",
+                header_menu: "",
+                parent: "home",
+                need_load: !0
+            }).state("project_not_found", {
+                url: "/project/:pid/notfound",
+                templateUrl: "/tpl/project/prj_not_found.html",
+                controller: "projectNotfoundCtrl",
+                header_menu: "project",
+                parent: "home",
+                need_load: !1
+            }).state("project", {
+                url: "/project/:pid",
+                templateUrl: config.templateUrls.project_main,
+                controller: "projectHomeCtrl",
+                resolve: {
+                    fastProject: ["$stateParams", "globalDataContext",
+                    function(a, b) {
+                        return b.getProject(a.pid, !0, !0).then(function(a) {
+                            return a ? a: null;
+                        });
+                    }]
+                },
+                header_menu: "project",
+                project_iconmenu: "task",
+                need_load: !0,
+                parent: "root"
+            }).state("project.task", {
+                url: "/task",
+                header_menu: "project",
+                project_iconmenu: "task",
+                need_load: !1,
+                views: {
+                    "": {
+                        templateUrl: "/tpl/project/task/tasks.html",
+                        controller: "projectTasksCtrl"
+                    },
+                    toolbar: {
+                        templateUrl: "/tpl/project/task/toolbar.html",
+                        controller: "projectTasksToolbarCtrl"
+                    }
+                }
+            }).state("project.task.detail", {
+                url: "/:tid",
+                header_menu: "project",
+                project_iconmenu: "task",
+                need_load: !1,
+                template: "",
+                controller: "projectTaskDetailCtrl"
+            }).state("project.post", {
+                url: "/post",
+                header_menu: "project",
+                project_iconmenu: "post",
+                need_load: !1,
+                views: {
+                    toolbar: {
+                        templateUrl: "/tpl/project/post/toolbar.html",
+                        controller: "projectPostsToolbarCtrl"
+                    },
+                    "": {
+                        templateUrl: "/tpl/project/post/posts.html",
+                        controller: "projectPostsCtrl"
+                    }
+                }
+            }).state("project.post.detail", {
+                url: "/:post_id",
+                header_menu: "project",
+                project_iconmenu: "post",
+                need_load: !1,
+                template: "",
+                controller: "projectPostDetailCtrl"
+            }).state("project.file", {
+                url: "/file",
+                header_menu: "project",
+                project_iconmenu: "file",
+                need_load: !1,
+                views: {
+                    toolbar: {
+                        templateUrl: "/tpl/project/file/toolbar.html",
+                        controller: "projectFilesToolbarCtrl"
+                    },
+                    "": {
+                        templateUrl: "/tpl/project/file/files.html",
+                        controller: "projectFilesCtrl"
+                    }
+                }
+            }).state("project.file.detail", {
+                url: "/:fid",
+                header_menu: "project",
+                project_iconmenu: "file",
+                need_load: !1,
+                template: "",
+                controller: "projectFileDetailCtrl"
+            }).state("project.folder", {
+                url: "/folder/:folder_id",
+                header_menu: "project",
+                project_iconmenu: "file",
+                need_load: !1,
+                views: {
+                    "": {
+                        templateUrl: "/tpl/project/file/files.html",
+                        controller: "projectFilesCtrl"
+                    },
+                    toolbar: {
+                        templateUrl: "/tpl/project/file/toolbar.html",
+                        controller: "projectFilesToolbarCtrl"
+                    }
+                }
+            }).state("project.folder.fileDetail", {
+                url: "/:fid",
+                header_menu: "project",
+                project_iconmenu: "file",
+                need_load: !1,
+                template: "",
+                controller: "projectFileDetailCtrl"
+            }).state("project.page", {
+                url: "/page",
+                header_menu: "project",
+                project_iconmenu: "page",
+                views: {
+                    toolbar: {
+                        template: '<ui-view name="toolbar"></ui-view>'
+                    },
+                    "": {
+                        template: "<ui-view></ui-view>",
+                        controller: "projectPagesHomeCtrl"
+                    }
+                },
+                need_load: !1,
+                abstract: !0
+            }).state("project.page.list", {
+                url: "",
+                header_menu: "project",
+                project_iconmenu: "page",
+                need_load: !1,
+                views: {
+                    toolbar: {
+                        templateUrl: "/tpl/project/page/toolbar.html",
+                        controller: "projectPagesToolbarCtrl"
+                    },
+                    "": {
+                        templateUrl: "/tpl/project/page/pages.html",
+                        controller: "projectPagesCtrl"
+                    }
+                }
+            }).state("project.page.add", {
+                url: "/add",
+                header_menu: "project",
+                project_iconmenu: "page",
+                need_load: !1,
+                views: {
+                    toolbar: {
+                        templateUrl: "/tpl/project/page/add_toolbar.html",
+                        controller: "projectPageAddToolbarCtrl"
+                    },
+                    "": {
+                        templateUrl: "/tpl/project/page/add_or_edit_page.html",
+                        controller: "projectPageAddEditCtrl"
+                    }
+                }
+            }).state("project.page.children_add", {
+                url: "/add/:parent_page_id",
+                header_menu: "project",
+                project_iconmenu: "page",
+                need_load: !1,
+                views: {
+                    toolbar: {
+                        templateUrl: "/tpl/project/page/add_toolbar.html",
+                        controller: "projectPageAddToolbarCtrl"
+                    },
+                    "": {
+                        templateUrl: "/tpl/project/page/add_or_edit_page.html",
+                        controller: "projectPageAddEditCtrl"
+                    }
+                }
+            }).state("project.page.list.detail", {
+                url: "/:page_id",
+                header_menu: "project",
+                project_iconmenu: "page",
+                need_load: !1,
+                controller: "pagesDetailCtrl",
+                template: ""
+            }).state("project.page.edit", {
+                url: "/:page_id/edit",
+                header_menu: "project",
+                project_iconmenu: "page",
+                need_load: !0,
+                views: {
+                    toolbar: {
+                        templateUrl: "/tpl/project/page/add_toolbar.html",
+                        controller: "projectPageAddToolbarCtrl"
+                    },
+                    "": {
+                        templateUrl: "/tpl/project/page/add_or_edit_page.html",
+                        controller: "projectPageAddEditCtrl"
+                    }
+                }
+            }).state("project.page.diff", {
+                url: "/:page_id/versions",
+                templateUrl: "/tpl/project/page/version_diff.html",
+                controller: "projectPageVerDiffCtrl",
+                header_menu: "project",
+                project_iconmenu: "page",
+                need_load: !0
+            }).state("project.page_shimo_detail", {
+                url: "/page_shimo/:page_id",
+                header_menu: "project",
+                project_iconmenu: "page",
+                need_load: !1,
+                template: "",
+                resolve: {
+                    page: ["$stateParams", "$location", "$window",
+                    function(a, b, c) {
+                        return wt.data.page.get(a.pid, a.page_id,
+                        function(a) {
+                            c.location = a.data.join_url
+                        },
+                        function(c) {
+                            b.path("/project/" + a.pid + "/page")
+                        }).then(function(a) {
+                            return a.data
+                        },
+                        function(c) {
+                            return b.path("/project/" + a.pid + "/page"),
+                            null
+                        })
+                    }]
+                }
+            }).state("project.event", {
+                url: "/event",
+                header_menu: "project",
+                project_iconmenu: "event",
+                need_load: !1,
+                views: {
+                    "": {
+                        templateUrl: "/tpl/project/event/events.html",
+                        controller: "projectEventsCtrl"
+                    },
+                    toolbar: {
+                        templateUrl: "/tpl/project/event/toolbar.html",
+                        controller: "projectEventsToolbarCtrl"
+                    }
+                }
+            }).state("project.event.detail", {
+                url: "/:event_id",
+                header_menu: "project",
+                project_iconmenu: "event",
+                need_load: !1,
+                template: "",
+                controller: "eventDetailCtrl"
+            }).state("project.graph", {
+                url: "/graph",
+                header_menu: "project",
+                project_iconmenu: "graph",
+                need_load: !1,
+                views: {
+                    toolbar: {
+                        templateUrl: "/tpl/project/graph/toolbar.html",
+                        controller: "projectGraphToolbarCtrl"
+                    },
+                    "": {
+                        templateUrl: "/tpl/project/graph/graphs.html",
+                        controller: "projectGraphCtrl"
+                    }
+                }
+            }).state("project.activity", {
+                url: "/activity",
+                templateUrl: "/tpl/activity/project_activities.html",
+                controller: "projectActivityCtrl",
+                header_menu: "project",
+                project_iconmenu: "activity",
+                need_load: !0
+            }).state("project.trash", {
+                url: "/trash",
+                templateUrl: "/tpl/project/trash/project_trash.html",
+                controller: "projectTrashCtrl",
+                header_menu: "project",
+                project_iconmenu: "trash",
+                need_load: !0
+            }).state("project.archive", {
+                url: "/archive",
+                templateUrl: "/tpl/project/task/project_archive_tasks.html",
+                controller: "projectArchiveTasksCtrl",
+                header_menu: "project",
+                project_iconmenu: "task_archive",
+                need_load: !1
             })
             ;
 

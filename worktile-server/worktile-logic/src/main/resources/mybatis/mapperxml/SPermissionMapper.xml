@@ -100,17 +100,20 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.sjtu.worktile.model.SPermission">
-    insert into s_permission (id, name, role_id, 
-      mode)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{roleId,jdbcType=INTEGER}, 
-      #{mode,jdbcType=INTEGER})
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into s_permission (name, role_id, mode
+      )
+    values (#{name,jdbcType=VARCHAR}, #{roleId,jdbcType=INTEGER}, #{mode,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.sjtu.worktile.model.SPermission">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into s_permission
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="name != null">
         name,
       </if>
@@ -122,9 +125,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>

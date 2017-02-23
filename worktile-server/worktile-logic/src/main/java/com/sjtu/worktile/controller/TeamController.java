@@ -1,13 +1,11 @@
 package com.sjtu.worktile.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.sjtu.worktile.configuration.Const;
 import com.sjtu.worktile.exception.AppException;
 import com.sjtu.worktile.model.*;
 import com.sjtu.worktile.msg.*;
-import com.sjtu.worktile.service.ProjectService;
-import com.sjtu.worktile.service.RoleService;
-import com.sjtu.worktile.service.TeamService;
-import com.sjtu.worktile.service.UserService;
+import com.sjtu.worktile.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,8 +29,9 @@ public class TeamController extends BaseController{
     private RoleService roleService;
     @Autowired
     private ProjectService projectService;
+
     /**
-     * 将team的内容赋给 t
+     * 将 team 的内容赋给 t
      * @param t
      * @param team
      * @param uid
@@ -55,11 +54,11 @@ public class TeamController extends BaseController{
         //t.link_join_code
         //t.is_dingteam         //是否为dingding 项目
         TUserRole role =teamService.getRoleInTeam(uid,team.getId());
-        t.curr_role = role==null?4:role.getRoleId();//当前用户角色: 1:管理员，2:成员，3:访客，4:来宾,公开项目可以访问
+        t.curr_role = role==null? Const.USER_ROLE.GUEST:role.getRoleId();//当前用户角色: 1:管理员，2:成员，3:访客，4:来宾,公开项目可以访问
         t.is_owner = team.getCreaterId() == uid?1:0;//是否为创建者
         t.member_count = teamService.getTeamCount(team.getId());//成员数量
         SPermission permission = role==null?null:roleService.getRolePermissions(role.getRoleId()).get(0);
-        t.permission = permission == null?5:permission.getMode();//当前用户权限: 31:管理员，15:成员，7:访客，5:来宾，0:无法操作
+        t.permission = permission == null? Const.USER_PERMISSIOIN.GUEST:permission.getMode();//当前用户权限: 31:管理员，15:成员，7:访客，5:来宾，0:无法操作
         t.project_count = projectService.getCountByTeam(team.getId());//团队中项目数量
     }
 
@@ -135,7 +134,7 @@ public class TeamController extends BaseController{
         tTeam.setDistrict(district);
         tTeam.setPublicity(1);
 
-        teamService.createTeam(tTeam);
+        teamService.createTeam(tTeam,uid);
 
         return new TeamNewMsg.OutMsg();
     }
@@ -170,23 +169,24 @@ public class TeamController extends BaseController{
     @ResponseBody
     public TeamProjectMsg.OutMsg projects(final HttpServletRequest request, @PathVariable int team_id) throws AppException {
         long uid = super.getUserID(request);
-        List<TProject> projects = teamService.getTeamProjects(team_id);
+        List<TProject> projects = teamService.getTeamProjects(team_id,uid);
         TeamProjectMsg.OutMsg msg = new TeamProjectMsg.OutMsg();
         for (TProject pro : projects){
             TeamProjectMsg.OutMsg.Project p = new PairMsg.ResponseMsg.Project();
             p.pid = pro.getId();
             p.name =pro.getName();
-            p.team_id= pro.getTeamId();
+            p.team_id = pro.getTeamId();
             p.desc = pro.getDescription();
-            p.archived= 0;//是否存档，0：未存档，1：已存档
-            p.pic =null;
+            p.archived = 0;//是否存档，0：未存档，1：已存档
+            p.pic = null;
             p.bg = null;
-            p.visibility= 0;
-            p.is_star= 0;//是否常用项目，0：非常用项目，1：常用项目
-            p.pos= 0;
-            p.member_count= 0;
-            p.curr_role= 1;
-            p.permission= 31;//当前用户权限: 31:管理员，15:成员，7:访客，5:来宾，0:无法操作
+            p.visibility = 0;
+            p.is_star = 0;//是否常用项目，0：非常用项目，1：常用项目
+            p.pos = 0;
+            p.member_count = 0;
+            p.curr_role = 1;
+            p.permission = 31;//当前用户权限: 31:管理员，15:成员，7:访客，5:来宾，0:无法操作
+            msg.data.add(p);
         }
 
         return msg;

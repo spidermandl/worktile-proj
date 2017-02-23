@@ -15,6 +15,8 @@ public class TProject {
 
     private Date createTime;
 
+    private Integer visibility;
+
     private String pending1;
 
     private String pending2;
@@ -69,6 +71,14 @@ public class TProject {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Integer getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(Integer visibility) {
+        this.visibility = visibility;
     }
 
     public String getPending1() {

@@ -38,6 +38,8 @@
 			project_dialog_create: 'views/work/project/dialog_project_create.html',
 			project_dialog_create_preview_template: 'views/work/project/project_dialog_create_preview_template.html',
 			project_dialog_add_member: 'views/work/project/dialog_project_add_member.html',
+			project_grid_item: 'views/work/project/project_grid_item.html',
+			project_main: 'views/work/project/project.html',
 			'dashboard.default': 'views/work/dashboard/dashboard_task.html',
 			calendar_event_create: 'views/work/dashboard/dialog_event_create.html',//创建日历event
 			calendar_pop_event_create: 'views/work/dashboard/calendar/pop_add_event.html',
