@@ -98,9 +98,9 @@ public class TaskController extends BaseController {
      * @return
      * @throws AppException
      */
-    @RequestMapping(value="assignment",method = RequestMethod.POST)
+    @RequestMapping(value="assign",method = RequestMethod.POST)
     @ResponseBody
-    public PairMsg.ResponseMsg assignment(@RequestParam("task_id") long task_id,
+    public PairMsg.ResponseMsg assign(@RequestParam("task_id") long task_id,
                                            @RequestParam("assigner_id") long assigner_id,
                                            @RequestParam("attach_id") long attach_id,
                                            final HttpServletRequest request)throws AppException{
@@ -110,6 +110,15 @@ public class TaskController extends BaseController {
         tTaskAssignment.setAttachId(attach_id);
         TaskAssignMsg.OutMsg out=new TaskAssignMsg.OutMsg();
         taskService.assignTask(tTaskAssignment);
+        return out;
+    }
+
+    @RequestMapping(value="unassign",method = RequestMethod.POST)
+    @ResponseBody
+    public PairMsg.ResponseMsg unassing(@RequestParam("task_assign_id") long task_assign_id,
+                                        final HttpServletRequest request)throws AppException{
+        TaskUnassignMsg.OutMsg out=new TaskUnassignMsg.OutMsg();
+        taskService.unassignTask(task_assign_id);
         return out;
     }
 }

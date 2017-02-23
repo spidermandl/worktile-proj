@@ -67,7 +67,7 @@ public class TaskTests extends BaseTest {
         /**
          * 分配任务
          */
-        String url=domain_url+"/api/task/assignment";
+        String url=domain_url+"/api/task/assign";
         String token=super.getToken();
         Request request = new Request.Builder()
                 .url(url)
@@ -77,6 +77,25 @@ public class TaskTests extends BaseTest {
                         .add("task_id", "5")
                         .add("assigner_id", "1")
                         .add("attach_id","1")
+                        .build()
+                ).build();
+        Response response = client.newCall(request).execute();
+        System.out.println(response.body().string());
+    }
+
+    @Test
+    public void unassign()throws Exception{
+        /**
+         * 取消分配任务
+         */
+        String url=domain_url+"/api/task/unassign";
+        String token=super.getToken();
+        Request request = new Request.Builder()
+                .url(url)
+                .addHeader("raw","raw")
+                .addHeader("Authorization",  Const.TOKEN_PREFIX+token)
+                .post( new FormEncodingBuilder()
+                        .add("task_assign_id", "2")
                         .build()
                 ).build();
         Response response = client.newCall(request).execute();

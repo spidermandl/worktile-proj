@@ -60,4 +60,13 @@ public class TaskService {
     public void assignTask(TTaskAssignment tTaskAssignment)throws AppException{
         tTaskAssignmentMapper.insert(tTaskAssignment);
     }
+
+    /**
+     * 取消分配任务
+     * @param task_assign_id
+     * @throws AppException
+     */
+    public void unassignTask(long task_assign_id)throws AppException{
+        tTaskAssignmentMapper.deleteByPrimaryKey(task_assign_id);
+    }
 }
