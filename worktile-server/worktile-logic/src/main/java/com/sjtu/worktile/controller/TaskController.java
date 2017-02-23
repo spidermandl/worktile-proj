@@ -66,7 +66,15 @@ public class TaskController extends BaseController {
         return  out;
     }
 
-
+    /**
+     * 修改任务
+     * @param task_id
+     * @param desc
+     * @param title
+     * @param request
+     * @return
+     * @throws AppException
+     */
     @RequestMapping(value = "revise",method = RequestMethod.POST)
     @ResponseBody
     public PairMsg.ResponseMsg revise(@RequestParam("task_id") long task_id,
@@ -82,4 +90,6 @@ public class TaskController extends BaseController {
         taskService.reviseTask(tTask);
         return out;
     }
+
+
 }

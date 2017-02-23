@@ -43,7 +43,7 @@ public class TaskTests extends BaseTest {
 
     @Test
     public void revise()throws Exception{
-        /** 
+        /**
          * 修改任务
          */
         String url=domain_url+"/api/task/revise";
@@ -61,4 +61,6 @@ public class TaskTests extends BaseTest {
         Response response = client.newCall(request).execute();
         System.out.println(response.body().string());
     }
+
+
 }
