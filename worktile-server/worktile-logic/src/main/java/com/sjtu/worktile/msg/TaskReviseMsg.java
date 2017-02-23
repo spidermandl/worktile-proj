@@ -23,7 +23,7 @@ public class TaskReviseMsg extends PairMsg {
 
     @Override
     void initMsg(){
-        inMsg = new TaskListMsg.InMsg();
-        outMsg = new TaskListMsg.OutMsg();
+        inMsg = new TaskReviseMsg.InMsg();
+        outMsg = new TaskReviseMsg.OutMsg();
     }
 }

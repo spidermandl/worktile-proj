@@ -275,7 +275,7 @@
                 need_load: !0
             }).state("team.admin", {
                 url: "/admin",
-                templateUrl: "/tpl/team/team_admin.html",
+                templateUrl: config.templateUrls.team_admin,
                 header_menu: "team",
                 parent: "team",
                 need_load: !0,

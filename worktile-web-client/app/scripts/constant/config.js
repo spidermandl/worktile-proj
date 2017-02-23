@@ -35,6 +35,7 @@
 			team_members: 'views/work/team/team_members.html',
 			team_projects: 'views/work/team/team_projects.html',
 			team_tasks: 'views/work/team/team_tasks.html',
+			team_admin: 'views/work/team/admin/team_admin.html',
 			project_dialog_create: 'views/work/project/dialog_project_create.html',
 			project_dialog_create_preview_template: 'views/work/project/project_dialog_create_preview_template.html',
 			project_dialog_add_member: 'views/work/project/dialog_project_add_member.html',

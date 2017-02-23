@@ -31,12 +31,7 @@ public class TaskTests extends BaseTest {
                         .add("parent_id","1")
                         .build()
                 ).build();
-        //                        RequestBody.create(MEDIA_TYPE_TEXT, JSON.toJSONString(new TaskNewMsg.InMsg(){
-//                    {
-//                        entry_id=1;//任务组id
-//                        title="aaa";//任务标题
-//                    }
-//                }
+
         Response response = client.newCall(request).execute();
         System.out.println(response.body().string());
     }

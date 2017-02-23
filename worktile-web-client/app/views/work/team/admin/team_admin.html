@@ -1,0 +1,29 @@
+<dl class="frame frame--tabs" wt-minheight=112>
+    <dt class=frame-dt>
+        <div class=pull-right>
+            <a href="//worktile.com/upgrade?utm_source=free_team_setbasic" target=_blank>
+                <i class="fa fa-info-circle"></i>{{'team_admin_basic.link_try_pro'|translate}}</a>
+        </div>
+        <ul class=tabs ng-if=vm.user_is_team_admin>
+            <li ng-if=vm.user_is_team_owner>
+                <a ui-sref=team.admin.basic ui-sref-active=active>{{'team_page.baseinfo'|translate}}</a></li>
+            <li ng-if=vm.user_is_team_owner>
+                <a ui-sref=team.admin.custom ui-sref-active=active>{{'team_page.custom'|translate}}</a></li>
+            <li>
+                <a ui-sref=team.admin.members ui-sref-active=active>{{'team_page.member'|translate}}</a></li>
+            <li ng-if=vm.user_is_team_owner>
+                <a ui-sref=team.admin.projects ui-sref-active=active>{{'team_page.project'|translate}}</a></li>
+            <li ng-if=vm.user_is_team_owner>
+                <a ui-sref=team.admin.security ui-sref-active=active>{{'team_page.security'|translate}}</a></li>
+            <li ng-if=!vm.user_is_team_owner>
+                <a ui-sref=team.quit ui-sref-active=active>{{'team_page.quit'|translate}}</a></li>
+        </ul>
+        <ul ng-if=!vm.user_is_team_admin>
+            <li>
+                <a ui-sref=team.quit ui-sref-active=active>{{'team_page.quit'|translate}}</a></li>
+        </ul>
+    </dt>
+    <dd class=frame-dd>
+        <ui-view></ui-view>
+    </dd>
+</dl>
