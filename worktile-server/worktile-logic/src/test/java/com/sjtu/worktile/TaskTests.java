@@ -62,5 +62,24 @@ public class TaskTests extends BaseTest {
         System.out.println(response.body().string());
     }
 
-
+    @Test
+    public void assign()throws Exception{
+        /**
+         * 分配任务
+         */
+        String url=domain_url+"/api/task/assignment";
+        String token=super.getToken();
+        Request request = new Request.Builder()
+                .url(url)
+                .addHeader("raw","raw")
+                .addHeader("Authorization",  Const.TOKEN_PREFIX+token)
+                .post( new FormEncodingBuilder()
+                        .add("task_id", "5")
+                        .add("assigner_id", "1")
+                        .add("attach_id","1")
+                        .build()
+                ).build();
+        Response response = client.newCall(request).execute();
+        System.out.println(response.body().string());
+    }
 }

@@ -2,10 +2,8 @@ package com.sjtu.worktile.controller;
 
 import com.sjtu.worktile.exception.AppException;
 import com.sjtu.worktile.model.TTask;
-import com.sjtu.worktile.msg.PairMsg;
-import com.sjtu.worktile.msg.TaskNewMsg;
-import com.sjtu.worktile.msg.TaskListMsg;
-import com.sjtu.worktile.msg.TaskReviseMsg;
+import com.sjtu.worktile.model.TTaskAssignment;
+import com.sjtu.worktile.msg.*;
 import com.sjtu.worktile.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -91,5 +89,27 @@ public class TaskController extends BaseController {
         return out;
     }
 
-
+    /**
+     * 分配任务
+     * @param task_id
+     * @param assigner_id
+     * @param request
+     * @param attach_id
+     * @return
+     * @throws AppException
+     */
+    @RequestMapping(value="assignment",method = RequestMethod.POST)
+    @ResponseBody
+    public PairMsg.ResponseMsg assignment(@RequestParam("task_id") long task_id,
+                                           @RequestParam("assigner_id") long assigner_id,
+                                           @RequestParam("attach_id") long attach_id,
+                                           final HttpServletRequest request)throws AppException{
+        TTaskAssignment tTaskAssignment=new TTaskAssignment();
+        tTaskAssignment.setAssignerId(assigner_id);
+        tTaskAssignment.setTaskId(task_id);
+        tTaskAssignment.setAttachId(attach_id);
+        TaskAssignMsg.OutMsg out=new TaskAssignMsg.OutMsg();
+        taskService.assignTask(tTaskAssignment);
+        return out;
+    }
 }
