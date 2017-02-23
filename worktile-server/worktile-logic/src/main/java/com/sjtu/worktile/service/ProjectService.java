@@ -24,6 +24,18 @@ public class ProjectService {
         TProjectExample query=new TProjectExample();
         query.or().andOwnerIdEqualTo(uid);
         return tProjectMapper.selectByExample(query);
+    }
 
+    /**
+     * 获取团队中项目数量
+     * @param team_id
+     * @return
+     */
+    public long getCountByTeam(long team_id){
+        TProjectExample query=new TProjectExample();
+        TProjectExample.Criteria criteria = query.createCriteria();
+        criteria.andTeamIdEqualTo(team_id);
+
+        return tProjectMapper.countByExample(query);
     }
 }

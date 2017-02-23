@@ -23,11 +23,12 @@ DROP TABLE IF EXISTS `s_permission`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `s_permission` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(20) DEFAULT NULL,
   `role_id` int(11) NOT NULL,
+  `mode` int(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,6 +37,7 @@ CREATE TABLE `s_permission` (
 
 LOCK TABLES `s_permission` WRITE;
 /*!40000 ALTER TABLE `s_permission` DISABLE KEYS */;
+INSERT INTO `s_permission` VALUES (1,'ç®¡ç†å‘˜',1,31),(2,'æˆå‘˜',2,15),(3,'è®¿å®¢',3,7),(4,'æ¥å®¾',4,5),(5,'æ— æ³•æ“ä½œ',5,0);
 /*!40000 ALTER TABLE `s_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -47,10 +49,10 @@ DROP TABLE IF EXISTS `s_role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `s_role` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -59,6 +61,7 @@ CREATE TABLE `s_role` (
 
 LOCK TABLES `s_role` WRITE;
 /*!40000 ALTER TABLE `s_role` DISABLE KEYS */;
+INSERT INTO `s_role` VALUES (1,'ç®¡ç†å‘˜'),(2,'æˆå‘˜'),(3,'è®¿å®¢'),(4,'æ¥å®¾');
 /*!40000 ALTER TABLE `s_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -70,12 +73,12 @@ DROP TABLE IF EXISTS `t_project`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_project` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `owner_id` int(11) NOT NULL,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `owner_id` bigint(20) NOT NULL,
   `name` varchar(20) DEFAULT NULL,
   `crew_cap` int(5) DEFAULT NULL,
   `description` text,
-  `team_id` int(11) DEFAULT NULL,
+  `team_id` bigint(20) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `pending1` varchar(20) DEFAULT NULL,
   `pending2` varchar(20) DEFAULT NULL,
@@ -101,14 +104,14 @@ DROP TABLE IF EXISTS `t_task`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_task` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(20) DEFAULT NULL,
   `description` varchar(20) DEFAULT NULL,
-  `creater_id` int(11) NOT NULL,
+  `creater_id` bigint(20) NOT NULL,
   `type` int(2) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
-  `parent_id` int(11) NOT NULL,
+  `parent_id` bigint(20) NOT NULL,
   `end_time` datetime DEFAULT NULL,
   `pending1` varchar(20) DEFAULT NULL,
   `pending2` varchar(20) DEFAULT NULL,
@@ -134,11 +137,11 @@ DROP TABLE IF EXISTS `t_task_assignment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_task_assignment` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `task_id` int(11) NOT NULL,
-  `follower_id` int(11) DEFAULT NULL,
-  `assigner_id` int(11) DEFAULT NULL,
-  `attach_id` int(11) DEFAULT NULL,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `task_id` bigint(20) NOT NULL,
+  `follower_id` bigint(20) DEFAULT NULL,
+  `assigner_id` bigint(20) DEFAULT NULL,
+  `attach_id` bigint(20) DEFAULT NULL,
   `pending1` varchar(20) DEFAULT NULL,
   `pending2` varchar(20) DEFAULT NULL,
   `pending3` varchar(20) DEFAULT NULL,
@@ -163,9 +166,9 @@ DROP TABLE IF EXISTS `t_task_attachment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_task_attachment` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `task_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `task_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
   `description` varchar(20) DEFAULT NULL,
   `location` varchar(20) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
@@ -196,9 +199,9 @@ DROP TABLE IF EXISTS `t_task_check_item`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_task_check_item` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sender_id` int(11) NOT NULL,
-  `task_id` int(11) NOT NULL,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `sender_id` bigint(20) NOT NULL,
+  `task_id` bigint(20) NOT NULL,
   `content` text,
   `achievement` int(2) DEFAULT NULL,
   `pending1` varchar(20) DEFAULT NULL,
@@ -225,12 +228,12 @@ DROP TABLE IF EXISTS `t_task_comment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_task_comment` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sender_id` int(11) NOT NULL,
-  `task_id` int(11) NOT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `sender_id` bigint(20) NOT NULL,
+  `task_id` bigint(11) NOT NULL,
   `content` text,
   `attachment` varchar(48) DEFAULT NULL,
-  `comment_id` int(11) DEFAULT NULL,
+  `comment_id` bigint(20) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `pending1` varchar(20) DEFAULT NULL,
   `pending2` varchar(20) DEFAULT NULL,
@@ -256,9 +259,9 @@ DROP TABLE IF EXISTS `t_task_log`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_task_log` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `task_id` int(11) NOT NULL,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
+  `task_id` bigint(20) NOT NULL,
   `type` int(2) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `content` text,
@@ -286,9 +289,9 @@ DROP TABLE IF EXISTS `t_task_tag`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_task_tag` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `task_id` int(11) NOT NULL,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
+  `task_id` bigint(20) NOT NULL,
   `name` varchar(20) DEFAULT NULL,
   `color` int(10) DEFAULT NULL,
   `pending1` varchar(20) DEFAULT NULL,
@@ -315,10 +318,10 @@ DROP TABLE IF EXISTS `t_team`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_team` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(20) DEFAULT NULL,
   `description` text,
-  `creater_id` int(11) DEFAULT NULL,
+  `creater_id` bigint(20) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   `industry` int(2) DEFAULT NULL,
@@ -329,8 +332,8 @@ CREATE TABLE `t_team` (
   `logo` varchar(48) DEFAULT NULL,
   `publicity` int(2) DEFAULT NULL,
   `default_tag` varchar(20) DEFAULT NULL,
-  `default_project_id` int(11) DEFAULT NULL,
-  `default_template_id` int(11) DEFAULT NULL,
+  `default_project_id` bigint(20) DEFAULT NULL,
+  `default_template_id` bigint(20) DEFAULT NULL,
   `pending1` varchar(20) DEFAULT NULL,
   `pending2` varchar(20) DEFAULT NULL,
   `pending3` varchar(20) DEFAULT NULL,
@@ -356,7 +359,7 @@ DROP TABLE IF EXISTS `t_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `account` varchar(48) DEFAULT NULL,
   `password` varchar(32) DEFAULT NULL,
   `head` varchar(48) DEFAULT NULL,
@@ -394,13 +397,13 @@ DROP TABLE IF EXISTS `t_user_role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_user_role` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) DEFAULT NULL,
   `role_id` int(11) DEFAULT NULL,
-  `project_id` int(11) DEFAULT NULL,
-  `team_id` int(11) DEFAULT NULL,
+  `project_id` bigint(20) DEFAULT NULL,
+  `team_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -409,6 +412,7 @@ CREATE TABLE `t_user_role` (
 
 LOCK TABLES `t_user_role` WRITE;
 /*!40000 ALTER TABLE `t_user_role` DISABLE KEYS */;
+INSERT INTO `t_user_role` VALUES (1,4,1,NULL,1),(2,4,1,NULL,2);
 /*!40000 ALTER TABLE `t_user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -421,4 +425,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-02-20 11:50:03
+-- Dump completed on 2017-02-23  1:28:53

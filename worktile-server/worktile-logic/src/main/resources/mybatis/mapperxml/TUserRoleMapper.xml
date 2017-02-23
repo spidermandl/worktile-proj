@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.sjtu.worktile.model.TUserRole">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="user_id" jdbcType="BIGINT" property="userId" />
-    <result column="role_id" jdbcType="BIGINT" property="roleId" />
+    <result column="role_id" jdbcType="INTEGER" property="roleId" />
     <result column="project_id" jdbcType="BIGINT" property="projectId" />
     <result column="team_id" jdbcType="BIGINT" property="teamId" />
   </resultMap>
@@ -103,7 +103,7 @@
   <insert id="insert" parameterType="com.sjtu.worktile.model.TUserRole">
     insert into t_user_role (id, user_id, role_id, 
       project_id, team_id)
-    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT}, 
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{roleId,jdbcType=INTEGER}, 
       #{projectId,jdbcType=BIGINT}, #{teamId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.sjtu.worktile.model.TUserRole">
@@ -133,7 +133,7 @@
         #{userId,jdbcType=BIGINT},
       </if>
       <if test="roleId != null">
-        #{roleId,jdbcType=BIGINT},
+        #{roleId,jdbcType=INTEGER},
       </if>
       <if test="projectId != null">
         #{projectId,jdbcType=BIGINT},
@@ -159,7 +159,7 @@
         user_id = #{record.userId,jdbcType=BIGINT},
       </if>
       <if test="record.roleId != null">
-        role_id = #{record.roleId,jdbcType=BIGINT},
+        role_id = #{record.roleId,jdbcType=INTEGER},
       </if>
       <if test="record.projectId != null">
         project_id = #{record.projectId,jdbcType=BIGINT},
@@ -176,7 +176,7 @@
     update t_user_role
     set id = #{record.id,jdbcType=BIGINT},
       user_id = #{record.userId,jdbcType=BIGINT},
-      role_id = #{record.roleId,jdbcType=BIGINT},
+      role_id = #{record.roleId,jdbcType=INTEGER},
       project_id = #{record.projectId,jdbcType=BIGINT},
       team_id = #{record.teamId,jdbcType=BIGINT}
     <if test="_parameter != null">
@@ -190,7 +190,7 @@
         user_id = #{userId,jdbcType=BIGINT},
       </if>
       <if test="roleId != null">
-        role_id = #{roleId,jdbcType=BIGINT},
+        role_id = #{roleId,jdbcType=INTEGER},
       </if>
       <if test="projectId != null">
         project_id = #{projectId,jdbcType=BIGINT},
@@ -204,7 +204,7 @@
   <update id="updateByPrimaryKey" parameterType="com.sjtu.worktile.model.TUserRole">
     update t_user_role
     set user_id = #{userId,jdbcType=BIGINT},
-      role_id = #{roleId,jdbcType=BIGINT},
+      role_id = #{roleId,jdbcType=INTEGER},
       project_id = #{projectId,jdbcType=BIGINT},
       team_id = #{teamId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}

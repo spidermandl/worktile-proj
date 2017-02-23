@@ -1,10 +1,11 @@
 package com.sjtu.worktile.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.sjtu.worktile.exception.AppException;
-import com.sjtu.worktile.model.TProject;
-import com.sjtu.worktile.model.TTeam;
-import com.sjtu.worktile.model.TUser;
+import com.sjtu.worktile.model.*;
 import com.sjtu.worktile.msg.*;
+import com.sjtu.worktile.service.ProjectService;
+import com.sjtu.worktile.service.RoleService;
 import com.sjtu.worktile.service.TeamService;
 import com.sjtu.worktile.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +22,46 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/team")
 public class TeamController extends BaseController{
+
     @Autowired
     private UserService userService;
     @Autowired
     private TeamService teamService;
+    @Autowired
+    private RoleService roleService;
+    @Autowired
+    private ProjectService projectService;
+    /**
+     * 将team的内容赋给 t
+     * @param t
+     * @param team
+     * @param uid
+     */
+    protected void mappingToTeamMsg( PairMsg.ResponseMsg.Team t,TTeam team,long uid){
+        t.team_id = team.getId();
+        //t.url      //团队url
+        t.name = team.getName();
+        t.pic = team.getLogo();//logo
+        t.desc = team.getDescription();//team 描述
+        //t.status
+        //t.edition
+        t.create_date = team.getCreateTime();
+        t.visibility =team.getPublicity();//团队类型， 1:私有,2:公开
+        t.industry = team.getIndustry();
+        //t.default_labels     //默认pids
+        //t.default_labels      //默认标签
+        //t.template_id        //模板id
+        //t.phone              //团队phone
+        //t.link_join_code
+        //t.is_dingteam         //是否为dingding 项目
+        TUserRole role =teamService.getRoleInTeam(uid,team.getId());
+        t.curr_role = role==null?4:role.getRoleId();//当前用户角色: 1:管理员，2:成员，3:访客，4:来宾,公开项目可以访问
+        t.is_owner = team.getCreaterId() == uid?1:0;//是否为创建者
+        t.member_count = teamService.getTeamCount(team.getId());//成员数量
+        SPermission permission = role==null?null:roleService.getRolePermissions(role.getRoleId()).get(0);
+        t.permission = permission == null?5:permission.getMode();//当前用户权限: 31:管理员，15:成员，7:访客，5:来宾，0:无法操作
+        t.project_count = projectService.getCountByTeam(team.getId());//团队中项目数量
+    }
 
     /**
      * 获取用户所在的组信息
@@ -38,12 +75,11 @@ public class TeamController extends BaseController{
         List<TTeam> teams = teamService.getSelfTeam(uid);
         TeamListMsg.OutMsg outMsg = new TeamListMsg.OutMsg();
         for (TTeam team : teams){
-            TeamListMsg.Team t = new TeamListMsg.Team();
-            t.team_id = team.getId();
-            t.name = team.getName();
-            t.count = teamService.getTeamCount(team.getId());
-            t.visibility = team.getPublicity();
-            t.logo = team.getLogo();
+            PairMsg.ResponseMsg.Team t = new PairMsg.ResponseMsg.Team();
+            mappingToTeamMsg(t,team,uid);
+            TUser user = userService.findUserByID(uid);
+            mappingToUserMsg(t.owner,user);
+            //t.owner.online = ;
             outMsg.data.add(t);
         }
         return outMsg;
@@ -118,39 +154,8 @@ public class TeamController extends BaseController{
         TTeam team =teamService.getTeamInfoById(team_id);
         TeamInfoMsg.OutMsg msg = new TeamInfoMsg.OutMsg();
 
-        msg.data.team_id = team.getId();
-        msg.data.url = null;//团队url
-        msg.data.name =team.getName();
-        msg.data.pic = team.getLogo();//logo
-        msg.data.desc = team.getDescription();//team 描述
-        msg.data.status = 0;
-        msg.data.edition = 1;
-        msg.data.create_date = team.getCreateTime();
-        msg.data.visibility = team.getPublicity(); //团队类型， 1:私有,2:公开
-        msg.data.industry = team.getIndustry();
-        msg.data.default_pids = null;//默认pids
-        msg.data.default_labels = null;//默认标签
-        msg.data.template_id = team.getDefaultTemplateId()==null?0:team.getDefaultTemplateId();//模板id
-        msg.data.phone= null;//团队phone
-        msg.data.link_join_code =null;
-        msg.data.is_dingteam = 0;//是否为dingding 项目
-        msg.data.curr_role = 1;//当前用户角色: 1:管理员，2:成员，3:访客，4:来宾,公开项目可以访问
-        msg.data.is_owner = uid == team.getCreaterId()?1:0;//是否为创建者
-        msg.data.member_count = (int)teamService.getTeamCount(team_id);//成员数量
-        msg.data.permission = 31;//当前用户权限: 31:管理员，15:成员，7:访客，5:来宾，0:无法操作
-        msg.data.project_count = 1;//团队中项目数量
-
-        msg.data.owner.uid = user.getId();
-        msg.data.owner.name = user.getAccount();
-        msg.data.owner.email= user.getEmail();
-        msg.data.owner.display_name = user.getSignature()==null?user.getAccount():user.getSignature();
-        msg.data.owner.avatar = user.getHead();//用户头像
-        msg.data.owner.desc = null;
-        msg.data.owner.status = 1;//用户状态：1：正常，2：邀请，3：需要邮件确认
-        msg.data.owner.phone_prefix = null;
-        msg.data.owner.phone = user.getPhone();
-        msg.data.owner.title = null;
-        msg.data.owner.department = user.getDepartment();
+        mappingToTeamMsg(msg.data,team,uid);
+        mappingToUserMsg(msg.data.owner,user);
 
         return msg;
     }
@@ -187,10 +192,36 @@ public class TeamController extends BaseController{
         return msg;
     }
 
+    /**
+     * 获取团队模板
+     * @param request
+     * @param team_id
+     * @return
+     * @throws AppException
+     */
     @RequestMapping(value = "{team_id}/project/templates", method = RequestMethod.GET)
     @ResponseBody
     public TeamTemplatesMsg.OutMsg templates(final HttpServletRequest request, @PathVariable int team_id) throws AppException {
         TeamTemplatesMsg.OutMsg msg = new TeamTemplatesMsg.OutMsg();
+        //测试数据
+        msg.data = JSON.parseArray("[{\"template_id\":\"1\",\"name\":\"通用\",\"entries\":[{\"name\":\"要做\",\"pos\":65535},{\"name\":\"在做\",\"pos\":131071},{\"name\":\"待定\",\"pos\":196606}]},{\"template_id\":\"2\",\"name\":\"研发\",\"entries\":[{\"name\":\"收件箱\",\"pos\":65535},{\"name\":\"开发中\",\"pos\":131071},{\"name\":\"待测试\",\"pos\":196606},{\"name\":\"待发布\",\"pos\":262141},{\"name\":\"已发布\",\"pos\":327676}]},{\"template_id\":\"3\",\"name\":\"产品Roadmap\",\"entries\":[{\"name\":\"收件箱\",\"pos\":65535},{\"name\":\"待发布\",\"pos\":131071},{\"name\":\"已发布\",\"pos\":196606},{\"name\":\"已完成\",\"pos\":262141}]},{\"template_id\":\"4\",\"name\":\"CRM 模板\",\"entries\":[{\"name\":\"客户资料库\",\"pos\":65535},{\"name\":\"销售机会\",\"pos\":131071},{\"name\":\"联系中\",\"pos\":196606},{\"name\":\"已联系\",\"pos\":262141},{\"name\":\"售前\",\"pos\":327676},{\"name\":\"成单\",\"pos\":393211},{\"name\":\"售后\",\"pos\":458746}]},{\"template_id\":\"5\",\"name\":\"Bug管理\",\"entries\":[{\"name\":\"收件箱\",\"pos\":65535},{\"name\":\"开发\",\"pos\":131071},{\"name\":\"测试\",\"pos\":196606},{\"name\":\"上线\",\"pos\":262141}]},{\"template_id\":\"6\",\"name\":\"招聘流程\",\"entries\":[{\"name\":\"简历库\",\"pos\":65535},{\"name\":\"笔试\",\"pos\":131071},{\"name\":\"面试\",\"pos\":196606},{\"name\":\"试用期\",\"pos\":262141},{\"name\":\"入职\",\"pos\":327676}]},{\"template_id\":\"7\",\"name\":\"内容编辑\",\"entries\":[{\"name\":\"策划组稿\",\"pos\":65535},{\"name\":\"选题\",\"pos\":131071},{\"name\":\"初稿\",\"pos\":196606},{\"name\":\"审稿\",\"pos\":262141},{\"name\":\"校对\",\"pos\":327676},{\"name\":\"定稿\",\"pos\":393211},{\"name\":\"发布\",\"pos\":458746}]},{\"template_id\":\"8\",\"name\":\"产品设计\",\"entries\":[{\"name\":\"需求了解\",\"pos\":65535},{\"name\":\"头脑风暴\",\"pos\":131071},{\"name\":\"想法\\b收缩\",\"pos\":196606},{\"name\":\"原型\",\"pos\":262141},{\"name\":\"验证与测试\",\"pos\":327676}]}]",
+                TeamTemplatesMsg.OutMsg.Template.class);
+        //</>
+        return msg;
+    }
+
+    /**
+     * 获取
+     * @param request
+     * @param team_id
+     * @return
+     * @throws AppException
+     */
+    @RequestMapping(value = "{team_id}/disable/", method = RequestMethod.GET)
+    @ResponseBody
+    public TeamDisableMsg.OutMsg disable(final HttpServletRequest request, @PathVariable int team_id) throws AppException {
+        TeamDisableMsg.OutMsg msg = new TeamDisableMsg.OutMsg();
+        teamService.diableTeam(team_id);
         return msg;
     }
 }

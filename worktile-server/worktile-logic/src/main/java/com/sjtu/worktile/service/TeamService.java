@@ -5,6 +5,7 @@ import com.sjtu.worktile.model.mappers.TProjectMapper;
 import com.sjtu.worktile.model.mappers.TTeamMapper;
 import com.sjtu.worktile.model.mappers.TUserMapper;
 import com.sjtu.worktile.model.mappers.TUserRoleMapper;
+import com.sjtu.worktile.msg.PairMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -89,6 +90,13 @@ public class TeamService {
      */
     public void createTeam(TTeam team){
         tTeamMapper.insert(team);
+        /**
+         * 插入创建者管理员角色
+         */
+        TUserRole role = new TUserRole();
+        role.setTeamId(team.getId());
+        role.setRoleId(1);
+        tUserRoleMapper.insert(role);
     }
 
     /**
@@ -106,7 +114,6 @@ public class TeamService {
      * @param team_id
      * @return
      */
-    @Deprecated
     public TUserRole getRoleInTeam(long uid,long team_id){
         TUserRoleExample query = new TUserRoleExample();
         TUserRoleExample.Criteria criteria = query.createCriteria();
@@ -128,5 +135,28 @@ public class TeamService {
         TProjectExample.Criteria criteria = query.createCriteria();
         criteria.andTeamIdEqualTo(team_id);
         return tProjectMapper.selectByExample(query);
+    }
+
+    /**
+     * 删除团队，以及团队相关数据
+     * @param team_id
+     */
+    public void diableTeam(long team_id){
+        /**
+         * 删除team中的用户
+         */
+        TUserRoleExample roleQuery = new TUserRoleExample();
+        TUserRoleExample.Criteria roleCriteria = roleQuery.createCriteria();
+        roleCriteria.andTeamIdEqualTo(team_id);
+        tUserRoleMapper.deleteByExample(roleQuery);
+
+        /**
+         * 删除team中的项目
+         */
+        TProjectExample projectQuery = new TProjectExample();
+        TProjectExample.Criteria proCriteria = projectQuery.createCriteria();
+        proCriteria.andTeamIdEqualTo(team_id);
+        tProjectMapper.deleteByExample(projectQuery);
+
     }
 }

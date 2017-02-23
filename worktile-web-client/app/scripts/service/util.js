@@ -7,9 +7,9 @@
  define(['app'], function (app) {
     'use strict';
 
-    app.factory("Util",["$http", "$rootScope", "$translate",
-    	function($http, $rootScope, $translate){
-    		//[$http, rootScope, translate]
+    app.factory("Util",["$http", "$rootScope", "$translate","config",
+    	function($http, $rootScope, $translate,config){
+    		//[$http, $rootScope, $translate]
     		//    a       b           c
 			var d = {},
 				e = function(a, b, c) {
@@ -104,18 +104,19 @@
 					},
 					get_add_prj_teams: function(a) {
 						var d = _.clone(a);
-						return d = _.filter(d,
-								function(a) {
-									return a.permission & $rootScope.global.team_module.add_project;
-								}),
-							_.find(d, {
-								team_id: "-1"
-							}) || d.unshift({
-								name: $translate.instant("bus.personal_project"),
-								team_id: "-1",
-								curr_role: "1"
-							}),
-							d
+						console.log(d);
+						d = _.filter(d,
+							function(a) {
+								return a.permission & $rootScope.global.team_module.add_project;
+							});
+						_.find(d, {
+							team_id: "-1"
+						}) || d.unshift({
+							name: $translate.instant("bus.personal_project"),
+							team_id: "-1",
+							curr_role: "1"
+						});
+						return d;
 					},
 					calculate_stats_pos: function(a, b) {
 						var c = 0;
@@ -228,20 +229,20 @@
 					check_extension: function() {},
 					get_visibilities: function(a) {
 						return a == -1 ? [{
-							id: kzi.constant.prj_visibility.private,
-							name: c.instant("bus.prj_visibility_private_desc")
+							id: config.prj_visibility.private,
+							name: $translate.instant("bus.prj_visibility_private_desc")
 						}, {
-							id: kzi.constant.prj_visibility.public,
-							name: c.instant("bus.prj_visibility_public_desc")
+							id: config.prj_visibility.public,
+							name: $translate.instant("bus.prj_visibility_public_desc")
 						}] : [{
-							id: kzi.constant.prj_visibility.private,
-							name: c.instant("bus.prj_visibility_private_desc")
+							id: config.prj_visibility.private,
+							name: $translate.instant("bus.prj_visibility_private_desc")
 						}, {
-							id: kzi.constant.prj_visibility.protected,
-							name: c.instant("bus.prj_visibility_protected_desc")
+							id: config.prj_visibility.protected,
+							name: $translate.instant("bus.prj_visibility_protected_desc")
 						}, {
-							id: kzi.constant.prj_visibility.public,
-							name: c.instant("bus.prj_visibility_public_desc")
+							id: config.prj_visibility.public,
+							name: $translate.instant("bus.prj_visibility_public_desc")
 						}]
 					}
 				},

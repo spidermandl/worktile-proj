@@ -1,6 +1,7 @@
 package com.sjtu.worktile.msg;
 
 import java.lang.reflect.Field;
+import java.util.Date;
 
 /**
  * Created by Desmond on 04/01/2017.
@@ -65,6 +66,34 @@ abstract public class PairMsg {
             public String department = null;
             public int online = 1;//0：离线，1：在线，2：忙碌，3：离开
 
+        }
+
+        /**
+         * team相关信息
+         */
+        public static class Team {
+            public long team_id = 0;
+            public String url = null;//团队url
+            public String name =null;
+            public String pic = null;//logo
+            public String desc = null;//team 描述
+            public int status = 0;
+            public int edition = 1;
+            public Date create_date = null;
+            public int visibility = 1; //团队类型， 1:私有,2:公开
+            public int industry = 1;
+            public int[] default_pids = null;//默认pids
+            public int[] default_labels = null;//默认标签
+            public long template_id = 0;//模板id
+            public String phone= null;//团队phone
+            public String link_join_code =null;
+            public int is_dingteam = 0;//是否为dingding 项目
+            public int curr_role = 1;//当前用户角色: 1:管理员，2:成员，3:访客，4:来宾,公开项目可以访问
+            public int is_owner = 1;//是否为创建者 1:是;0:否
+            public long member_count = 0;//成员数量
+            public User owner = new User();
+            public int permission = 31;//当前用户权限: 31:管理员，15:成员，7:访客，5:来宾，0:无法操作
+            public long project_count = 1;//团队中项目数量
         }
 
         /**

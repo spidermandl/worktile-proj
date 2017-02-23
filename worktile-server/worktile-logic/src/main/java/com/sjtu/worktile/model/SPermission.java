@@ -1,17 +1,19 @@
 package com.sjtu.worktile.model;
 
 public class SPermission {
-    private Long id;
+    private Integer id;
 
     private String name;
 
-    private Long roleId;
+    private Integer roleId;
 
-    public Long getId() {
+    private Integer mode;
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -23,11 +25,19 @@ public class SPermission {
         this.name = name == null ? null : name.trim();
     }
 
-    public Long getRoleId() {
+    public Integer getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(Long roleId) {
+    public void setRoleId(Integer roleId) {
         this.roleId = roleId;
+    }
+
+    public Integer getMode() {
+        return mode;
+    }
+
+    public void setMode(Integer mode) {
+        this.mode = mode;
     }
 }
