@@ -79,4 +79,13 @@ public class TaskService {
     public void watch(TTaskAssignment tTaskAssignment)throws AppException{
         tTaskAssignmentMapper.insert(tTaskAssignment);
     }
+
+    /**
+     * 取消关注任务
+     * @param task_assign_id
+     * @throws AppException
+     */
+    public void cancelwatch(long task_assign_id)throws AppException{
+        tTaskAssignmentMapper.deleteByPrimaryKey(task_assign_id);
+    }
 }
