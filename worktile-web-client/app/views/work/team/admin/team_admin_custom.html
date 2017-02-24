@@ -1,0 +1,118 @@
+<div class="part-loading mt-20" ng-hide=vm.part_loading_done></div>
+<div ng-show=vm.part_loading_done class=team_admin_custom_area>
+    <div ng-if=!vm.permission_owner>
+        <div class=error-panel>
+            <i class="wtfont wtf-team"></i>
+            <br>
+            <span>{{'team_admin_custom.desc'|translate}}</span>
+            <br></div>
+    </div>
+    <div ng-if=vm.permission_owner>
+        <dl class="dl-form custom_task_label_area border-notop">
+            <dt>
+                <strong>{{'team_admin_custom.default_labels'|translate}}</strong>
+                <span class=dl-form-desc>{{'team_admin_custom.desc_default_labels'|translate}}</span></dt>
+            <dd>
+                <div class=settings>
+                    <div class=custom-container>
+                        <header ng-hide=is_set_team_tag>
+                            <div ng-if="vm.labels.length>0">{{'team_admin_custom.current_labels'|translate}}
+                                <div class="clear_fix mt-10">
+                                    <label ng-repeat="label in vm.labels">
+                                        <span class=team_label ng-class="label.name+'-label'" ng-bind="label.desc||'&nbsp;'"></span></label>
+                                </div>
+                            </div>
+                            <div ng-hide="vm.labels.length>0" class=color-text-light>{{'team_admin_custom.warn_empty_setting'|translate}}</div></header>
+                        <button class="btn mt_28" ng-hide=is_set_team_tag ng-click=js_toggle_team_tag()>{{'common.btn_set'|translate}}</button>
+                        <div class="form-group border-all" ng-if=is_set_team_tag>
+                            <wt-team-labels type=team team=team isheader=false></wt-team-labels>
+                        </div>
+                        <footer class=footer-wrap ng-hide=!is_set_team_tag>
+                            <button class="btn btn-success" ng-click="js_toggle_team_tag('save')">{{'common.btn_save'|translate}}</button>
+                            <a href=javascript:; class="cancel btn btn-link btn-cancel ml-35" ng-click="js_toggle_team_tag('cancel');is_set_team_tag=false">{{'common.btn_cancel'|translate}}</a></footer>
+                    </div>
+                </div>
+            </dd>
+        </dl>
+        <dl class="dl-form custom_default_project_area">
+            <dt>
+                <strong>{{'team_admin_custom.title_member_auto'|translate}}</strong>
+                <span class=dl-form-desc>{{'team_admin_custom.desc_member_auto'|translate}}</span></dt>
+            <dd>
+                <div class=settings>
+                    <div class=custom-container>
+                        <header ng-hide=is_set_team_project>
+                            <div ng-if="vm.defaultProjects.length>0">{{'team_admin_custom.auto_join_project'|translate}}
+                                <div class="clear_fix mt-10">
+                                    <label class=deft-project ng-repeat="pro in vm.defaultProjects">
+                                        <i ng-class=pro.pic ng-style={color:pro.bg}></i>{{[pro.name,40]|cutstr}}</label></div>
+                            </div>
+                            <div ng-hide="vm.defaultProjects.length>0" class=color-text-light>{{'team_admin_custom.warn_empty_setting'|translate}}</div></header>
+                        <button class="btn mt_28" ng-hide=is_set_team_project ng-click=js_toggle_team_project() wt-scroll-foucs=.custom_default_project_area>{{'common.btn_set'|translate}}</button>
+                        <div class=form-group ng-if=is_set_team_project>
+                            <ul class="deft-set-project m-0">
+                                <li class=label-list ng-repeat="pro in vm.projects">
+                                    <label class=label-i>
+                                        <input type=checkbox class=label-check ng-model=pro.checked>
+                                        <i ng-class=pro.pic ng-style={color:pro.bg}></i>{{[pro.name,40]|cutstr}}</label>
+                                    <div class=line></div>
+                                </li>
+                                <li class="label-list list_botton">
+                                    <a class="js-popbox btn btn-link form-control" data-placement=bottom data-align=right ng-click=js_toggle_team_project_create($event)>{{'team_admin_custom.btn_add_project'|translate}}</a></li>
+                            </ul>
+                            <footer class=footer-wrap>
+                                <button class="btn btn-success" ng-click=save_project()>{{'common.btn_save'|translate}}</button>
+                                <a href=javascript:; class="cancel btn btn-link btn-cancel ml-35" ng-click=js_toggle_team_project()>{{'common.btn_cancel'|translate}}</a></footer>
+                        </div>
+                    </div>
+                </div>
+            </dd>
+        </dl>
+        <dl class="dl-form custom_task_list_area">
+            <dt>
+                <strong>{{'team_admin_custom.title_auto_entrys'|translate}}</strong>
+                <span class=dl-form-desc>{{'team_admin_custom.desc_auto_entrys'|translate}}</span></dt>
+            <dd>
+                <div class=settings>
+                    <header class=show_area ng-hide=is_set_team_template>
+                        <div class=clear_fix ng-if=vm.defaultTpl.name>{{'team_admin_custom.current_entrys'|translate}}:
+                            <span class=ml-10>{{vm.defaultTpl.name}}</span>
+                            <ul class=list_area>
+                                <li ng-repeat="enty in vm.defaultTpl.entries">
+                                    <span class=title>{{[enty.name, 16]|cutstr}}</span>
+                                    <div class=line></div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div ng-hide=vm.defaultTpl.name class=color-text-light>{{'team_admin_custom.warn_empty_setting'|translate}}</div></header>
+                    <div class="editor_area custom-container custom-width-auto clearfix">
+                        <button class="btn mt_28" ng-hide=is_set_team_template ng-click=js_toggle_team_template() wt-scroll-foucs=.custom_task_list_area>{{'common.btn_set'|translate}}</button>
+                        <div class=form-group ng-if=is_set_team_template>
+                            <ul class="deft-set-temp m-0">
+                                <li class=label-list ng-repeat="tpl in vm.templates">
+                                    <label class=label-i>
+                                        <p class=flex-row>
+                                            <input type=radio ng-change=setDefaultTemplat() name=defaultTemplate ng-value=tpl.template_id ng-model=vm.defaultTplId class=label-check>
+                                            <span class="flex-se1 label-name">{{tpl.name}}</span>
+                                            <i ng-click=js_edit_team_template(tpl.template_id,$event) data-placement=bottom data-align=right class="js-popbox fa fa-pencil remove_tpl"></i>
+                                        </p>
+                                        <p class=tpl-entries>
+                                            <span class=tpl-name ng-repeat="ety in tpl.entries">{{ety.name}}&nbsp;
+                                                <span class=default-tpl-lable-hr ng-if="tpl.entries.length > 1 && ($middle||$first)">-</span></span>
+                                        </p>
+                                    </label>
+                                    <div class=line></div>
+                                </li>
+                                <li class="label-list list_botton">
+                                    <a class="js-popbox btn btn-link form-control" data-placement=bottom data-align=right ng-click=js_toggle_team_template_create($event)>{{'team_admin_custom.btn_auto_entrys'|translate}}</a></li>
+                            </ul>
+                            <footer class=footer-wrap>
+                                <button class="btn btn-success" ng-click=save_templates()>{{'common.btn_save'|translate}}</button>
+                                <a href=javascript:; class="cancel btn btn-link btn-cancel ml-35" ng-click=js_toggle_team_template()>{{'common.btn_cancel'|translate}}</a></footer>
+                        </div>
+                    </div>
+                </div>
+            </dd>
+        </dl>
+    </div>
+</div>

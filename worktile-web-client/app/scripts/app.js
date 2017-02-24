@@ -282,31 +282,31 @@
                 controller: "teamAdminHomeCtrl"
             }).state("team.admin.custom", {
                 url: "/custom",
-                templateUrl: "/tpl/team/team_admin_custom.html",
+                templateUrl: config.templateUrls.team_admin_custom,
                 controller: "teamAdminCustomCtrl",
                 header_menu: "team",
                 need_load: !0
             }).state("team.admin.basic", {
                 url: "/basic",
-                templateUrl: "/tpl/team/team_admin_basic.html",
+                templateUrl: config.templateUrls.team_admin_basic,
                 controller: "teamAdminBasicCtrl",
                 header_menu: "team",
                 need_load: !0
             }).state("team.admin.members", {
                 url: "/members",
-                templateUrl: "/tpl/team/team_admin_members.html",
+                templateUrl: config.templateUrls.team_admin_members,
                 controller: "teamAdminMembersCtrl",
                 header_menu: "team",
                 need_load: !0
             }).state("team.admin.projects", {
                 url: "/projects",
-                templateUrl: "/tpl/team/team_admin_projects.html",
+                templateUrl: config.templateUrls.team_admin_projects,
                 controller: "teamAdminProjectsCtrl",
                 header_menu: "team",
                 need_load: !0
             }).state("team.admin.security", {
                 url: "/security",
-                templateUrl: "/tpl/team/team_admin_security.html",
+                templateUrl: config.templateUrls.team_admin_security,
                 controller: "teamAdminSecurityCtrl",
                 header_menu: "team",
                 need_load: !0

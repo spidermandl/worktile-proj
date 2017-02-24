@@ -164,14 +164,14 @@ define(['app'], function (app) {
 	/**************************************************************************************************************
 	 *
 	 **************************************************************************************************************/
-	.controller('TeamMembersCtrl', ['$scope','$rootScope','config',
-		function ($scope,$rootScope,config) {
+	.controller('TeamMembersCtrl', ['$scope','$rootScope','config','$translate',
+		function ($scope,$rootScope,config,$translate) {
 			//"$rootScope", "$scope", "$state", "bus", "teamService", "$translate"
 			//     a            b         c       d          e              f
 			function g() {
 				wt.data.team.get_team_members_with_stats(i,
 					function(a) {
-						$scope.team.members = a.data.members,
+						b.team.members = a.data.members,
 							j()
 					},
 					null,
@@ -180,71 +180,68 @@ define(['app'], function (app) {
 					})
 			}
 			if(!$scope.team) return c.go("dashboard.default");
-			$rootScope.global.title = [f.instant("team_members.title_name"), " | ", b.team.name].join("");
+			$rootScope.global.title = [$translate.instant("team_members.title_name"), " | ", $scope.team.name].join("");
 			$rootScope.global.loading_done = !0;
-			$scope.vm = {
-				part_loading_done: !1,
-				filter_type: "normals",
-				members: {}
-			};
-			i = ($scope.parent_vm = $scope.$parent.vm, $scope.team.team_id);
+			var h = b.vm = {
+					part_loading_done: !1,
+					filter_type: "normals",
+					members: {}
+				},
+			i = (b.parent_vm = b.$parent.vm, b.team.team_id),
 			j = function() {
-				$scope.vm.members.normals = 
-					_.filter($scope.team.members,
+				h.members.normals = _.filter(b.team.members,
 						function(a) {
 							return a.role > 0 && a.role <= kzi.constant.role.member && a.status == kzi.constant.user_status.ok
-						});
-				$scope.vm.members.inviteds = 
-					_.filter($scope.team.members,
+						}),
+					h.members.inviteds = _.filter(b.team.members,
 						function(a) {
 							return a.status == kzi.constant.user_status.pending
-						});
-				$scope.vm.members.guests = 
-					_.filter($scope.team.members,
+						}),
+					h.members.guests = _.filter(b.team.members,
 						function(a) {
 							return a.role == kzi.constant.role.guest
-						});
+						})
 			};
 			g();
 			var k = function(a) {
 				if(a.role != kzi.constant.role.deleted) {
-					var c = _.find($scope.team.members, {
+					var c = _.find(b.team.members, {
 						uid: a.uid
 					});
 					c.role = a.role
 				} else {
-					var d = _.findIndex($scope.team.members, {
+					var d = _.findIndex(b.team.members, {
 						uid: a.uid
 					});
-					d >= 0 && $scope.team.members.splice(d, 1)
+					d >= 0 && b.team.members.splice(d, 1)
 				}
-				j();
+				j()
 			};
-			d.addListener(kzi.constant.event_names.team_member_role_change, k, $scope),
-			$scope.$on(kzi.constant.event_names.member_state_change,
-				function(c, d) {
-					if(d.uid !== $rootScope.global.me.uid) {
-						var e = _.find($scope.team.members, {
-							uid: d.uid
-						});
-						e && (e.online = d.state),
-							j()
-					}
-				}),
-			$scope.vm.js_goto_team_admin = function() {
-				return $scope.team.is_dingteam ? void kzi.msg.info("该团队为钉钉创建，请从钉钉中邀请新团队成员。") : void c.go("team.admin.members", {
-					team_id: $scope.team.team_id
-				})
-			},
-			$scope.vm.js_add_team_member = function() {
-				return $scope.team.is_dingteam ? void kzi.msg.info("该团队为钉钉创建，请从钉钉中邀请新团队成员。") : void e.showAddMember(b.team,
-					function() {
-						c.reload(!0);
+			d.addListener(kzi.constant.event_names.team_member_role_change, k, b),
+				b.$on(kzi.constant.event_names.member_state_change,
+					function(c, d) {
+						if(d.uid !== a.global.me.uid) {
+							var e = _.find(b.team.members, {
+								uid: d.uid
+							});
+							e && (e.online = d.state),
+								j()
+						}
+					}),
+				h.js_goto_team_admin = function() {
+					return b.team.is_dingteam ? void kzi.msg.info("该团队为钉钉创建，请从钉钉中邀请新团队成员。") : void c.go("team.admin.members", {
+						team_id: b.team.team_id
 					})
-			},
-			$scope.vm.js_reset_filter_type = function(a) {
-				$scope.vm.filter_type = a;
-			}
+				},
+				h.js_add_team_member = function() {
+					return b.team.is_dingteam ? void kzi.msg.info("该团队为钉钉创建，请从钉钉中邀请新团队成员。") : void e.showAddMember(b.team,
+						function() {
+							c.reload(!0)
+						})
+				},
+				h.js_reset_filter_type = function(a) {
+					h.filter_type = a
+				}
 		
 	}])
 	/**************************************************************************************************************
