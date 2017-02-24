@@ -1,0 +1,27 @@
+<div class="part-loading mt-20" ng-hide="part_loading_done && loading_histories_done"></div>
+<div class="panel-section inner" ng-show="part_loading_done && loading_histories_done">
+    <table class="table table--fancy">
+        <thead>
+            <tr>
+                <th>{{'team_admin_security.col_member'|translate}}</th>
+                <th>{{'team_admin_security.col_action'|translate}}</th>
+                <th>{{'team_admin_security.col_ip'|translate}}</th>
+                <th>{{'team_admin_security.col_time'|translate}}</th></tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="history in histories">
+                <td>
+                    <wt-avatar member=history.actor name=true size=30></wt-avatar>
+                </td>
+                <td style="width: 40%">
+                    <span ng-bind=history.verb_display></span>
+                    <wt-avatar member=history.member name=true size=30></wt-avatar>
+                </td>
+                <td>{{history.location + '（'+ history.ipaddress + '）'}}</td>
+                <td>{{history.published|timeFormatZHCN}}</td></tr>
+            <tr ng-show="histories.length == 0">
+                <td colspan=4>{{'team_admin_security.warn'|translate}}</td></tr>
+        </tbody>
+    </table>
+    <div class=pull-right wt-pagination=security_pagination_opts></div>
+</div>

@@ -8,8 +8,10 @@
 define(['app'], function (app) {
     'use strict';
 
-    app.directive('wtAvatar', ['$rootScope','$state','$popbox','config',
-        function($rootScope,$state,$popbox,config) {
+    app.directive('wtAvatar', ['$rootScope','$state','$popbox','config','sanitize',
+        function($rootScope,$state,$popbox,config,sanitize) {
+            //["$parse", "sanitize", "$wtRetina", "$translate"]
+            //     a          b            c            d
             return {
                 restrict: "E",
                 replace: !0,
@@ -77,7 +79,7 @@ define(['app'], function (app) {
                                                            h.replace("{{avatarBr}}", ""), angular.isDefined(attr.name)) {
                                     var s = info.display_name;
                                     "true" !== attr.name && (s = scope.$eval(attr.name)),
-                                    h = h.replace("{{avatarName}}", '<span class="avatar-name {{avatarNameclass}}">' + b(s) + "</span>"),
+                                    h = h.replace("{{avatarName}}", '<span class="avatar-name {{avatarNameclass}}">' + sanitize(s) + "</span>"),
                                     h = angular.isDefined(attr.nameclass) ? h.replace("{{avatarNameclass}}", attr.nameclass) : 
                                                                             h.replace("{{avatarNameclass}}", "")
                                 } 

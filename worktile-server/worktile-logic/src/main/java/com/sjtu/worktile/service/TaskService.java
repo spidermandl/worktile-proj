@@ -1,11 +1,9 @@
 package com.sjtu.worktile.service;
 
 import com.sjtu.worktile.exception.AppException;
-import com.sjtu.worktile.model.TTask;
-import com.sjtu.worktile.model.TTaskAssignment;
-import com.sjtu.worktile.model.TTaskAssignmentExample;
-import com.sjtu.worktile.model.TTaskExample;
+import com.sjtu.worktile.model.*;
 import com.sjtu.worktile.model.mappers.TTaskAssignmentMapper;
+import com.sjtu.worktile.model.mappers.TTaskCheckItemMapper;
 import com.sjtu.worktile.model.mappers.TTaskMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +21,9 @@ public class TaskService {
 
     @Autowired
     private TTaskAssignmentMapper tTaskAssignmentMapper;
+
+    @Autowired
+    private TTaskCheckItemMapper tTaskCheckItemMapper;
 
     /**
      * 创建任务
@@ -87,5 +88,14 @@ public class TaskService {
      */
     public void cancelwatch(long task_assign_id)throws AppException{
         tTaskAssignmentMapper.deleteByPrimaryKey(task_assign_id);
+    }
+
+    /**
+     * 添加检查项
+     * @param tTaskCheckItem
+     * @throws AppException
+     */
+    public void newtodo(TTaskCheckItem tTaskCheckItem)throws AppException{
+        tTaskCheckItemMapper.insert(tTaskCheckItem);
     }
 }

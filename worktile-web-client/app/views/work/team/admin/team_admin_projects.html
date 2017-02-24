@@ -1,0 +1,36 @@
+<div class= "part-loading mt-20" ng-hide=part_loading_done></div>
+<div ng-show=part_loading_done>
+    <div class= "panel-section table-list">
+        <table class= "table table--fancy">
+            <thead>
+                <tr>
+                    <th>{{'team_admin_projects.project_name'|translate}}</th>
+                    <th>{{'team_admin_projects.manger'|translate}}</th>
+                    <th>{{'team_admin_projects.count'|translate}}</th>
+                    <th>{{'team_admin_projects.status'|translate}}</th>
+                    <th>{{'team_admin_projects.create_time'|translate}}</th>
+                    <th>{{'common.txt_set'|translate}}</th></tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat= "project in account_projects">
+                    <td>
+                        <a ng-href=/project/{{project.pid}} class=color-text-dark ng-bind=[project.name,40]|cutstr></a>
+                    </td>
+                    <td>
+                        <wt-avatar ng-repeat= "admin in project.admins" member=admin name=true size=30 class=mr_15></wt-avatar>
+                    </td>
+                    <td>{{project.member_count}}</td>
+                    <td>{{project.archived|projectStatus}}</td>
+                    <td>{{project.create_date|timeFormatZHCN}}</td>
+                    <td>
+                        <a class= "js-popbox btn" href=javascript:; ng-if=project.is_teamOwnerHandler ng-click=vm.js_pop_project_setting($event,project) data-placement=left data-align=middle>{{'common.btn_set'|translate}}</a></td>
+                </tr>
+                <tr ng-if= "account_projects.length == 0">
+                    <td colspan=6>{{'team_admin_projects.warn'|translate}}</td></tr>
+                <tr ng-show=!account_projects>
+                    <td colspan=6 align=center></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

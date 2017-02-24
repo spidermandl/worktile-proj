@@ -153,6 +153,7 @@ define(['app'], function(app) {
 					$scope.vm.js_reset_filter_type = function(a) {
 						$scope.vm.filter_type = a;
 					};
+<<<<<<< HEAD
 					$scope.vm.js_new_project = function(a) {
 						projectService.showAdd($scope.team ? $scope.team.team_id : "");
 					};
@@ -246,6 +247,143 @@ define(['app'], function(app) {
 				var k = $scope.load_tasks = function() {
 					$scope.loading_tasks = !0,
 						wt.data.team.get_tasks(h, i.filter_user_reg, i.filter_project_reg, i.filter_type_reg, j,
+=======
+				$scope.vm.js_new_project = function(a) {
+					projectService.showAdd($scope.team ? $scope.team.team_id : "");
+				};
+			}
+		
+	}])
+	/**************************************************************************************************************
+	 *
+	 **************************************************************************************************************/
+	.controller('TeamMembersCtrl', ['$scope','$rootScope','config','$translate',
+		function ($scope,$rootScope,config,$translate) {
+			//"$rootScope", "$scope", "$state", "bus", "teamService", "$translate"
+			//     a            b         c       d          e              f
+			function g() {
+				wt.data.team.get_team_members_with_stats(i,
+					function(a) {
+						b.team.members = a.data.members,
+							j()
+					},
+					null,
+					function() {
+						h.part_loading_done = !0
+					})
+			}
+			if(!$scope.team) return c.go("dashboard.default");
+			$rootScope.global.title = [$translate.instant("team_members.title_name"), " | ", $scope.team.name].join("");
+			$rootScope.global.loading_done = !0;
+			var h = b.vm = {
+					part_loading_done: !1,
+					filter_type: "normals",
+					members: {}
+				},
+			i = (b.parent_vm = b.$parent.vm, b.team.team_id),
+			j = function() {
+				h.members.normals = _.filter(b.team.members,
+						function(a) {
+							return a.role > 0 && a.role <= kzi.constant.role.member && a.status == kzi.constant.user_status.ok
+						}),
+					h.members.inviteds = _.filter(b.team.members,
+						function(a) {
+							return a.status == kzi.constant.user_status.pending
+						}),
+					h.members.guests = _.filter(b.team.members,
+						function(a) {
+							return a.role == kzi.constant.role.guest
+						})
+			};
+			g();
+			var k = function(a) {
+				if(a.role != kzi.constant.role.deleted) {
+					var c = _.find(b.team.members, {
+						uid: a.uid
+					});
+					c.role = a.role
+				} else {
+					var d = _.findIndex(b.team.members, {
+						uid: a.uid
+					});
+					d >= 0 && b.team.members.splice(d, 1)
+				}
+				j()
+			};
+			d.addListener(kzi.constant.event_names.team_member_role_change, k, b),
+				b.$on(kzi.constant.event_names.member_state_change,
+					function(c, d) {
+						if(d.uid !== a.global.me.uid) {
+							var e = _.find(b.team.members, {
+								uid: d.uid
+							});
+							e && (e.online = d.state),
+								j()
+						}
+					}),
+				h.js_goto_team_admin = function() {
+					return b.team.is_dingteam ? void kzi.msg.info("该团队为钉钉创建，请从钉钉中邀请新团队成员。") : void c.go("team.admin.members", {
+						team_id: b.team.team_id
+					})
+				},
+				h.js_add_team_member = function() {
+					return b.team.is_dingteam ? void kzi.msg.info("该团队为钉钉创建，请从钉钉中邀请新团队成员。") : void e.showAddMember(b.team,
+						function() {
+							c.reload(!0)
+						})
+				},
+				h.js_reset_filter_type = function(a) {
+					h.filter_type = a
+				}
+		
+	}])
+	/**************************************************************************************************************
+	 *
+	 **************************************************************************************************************/
+	.controller('TeamTasksCtrl', ['$scope','$rootScope','config',
+		function ($scope,$rootScope,config) {
+			//"$rootScope", "$scope", "$state", "$popbox", "globalDataContext", "locator", "$translate",
+			//		a           b         c          d               e               f           g
+			if(!b.team) return c.go("dashboard.default");
+			a.global.title = [g.instant("team_tasks.title_name"), " | ", b.team.name].join(""),
+				a.global.loading_done = !0,
+				b.loading_tasks = !1;
+			var h = b.team.team_id;
+			b.part_loading_done = !1;
+			var i = b.vm = {
+					filter_type_reg: "uncompleted",
+					filter_project_reg: "all",
+					filter_user_reg: "all",
+					is_has_more_task: !0
+				},
+				j = 1;
+			b.locator = f,
+				b.tasks = [];
+			var k = b.load_tasks = function() {
+				b.loading_tasks = !0,
+					wt.data.team.get_tasks(h, i.filter_user_reg, i.filter_project_reg, i.filter_type_reg, j,
+						function(a) {
+							_.each(a.data,
+									function(a) {
+										var c = _.find(e.projects, {
+											pid: a.pid
+										});
+										c && (a.project = c),
+											b.tasks.push(a)
+									}),
+								a.data.length > 0 ? (j += 1, i.is_has_more_task = !0) : i.is_has_more_task = !1
+						},
+						function() {
+							kzi.msg.error(g.instant("team_tasks.get_tasks_fail"))
+						},
+						function() {
+							b.loading_tasks = !1
+						})
+			};
+			wt.data.team.get_team_members(h,
+					function(a) {
+						b.team.members = _.filter(a.data.members,
+>>>>>>> a96a13a886774752df0bfccade49f311ffad6d5e
 							function(a) {
 								_.each(a.data,
 										function(a) {

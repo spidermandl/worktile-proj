@@ -28,6 +28,7 @@
             track: 'service/track',
             project: 'service/project',
             upload: 'service/upload',
+            markdown: 'service/markdown',
             //controller
 			identity : 'controllers/identity',//身份进入
 			dashboard : 'controllers/dashboard',
@@ -67,7 +68,7 @@
                 deps: ['left_nemu'],
             },
             team_ctrl: {
-                deps: ['project_item','team_admin_ctrl'],
+                deps: ['project_item','team_admin_ctrl','markdown'],
             },
             left_nemu: {
                 deps: ['filters','popbox','left_menu_project','left_menu_avatar','work','team'],
