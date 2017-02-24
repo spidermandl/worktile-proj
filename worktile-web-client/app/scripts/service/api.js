@@ -277,14 +277,41 @@ define(['app'], function(app) {
 						success, failure, promise
 					);
 				},
+//				/**************************************************************************
+//				 ** 获取团队成员信息 api
+//				 **************************************************************************/
+//				get_team_projects: function(team_id, success, failure, promise) {
+//					return this.http_get_template(
+//						'http://localhost:8080/api/team/' + team_id + '/projects',
+//						success, failure, promise
+//					);
+//				},
 				/**************************************************************************
-				 **获取静态项目模板列表 api
+				 ** 
 				 **************************************************************************/
-				get_team_members_with_stats: function(i, success, failure, promise) {
-					return this.http_get_template(
-						'http://localhost:8080/api/team/' + i + '/projects',
+				get_team_stats: function(team_id,success, failure, promise){
+				    return this.http_get_template(
+						'http://localhost:8080/api/team/' + team_id + '/projects',
 						success, failure, promise
-					);
+					);  
+				},
+				/**************************************************************************
+				 ** 
+				 **************************************************************************/			
+				get_tasks_overview: function(team_id,success, failure, promise){
+				    return this.http_get_template(
+						'http://localhost:8080/api/team/' + team_id + '/projects',
+						success, failure, promise
+					);  
+				},
+				/**************************************************************************
+				 ** 
+				 **************************************************************************/
+				get_team_members:function(team_id,success, failure, promise){
+				    return this.http_get_template(
+						'http://localhost:8080/api/team/' + team_id + '/projects',
+						success, failure, promise
+					);  
 				},
 			}
 		}

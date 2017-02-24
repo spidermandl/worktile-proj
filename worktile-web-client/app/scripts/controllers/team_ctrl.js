@@ -153,7 +153,6 @@ define(['app'], function(app) {
 					$scope.vm.js_reset_filter_type = function(a) {
 						$scope.vm.filter_type = a;
 					};
-<<<<<<< HEAD
 					$scope.vm.js_new_project = function(a) {
 						projectService.showAdd($scope.team ? $scope.team.team_id : "");
 					};
@@ -164,69 +163,70 @@ define(['app'], function(app) {
 		/**************************************************************************************************************
 		 *
 		 **************************************************************************************************************/
-		.controller('TeamMembersCtrl', ['$scope', '$rootScope', 'config', '$translate', 'Util', '$state', 'api',
-			function($scope, $rootScope, config, translate, util, state, api) {
+		.controller('TeamMembersCtrl', ['$scope', '$rootScope', 'config', '$translate', 'Util', '$state', 'api', 'TeamService',
+			function($scope, $rootScope, config, translate, util, state, api, teamService) {
 				//"$rootScope", "$scope", "$state", "util", "teamService", "$translate"
 				//     a            b         c       d          e              f
 				function g() {
-		            return $scope.team ? ($rootScope.global.title = [f.instant("team_projects.title_name"), " | ", $scope.team.name].join(""), _.each(e.projects,
-		            function(a) {
-		                h.me_pids.push(a.pid)
-		            }), $rootScope.global.loading_done = !0, h.part_loading_done = !1, void wt.data.team.get_team_projects($scope.team.team_id,
-		            function(a) {
-		                $scope.team.projects = a.data,
-		                i()
-		            },
-		            null,
-		            function() {
-		                h.part_loading_done = !0
-		            })) : c.go("dashboard.default")
-                }
-		        var h = $scope.vm = {
-		            part_loading_done: !1,
-		            me_pids: [],
-		            filter_type: "me",
-		            projects: {
-		                participateds: [],
-		                teampublics: []
-		            }
-		        };
-        		$scope.parent_vm = $scope.$parent.vm;
-		        if (null != $scope.team) {
-		            g();
-		            var i = function() {
-		                h.projects.participateds = _.filter($scope.team.projects,
-		                function(a) {
-		                    return _.includes(h.me_pids, a.pid)
-		                }),
-		                h.projects.teampublics = _.filter(b.team.projects,
-		                function(a) {
-		                    return ! _.includes(h.me_pids, a.pid) && (a.visibility === kzi.constant.prj_visibility.protected || a.visibility === kzi.constant.prj_visibility.public)
-		                }),
-		                h.projects.participateds = _.sortBy(h.projects.participateds,
-		                function(a) {
-		                    return a.pos
-		                }),
-		                h.projects.teampublics = _.sortBy(h.projects.teampublics,
-		                function(a) {
-		                    return a.pos
-		                })
-		            };
-		            h.js_reset_filter_type = function(a) {
-		                h.filter_type = a
-		            },
-		            h.js_new_project = function(a) {
-		                d.showAdd($scope.team ? $scope.team.team_id: "")
-		            }
-		        }
+					return $scope.team ? ($rootScope.global.title = [translate.instant("team_projects.title_name"), " | ", $scope.team.name].join(""), _.each(teamService.projects,
+							function(a) {
+								h.me_pids.push(a.pid)
+							}), $rootScope.global.loading_done = !0, h.part_loading_done = !1,
+						void api.get_team_projects($scope.team.team_id,
+							function(a) {
+								$scope.team.projects = a.data,
+									i()
+							},
+							null,
+							function() {
+								h.part_loading_done = !0
+							})) : c.go("dashboard.default")
+				}
+				var h = $scope.vm = {
+					part_loading_done: !1,
+					me_pids: [],
+					filter_type: "me",
+					projects: {
+						participateds: [],
+						teampublics: []
+					}
+				};
+				$scope.parent_vm = $scope.$parent.vm;
+				if (null != $scope.team) {
+					g();
+					var i = function() {
+						h.projects.participateds = _.filter($scope.team.projects,
+								function(a) {
+									return _.includes(h.me_pids, a.pid)
+								}),
+							h.projects.teampublics = _.filter($scope.team.projects,
+								function(a) {
+									return !_.includes(h.me_pids, a.pid) && (a.visibility === config.prj_visibility.protected || a.visibility === config.prj_visibility.public)
+								}),
+							h.projects.participateds = _.sortBy(h.projects.participateds,
+								function(a) {
+									return a.pos
+								}),
+							h.projects.teampublics = _.sortBy(h.projects.teampublics,
+								function(a) {
+									return a.pos
+								})
+					};
+					h.js_reset_filter_type = function(a) {
+							h.filter_type = a
+						},
+						h.js_new_project = function(a) {
+							d.showAdd($scope.team ? $scope.team.team_id : "")
+						}
+				}
 
 			}
 		])
 		/**************************************************************************************************************
 		 *
 		 **************************************************************************************************************/
-		.controller('TeamTasksCtrl', ['$scope', '$rootScope', 'config', '$translate', 'locator', '$state',
-			function($scope, $rootScope, config, translate, locator, state) {
+		.controller('TeamTasksCtrl', ['$scope', '$rootScope', 'config', '$translate', '$state', 'Locator','api',
+			function($scope, $rootScope, config, translate, state, locator,api) {
 				//"$rootScope", "$scope", "$state", "$popbox", "globalDataContext", "locator", "$translate",
 				//		a           b         c          d               e               f           g
 				if (!$scope.team) return state.go("dashboard.default");
@@ -247,143 +247,6 @@ define(['app'], function(app) {
 				var k = $scope.load_tasks = function() {
 					$scope.loading_tasks = !0,
 						wt.data.team.get_tasks(h, i.filter_user_reg, i.filter_project_reg, i.filter_type_reg, j,
-=======
-				$scope.vm.js_new_project = function(a) {
-					projectService.showAdd($scope.team ? $scope.team.team_id : "");
-				};
-			}
-		
-	}])
-	/**************************************************************************************************************
-	 *
-	 **************************************************************************************************************/
-	.controller('TeamMembersCtrl', ['$scope','$rootScope','config','$translate',
-		function ($scope,$rootScope,config,$translate) {
-			//"$rootScope", "$scope", "$state", "bus", "teamService", "$translate"
-			//     a            b         c       d          e              f
-			function g() {
-				wt.data.team.get_team_members_with_stats(i,
-					function(a) {
-						b.team.members = a.data.members,
-							j()
-					},
-					null,
-					function() {
-						h.part_loading_done = !0
-					})
-			}
-			if(!$scope.team) return c.go("dashboard.default");
-			$rootScope.global.title = [$translate.instant("team_members.title_name"), " | ", $scope.team.name].join("");
-			$rootScope.global.loading_done = !0;
-			var h = b.vm = {
-					part_loading_done: !1,
-					filter_type: "normals",
-					members: {}
-				},
-			i = (b.parent_vm = b.$parent.vm, b.team.team_id),
-			j = function() {
-				h.members.normals = _.filter(b.team.members,
-						function(a) {
-							return a.role > 0 && a.role <= kzi.constant.role.member && a.status == kzi.constant.user_status.ok
-						}),
-					h.members.inviteds = _.filter(b.team.members,
-						function(a) {
-							return a.status == kzi.constant.user_status.pending
-						}),
-					h.members.guests = _.filter(b.team.members,
-						function(a) {
-							return a.role == kzi.constant.role.guest
-						})
-			};
-			g();
-			var k = function(a) {
-				if(a.role != kzi.constant.role.deleted) {
-					var c = _.find(b.team.members, {
-						uid: a.uid
-					});
-					c.role = a.role
-				} else {
-					var d = _.findIndex(b.team.members, {
-						uid: a.uid
-					});
-					d >= 0 && b.team.members.splice(d, 1)
-				}
-				j()
-			};
-			d.addListener(kzi.constant.event_names.team_member_role_change, k, b),
-				b.$on(kzi.constant.event_names.member_state_change,
-					function(c, d) {
-						if(d.uid !== a.global.me.uid) {
-							var e = _.find(b.team.members, {
-								uid: d.uid
-							});
-							e && (e.online = d.state),
-								j()
-						}
-					}),
-				h.js_goto_team_admin = function() {
-					return b.team.is_dingteam ? void kzi.msg.info("该团队为钉钉创建，请从钉钉中邀请新团队成员。") : void c.go("team.admin.members", {
-						team_id: b.team.team_id
-					})
-				},
-				h.js_add_team_member = function() {
-					return b.team.is_dingteam ? void kzi.msg.info("该团队为钉钉创建，请从钉钉中邀请新团队成员。") : void e.showAddMember(b.team,
-						function() {
-							c.reload(!0)
-						})
-				},
-				h.js_reset_filter_type = function(a) {
-					h.filter_type = a
-				}
-		
-	}])
-	/**************************************************************************************************************
-	 *
-	 **************************************************************************************************************/
-	.controller('TeamTasksCtrl', ['$scope','$rootScope','config',
-		function ($scope,$rootScope,config) {
-			//"$rootScope", "$scope", "$state", "$popbox", "globalDataContext", "locator", "$translate",
-			//		a           b         c          d               e               f           g
-			if(!b.team) return c.go("dashboard.default");
-			a.global.title = [g.instant("team_tasks.title_name"), " | ", b.team.name].join(""),
-				a.global.loading_done = !0,
-				b.loading_tasks = !1;
-			var h = b.team.team_id;
-			b.part_loading_done = !1;
-			var i = b.vm = {
-					filter_type_reg: "uncompleted",
-					filter_project_reg: "all",
-					filter_user_reg: "all",
-					is_has_more_task: !0
-				},
-				j = 1;
-			b.locator = f,
-				b.tasks = [];
-			var k = b.load_tasks = function() {
-				b.loading_tasks = !0,
-					wt.data.team.get_tasks(h, i.filter_user_reg, i.filter_project_reg, i.filter_type_reg, j,
-						function(a) {
-							_.each(a.data,
-									function(a) {
-										var c = _.find(e.projects, {
-											pid: a.pid
-										});
-										c && (a.project = c),
-											b.tasks.push(a)
-									}),
-								a.data.length > 0 ? (j += 1, i.is_has_more_task = !0) : i.is_has_more_task = !1
-						},
-						function() {
-							kzi.msg.error(g.instant("team_tasks.get_tasks_fail"))
-						},
-						function() {
-							b.loading_tasks = !1
-						})
-			};
-			wt.data.team.get_team_members(h,
-					function(a) {
-						b.team.members = _.filter(a.data.members,
->>>>>>> a96a13a886774752df0bfccade49f311ffad6d5e
 							function(a) {
 								_.each(a.data,
 										function(a) {
@@ -402,7 +265,7 @@ define(['app'], function(app) {
 								$scope.loading_tasks = !1
 							})
 				};
-				wt.data.team.get_team_members(h,
+				api.get_team_members(h,
 						function(a) {
 							$scope.team.members = _.filter(a.data.members,
 								function(a) {
@@ -429,11 +292,11 @@ define(['app'], function(app) {
 		/**************************************************************************************************************
 		 *
 		 **************************************************************************************************************/
-		.controller('TeamGraphsCtrl', ['$scope', '$rootScope', 'config',
-			function($scope, $rootScope, config) {
+		.controller('TeamGraphsCtrl', ['$scope', '$rootScope', 'config','$translate','api',
+			function($scope, $rootScope, config,translate,api) {
 				//["$rootScope", "$scope", "$state", "projectService", "globalDataContext", "$popbox", "$translate"]
 				//       a           b         c             d                   e               f            g
-				var h = b.vm = {
+				var h = $scope.vm = {
 					part_loading_done: !1,
 					overview: {
 						completed: null,
@@ -444,8 +307,8 @@ define(['app'], function(app) {
 					},
 					stats_list: []
 				};
-				if (b.team) {
-					a.global.title = [g.instant("team_graphs.title_name"), " | ", b.team.name].join(""),
+				if ($scope.team) {
+					$rootScope.global.title = [translate.instant("team_graphs.title_name"), " | ", $scope.team.name].join(""),
 						h.part_loading_done = !1;
 					var i = function(a) {
 							var b = [];
@@ -479,17 +342,17 @@ define(['app'], function(app) {
 										})
 							}
 						};
-					wt.data.team.get_team_stats(b.team.team_id,
+					api.get_team_stats($scope.team.team_id,
 							function(a) {
 								200 === a.code && a.data.length > 0 && (h.stats_list = i(a.data), h.stats_list = _.sortBy(h.stats_list, "pos"))
 							},
 							null,
 							function() {
-								wt.data.team.get_tasks_overview(b.team.team_id,
+								api.get_tasks_overview($scope.team.team_id,
 										function(a) {
 											200 === a.code && (h.overview = a.data)
 										}),
-									a.global.loading_done = !0,
+									$rootScope.global.loading_done = !0,
 									h.part_loading_done = !0
 							}),
 						h.js_pop_add_stats = function(a) {
@@ -517,7 +380,7 @@ define(['app'], function(app) {
 										};
 										_.each(h.stats_type,
 												function(a) {
-													a.desc = g.instant(a.desc)
+													a.desc = translate.instant(a.desc)
 												}),
 											f(),
 											h.js_close = function() {
@@ -561,8 +424,8 @@ define(['app'], function(app) {
 								resolve: {
 									pop_data: function() {
 										return {
-											team_id: b.team.team_id,
-											stats_list: b.vm.stats_list
+											team_id: $scope.team.team_id,
+											stats_list: $scope.vm.stats_list
 										}
 									}
 								}
@@ -594,12 +457,12 @@ define(['app'], function(app) {
 									j(c.pid, c.type, d, e)
 							}
 						},
-						b.$on(kzi.constant.event_names.team_add_stats,
+						$scope.$on(config.event_names.team_add_stats,
 							function(a, b) {
 								h.stats_list = h.stats_list.concat(i([b])),
 									h.stats_list = _.sortBy(h.stats_list, "pos")
 							}),
-						b.$on(kzi.constant.event_names.team_remove_stats,
+						$scope.$on(config.event_names.team_remove_stats,
 							function(a, b) {
 								h.stats_list = _.reject(h.stats_list, {
 									pid: b.pid,
