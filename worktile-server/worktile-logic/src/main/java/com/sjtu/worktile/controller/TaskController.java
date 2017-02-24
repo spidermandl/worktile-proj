@@ -154,4 +154,20 @@ public class TaskController extends BaseController {
         taskService.watch(tTaskAssignment);
         return out;
     }
+
+    /**
+     * 取消关注任务
+     * @param task_assign_id
+     * @param request
+     * @return
+     * @throws AppException
+     */
+    @RequestMapping(value="cancelwatch",method = RequestMethod.POST)
+    @ResponseBody
+    public PairMsg.ResponseMsg cancelwatch(@RequestParam("task_assign_id") long task_assign_id,
+                                           final HttpServletRequest request)throws AppException{
+        TaskCancelWatchMsg.OutMsg out=new TaskCancelWatchMsg.OutMsg();
+        taskService.cancelwatch(task_assign_id);
+        return out;
+    }
 }

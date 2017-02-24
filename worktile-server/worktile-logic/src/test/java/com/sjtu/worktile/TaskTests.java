@@ -117,4 +117,23 @@ public class TaskTests extends BaseTest {
         Response response = client.newCall(request).execute();
         System.out.println(response.body().string());
     }
+
+    @Test
+    public void cancelwatch()throws Exception{
+        /**
+         * 取消关注任务
+         */
+        String url=domain_url+"/api/task/cancelwatch";
+        String token=super.getToken();
+        Request request = new Request.Builder()
+                .url(url)
+                .addHeader("raw","raw")
+                .addHeader("Authorization",  Const.TOKEN_PREFIX+token)
+                .post( new FormEncodingBuilder()
+                        .add("task_assign_id", "1")
+                        .build()
+                ).build();
+        Response response = client.newCall(request).execute();
+        System.out.println(response.body().string());
+    }
 }

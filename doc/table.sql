@@ -66,6 +66,34 @@ INSERT INTO `s_role` VALUES (1,'ç®¡ç†å‘˜'),(2,'æˆå‘˜'),(3,'�
 UNLOCK TABLES;
 
 --
+-- Table structure for table `s_template`
+--
+
+DROP TABLE IF EXISTS `s_template`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `s_template` (
+  `id` int(11) NOT NULL,
+  `name` varchar(20) DEFAULT NULL,
+  `entries` text,
+  `pending1` varchar(20) DEFAULT NULL,
+  `pending2` varchar(20) DEFAULT NULL,
+  `pending3` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `s_template`
+--
+
+LOCK TABLES `s_template` WRITE;
+/*!40000 ALTER TABLE `s_template` DISABLE KEYS */;
+INSERT INTO `s_template` VALUES (1,'é€šç”¨','[{\"name\":\"è¦åš\",\"pos\":65535},{\"name\":\"åœ¨åš\",\"pos\":131071},{\"name\":\"å¾…å®š\",\"pos\":196606}]',NULL,NULL,NULL),(2,'ç ”å‘','[{\"name\":\"æ”¶ä»¶ç®±\",\"pos\":65535},{\"name\":\"å¼€å‘ä¸­\",\"pos\":131071},{\"name\":\"å¾…æµ‹è¯•\",\"pos\":196606},{\"name\":\"å¾…å‘å¸ƒ\",\"pos\":262141},{\"name\":\"å·²å‘å¸ƒ\",\"pos\":327676}]',NULL,NULL,NULL),(3,'äº§å“Roadmap','[{\"name\":\"æ”¶ä»¶ç®±\",\"pos\":65535},{\"name\":\"å¾…å‘å¸ƒ\",\"pos\":131071},{\"name\":\"å·²å‘å¸ƒ\",\"pos\":196606},{\"name\":\"å·²å®Œæˆ\",\"pos\":262141}]',NULL,NULL,NULL),(4,'CRMæ¨¡æ¿','[{\"name\":\"å®¢æˆ·èµ„æ–™åº“\",\"pos\":65535},{\"name\":\"é”€å”®æœºä¼š\",\"pos\":131071},{\"name\":\"è”ç³»ä¸­\",\"pos\":196606},{\"name\":\"å·²è”ç³»\",\"pos\":262141},{\"name\":\"å”®å‰\",\"pos\":327676},{\"name\":\"æˆå•\",\"pos\":393211},{\"name\":\"å”®åŽ\",\"pos\":458746}]',NULL,NULL,NULL),(5,'Bugç®¡ç†','[{\"name\":\"æ”¶ä»¶ç®±\",\"pos\":65535},{\"name\":\"å¼€å‘\",\"pos\":131071},{\"name\":\"æµ‹è¯•\",\"pos\":196606},{\"name\":\"ä¸Šçº¿\",\"pos\":262141}]',NULL,NULL,NULL),(6,'æ‹›è˜æµç¨‹','[{\"name\":\"ç®€åŽ†åº“\",\"pos\":65535},{\"name\":\"ç¬”è¯•\",\"pos\":131071},{\"name\":\"é¢è¯•\",\"pos\":196606},{\"name\":\"è¯•ç”¨æœŸ\",\"pos\":262141},{\"name\":\"å…¥èŒ\",\"pos\":327676}]',NULL,NULL,NULL),(7,'å†…å®¹ç¼–è¾‘','[{\"name\":\"ç­–åˆ’ç»„ç¨¿\",\"pos\":65535},{\"name\":\"é€‰é¢˜\",\"pos\":131071},{\"name\":\"åˆç¨¿\",\"pos\":196606},{\"name\":\"å®¡ç¨¿\",\"pos\":262141},{\"name\":\"æ ¡å¯¹\",\"pos\":327676},{\"name\":\"å®šç¨¿\",\"pos\":393211},{\"name\":\"å‘å¸ƒ\",\"pos\":458746}]',NULL,NULL,NULL),(8,'äº§å“è®¾è®¡','[{\"name\":\"éœ€æ±‚äº†è§£\",\"pos\":65535},{\"name\":\"å¤´è„‘é£Žæš´\",\"pos\":131071},{\"name\":\"æƒ³æ³•\\bæ”¶ç¼©\",\"pos\":196606},{\"name\":\"åŽŸåž‹\",\"pos\":262141},{\"name\":\"éªŒè¯ä¸Žæµ‹è¯•\",\"pos\":327676}]',NULL,NULL,NULL);
+/*!40000 ALTER TABLE `s_template` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `t_project`
 --
 
@@ -80,11 +108,12 @@ CREATE TABLE `t_project` (
   `description` text,
   `team_id` bigint(20) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
+  `visibility` int(5) DEFAULT NULL,
   `pending1` varchar(20) DEFAULT NULL,
   `pending2` varchar(20) DEFAULT NULL,
   `pending3` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -93,6 +122,7 @@ CREATE TABLE `t_project` (
 
 LOCK TABLES `t_project` WRITE;
 /*!40000 ALTER TABLE `t_project` DISABLE KEYS */;
+INSERT INTO `t_project` VALUES (8,4,'111',NULL,'111',1,'2017-02-23 21:44:31',1,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `t_project` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -111,13 +141,14 @@ CREATE TABLE `t_task` (
   `type` int(2) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
-  `parent_id` bigint(20) NOT NULL,
+  `parent_id` bigint(20) DEFAULT NULL,
   `end_time` datetime DEFAULT NULL,
+  `pos` int(11) DEFAULT NULL,
   `pending1` varchar(20) DEFAULT NULL,
   `pending2` varchar(20) DEFAULT NULL,
   `pending3` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -126,6 +157,7 @@ CREATE TABLE `t_task` (
 
 LOCK TABLES `t_task` WRITE;
 /*!40000 ALTER TABLE `t_task` DISABLE KEYS */;
+INSERT INTO `t_task` VALUES (11,'å®¢æˆ·èµ„æ–™åº“',NULL,4,1,'2017-02-23 21:44:31',NULL,8,NULL,65535,NULL,NULL,NULL),(12,'é”€å”®æœºä¼š',NULL,4,1,'2017-02-23 21:44:31',NULL,8,NULL,131071,NULL,NULL,NULL),(13,'è”ç³»ä¸­',NULL,4,1,'2017-02-23 21:44:31',NULL,8,NULL,196606,NULL,NULL,NULL),(14,'å·²è”ç³»',NULL,4,1,'2017-02-23 21:44:31',NULL,8,NULL,262141,NULL,NULL,NULL),(15,'å”®å‰',NULL,4,1,'2017-02-23 21:44:31',NULL,8,NULL,327676,NULL,NULL,NULL),(16,'æˆå•',NULL,4,1,'2017-02-23 21:44:31',NULL,8,NULL,393211,NULL,NULL,NULL),(17,'å”®åŽ',NULL,4,1,'2017-02-23 21:44:31',NULL,8,NULL,458746,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `t_task` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -403,7 +435,7 @@ CREATE TABLE `t_user_role` (
   `project_id` bigint(20) DEFAULT NULL,
   `team_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -412,7 +444,7 @@ CREATE TABLE `t_user_role` (
 
 LOCK TABLES `t_user_role` WRITE;
 /*!40000 ALTER TABLE `t_user_role` DISABLE KEYS */;
-INSERT INTO `t_user_role` VALUES (1,4,1,NULL,1),(2,4,1,NULL,2);
+INSERT INTO `t_user_role` VALUES (1,4,1,NULL,1),(2,4,1,NULL,2),(4,4,1,8,NULL);
 /*!40000 ALTER TABLE `t_user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -425,4 +457,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-02-23  1:28:53
+-- Dump completed on 2017-02-24 10:52:01
