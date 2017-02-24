@@ -3,7 +3,7 @@ package com.sjtu.worktile.msg;
 /**
  * Created by lenovo on 2017/2/24.
  */
-public class TaskCancelWatchMsg extends PairMsg {
+public class TaskNewTodoMsg extends PairMsg {
     /**
      * 消息序列号
      */
@@ -11,16 +11,15 @@ public class TaskCancelWatchMsg extends PairMsg {
 
     public static class InMsg implements RequestMsg{
         public int code=MSG_CODE;
-        public long task_assign_id=0;//任务分配id
+        public long task_id=0;//任务id
+        public String content=null;//内容
     }
 
     public static class OutMsg implements ResponseMsg{
         public int code=MSG_CODE;
     }
-
     @Override
-    public void initMsg(){
-        inMsg=new TaskCancelWatchMsg.InMsg();
-        outMsg=new TaskCancelWatchMsg.OutMsg();
+    void initMsg(){
+
     }
 }
