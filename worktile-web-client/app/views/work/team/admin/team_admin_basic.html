@@ -1,0 +1,179 @@
+<div class= "part-loading mt-20" ng-hide=part_loading_done></div>
+<div ng-show=part_loading_done>
+    <dl class= "dl-form border-notop">
+        <dt>{{'team_admin_basic.team_info'|translate}}
+            <span class=dl-form-desc>{{'team_admin_basic.desc_team_info'|translate}}</span></dt>
+        <dd>
+            <div class=settings>
+                <ul class=dl-form-ul ng-hide=editing_team_info>
+                    <li>
+                        <span class=dl-form-li-title>{{'team_admin_basic.team_name'|translate}}</span>
+                        <span ng-bind=team.name></span>
+                    </li>
+                    <li>
+                        <span class=dl-form-li-title>{{'team_admin_basic.industry'|translate}}</span>
+                        <span ng-bind= "(industries[team.industry]|translate)||('team_admin_basic.empty_input'|translate)"></span>
+                    </li>
+                    <li>
+                        <span class=dl-form-li-title>{{'team_admin_basic.phone'|translate}}</span>
+                        <span ng-bind= "team.phone||('team_admin_basic.empty_input'|translate)"></span>
+                    </li>
+                    <li>
+                        <span class=dl-form-li-title>{{'team_admin_basic.create_time'|translate}}</span>
+                        <span ng-bind=team.create_date|dateFormatZHCN></span>
+                    </li>
+                    <li>
+                        <span class=dl-form-li-title>{{'team_admin_basic.desc'|translate}}</span>
+                        <span ng-bind=team.desc></span>
+                    </li>
+                </ul>
+                <button ng-hide=editing_team_info class= "btn mt_28" ng-click=vm.js_toggle_edit_team_info()>{{'team_admin_basic.change_team_info'|translate}}</button>
+                <form name=team_set_form ng-if=editing_team_info w5c-form-validate= "" class= "form wt-form form-horizontal w-660" novalidate>
+                    <div class=form-group>
+                        <label class=sr-only>{{'team_admin_basic.team_name'|translate}}</label>
+                        <div class=col-xs-10>
+                            <input name=team_name type=text ng-model=vm.name placeholder= "{{'team_admin_basic.team_name'|translate}}" class=form-control required autofocus></div>
+                    </div>
+                    <div class=form-group>
+                        <label for=team-industry class=sr-only>{{'team_admin_basic.industry'|translate}}</label>
+                        <div class=col-xs-10>
+                            <select class=form-control name=team_industry id=team-industry ng-model=vm.industry ng-options= "key as industries[key] for key in industry_keys" required= "">
+                                <option value= "" selected=selected disabled=disabled>{{'team_admin_basic.placeholder_industry'|translate}}：</option></select>
+                        </div>
+                    </div>
+                    <div class=form-group>
+                        <label class=sr-only>{{'team_admin_basic.phone'|translate}}</label>
+                        <div class=col-xs-10>
+                            <input name=team_phone type=text ng-model=vm.phone placeholder= "{{'team_admin_basic.placeholder_phone'|translate}}" class=form-control required autofocus ng-pattern=$root.global.constant.regex.mobile></div>
+                    </div>
+                    <div class=form-group>
+                        <label class=sr-only>{{'team_admin_basic.team_desc'|translate}}</label>
+                        <div class=col-xs-10>
+                            <textarea rows=4 ng-model=vm.desc class=form-control placeholder= "{{'team_admin_basic.placeholder_team_desc'|translate}}"></textarea>
+                        </div>
+                    </div>
+                    <div class=mt_28>
+                        <button data-loading-text= "{{'common.saving'|translate}}" w5c-form-submit= "js_set_team(team_set_form, name, phone, desc, url)" class= "btn btn-success" wt-loading-status=is_team_saveing>{{'common.btn_ok'|translate}}</button>
+                        <button class= "btn btn-link btn-cancel" ng-click=vm.js_toggle_edit_team_info()>{{'common.btn_cancel'|translate}}</button></div>
+                </form>
+            </div>
+        </dd>
+    </dl>
+    <dl class=dl-form>
+        <dt>{{'team_admin_basic.team_logo'|translate}}
+            <span class=dl-form-desc translate=team_admin_basic.desc_team_logo></span></dt>
+        <dd>
+            <div ng-if=!vm.team_logo.src>
+                <wt-team-logo team=team size=100></wt-team-logo>
+                <button ngf-multiple=false ngf-select ngf-change=vm.js_file_select($files) ngf-accept= "'.png,.jpg'" class= "btn btn-local-upload mt_28">{{'team_admin_basic.set_logo'|translate}}</button></div>
+            <div ng-if=vm.team_logo.src>
+                <div class=min-h150 ng-jcrop=vm.team_logo.src selection=vm.team_logo.selection thumbnail=vm.team_logo.thumbnail></div>
+                <div class=mt_28>
+                    <button class= "btn btn-default mr-14" ng-disabled=vm.team_logo.uploading ngf-multiple=false ngf-select ngf-change=vm.js_file_select($files) ng-accept= "'.png,.jpg'">{{'team_admin_basic.btn_reselect'|translate}}</button>
+                    <button class= "btn btn-success mr-14" wt-loading-status=vm.team_logo.uploading data-loading-text= "{{'common.uploading'|translate}}" ng-click=vm.js_save_logo()>{{'common.btn_save'|translate}}</button>
+                    <button class= "btn btn-link btn-cancel mr-14" ng-disabled=vm.team_logo.uploading ng-click=vm.cancel_upload_logo()>{{'common.btn_cancel'|translate}}</button></div>
+            </div>
+        </dd>
+    </dl>
+    <dl class=dl-form>
+        <dt>{{'team_admin_basic.team_visibility'|translate}}
+            <span class=dl-form-desc translate=team_admin_basic.team_visibility_desc></span></dt>
+        <dd>
+            <ul class=dl-form-ul ng-hide=editing_visibility>
+                <li>
+                    <span class=dl-form-li-title>{{'team_admin_basic.current_visibility'|translate}}</span>
+                    <span class=text>
+                        <span ng-bind=team.visibility|teamVisibility></span>
+                        <i ng-class= "{'icon-private':team.visibility == 1,'icon-public':team.visibility == 2}"></i>
+                    </span>
+                </li>
+            </ul>
+            <button ng-hide=editing_visibility class= "btn mt_28" ng-click=vm.js_toggle_edit_visibility()>{{'team_admin_basic.edit_visibility'|translate}}</button>
+            <div ng-switch=visibility_step ng-if=editing_visibility>
+                <div ng-switch-when=1>
+                    <div class=form-group>
+                        <label class=sr-only for=team_visibility>{{'team_admin_basic.team_visibility'|translate}}</label>
+                        <select id=team_visibility class= "form-control ng-valid-required w_360" ng-model=vm.visibility ng-options= "p.value as p.description for p in visibilities"></select>
+                    </div>
+                    <div class=mt_28>
+                        <button class= "btn btn-danger" ng-click=vm.js_visibility_step(2)>{{'team_admin_basic.change'|translate}}</button>
+                        <button class= "btn btn-link btn-cancel" ng-click=vm.js_visibility_cancel()>{{'common.btn_cancel'|translate}}</button></div>
+                </div>
+                <div ng-switch-when=2>
+                    <div class=title>
+                        <h4>{{'team_admin_basic.entry_password'|translate}}</h4></div>
+                    <wt-confirm-password class=w_360 confirm-cancel=vm.js_visibility_step(1) confirm-success=vm.js_visibility_step(3)></wt-confirm-password>
+                </div>
+                <div ng-switch-when=3>
+                    <div class=title>
+                        <h4>{{'team_admin_basic.confirm_team_visibility'|translate}}</h4></div>
+                    <div class= "alert alert-info w-660">
+                        <span>
+                            <i class= "fa fa-info-circle mr-5"></i>
+                            <span translate=team_admin_basic.confirm_team_visibility_info translate-values={visibility_type:(vm.visibility|teamVisibility)}></span>
+                        </span>
+                    </div>
+                    <div class=mt_28>
+                        <button class= "btn btn-danger" data-loading-text= "{{'team_admin_basic.changing'|translate}}" wt-loading-status=saving_visibility ng-click=js_update_visibility()>{{'common.btn_ok'|translate}}</button>
+                        <button class= "btn btn-link btn-cancel" ng-click=vm.js_visibility_step(1)>{{'common.btn_cancel'|translate}}</button></div>
+                </div>
+            </div>
+        </dd>
+    </dl>
+    <dl class=dl-form>
+        <dt>{{'team_admin_basic.transfer_team'|translate}}
+            <span class=dl-form-desc>{{'team_admin_basic.desc_transfer_team'|translate}}</span></dt>
+        <dd>
+            <ul class=dl-form-ul ng-hide= "transfer_step>1">
+                <li>
+                    <span class=dl-form-li-title>{{'team_admin_basic.ower'|translate}}</span>
+                    <wt-avatar member=team.owner name=true atname=true size=30 faceclass=plr_5></wt-avatar>
+                </li>
+            </ul>
+            <button ng-hide= "transfer_step>1" class= "btn mt_28 js-popbox" data-placement=right data-align=bottom ng-click=js_transfer_pop($event)>{{'team_admin_basic.transfer_team'|translate}}</button>
+            <div ng-switch=transfer_step ng-if= "transfer_step>1">
+                <div ng-switch-when=2>
+                    <div class=title>
+                        <h4>{{'team_admin_basic.entry_password'|translate}}</h4></div>
+                    <wt-confirm-password class=w_360 confirm-cancel=js_transfer_step(1) confirm-success=js_transfer_step(3)></wt-confirm-password>
+                </div>
+                <div ng-switch-when=3>
+                    <div class=title>
+                        <h4>{{'team_admin_basic.confirm_transfer_team'|translate}}</h4></div>
+                    <div class= "alert alert-info w-660">
+                        <span>
+                            <i class= "fa fa-info-circle mr-5"></i>{{'team_admin_basic.confirm_transfer_team_info'|translate:{who:selected_member.display_name} }}</span>
+                    </div>
+                    <div class=form-group>
+                        <button class= "btn btn-danger" data-loading-text= "{{'team_admin_basic.transfing'|translate}}" wt-loading-status=is_transferring ng-click=js_transfer()>{{'team_admin_basic.btn_transfer_team'|translate}}</button>
+                        <button class= "btn btn-link" ng-click=js_transfer_step(1)>{{'common.txt_cancel'|translate}}</button></div>
+                </div>
+            </div>
+        </dd>
+    </dl>
+    <dl class= "dl-form team_admin_dismiss_wrap">
+        <dt>{{'team_admin_basic.dismiss_team'|translate}}
+            <span class=dl-form-desc>{{'team_admin_basic.warn_dismiss_team'|translate}}</span></dt>
+        <dd>
+            <button ng-hide= "dismiss_step>1" class= "btn btn-danger" data-placement=right data-align=top ng-click=js_dismiss_step(2) wt-scroll-foucs=.team_admin_dismiss_wrap>{{'team_admin_basic.btn_dismiss_team'|translate}}</button>
+            <div ng-if= "dismiss_step>1" ng-switch=dismiss_step>
+                <div class=panel-section ng-switch-when=2>
+                    <div class=title>
+                        <h4>{{'team_admin_basic.entry_password'|translate}}</h4></div>
+                    <wt-confirm-password class=w_360 confirm-cancel=js_dismiss_step(1) confirm-success=js_dismiss_step(3)></wt-confirm-password>
+                </div>
+                <div class=panel-section ng-switch-when=3>
+                    <div class=title>
+                        <h4>{{'team_admin_basic.confirm_dismiss_team'|translate}}</h4></div>
+                    <div class= "alert alert-info w-660">
+                        <span>
+                            <i class= "fa fa-info-circle mr-5"></i>{{'team_admin_basic.confirm_dismiss_team_info'|translate}}</span>
+                    </div>
+                    <div class=form-group>
+                        <button class= "btn btn-danger" data-loading-text= "{{'team_admin_basic.dismissing'|translate}}" wt-loading-status=is_dismissing ng-click=js_dismiss()>{{'team_admin_basic.btn_confirm_dismiss_team'|translate}}</button>
+                        <button class= "btn btn-link" ng-click=js_dismiss_step(1)>{{'common.txt_cancel'|translate}}</button></div>
+                </div>
+            </div>
+        </dd>
+    </dl>
+</div>
