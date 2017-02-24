@@ -235,7 +235,7 @@ define(['app'], function(app) {
 				/**************************************************************************
 				 **创建project api
 				 **************************************************************************/
-				add_project: function(data, success, failure, promise){
+				add_project: function(data, success, failure, promise) {
 					return this.http_post_template(
 						'http://localhost:8080/api/project/create',
 						data,
@@ -245,7 +245,7 @@ define(['app'], function(app) {
 				/**************************************************************************
 				 **获取project list api
 				 **************************************************************************/
-				project_list : function(){
+				project_list: function() {
 					return this.http_get_template(
 						'http://localhost:8080/api/project/list'
 					);
@@ -277,8 +277,15 @@ define(['app'], function(app) {
 						success, failure, promise
 					);
 				},
-
-
+				/**************************************************************************
+				 **获取静态项目模板列表 api
+				 **************************************************************************/
+				get_team_members_with_stats: function(i, success, failure, promise) {
+					return this.http_get_template(
+						'http://localhost:8080/api/team/' + i + '/projects',
+						success, failure, promise
+					);
+				},
 			}
 		}
 	]);
