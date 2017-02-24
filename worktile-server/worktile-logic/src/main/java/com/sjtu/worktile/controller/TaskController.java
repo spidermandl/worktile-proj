@@ -3,6 +3,8 @@ package com.sjtu.worktile.controller;
 import com.sjtu.worktile.exception.AppException;
 import com.sjtu.worktile.model.TTask;
 import com.sjtu.worktile.model.TTaskAssignment;
+import com.sjtu.worktile.model.TTaskCheckItem;
+import com.sjtu.worktile.model.TTaskCheckItemExample;
 import com.sjtu.worktile.msg.*;
 import com.sjtu.worktile.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -168,6 +170,21 @@ public class TaskController extends BaseController {
                                            final HttpServletRequest request)throws AppException{
         TaskCancelWatchMsg.OutMsg out=new TaskCancelWatchMsg.OutMsg();
         taskService.cancelwatch(task_assign_id);
+        return out;
+    }
+
+    @RequestMapping(value = "newtodo",method = RequestMethod.POST)
+    @ResponseBody
+    public PairMsg.ResponseMsg newtodo(@RequestParam("task_id") long task_id,
+                                        @RequestParam("content") String content,
+                                        final HttpServletRequest request)throws AppException{
+        long uid=super.getUserID(request);
+        TTaskCheckItem tTaskCheckItem=new TTaskCheckItem();
+        tTaskCheckItem.setTaskId(task_id);
+        tTaskCheckItem.setContent(content);
+        tTaskCheckItem.setSenderId(uid);
+        TaskNewTodoMsg.OutMsg out=new TaskNewTodoMsg.OutMsg();
+        taskService.newtodo(tTaskCheckItem);
         return out;
     }
 }
