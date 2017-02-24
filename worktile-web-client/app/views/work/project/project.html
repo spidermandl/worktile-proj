@@ -1,0 +1,45 @@
+<div class="layout_content wt-project-background">
+    <div class=layout_content_main>
+        <div class=mod-navbar>
+            <div class=main ng-controller=projectInfoCtrl>
+                <div class=title>
+                    <h3>
+                        <a href=javascript:; class="js-popbox prj_icon" ng-class="{'prj_icon--nosetting':!(global.prj_module.setting|permission:project.permission)}" data-placement=bottom data-align=left tooltip-placement=bottom uib-tooltip="{{ {true:'project.set_logo'}[!!(global.prj_module.setting|permission:project.permission)]|translate}}" ng-click=pm.js_pop_set_project_logo($event)>
+                            <i class={{project.pic}} ng-style={color:project.bg}></i>
+                        </a>
+                        <a href=javascript:; class="js-popbox prj_name" data-placement=bottom data-align=left ng-click=pm.js_pop_project_menu($event) ng-bind=project.name></a>
+                    </h3>
+                    <a href=javascript:; class="fa fa-cog color-text-graylight js-popbox" ng-click=pm.js_pop_project_menu($event) tooltip-placement=bottom data-align=left uib-tooltip="{{'project.set'|translate}}"></a>
+                    <a ng-if=project.enable_extension_presenter ng-href="{{'//apps.worktile.com/presenter/'+project.pid}}" target=_blank class="wtfont wtf-presenter-play color-text-graylight" tooltip-placement=bottom data-align=left uib-tooltip="{{'CONS.extensions.third_parties.presenter'|translate}}"></a>
+                </div>
+                <div class=main_toolbar>
+                    <ui-view ng-show=$root.global.loading_done name=toolbar></ui-view>
+                </div>
+                <div class=center-menu>
+                    <ul>
+                        <li ng-repeat="nav in project.navigations |orderBy:'pos' track by nav.eid" ng-hide="(pm.showNavMore&&$root.global.project_iconmenu!=nav.key)">
+                            <a ng-href=/project/{{project.pid}}/{{nav.key}} ng-class="{'active':$root.global.project_iconmenu==nav.key}" title="{{nav.name + nav.shortcuts}}" ng-bind=nav.name></a>
+                        </li>
+                        <li ng-if=pm.showNavMore>
+                            <a href=javascript:; title="{{'common.more_more'|translate}}" class=dropdown-toggle data-toggle=dropdown>
+                                <i class="fa fa-caret-down"></i>
+                            </a>
+                            <ul class=dropdown-menu>
+                                <li ng-repeat="nav in project.navigations track by nav.eid">
+                                    <a ng-href=/project/{{project.pid}}/{{nav.key}}>
+                                        <i class=fa ng-class="{true:'fa-check',false:'icon-xx'}[$root.global.project_iconmenu==nav.name]"></i>{{nav.name}}</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <ui-view></ui-view>
+    </div>
+    <div class="layout_right_sidebar layout_right_sidebar--project">
+        <ng-include src="'/tpl/project/sidebar/sidebar.html'"></ng-include>
+    </div>
+</div>
+<div class=stamp-project ng-cloak ng-if=project.archived></div>
+

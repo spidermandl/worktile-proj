@@ -1,17 +1,16 @@
 package com.sjtu.worktile.model;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-public class TProjectExample {
+public class STemplateExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public TProjectExample() {
+    public STemplateExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -115,113 +114,53 @@ public class TProjectExample {
             return (Criteria) this;
         }
 
-        public Criteria andIdEqualTo(Long value) {
+        public Criteria andIdEqualTo(Integer value) {
             addCriterion("id =", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotEqualTo(Long value) {
+        public Criteria andIdNotEqualTo(Integer value) {
             addCriterion("id <>", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThan(Long value) {
+        public Criteria andIdGreaterThan(Integer value) {
             addCriterion("id >", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThanOrEqualTo(Long value) {
+        public Criteria andIdGreaterThanOrEqualTo(Integer value) {
             addCriterion("id >=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThan(Long value) {
+        public Criteria andIdLessThan(Integer value) {
             addCriterion("id <", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThanOrEqualTo(Long value) {
+        public Criteria andIdLessThanOrEqualTo(Integer value) {
             addCriterion("id <=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdIn(List<Long> values) {
+        public Criteria andIdIn(List<Integer> values) {
             addCriterion("id in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotIn(List<Long> values) {
+        public Criteria andIdNotIn(List<Integer> values) {
             addCriterion("id not in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdBetween(Long value1, Long value2) {
+        public Criteria andIdBetween(Integer value1, Integer value2) {
             addCriterion("id between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotBetween(Long value1, Long value2) {
+        public Criteria andIdNotBetween(Integer value1, Integer value2) {
             addCriterion("id not between", value1, value2, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andOwnerIdIsNull() {
-            addCriterion("owner_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOwnerIdIsNotNull() {
-            addCriterion("owner_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOwnerIdEqualTo(Long value) {
-            addCriterion("owner_id =", value, "ownerId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOwnerIdNotEqualTo(Long value) {
-            addCriterion("owner_id <>", value, "ownerId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOwnerIdGreaterThan(Long value) {
-            addCriterion("owner_id >", value, "ownerId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOwnerIdGreaterThanOrEqualTo(Long value) {
-            addCriterion("owner_id >=", value, "ownerId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOwnerIdLessThan(Long value) {
-            addCriterion("owner_id <", value, "ownerId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOwnerIdLessThanOrEqualTo(Long value) {
-            addCriterion("owner_id <=", value, "ownerId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOwnerIdIn(List<Long> values) {
-            addCriterion("owner_id in", values, "ownerId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOwnerIdNotIn(List<Long> values) {
-            addCriterion("owner_id not in", values, "ownerId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOwnerIdBetween(Long value1, Long value2) {
-            addCriterion("owner_id between", value1, value2, "ownerId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOwnerIdNotBetween(Long value1, Long value2) {
-            addCriterion("owner_id not between", value1, value2, "ownerId");
             return (Criteria) this;
         }
 
@@ -292,246 +231,6 @@ public class TProjectExample {
 
         public Criteria andNameNotBetween(String value1, String value2) {
             addCriterion("name not between", value1, value2, "name");
-            return (Criteria) this;
-        }
-
-        public Criteria andCrewCapIsNull() {
-            addCriterion("crew_cap is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCrewCapIsNotNull() {
-            addCriterion("crew_cap is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCrewCapEqualTo(Integer value) {
-            addCriterion("crew_cap =", value, "crewCap");
-            return (Criteria) this;
-        }
-
-        public Criteria andCrewCapNotEqualTo(Integer value) {
-            addCriterion("crew_cap <>", value, "crewCap");
-            return (Criteria) this;
-        }
-
-        public Criteria andCrewCapGreaterThan(Integer value) {
-            addCriterion("crew_cap >", value, "crewCap");
-            return (Criteria) this;
-        }
-
-        public Criteria andCrewCapGreaterThanOrEqualTo(Integer value) {
-            addCriterion("crew_cap >=", value, "crewCap");
-            return (Criteria) this;
-        }
-
-        public Criteria andCrewCapLessThan(Integer value) {
-            addCriterion("crew_cap <", value, "crewCap");
-            return (Criteria) this;
-        }
-
-        public Criteria andCrewCapLessThanOrEqualTo(Integer value) {
-            addCriterion("crew_cap <=", value, "crewCap");
-            return (Criteria) this;
-        }
-
-        public Criteria andCrewCapIn(List<Integer> values) {
-            addCriterion("crew_cap in", values, "crewCap");
-            return (Criteria) this;
-        }
-
-        public Criteria andCrewCapNotIn(List<Integer> values) {
-            addCriterion("crew_cap not in", values, "crewCap");
-            return (Criteria) this;
-        }
-
-        public Criteria andCrewCapBetween(Integer value1, Integer value2) {
-            addCriterion("crew_cap between", value1, value2, "crewCap");
-            return (Criteria) this;
-        }
-
-        public Criteria andCrewCapNotBetween(Integer value1, Integer value2) {
-            addCriterion("crew_cap not between", value1, value2, "crewCap");
-            return (Criteria) this;
-        }
-
-        public Criteria andTeamIdIsNull() {
-            addCriterion("team_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTeamIdIsNotNull() {
-            addCriterion("team_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTeamIdEqualTo(Long value) {
-            addCriterion("team_id =", value, "teamId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTeamIdNotEqualTo(Long value) {
-            addCriterion("team_id <>", value, "teamId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTeamIdGreaterThan(Long value) {
-            addCriterion("team_id >", value, "teamId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTeamIdGreaterThanOrEqualTo(Long value) {
-            addCriterion("team_id >=", value, "teamId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTeamIdLessThan(Long value) {
-            addCriterion("team_id <", value, "teamId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTeamIdLessThanOrEqualTo(Long value) {
-            addCriterion("team_id <=", value, "teamId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTeamIdIn(List<Long> values) {
-            addCriterion("team_id in", values, "teamId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTeamIdNotIn(List<Long> values) {
-            addCriterion("team_id not in", values, "teamId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTeamIdBetween(Long value1, Long value2) {
-            addCriterion("team_id between", value1, value2, "teamId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTeamIdNotBetween(Long value1, Long value2) {
-            addCriterion("team_id not between", value1, value2, "teamId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeIsNull() {
-            addCriterion("create_time is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeIsNotNull() {
-            addCriterion("create_time is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeEqualTo(Date value) {
-            addCriterion("create_time =", value, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeNotEqualTo(Date value) {
-            addCriterion("create_time <>", value, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeGreaterThan(Date value) {
-            addCriterion("create_time >", value, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("create_time >=", value, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeLessThan(Date value) {
-            addCriterion("create_time <", value, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeLessThanOrEqualTo(Date value) {
-            addCriterion("create_time <=", value, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeIn(List<Date> values) {
-            addCriterion("create_time in", values, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeNotIn(List<Date> values) {
-            addCriterion("create_time not in", values, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeBetween(Date value1, Date value2) {
-            addCriterion("create_time between", value1, value2, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
-            addCriterion("create_time not between", value1, value2, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisibilityIsNull() {
-            addCriterion("visibility is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisibilityIsNotNull() {
-            addCriterion("visibility is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisibilityEqualTo(Integer value) {
-            addCriterion("visibility =", value, "visibility");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisibilityNotEqualTo(Integer value) {
-            addCriterion("visibility <>", value, "visibility");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisibilityGreaterThan(Integer value) {
-            addCriterion("visibility >", value, "visibility");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisibilityGreaterThanOrEqualTo(Integer value) {
-            addCriterion("visibility >=", value, "visibility");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisibilityLessThan(Integer value) {
-            addCriterion("visibility <", value, "visibility");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisibilityLessThanOrEqualTo(Integer value) {
-            addCriterion("visibility <=", value, "visibility");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisibilityIn(List<Integer> values) {
-            addCriterion("visibility in", values, "visibility");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisibilityNotIn(List<Integer> values) {
-            addCriterion("visibility not in", values, "visibility");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisibilityBetween(Integer value1, Integer value2) {
-            addCriterion("visibility between", value1, value2, "visibility");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisibilityNotBetween(Integer value1, Integer value2) {
-            addCriterion("visibility not between", value1, value2, "visibility");
             return (Criteria) this;
         }
 

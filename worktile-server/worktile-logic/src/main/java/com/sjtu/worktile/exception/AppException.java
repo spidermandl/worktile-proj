@@ -13,7 +13,8 @@ public class AppException extends ServletException {
         USER_ALREADY_EXIST(2022),//用户已经存在
         SIGNIN_OVER_LIMIT(2034),//登录失败次数过多
         AUTHORIZATION_HEAD_MISSING(103),//认证头丢失
-        TOKEN_PARSE_FAILURE(104),;//token认证失败
+        TOKEN_PARSE_FAILURE(104),//token认证失败
+        TEAM_NOT_EXIST(4001),;//团队不存在
 
         private int error_code=0;//错误码
 
@@ -56,6 +57,8 @@ public class AppException extends ServletException {
                 break;
             case TOKEN_PARSE_FAILURE:
                 result = "Invalid token.";
+            case TEAM_NOT_EXIST:
+                result = "TEAM NOT EXIST";
                 break;
         }
         return result;

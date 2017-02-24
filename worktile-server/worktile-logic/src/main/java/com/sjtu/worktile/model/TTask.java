@@ -21,6 +21,8 @@ public class TTask {
 
     private Date endTime;
 
+    private Integer pos;
+
     private String pending1;
 
     private String pending2;
@@ -97,6 +99,14 @@ public class TTask {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public Integer getPos() {
+        return pos;
+    }
+
+    public void setPos(Integer pos) {
+        this.pos = pos;
     }
 
     public String getPending1() {

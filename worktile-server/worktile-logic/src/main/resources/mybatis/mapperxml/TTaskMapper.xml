@@ -11,6 +11,7 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="parent_id" jdbcType="BIGINT" property="parentId" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="pos" jdbcType="INTEGER" property="pos" />
     <result column="pending1" jdbcType="VARCHAR" property="pending1" />
     <result column="pending2" jdbcType="VARCHAR" property="pending2" />
     <result column="pending3" jdbcType="VARCHAR" property="pending3" />
@@ -75,7 +76,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, title, description, creater_id, type, create_time, update_time, parent_id, end_time, 
-    pending1, pending2, pending3
+    pos, pending1, pending2, pending3
   </sql>
   <select id="selectByExample" parameterType="com.sjtu.worktile.model.TTaskExample" resultMap="BaseResultMap">
     select
@@ -109,23 +110,26 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.sjtu.worktile.model.TTask">
-    insert into t_task (id, title, description, 
-      creater_id, type, create_time, 
-      update_time, parent_id, end_time, 
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_task (title, description, creater_id, 
+      type, create_time, update_time, 
+      parent_id, end_time, pos, 
       pending1, pending2, pending3
       )
-    values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
-      #{createrId,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{parentId,jdbcType=BIGINT}, #{endTime,jdbcType=TIMESTAMP}, 
+    values (#{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, 
+      #{type,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{parentId,jdbcType=BIGINT}, #{endTime,jdbcType=TIMESTAMP}, #{pos,jdbcType=INTEGER}, 
       #{pending1,jdbcType=VARCHAR}, #{pending2,jdbcType=VARCHAR}, #{pending3,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.sjtu.worktile.model.TTask">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into t_task
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="title != null">
         title,
       </if>
@@ -150,6 +154,9 @@
       <if test="endTime != null">
         end_time,
       </if>
+      <if test="pos != null">
+        pos,
+      </if>
       <if test="pending1 != null">
         pending1,
       </if>
@@ -161,9 +168,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=BIGINT},
-      </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
       </if>
@@ -187,6 +191,9 @@
       </if>
       <if test="endTime != null">
         #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pos != null">
+        #{pos,jdbcType=INTEGER},
       </if>
       <if test="pending1 != null">
         #{pending1,jdbcType=VARCHAR},
@@ -235,6 +242,9 @@
       <if test="record.endTime != null">
         end_time = #{record.endTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.pos != null">
+        pos = #{record.pos,jdbcType=INTEGER},
+      </if>
       <if test="record.pending1 != null">
         pending1 = #{record.pending1,jdbcType=VARCHAR},
       </if>
@@ -260,6 +270,7 @@
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       parent_id = #{record.parentId,jdbcType=BIGINT},
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      pos = #{record.pos,jdbcType=INTEGER},
       pending1 = #{record.pending1,jdbcType=VARCHAR},
       pending2 = #{record.pending2,jdbcType=VARCHAR},
       pending3 = #{record.pending3,jdbcType=VARCHAR}
@@ -294,6 +305,9 @@
       <if test="endTime != null">
         end_time = #{endTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="pos != null">
+        pos = #{pos,jdbcType=INTEGER},
+      </if>
       <if test="pending1 != null">
         pending1 = #{pending1,jdbcType=VARCHAR},
       </if>
@@ -316,6 +330,7 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       parent_id = #{parentId,jdbcType=BIGINT},
       end_time = #{endTime,jdbcType=TIMESTAMP},
+      pos = #{pos,jdbcType=INTEGER},
       pending1 = #{pending1,jdbcType=VARCHAR},
       pending2 = #{pending2,jdbcType=VARCHAR},
       pending3 = #{pending3,jdbcType=VARCHAR}

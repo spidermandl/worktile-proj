@@ -30,5 +30,33 @@ public class Const {
      */
     public final static String TOKEN_UID = "token_user_id";
 
+    /**
+     * 用户权限: 31:管理员，15:成员，7:访客，5:来宾，0:无法操作
+     */
+    public final static class USER_PERMISSIOIN{
+        public static final int ADMIN =31;
+        public static final int MEMBER =15;
+        public static final int VISITOR =7;
+        public static final int GUEST =5;
+        public static final int UNKONOWN =0;
+    }
+
+    /**
+     * 用户角色: 1:管理员，2:成员，3:访客，4:来宾,公开项目可以访问
+     */
+    public final static class USER_ROLE{
+        public static final int ADMIN =1;
+        public static final int MEMBER =2;
+        public static final int VISITOR =3;
+        public static final int GUEST =4;
+    }
+
+    /**
+     * 任务类型: 1:entry，2:普通task
+     */
+    public final static class TASK_TYPE{
+        public static final int ENTRY =1;
+        public static final int TASK =2;
+    }
 
 }

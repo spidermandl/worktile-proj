@@ -1,5 +1,6 @@
 package com.sjtu.worktile.service;
 
+import com.sjtu.worktile.configuration.Const;
 import com.sjtu.worktile.model.*;
 import com.sjtu.worktile.model.mappers.TProjectMapper;
 import com.sjtu.worktile.model.mappers.TTeamMapper;
@@ -9,6 +10,7 @@ import com.sjtu.worktile.msg.PairMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -87,15 +89,17 @@ public class TeamService {
     /**
      * 创建team
      * @param team
+     * @param uid
      */
-    public void createTeam(TTeam team){
+    public void createTeam(TTeam team,long uid){
         tTeamMapper.insert(team);
         /**
          * 插入创建者管理员角色
          */
         TUserRole role = new TUserRole();
+        role.setUserId(uid);
         role.setTeamId(team.getId());
-        role.setRoleId(1);
+        role.setRoleId(Const.USER_ROLE.ADMIN);
         tUserRoleMapper.insert(role);
     }
 
@@ -126,15 +130,41 @@ public class TeamService {
     }
 
     /**
-     * 获取团队项目
+     * 获取团队项目 联合查询优化
      * @param team_id
+     * @param uid
      * @return
      */
-    public List<TProject> getTeamProjects(long team_id){
+    public List<TProject> getTeamProjects(long team_id,long uid){
+        /**
+         * 查出所有team中的project
+         */
         TProjectExample query = new TProjectExample();
         TProjectExample.Criteria criteria = query.createCriteria();
         criteria.andTeamIdEqualTo(team_id);
-        return tProjectMapper.selectByExample(query);
+        List<TProject> full = tProjectMapper.selectByExample(query);
+        /**
+         * 过滤出该用户有访问权限的项目
+         */
+        List<TProject> result = new ArrayList<>();
+        TUserRoleExample roleQuery = new TUserRoleExample();
+        for (TProject p:full){
+            TUserRoleExample.Criteria roleCriteria = roleQuery.createCriteria();
+            roleCriteria.andProjectIdEqualTo(p.getId()).andUserIdEqualTo(uid);
+            roleQuery.or(roleCriteria);
+        }
+        List<TUserRole> roles = tUserRoleMapper.selectByExample(roleQuery);
+        for (TProject p:full){
+            for (TUserRole r : roles){
+                if(r.getProjectId() == p.getId()){
+                    result.add(p);
+                    break;
+                }
+            }
+        }
+
+        return result;
+
     }
 
     /**

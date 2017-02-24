@@ -69,7 +69,7 @@ define(['app'], function (app) {
 									o = function(a) {
 										var d = a.data;
 										f.track("create_project", "done", "创建项目弹窗", d.team_id === -1 ? "个人项目" : "团队项目"),
-											b.cache.project.add(d),
+											globalDataContext.cache.project.add(d),
 											d.member_count = 1,
 											i.close(),
 											g ? g(a.data) : c.go("project", {
@@ -109,7 +109,7 @@ define(['app'], function (app) {
 												}) 
 												: (m(), 1 === l.current_template.type && n()),
 													l.visibilities = util.project.get_visibilities(l.new_project.team_id), 
-													void(l.new_project.visibility || (l.new_project.visibility = kzi.constant.prj_visibility.private))
+													void(l.new_project.visibility || (l.new_project.visibility = config.prj_visibility.private))
 											) 
 											: 
 											void(l.visibilities = []);
@@ -159,24 +159,27 @@ define(['app'], function (app) {
 										l.saving || 
 											(l.saving = !0, 
 												"-1" === l.new_project.team_id || l.new_project.team_id === -1 ? 
-												wt.data.project.add_personal_project(
-													l.new_project.name, 
-													l.new_project.desc, 
-													l.new_project.visibility, 
-													l.current_template.type, 
-													l.current_template.id, 
+												api.add_project({
+														team_id:0,
+														name: l.new_project.name, 
+														desc: l.new_project.desc, 
+														visibility: l.new_project.visibility, 
+														template_type: l.current_template.type, 
+														template_id: l.current_template.id===""?1:l.current_template.id, 
+													},
 													o, null,
 													function() {
 														l.saving = !1
 													})
 												: 
-												wt.data.project.add_team_project(
-													l.new_project.team_id, 
-													l.new_project.name, 
-													l.new_project.desc, 
-													l.new_project.visibility, 
-													l.current_template.type, 
-													l.current_template.id, 
+												api.add_project({
+														team_id: l.new_project.team_id===""? 0:l.new_project.team_id, 
+														name: l.new_project.name, 
+														desc: l.new_project.desc, 
+														visibility: l.new_project.visibility, 
+														template_type: l.current_template.type, 
+														template_id: l.current_template.id===""?1:l.current_template.id, 
+													},
 													o, null, null), 
 												a.preventDefault())
 									},

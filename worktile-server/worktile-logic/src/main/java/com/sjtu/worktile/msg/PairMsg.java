@@ -110,7 +110,7 @@ abstract public class PairMsg {
             public int visibility= 0;
             public int is_star= 0;//是否常用项目，0：非常用项目，1：常用项目
             public int pos= 0;
-            public int member_count= 0;
+            public long member_count= 0;
             public int curr_role= 1;
             public int permission= 31;//当前用户权限: 31:管理员，15:成员，7:访客，5:来宾，0:无法操作
         }

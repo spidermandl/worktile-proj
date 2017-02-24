@@ -94,7 +94,9 @@
                 enableUpdateByExample="true"
                 enableDeleteByExample="true"
                 enableSelectByExample="true"
-                selectByExampleQueryId="false"></table>
+                selectByExampleQueryId="false">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
 
     </context>
 </generatorConfiguration>

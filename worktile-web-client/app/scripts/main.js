@@ -33,12 +33,14 @@
 			dashboard : 'controllers/dashboard',
             search : 'controllers/search',
             team_ctrl: 'controllers/team_ctrl',
+            team_admin_ctrl: 'controllers/team_admin_ctrl',
 			//指令
 			left_nemu : 'directive/left_menu',
             left_menu_project : 'directive/left_menu_project',
             left_menu_avatar : 'directive/left_menu_avatar',
             toolkit : 'directive/toolkit',
-            team_logo : "directive/team_logo",
+            team_logo : 'directive/team_logo',
+            project_item : 'directive/project_item',
             //filter
             //translate : 'filter/translate',
             filters : 'filter/filters',
@@ -65,7 +67,7 @@
                 deps: ['left_nemu'],
             },
             team_ctrl: {
-                deps: [],
+                deps: ['project_item','team_admin_ctrl'],
             },
             left_nemu: {
                 deps: ['filters','popbox','left_menu_project','left_menu_avatar','work','team'],
