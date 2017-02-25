@@ -19,9 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/api/me")
 public class MeController extends BaseController{
 
-    @Autowired
-    private UserService userService;
-
     @RequestMapping(value = "profile", method = RequestMethod.GET)
     @ResponseBody
     public MeMsg.OutMsg me(final HttpServletRequest request) throws AppException{

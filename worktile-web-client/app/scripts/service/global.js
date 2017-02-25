@@ -268,31 +268,62 @@ define(['app'], function (app) {
 							return team && team.team_id === team_id;
 						});
 				},
-				// getProject = function(b, c, d) {
-				// 	var e = null != c && 0 != c,
-				// 		d = null != d && 0 != d,
-				// 		f = _.find(i.projects, {
-				// 			pid: b
-				// 		}),
-				// 		g = a.defer();
-				// 	return f && e === !1 ? (g.resolve(f), g.promise) : f && e === !0 ? null == f.extensions ? wt.data.project.get(b).then(function(a) {
-				// 			return f = a.data.data.info,
-				// 				f.members = a.data.data.members,
-				// 				d && (i.clearProject(), i.project.pid = b, i.project.info = f),
-				// 				g.resolve(f),
-				// 				g.promise
-				// 		},
-				// 		function() {
-				// 			return null
-				// 		}) : void 0 : wt.data.project.get(b).then(function(a) {
-				// 			return a.data.data.info.members = a.data.data.members,
-				// 				d && (i.clearProject(), i.project.pid = b, i.project.info = a.data.data.info),
-				// 				a.data.data.info
-				// 		},
-				// 		function() {
-				// 			return null
-				// 		})
-				// },
+				getProject : function(b, c, d) {
+					var e = null != c && 0 != c,
+						d = null != d && 0 != d,
+						f = _.find(this.projects, function(proj){
+							return proj.pid.toString()===b; 
+						}),
+						g = $q.defer();
+						console.log(f);
+						console.log(e === !1);
+					return f && e === !1 ? 
+							(g.resolve(f), g.promise) 
+							: 
+								f && e === !0 ? 
+									null == f.extensions ? 
+									api.get_project_info(b).then(
+										function(msg) {
+											console.log(msg);
+											return f = msg.data.info,
+												f.members = msg.data.members,
+												d && (globalDataContext.clearProject(), 
+													globalDataContext.project.pid = b, 
+													globalDataContext.project.info = f),
+												g.resolve(f),
+												g.promise
+										},
+										function() {
+											return null;
+									}) 
+									: 
+									void 0 
+								: 
+								api.get_project_info.get(b).then(
+									function(msg) {
+										return msg.data.info.members = msg.data.members,
+											d && (globalDataContext.clearProject(), 
+												globalDataContext.project.pid = b, 
+												globalDataContext.project.info = msg.data.info),
+											msg.data.info
+									},
+									function() {
+										return null;
+									})
+				},
+				//清空项目数据
+				clearProject : function() {
+					this.project.info = null,
+					this.project.pid = "",
+					this.project.entries = [],
+					this.project.tasks = [],
+					this.project.navigations = [],
+					this.project.files = [],
+					this.project.cal_events = [],
+					this.project.cal_events_start = void 0,
+					this.project.cal_events_end = void 0,
+					this.project.events = []
+				},
 				// getPacketProjects = function(a) {
 				// 	var d = a;
 				// 	d instanceof Array || (d = i.projects);

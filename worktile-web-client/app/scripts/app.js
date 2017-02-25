@@ -342,8 +342,9 @@
                 controller: "projectHomeCtrl",
                 resolve: {
                     fastProject: ["$stateParams", "globalDataContext",
-                    function(a, b) {
-                        return b.getProject(a.pid, !0, !0).then(function(a) {
+                    function(stateParams, globalDataContext) {
+                        return globalDataContext.getProject(stateParams.pid, !0, !0)
+                        .then(function(a) {
                             return a ? a: null;
                         });
                     }]

@@ -21,47 +21,6 @@ import java.util.List;
 @RequestMapping("/api/team")
 public class TeamController extends BaseController{
 
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private TeamService teamService;
-    @Autowired
-    private RoleService roleService;
-    @Autowired
-    private ProjectService projectService;
-
-    /**
-     * 将 team 的内容赋给 t
-     * @param t
-     * @param team
-     * @param uid
-     */
-    protected void mappingToTeamMsg( PairMsg.ResponseMsg.Team t,TTeam team,long uid){
-        t.team_id = team.getId();
-        //t.url      //团队url
-        t.name = team.getName();
-        t.pic = team.getLogo();//logo
-        t.desc = team.getDescription();//team 描述
-        //t.status
-        //t.edition
-        t.create_date = team.getCreateTime();
-        t.visibility =team.getPublicity();//团队类型， 1:私有,2:公开
-        t.industry = team.getIndustry();
-        //t.default_labels     //默认pids
-        //t.default_labels      //默认标签
-        //t.template_id        //模板id
-        //t.phone              //团队phone
-        //t.link_join_code
-        //t.is_dingteam         //是否为dingding 项目
-        TUserRole role =teamService.getRoleInTeam(uid,team.getId());
-        t.curr_role = role==null? Const.USER_ROLE.GUEST:role.getRoleId();//当前用户角色: 1:管理员，2:成员，3:访客，4:来宾,公开项目可以访问
-        t.is_owner = team.getCreaterId() == uid?1:0;//是否为创建者
-        t.member_count = teamService.getTeamCount(team.getId());//成员数量
-        SPermission permission = role==null?null:roleService.getRolePermissions(role.getRoleId()).get(0);
-        t.permission = permission == null? Const.USER_PERMISSIOIN.GUEST:permission.getMode();//当前用户权限: 31:管理员，15:成员，7:访客，5:来宾，0:无法操作
-        t.project_count = projectService.getCountByTeam(team.getId());//团队中项目数量
-    }
-
     /**
      * 获取用户所在的组信息
      * @param request

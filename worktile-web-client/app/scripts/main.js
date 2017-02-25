@@ -35,6 +35,7 @@
             search : 'controllers/search',
             team_ctrl: 'controllers/team_ctrl',
             team_admin_ctrl: 'controllers/team_admin_ctrl',
+            project_ctrl: 'controllers/project_ctrl',
 			//指令
 			left_nemu : 'directive/left_menu',
             left_menu_project : 'directive/left_menu_project',
@@ -70,6 +71,9 @@
             team_ctrl: {
                 deps: ['project_item','team_admin_ctrl','markdown'],
             },
+            project_ctrl:{
+                deps: [],
+            },
             left_nemu: {
                 deps: ['filters','popbox','left_menu_project','left_menu_avatar','work','team'],
             },
@@ -87,6 +91,7 @@
             'dashboard',
             'search',
             'team_ctrl',
+            'project_ctrl',
         ],
         function (app) {
             app.init();

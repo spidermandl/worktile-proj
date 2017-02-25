@@ -271,7 +271,7 @@
 			protected: 2,
 			public: 3
 		},
-     	errors : error,
+     	errors : error,//错误提示信息
      	whiteList: {
 			a: ["target", "href", "title"],
 			abbr: ["title"],
@@ -337,10 +337,10 @@
 			ul: [],
 			video: ["autoplay", "controls", "loop", "preload", "src", "height", "width"]
 		},
-     	/**
+     	/*************************************************************************************
      	 *constant
      	 * a:window;  b: window.jQuery || null,
-     	 **/
+     	 *************************************************************************************/
 		feed_turn_on: !0,
 		debug: function() {
 			return "dev" === wt.env && !c.util.isIE() && "object" == typeof a.console

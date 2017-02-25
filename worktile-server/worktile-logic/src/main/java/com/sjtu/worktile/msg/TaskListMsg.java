@@ -74,12 +74,6 @@ public class TaskListMsg extends PairMsg {
             int todo_count = 2;//检查项数量
             int file_count =0;//文件数量
         }
-        public static class Project{
-            int pid = 0;//id
-            String name = null;//名称
-            String pic = null;//项目图标
-            String bg = null;//项目背景颜色
-        }
 
 
     }

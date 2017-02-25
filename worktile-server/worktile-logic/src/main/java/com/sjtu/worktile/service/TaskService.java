@@ -30,8 +30,33 @@ public class TaskService {
      * @param tTask
      * @throws AppException
      */
-    public void createTask(TTask tTask)throws AppException{
+    public void createTask(TTask tTask) throws AppException{
          tTaskMapper.insert(tTask);
+    }
+
+    /**
+     * 获取特点组信息
+     * @param parent_id
+     */
+    public List<TTask> getItemByParentId(long parent_id){
+        TTaskExample query=new TTaskExample();
+        TTaskExample.Criteria criteria = query.createCriteria();
+        criteria.andParentIdEqualTo(parent_id);
+        return tTaskMapper.selectByExample(query);
+    }
+
+    /**
+     * 获取特点组信息
+     * @param parent_ids
+     */
+    public List<TTask> getItemByParentId(Long[] parent_ids){
+        TTaskExample query=new TTaskExample();
+        for (Long id : parent_ids) {
+            TTaskExample.Criteria criteria = query.createCriteria();
+            criteria.andParentIdEqualTo(id);
+            query.or(criteria);
+        }
+        return tTaskMapper.selectByExample(query);
     }
 
     /**
@@ -43,6 +68,35 @@ public class TaskService {
          return tTaskMapper.selectByPrimaryKey(id);
      }
 
+    /**
+     * 获取关注者
+     * @param task_ids
+     * @return
+     */
+     public List<TTaskAssignment> getFollowers(Long[] task_ids){
+         TTaskAssignmentExample query=new TTaskAssignmentExample();
+         for (Long id : task_ids){
+             TTaskAssignmentExample.Criteria criteria = query.createCriteria();
+             criteria.andTaskIdEqualTo(id).andFollowerIdGreaterThan(0L).andFollowerIdIsNotNull();
+             query.or(criteria);
+         }
+         return tTaskAssignmentMapper.selectByExample(query);
+     }
+
+    /**
+     * 获取任务参与者
+     * @param task_ids
+     * @return
+     */
+     public List<TTaskAssignment> getAssigners(Long[] task_ids){
+         TTaskAssignmentExample query=new TTaskAssignmentExample();
+         for (Long id : task_ids){
+             TTaskAssignmentExample.Criteria criteria = query.createCriteria();
+             criteria.andTaskIdEqualTo(id).andAssignerIdEqualTo(0L).andAssignerIdIsNotNull();
+             query.or(criteria);
+         }
+         return tTaskAssignmentMapper.selectByExample(query);
+     }
     /**
      * 修改任务
      * @param tTask

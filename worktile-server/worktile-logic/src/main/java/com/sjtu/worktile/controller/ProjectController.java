@@ -1,23 +1,17 @@
 package com.sjtu.worktile.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.sjtu.worktile.configuration.Const;
 import com.sjtu.worktile.exception.AppException;
 import com.sjtu.worktile.model.*;
-import com.sjtu.worktile.msg.PairMsg;
-import com.sjtu.worktile.msg.ProjectListMsg;
-import com.sjtu.worktile.msg.ProjectNewMsg;
-import com.sjtu.worktile.msg.TeamTemplatesMsg;
-import com.sjtu.worktile.service.ProjectService;
-import com.sjtu.worktile.service.RoleService;
-import com.sjtu.worktile.service.TeamService;
+import com.sjtu.worktile.msg.*;
 import com.sjtu.worktile.service.TemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -29,36 +23,8 @@ import java.util.List;
 public class ProjectController extends BaseController{
 
     @Autowired
-    private TeamService teamService;
-    @Autowired
-    private ProjectService projectService;
-    @Autowired
     private TemplateService templateService;
-    @Autowired
-    private RoleService roleService;
 
-    /**
-     * 将 project 的内容赋给 t
-     * @param p
-     * @param project
-     */
-    protected void mappingToProjectMsg(PairMsg.ResponseMsg.Project p, TProject project,long uid){
-        p.pid = project.getId();
-        p.name = project.getName();
-        p.team_id = project.getTeamId();
-        p.desc =project.getDescription();
-        //p.archived ;//是否存档，0：未存档，1：已存档
-        //p.pic ;
-        //p.bg ;
-        p.visibility = project.getVisibility();
-        //p.is_star ;//是否常用项目，0：非常用项目，1：常用项目
-        //p.pos ;
-        p.member_count= projectService.getProjectMemberCount(project.getId());
-        TUserRole role =projectService.getRoleInProject(uid,project.getId());
-        p.curr_role = role==null? Const.USER_ROLE.GUEST:role.getRoleId();//当前用户角色: 1:管理员，2:成员，3:访客，4:来宾,公开项目可以访问
-        SPermission permission = role==null?null:roleService.getRolePermissions(role.getRoleId()).get(0);
-        p.permission = permission == null? Const.USER_PERMISSIOIN.GUEST:permission.getMode();//当前用户权限: 31:管理员，15:成员，7:访客，5:来宾，0:无法操作
-    }
 
     /**
      * 获取项目列表
@@ -77,6 +43,18 @@ public class ProjectController extends BaseController{
         return outMsg;
     }
 
+    /**
+     * 创建项目
+     * @param request
+     * @param team_id
+     * @param desc
+     * @param name
+     * @param template_id
+     * @param template_type
+     * @param visibility
+     * @return
+     * @throws AppException
+     */
     @RequestMapping(value = "create", method = RequestMethod.POST)
     @ResponseBody
     public ProjectNewMsg.OutMsg create(final HttpServletRequest request,
@@ -115,4 +93,88 @@ public class ProjectController extends BaseController{
         return outMsg;
     }
 
+    /**
+     * 获取项目主要信息
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "{project_id}/info", method = RequestMethod.GET)
+    @ResponseBody
+    public ProjectInfoMsg.OutMsg info(final HttpServletRequest request,@PathVariable long project_id) throws AppException{
+        long uid = super.getUserID(request);
+        TProject tProject = projectService.getProjectById(project_id);
+        ProjectInfoMsg.OutMsg msg = new ProjectInfoMsg.OutMsg();
+        mappingToProjectMsg(msg.data.info,tProject,uid);
+//        msg.data.info.navs = null;
+//        msg.data.info.is_notify = 1;
+//        msg.data.info.auto_archiebed = 0;
+//        msg.data.info.show_completed = 0;
+//        msg.data.info.is_calendar = 0;
+//        msg.data.info.link_join_code = null;
+//        msg.data.info.show_background =0;
+//        msg.data.info.background =null;
+//        msg.data.info.bg_image = null;
+//        msg.data.info.extensions
+//        msg.data.info.labels
+        teamService.getTeamInfoById(tProject.getTeamId());
+        mappingToTeamMsg(msg.data.info.team,
+                teamService.getTeamInfoById(tProject.getTeamId()),
+                uid);//所属团队
+        mappingToUserMsg(msg.data.info.owner,userService.findUserByID(uid));//任务创建者
+        /**
+         * 整理项目中的用户
+         */
+        List<TUserRole> roles = projectService.getRolesInProject(tProject.getId());
+        Long[] user_ids = new Long[roles.size()];
+        Map<Long,TUserRole> id_roles= new HashMap<>();
+        //获取用户ids
+        int index = 0;
+        for (TUserRole role : roles){
+            user_ids[index] = role.getUserId();
+            id_roles.put(role.getUserId(),role);
+            index++;
+        }
+        List<TUser> users = userService.findUsersByID(user_ids);
+        for (TUser user : users){
+            PairMsg.ResponseMsg.User u = new PairMsg.ResponseMsg.User();
+            mappingToUserMsg(u,user);
+            msg.data.members.add(u);//记录任务member
+            int roleId = id_roles.get(user.getId()).getRoleId();
+            if (roleService.getRolePermissions(roleId).get(0).getMode()== Const.USER_PERMISSIOIN.ADMIN){
+                msg.data.info.admins.add(u);//记录任务管理者
+            }
+        }
+        //msg.data.info.is_favorite = 0;
+        //msg.data.info.star_pos = 196606;
+        return msg;
+    }
+
+    @RequestMapping(value = "{project_id}/tasks", method = RequestMethod.GET)
+    @ResponseBody
+    public ProjectTasksMsg.OutMsg tasks(final HttpServletRequest request,@PathVariable long project_id) throws AppException{
+        long uid = super.getUserID(request);
+        ProjectTasksMsg.OutMsg msg = new ProjectTasksMsg.OutMsg();
+        /**
+         * 取出entry
+         */
+        List<TTask> entries = taskService.getItemByParentId(project_id);
+        Map<Long,TTask> entry_map = new HashMap<>();
+        for (TTask entry:entries) {
+            PairMsg.ResponseMsg.Entry e = new PairMsg.ResponseMsg.Entry();
+            mappingToEntryMsg(e,entry);
+            msg.data.entries.add(e);
+
+            entry_map.put(entry.getId(),entry);
+        }
+        /**
+         * 取出tasks
+         */
+        List<TTask> tasks = taskService.getItemByParentId(entry_map.keySet().toArray(new Long[]{}));
+        for (TTask task:tasks){
+            PairMsg.ResponseMsg.Task t = new PairMsg.ResponseMsg.Task();
+            mappingToTaskMsg(t,task,entry_map.get(task.getParentId()),uid);
+            msg.data.tasks.add(t);
+        }
+        return msg;
+    }
 }
