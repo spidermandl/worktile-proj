@@ -18,18 +18,18 @@ define(['app'], function (app) {
 			//    a             b         c           d             e              f                   g           h
 			function getTeamInfo() {
 				//console.log(team);
-				team && team.permission != config.team_permission.guest ? 
+				team && team.permission != config.constant.team_permission.guest ? 
 					($scope.team = team, 
 						$rootScope.global.loading_done = !0, 
-						$scope.vm.user_is_team_owner = $scope.team.permission == config.team_permission.owner,
-						$scope.vm.user_is_team_admin = $scope.team.permission == config.team_permission.owner 
-													|| $scope.team.permission == config.team_permission.admin,
-						$scope.$on(config.event_names.team_member_role_change,
+						$scope.vm.user_is_team_owner = $scope.team.permission == config.constant.team_permission.owner,
+						$scope.vm.user_is_team_admin = $scope.team.permission == config.constant.team_permission.owner 
+													|| $scope.team.permission == config.constant.team_permission.admin,
+						$scope.$on(config.constant.event_names.team_member_role_change,
 							function(a, d) {
 								$scope.team && 
 								$scope.team.team_id === d.team_id && 
 								($scope.team.permission = d.team_permission, 
-									config.team_module.view_base & d.team_permission || $state.go("dashboard.default"))
+									config.constant.team_module.view_base & d.team_permission || $state.go("dashboard.default"))
 							})) 
 					: 
 					wt.data.team.get_full(
@@ -217,8 +217,8 @@ define(['app'], function (app) {
 				}
 				j()
 			};
-			d.addListener(kzi.constant.event_names.team_member_role_change, k, b),
-				b.$on(kzi.constant.event_names.member_state_change,
+			d.addListener(config.constant.event_names.team_member_role_change, k, b),
+				b.$on(config.constant.event_names.member_state_change,
 					function(c, d) {
 						if(d.uid !== a.global.me.uid) {
 							var e = _.find(b.team.members, {
@@ -433,7 +433,7 @@ define(['app'], function (app) {
 												disable: !0
 											}).length === kzi.constant.stats_type_list.length ? void kzi.msg.warn(g.instant("team_graphs.stats_overall_exist")) : void 0 === h.stats_type_select ? void kzi.msg.warn(g.instant("team_graphs.choose_stats_type")) : (h.pop_add_loading = !0, void wt.data.team.add_team_stats(h.project_select, h.stats_type_select,
 												function(a) {
-													200 === a.code && (kzi.msg.success(g.instant("team_graphs.add_stats_success")), e.$broadcast(kzi.constant.event_names.team_add_stats, a.data), h.js_close())
+													200 === a.code && (kzi.msg.success(g.instant("team_graphs.add_stats_success")), e.$broadcast(config.constant.event_names.team_add_stats, a.data), h.js_close())
 												},
 												null,
 												function() {
@@ -478,12 +478,12 @@ define(['app'], function (app) {
 								j(c.pid, c.type, d, e)
 						}
 					},
-					b.$on(kzi.constant.event_names.team_add_stats,
+					b.$on(config.constant.event_names.team_add_stats,
 						function(a, b) {
 							h.stats_list = h.stats_list.concat(i([b])),
 								h.stats_list = _.sortBy(h.stats_list, "pos")
 						}),
-					b.$on(kzi.constant.event_names.team_remove_stats,
+					b.$on(config.constant.event_names.team_remove_stats,
 						function(a, b) {
 							h.stats_list = _.reject(h.stats_list, {
 								pid: b.pid,
@@ -753,7 +753,7 @@ define(['app'], function (app) {
 					g.myCalendar.fullCalendar("today"),
 						i()
 				},
-				b.$on(kzi.constant.event_names.on_task_update,
+				b.$on(config.constant.event_names.on_task_update,
 					function(a, b) {
 						var c = _.find(p, {
 							id: b.tid
@@ -762,7 +762,7 @@ define(['app'], function (app) {
 							g.removeEvents(),
 							g.refetchEvents()
 					}),
-				b.$on(kzi.constant.event_names.on_task_trash,
+				b.$on(config.constant.event_names.on_task_trash,
 					function(a, b) {
 						var c = _.find(p, {
 							id: b.tid
@@ -774,7 +774,7 @@ define(['app'], function (app) {
 							g.removeEvents(),
 							g.refetchEvents()
 					}),
-				b.$on(kzi.constant.event_names.on_task_complete,
+				b.$on(config.constant.event_names.on_task_complete,
 					function(a, b) {
 						var c = _.find(p, {
 							id: b.tid
@@ -783,7 +783,7 @@ define(['app'], function (app) {
 							g.removeEvents(),
 							g.refetchEvents()
 					}),
-				b.$on(kzi.constant.event_names.on_event_update,
+				b.$on(config.constant.event_names.on_event_update,
 					function(b, c, d, e) {
 						if(o) {
 							var f = _.find(o, {
@@ -808,7 +808,7 @@ define(['app'], function (app) {
 							}
 						}
 					}),
-				b.$on(kzi.constant.event_names.on_event_trash,
+				b.$on(config.constant.event_names.on_event_trash,
 					function(a, c, d) {
 						if(o) {
 							var e = parseInt(d);

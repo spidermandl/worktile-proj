@@ -12,10 +12,10 @@ define(['app'], function (app) {
 	 **************************************************************************************************************/
 	app.controller('projectHomeCtrl', ['$rootScope','$scope','config','$state',
 								'$stateParams','$popbox','$translate','fastProject',
-								'Util',
+								'Util','$timeout',
 		function ($rootScope,$scope,config,$state,
 					stateParams,$popbox,$translate,fastProject,
-					util) {
+					util,$timeout) {
 			//["$rootScope", "$scope", "$state", "$stateParams", "$timeout", "globalDataContext", "fastProject", "wtScrollService"],
 			//       a           b         c            d             e                f                  g               h
 
@@ -24,10 +24,13 @@ define(['app'], function (app) {
 				j = function(a) {
 					_.findIndex(a, {
 						eid: "1d9e0c7f416168ad1b1d297816b48341"
-					}) !== -1 ? $scope.project.enable_extension_presenter = !0 : b.project.enable_extension_presenter = !1
+					}) !== -1 ? 
+						$scope.project.enable_extension_presenter = !0 
+						: 
+						$scope.project.enable_extension_presenter = !1
 				},
 				k = function(a) {
-					if(a && "project" === c.current.name){
+					if(a && "project" === $state.current.name){
 						var b = ".task";
 						if(null != a.extensions && _.isArray(a.extensions) && a.extensions.length > 0) {
 							var d = _.sortBy(_.filter(a.extensions, {
@@ -36,8 +39,8 @@ define(['app'], function (app) {
 							b = "." + d[0].key
 						}
 						".page" === b && (b = ".page.list"),
-							e(function() {
-								c.go("project" + b, null, {
+							$timeout(function() {
+								$state.go("project" + b, null, {
 									location: "replace"
 								})
 							})
@@ -54,7 +57,7 @@ define(['app'], function (app) {
 								type: 1
 							}),
 							k(l)
-					})) : e(function() {
+					})) : $timeout(function() {
 					$state.go("project_not_found", {
 						pid: i
 					}, {
@@ -77,7 +80,7 @@ define(['app'], function (app) {
 					change_status: function(b, c) {
 						b === this.status && c === this.sub_status ? (this.status = "", this.sub_status = "") : (this.status = b, this.sub_status = c),
 							config.localData.set("project_sidebar_status", this.status),
-							a.$broadcast(config.event_names.show_project_sidebar, {
+							a.$broadcast(config.constant.event_names.show_project_sidebar, {
 								status: this.status,
 								sub_status: this.sub_status
 							})
@@ -86,12 +89,205 @@ define(['app'], function (app) {
 						this.change_status("", "");
 					}
 				},
-				$scope.$on(config.event_names.project_extensions_change,
+				$scope.$on(config.constant.event_names.project_extensions_change,
 					function(a, b) {
 						j(b.extensions);
 					})
 		
 		}])
+		/**************************************************************************************************************
+		 *
+		 **************************************************************************************************************/
+		.controller('projectInfoCtrl', ['$rootScope','$scope','config','$state',
+								'$stateParams','$popbox','$translate',
+								'Util','$timeout',
+					function ($rootScope,$scope,config,$state,
+								stateParams,$popbox,$translate,
+								util,$timeout) {
+
+				//["$scope", "$rootScope", "$popbox", "globalDataContext", "permissionFilter", "$timeout"],
+				//     a           b            c              d                    e                f
+				function g() {
+					$(window).bind("resize.checkMoreNavMenu", j)
+				}
+				$scope.pm = {
+					showNavMore: !1,
+					elNavbar: $(".mod-navbar"),
+					elToolbar: $(".main_toolbar"),
+					elMenubar: $(".mod-navbar .center-menu")
+				};
+				$scope.pm.js_pop_project_menu = function(b) {
+						c.popbox({
+							target: b,
+							templateUrl: "/tpl/project/pop_project_menu.html",
+							controller: ["$rootScope", "$scope", "popbox", "pop_data", "projectService",
+								function(a, b, c, e, f) {
+									b.popbox = c;
+									var g = b.vm = {
+										step: 0,
+										project: e.project,
+										prj_permission_admin: kzi.constant.prj_permission.admin,
+										prj_permission_member: kzi.constant.prj_permission.member,
+										prj_permission_guest: kzi.constant.prj_permission.guest
+									};
+									g.js_close = function() {
+											c.close()
+										},
+										g.js_step = function(a) {
+											g.step = a
+										},
+										g.js_add_project_member = function() {
+											f.showAddMember(g.project),
+												g.js_close()
+										},
+										g.js_project_setting = function() {
+											f.showSetting(g.project),
+												g.js_close()
+										},
+										g.js_project_extension = function() {
+											f.showExtension(g.project),
+												g.js_close()
+										},
+										g.js_project_labels = function() {
+											f.showLabels(g.project),
+												g.js_close()
+										},
+										g.js_project_timingtasks = function() {
+											f.showTimingtasks(g.project),
+												g.js_close()
+										},
+										g.js_project_copy = function() {
+											f.showCopy(g.project),
+												g.js_close()
+										},
+										g.js_project_move = function() {
+											f.showMove(g.project),
+												g.js_close()
+										},
+										g.js_project_export = function() {
+											f.showExport(g.project),
+												g.js_close()
+										},
+										g.js_project_webhook = function() {
+											f.showWebhook(g.project),
+												g.js_close()
+										},
+										g.js_project_createbymail = function() {
+											f.showCreateByMail(g.project),
+												g.js_close()
+										},
+										g.js_project_quit = function() {
+											f.showQuit(g.project),
+												g.js_close()
+										},
+										g.js_project_active = function() {
+											f.showActive(g.project),
+												g.js_close()
+										},
+										g.js_project_archive = function() {
+											f.showArchive(g.project),
+												g.js_close()
+										},
+										g.js_project_del = function() {
+											f.showDel(g.project),
+												g.js_close()
+										},
+										g.js_toggle_star = function() {
+											d.cache.project.set_star(e.project.pid)
+										},
+										g.js_toggle_favorite = function() {
+											var a = e.project.is_favorite ? 0 : 1;
+											e.project.is_favorite = a,
+												wt.data.project.set_favorite(e.project.pid, a,
+													function(a) {
+														d.cache.project.set_favorite(e.project.pid, e.project.is_favorite)
+													},
+													function() {
+														e.project.is_favorite = a ? 0 : 1
+													})
+										},
+										g.change_sidebar_status = function(a, b) {
+											e.sidebar.change_status(a, b),
+												c.close()
+										}
+								}
+							],
+							resolve: {
+								pop_data: function() {
+									return {
+										sidebar: a.sidebar,
+										project: a.project
+									}
+								}
+							}
+						}).open()
+					},
+					$scope.pm.js_pop_set_project_logo = function(f) {
+						e(b.global.prj_module.setting, a.project.permission) && c.popbox({
+							target: f,
+							templateUrl: "/tpl/project/pop_project_logo.html",
+							controller: ["$rootScope", "$scope", "popbox", "pop_data",
+								function(a, b, c, e) {
+									var f = b.vm = {
+										prj_colors: kzi.constant.prj_colors,
+										prj_icons: kzi.constant.prj_icons,
+										project: e.project
+									};
+									b.popbox = c,
+										f.js_close = function() {
+											c.close()
+										},
+										f.js_icon_select = function(a) {
+											d.cache.project.set_logo(f.project.pid, f.project.bg, a)
+										},
+										f.js_color_select = function(a) {
+											d.cache.project.set_logo(f.project.pid, a, f.project.pic)
+										}
+								}
+							],
+							resolve: {
+								pop_data: function() {
+									return {
+										project: $scope.project
+									}
+								}
+							}
+						}).open()
+					};
+				var i = 0,
+					j = _.debounce(function(b) {
+							$timeout(function() {
+									$scope.project && 
+									$scope.project.navigations && 
+									(0 == i && $scope.pm.elMenubar.find("li").each(function(a, b) {
+										i += $(b).outerWidth(!0)
+									}), 
+									i > $scope.pm.elMenubar.width() ? 
+										$scope.pm.showNavMore = !0 : $scope.pm.showNavMore = !1)
+								},
+								150)
+						},
+						50);
+				g(),
+					$scope.$watch("project.navigations",
+						function(a) {
+							j()
+						}),
+					$scope.$watch("sidebar.status",
+						function(a) {
+							j(a)
+						}),
+					$scope.$on("$destroy",
+						function() {
+							$(window).unbind("resize.checkMoreNavMenu")
+						})
+		
+
+
+
+
+		}])
+
 
 		;
 })

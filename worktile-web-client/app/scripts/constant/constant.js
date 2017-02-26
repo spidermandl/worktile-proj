@@ -6,8 +6,8 @@
  */
  define(function (require) {
  	'use strict';
- 	
-	!function(){
+
+	return (function(){
 
 			var a = {},
 				b = {
@@ -1551,8 +1551,7 @@
 					default:
 						return "res/icon/icon-file-default.png"
 				}
-			},
-			"object" == typeof module ? module.exports = a : (kzi.constant = a, angular.module("app.constant", []).constant("constant", a))
-		
-	}
+			};
+			return a;		
+	})();
 })

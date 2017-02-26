@@ -53,9 +53,9 @@ define(['app'], function (app) {
 
 				me : null,//用户基本信息
 
-				constant : config,//常量
+				constant : config.constant,//常量
 
-				team_module: config.team_module,
+				team_module: config.constant.team_module,
 				/**
 				 * team相关
 				 */
@@ -275,8 +275,6 @@ define(['app'], function (app) {
 							return proj.pid.toString()===b; 
 						}),
 						g = $q.defer();
-						console.log(f);
-						console.log(e === !1);
 					return f && e === !1 ? 
 							(g.resolve(f), g.promise) 
 							: 

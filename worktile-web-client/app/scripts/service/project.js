@@ -312,7 +312,7 @@ define(['app'], function (app) {
 																_.findIndex(l.contact_members_selected, {
 																		uid: a.uid
 																	}) === -1 && l.contact_members_selected.push(a),
-																	g.$broadcast(kzi.constant.event_names.project_add_member, {
+																	g.$broadcast(config.constant.event_names.project_add_member, {
 																		pid: l.prj_id,
 																		member: a
 																	})
@@ -369,7 +369,7 @@ define(['app'], function (app) {
 														function(b) {
 															return b.uid === a.uid
 														}),
-													g.$broadcast(kzi.constant.event_names.project_add_member, {
+													g.$broadcast(config.constant.event_names.project_add_member, {
 														pid: l.prj_id,
 														member: a
 													})
@@ -603,7 +603,7 @@ define(['app'], function (app) {
 								};
 								l(),
 									m(),
-									a.$on(kzi.constant.event_names.show_project_setting_timingtask,
+									a.$on(config.constant.event_names.show_project_setting_timingtask,
 										function() {
 											l()
 										}),
@@ -627,7 +627,7 @@ define(['app'], function (app) {
 															c.is_deleting = !0,
 																wt.data.timingtask.del_timingtask(b.pid, b.ttid,
 																	function(b) {
-																		200 == b.code && (kzi.msg.info(d.instant("service_timingtask.success_del")), a.$broadcast(kzi.constant.event_names.show_project_setting_timingtask), c.js_close())
+																		200 == b.code && (kzi.msg.info(d.instant("service_timingtask.success_del")), a.$broadcast(config.constant.event_names.show_project_setting_timingtask), c.js_close())
 																	},
 																	null,
 																	function() {
@@ -1193,7 +1193,7 @@ define(['app'], function (app) {
 									l.js_step = function(a) {
 										l.step_index = a
 									},
-									g.$on(kzi.constant.event_names.project_extensions_change,
+									g.$on(config.constant.event_names.project_extensions_change,
 										function(a, b) {
 											k()
 										})

@@ -205,15 +205,15 @@
 								}) : d
 					},
 					get_extensions: function(a, d) {
-						var e = kzi.constant.extensions,
+						var e = config.constant.extensions,
 							f = [];
-						c.use(b.global.me.locale).then(function() {
+						$translate.use($rootScope.global.me.locale).then(function() {
 							return _.each(e,
 									function(b) {
 										_.each(b,
 											function(b) {
-												b.name = c.instant(b.name),
-													b.desc = c.instant(b.desc);
+												b.name = $translate.instant(b.name),
+													b.desc = $translate.instant(b.desc);
 												var d = _.clone(b),
 													e = _.find(a, {
 														eid: b.eid
@@ -229,19 +229,19 @@
 					check_extension: function() {},
 					get_visibilities: function(a) {
 						return a == -1 ? [{
-							id: config.prj_visibility.private,
+							id: config.constant.prj_visibility.private,
 							name: $translate.instant("bus.prj_visibility_private_desc")
 						}, {
-							id: config.prj_visibility.public,
+							id: config.constant.prj_visibility.public,
 							name: $translate.instant("bus.prj_visibility_public_desc")
 						}] : [{
-							id: config.prj_visibility.private,
+							id: config.constant.prj_visibility.private,
 							name: $translate.instant("bus.prj_visibility_private_desc")
 						}, {
-							id: config.prj_visibility.protected,
+							id: config.constant.prj_visibility.protected,
 							name: $translate.instant("bus.prj_visibility_protected_desc")
 						}, {
-							id: config.prj_visibility.public,
+							id: config.constant.prj_visibility.public,
 							name: $translate.instant("bus.prj_visibility_public_desc")
 						}]
 					}

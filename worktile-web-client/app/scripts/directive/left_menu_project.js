@@ -54,7 +54,7 @@ define(['app'], function (app) {
 					recent_projects: globalDataContext.recent_projects
 				};
 				n(),
-					scope.$on(config.event_names.shortcut_key_select_prjs,
+					scope.$on(config.constant.event_names.shortcut_key_select_prjs,
 						function(a, b) {
 							switch(b.event.preventDefault(), b.keyCode) {
 								case 13:
@@ -224,7 +224,7 @@ define(['app'], function (app) {
 							})),
 						kzi.localData.set("leftmenu_projects_collapse", vm.leftmenu_projects_collapse)
 				},
-				scope.$on(config.event_names.project_star_change,
+				scope.$on(config.constant.event_names.project_star_change,
 					function(b, c) {
 						vm.star_projects = a.star_projects
 					})

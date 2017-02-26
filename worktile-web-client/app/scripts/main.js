@@ -18,6 +18,7 @@
             app : 'app',//app.js
         	configuration : 'constant/config',
             error : 'constant/error',
+            constant: 'constant/constant',
             //service
             global : 'service/global',
             util : 'service/util',
@@ -51,7 +52,7 @@
 　　　　 },
 	    shim: {
             configuration: {
-                deps: ['error'],//deps 载入依赖模块
+                deps: ['error','constant'],//deps 载入依赖模块
             },
             app: {
                 deps: ['configuration'],
