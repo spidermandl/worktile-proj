@@ -1,0 +1,50 @@
+<dl class= "prj_sidebar h_100p" wt-sidebar-toggle=sidebar.status arg-hide-sidebar= "sidebar.status=='filter_tasks'&&$root.global.project_iconmenu!='task'" ng-controller=prjSidebarCtrl>
+    <dd ng-switch on=vm.step>
+        <div ng-switch-default></div>
+        <div ng-switch-when=1>
+            <ng-include src= "'/tpl/project/sidebar/project_members.html'"></ng-include>
+        </div>
+        <div ng-switch-when=2 type=setting>
+            <ng-include src= "'/tpl/project/sidebar/project_setting_menu.html'"></ng-include>
+        </div>
+        <div ng-switch-when=3 type=add_member>
+            <ng-include src= "'/tpl/project/sidebar/add_member.html'"></ng-include>
+        </div>
+        <div ng-switch-when=4 type=filter_tasks>
+            <ng-include src= "'/tpl/project/sidebar/filter_tasks.html'"></ng-include>
+        </div>
+        <div ng-switch-when=5 type=setting_base_info>
+            <ng-include src= "'/tpl/project/sidebar/project_setting_baseinfo.html'"></ng-include>
+        </div>
+        <div ng-switch-when=6 type=setting_preferences>
+            <ng-include src= "'/tpl/project/sidebar/project_setting_preferences.html'"></ng-include>
+        </div>
+        <div ng-switch-when=7 type=setting_webhook>
+            <ng-include src= "'/tpl/project/sidebar/project_setting_webhook.html'"></ng-include>
+        </div>
+        <div ng-switch-when=8 type=setting_notify>
+            <ng-include src= "'/tpl/project/sidebar/project_setting_notify.html'"></ng-include>
+        </div>
+        <div ng-switch-when=9 type=setting_archive>
+            <ng-include src= "'/tpl/project/sidebar/project_setting_archive.html'"></ng-include>
+        </div>
+        <div ng-switch-when=10 type=setting_activate>
+            <ng-include src= "'/tpl/project/sidebar/project_setting_activate.html'"></ng-include>
+        </div>
+        <div ng-switch-when=13 type=setting_transfer>
+            <ng-include src= "'/tpl/project/sidebar/project_setting_transfer.html'"></ng-include>
+        </div>
+        <div ng-switch-when=21 type=create_by_mail>
+            <ng-include src= "'/tpl/project/sidebar/create_by_mail.html'"></ng-include>
+        </div>
+        <div ng-switch-when=22 type=project_copy>
+            <ng-include src= "'/tpl/project/sidebar/project_copy.html'"></ng-include>
+        </div>
+        <div ng-switch-when=23 type=setting_timing_tasks>
+            <ng-include src= "'/tpl/project/sidebar/project_setting_timing_tasks.html'"></ng-include>
+        </div>
+        <div ng-switch-when=24 type=setting_label>
+            <ng-include src= "'/tpl/project/sidebar/setting_label.html'"></ng-include>
+        </div>
+    </dd>
+</dl>

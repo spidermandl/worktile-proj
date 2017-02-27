@@ -360,11 +360,11 @@
                 need_load: !1,
                 views: {
                     "": {
-                        templateUrl: "/tpl/project/task/tasks.html",
+                        templateUrl: config.project_task,
                         controller: "projectTasksCtrl"
                     },
                     toolbar: {
-                        templateUrl: "/tpl/project/task/toolbar.html",
+                        templateUrl: config.project_toolbar,
                         controller: "projectTasksToolbarCtrl"
                     }
                 }

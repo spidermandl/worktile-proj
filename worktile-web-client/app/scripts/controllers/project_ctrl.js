@@ -282,12 +282,89 @@ define(['app'], function (app) {
 							$(window).unbind("resize.checkMoreNavMenu")
 						})
 		
-
-
-
-
 		}])
-
+		/**************************************************************************************************************
+		 *
+		 **************************************************************************************************************/
+		.controller('prjSidebarCtrl', ['$scope','config',
+							function ($scope,config) {
+			//["$scope"]
+			//     a
+			var b = {
+					default: 0,
+					members: 1,
+					filter_tasks: 4
+				};
+			$scope.vm = {
+				step: 0,
+				mail_domain: config.constant.mail.domain,
+				prj_permission_admin: config.constant.prj_permission.admin,
+				prj_permission_member: config.constant.prj_permission.member,
+				prj_permission_guest: config.constant.prj_permission.guest
+			};
+			$scope.steps = b,
+				"members" === $scope.sidebar.status && ($scope.vm.step = b.members),
+				$scope.$on(config.constant.event_names.show_project_sidebar,
+					function(a, d) {
+						"members" === d.status ? 
+							$scope.vm.step = b.members 
+							: 
+							"filter_tasks" === d.status ? 
+								$scope.vm.step = b.filter_tasks 
+								: 
+								"setting" === d.status ? 
+									d.sub_status ? 
+										"base_info" === d.sub_status ? 
+											$scope.vm.step = b.setting_base_info 
+											: 
+											"labels" === d.sub_status && ($scope.vm.step = b.setting_label) 
+										: $scope.vm.step = b.setting 
+									: "timing_tasks" === d.status ? 
+										$scope.vm.step = b.setting_timing_tasks 
+										: 
+										"project_copy" === d.status ? 
+											$scope.vm.step = b.project_copy 
+											: 
+											"export_data" === d.status ? 
+												$scope.vm.step = b.export_data 
+												: 
+												"create_by_mail" === d.status ? 
+													$scope.vm.step = b.create_by_mail 
+													: 
+													"setting_webhook" === d.status ? 
+														$scope.vm.step = b.setting_webhook 
+														: 
+														"setting_transfer" === d.status ? 
+															$scope.vm.step = b.setting_transfer 
+															: 
+															"setting_quit" === d.status ? 
+																$scope.vm.step = b.setting_quit 
+																: 
+																$scope.vm.step = b.default
+					}),
+				$scope.vm.to_members = function() {
+					$scope.vm.step = b.members,
+						$scope.sidebar.status = "members",
+						$scope.sidebar.sub_status = ""
+				},
+				$scope.vm.to_step = function(d) {
+					switch(d) {
+						case b.setting:
+							$scope.sidebar.sub_status = "";
+							break;
+						case b.setting_base_info:
+							$scope.sidebar.sub_status = "base_info";
+							break;
+						default:
+							$scope.sidebar.sub_status = d
+					}
+					$scope.vm.step = d
+				}
+		
+		}])
+		/**************************************************************************************************************
+		 *
+		 **************************************************************************************************************/
 
 		;
 })
