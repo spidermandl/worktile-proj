@@ -173,6 +173,14 @@ public class TaskController extends BaseController {
         return out;
     }
 
+    /**
+     * 添加检查项
+     * @param task_id
+     * @param content
+     * @param request
+     * @return
+     * @throws AppException
+     */
     @RequestMapping(value = "newtodo",method = RequestMethod.POST)
     @ResponseBody
     public PairMsg.ResponseMsg newtodo(@RequestParam("task_id") long task_id,
@@ -185,6 +193,22 @@ public class TaskController extends BaseController {
         tTaskCheckItem.setSenderId(uid);
         TaskNewTodoMsg.OutMsg out=new TaskNewTodoMsg.OutMsg();
         taskService.newtodo(tTaskCheckItem);
+        return out;
+    }
+
+    /**
+     * 删除检查项
+     * @param task_check_item_id
+     * @param request
+     * @return
+     * @throws AppException
+     */
+    @RequestMapping(value="deletetodo",method = RequestMethod.POST)
+    @ResponseBody
+    public PairMsg.ResponseMsg deletetodo(@RequestParam("task_check_item_id") long task_check_item_id,
+                                           final HttpServletRequest request)throws AppException{
+        TaskDeleteTodoMsg.OutMsg out=new TaskDeleteTodoMsg.OutMsg();
+        taskService.deletetodo(task_check_item_id);
         return out;
     }
 }

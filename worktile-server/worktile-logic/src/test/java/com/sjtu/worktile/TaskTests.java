@@ -156,4 +156,23 @@ public class TaskTests extends BaseTest {
         Response response = client.newCall(request).execute();
         System.out.println(response.body().string());
     }
+
+    @Test
+    public void deletetodo()throws Exception{
+        /**
+         * 删除检查项
+         */
+        String url=domain_url+"/api/task/deletetodo";
+        String token=super.getToken();
+        Request request = new Request.Builder()
+                .url(url)
+                .addHeader("raw","raw")
+                .addHeader("Authorization",  Const.TOKEN_PREFIX+token)
+                .post( new FormEncodingBuilder()
+                        .add("task_check_item_id", "1")
+                        .build()
+                ).build();
+        Response response = client.newCall(request).execute();
+        System.out.println(response.body().string());
+    }
 }

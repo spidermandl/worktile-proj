@@ -152,4 +152,8 @@ public class TaskService {
     public void newtodo(TTaskCheckItem tTaskCheckItem)throws AppException{
         tTaskCheckItemMapper.insert(tTaskCheckItem);
     }
+
+    public void deletetodo(long task_check_item_id)throws AppException{
+        tTaskCheckItemMapper.deleteByPrimaryKey(task_check_item_id);
+    }
 }
