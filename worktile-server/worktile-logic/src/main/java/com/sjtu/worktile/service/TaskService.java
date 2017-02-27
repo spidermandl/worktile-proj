@@ -153,7 +153,32 @@ public class TaskService {
         tTaskCheckItemMapper.insert(tTaskCheckItem);
     }
 
+    /**
+     * 删除检查项
+     * @param task_check_item_id
+     * @throws AppException
+     */
     public void deletetodo(long task_check_item_id)throws AppException{
         tTaskCheckItemMapper.deleteByPrimaryKey(task_check_item_id);
     }
+
+    /**
+     * 根据Id获取检查项Id
+     * @param id
+     * @return
+     */
+    public TTaskCheckItem findCheckItemById(long id){return  tTaskCheckItemMapper.selectByPrimaryKey(id);}
+
+    /**
+     * 修改添加项
+     * @param tTaskCheckItem
+     * @throws AppException
+     */
+    public void revisetodo(TTaskCheckItem tTaskCheckItem)throws AppException{
+        TTaskCheckItemExample query=new TTaskCheckItemExample();
+        query.or().andIdEqualTo(tTaskCheckItem.getId());
+        tTaskCheckItemMapper.updateByExampleSelective(tTaskCheckItem,query);
+    }
+
+
 }

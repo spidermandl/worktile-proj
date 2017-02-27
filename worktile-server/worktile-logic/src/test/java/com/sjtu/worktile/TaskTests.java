@@ -48,7 +48,7 @@ public class TaskTests extends BaseTest {
                 .addHeader("raw","raw")
                 .addHeader("Authorization",  Const.TOKEN_PREFIX+token)
                 .post( new FormEncodingBuilder()
-                        .add("task_id", "5")
+                        .add("task_id", "11")
                         .add("title", "bbb")
                         .add("desc","bbb")
                         .build()
@@ -175,4 +175,25 @@ public class TaskTests extends BaseTest {
         Response response = client.newCall(request).execute();
         System.out.println(response.body().string());
     }
+
+    @Test
+    public void revisetodo()throws Exception{
+        /**
+         * 修改检查项
+         */
+        String url=domain_url+"/api/task/revisetodo";
+        String token=super.getToken();
+        Request request = new Request.Builder()
+                .url(url)
+                .addHeader("raw","raw")
+                .addHeader("Authorization",  Const.TOKEN_PREFIX+token)
+                .post( new FormEncodingBuilder()
+                        .add("task_check_item_id", "1")
+                        .add("content","ddd")
+                        .build()
+                ).build();
+        Response response = client.newCall(request).execute();
+        System.out.println(response.body().string());
+    }
+
 }

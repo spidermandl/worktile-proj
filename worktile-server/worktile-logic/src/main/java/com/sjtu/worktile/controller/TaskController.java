@@ -211,4 +211,25 @@ public class TaskController extends BaseController {
         taskService.deletetodo(task_check_item_id);
         return out;
     }
+
+    /**
+     * 修改检查项
+     * @param task_check_item_id
+     * @param content
+     * @param request
+     * @return
+     * @throws AppException
+     */
+    @RequestMapping(value="revisetodo",method = RequestMethod.POST)
+    @ResponseBody
+    public PairMsg.ResponseMsg revisetodo(@RequestParam("task_check_item_id") long task_check_item_id,
+                                           @RequestParam("content") String content,
+                                           final HttpServletRequest request)throws AppException{
+
+        TTaskCheckItem tTaskCheckItem=taskService.findCheckItemById(task_check_item_id) ;
+        tTaskCheckItem.setContent(content);
+        TaskReviseTodoMsg.OutMsg out=new TaskReviseTodoMsg.OutMsg();
+        taskService.revisetodo(tTaskCheckItem);
+        return out;
+    }
 }
