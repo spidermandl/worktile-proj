@@ -30,6 +30,7 @@
             project: 'service/project',
             upload: 'service/upload',
             markdown: 'service/markdown',
+            scroll: 'service/scroll',
             //controller
 			identity : 'controllers/identity',//身份进入
 			dashboard : 'controllers/dashboard',
@@ -45,6 +46,7 @@
             toolkit : 'directive/toolkit',
             team_logo : 'directive/team_logo',
             project_item : 'directive/project_item',
+            task_directive: 'directive/task_directive',
             //filter
             //translate : 'filter/translate',
             filters : 'filter/filters',
@@ -71,7 +73,7 @@
                 deps: ['left_nemu'],
             },
             team_ctrl: {
-                deps: ['project_item','team_admin_ctrl','markdown'],
+                deps: ['scroll','task_directive','project_item','team_admin_ctrl','markdown'],
             },
             project_ctrl:{
                 deps: ['project_task_ctrl'],

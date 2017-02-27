@@ -48,6 +48,10 @@
 			project_main: 'views/work/project/project.html',
 			project_task: 'views/work/project/task/task.html',
 			project_toolbar: 'views/work/project/task/toolbar.html',
+			task_pop_entry_menu: 'views/work/project/task/pop_entry_menu.html',
+			task_composer: 'views/work/project/task/task_composer.html',
+			task_item: 'views/work/project/task/task_item.html',
+			task_pop_project_menu: 'views/work/project/task/pop_project_menu.html',
 			'dashboard.default': 'views/work/dashboard/dashboard_task.html',
 			calendar_event_create: 'views/work/dashboard/dialog_event_create.html',//创建日历event
 			calendar_pop_event_create: 'views/work/dashboard/calendar/pop_add_event.html',

@@ -40,6 +40,12 @@ spring:
   aop:
       auto: true # Add @EnableAspectJAutoProxy.
       proxy-target-class: false
+
+  mandatory-file-encoding: UTF-8
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
 # Whether subclass-based (CGLIB) proxies are to be created (true) as opposed to standard Java interface-based proxies (false).
 #------------------------------------------------------------------------------------------
 #监测系统服务地址

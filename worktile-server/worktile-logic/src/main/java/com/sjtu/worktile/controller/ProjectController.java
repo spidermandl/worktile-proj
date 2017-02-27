@@ -129,7 +129,7 @@ public class ProjectController extends BaseController{
      * @param request
      * @return
      */
-    @RequestMapping(value = "{project_id}/info", method = RequestMethod.GET)
+    @RequestMapping(value = "{project_id}/info", method = RequestMethod.GET)//,produces = "application/json;charset=utf-8")
     @ResponseBody
     public ProjectInfoMsg.OutMsg info(final HttpServletRequest request,@PathVariable long project_id) throws AppException{
         long uid = super.getUserID(request);
@@ -181,7 +181,7 @@ public class ProjectController extends BaseController{
         return msg;
     }
 
-    @RequestMapping(value = "{project_id}/tasks", method = RequestMethod.GET)
+    @RequestMapping(value = "{project_id}/tasks", method = RequestMethod.GET)//,produces = "application/json;charset=utf-8")
     @ResponseBody
     public ProjectTasksMsg.OutMsg tasks(final HttpServletRequest request,@PathVariable long project_id) throws AppException{
         long uid = super.getUserID(request);

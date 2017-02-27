@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class BaseTest {
 
-    protected MediaType MEDIA_TYPE_TEXT = MediaType.parse("application/json");
+    protected MediaType MEDIA_TYPE_TEXT = MediaType.parse("application/json; charset=utf-8");
     protected MediaType MEDIA_TYPE_FORM = MediaType.parse("application/x-www-form-urlencoded");
     @Autowired
     protected ServerProperties properties;

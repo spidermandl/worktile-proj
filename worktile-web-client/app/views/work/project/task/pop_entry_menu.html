@@ -1,0 +1,143 @@
+<ul class=popbox-step ng-switch on=step>
+    <li ng-switch-default class=popbox-step-li>
+        <div class=popbox-header>
+            <button class="cancel fa fa-remove" ng-click=vm.js_close()></button>
+            <h3>{{'pop_entry_menu.title'|translate}}</h3></div>
+        <div class=popbox-body>
+            <ul class=popbox-menu ng-if=(global.prj_module.crud|permission:project.permission)>
+                <li>
+                    <a href=javascript:; ng-click=vm.js_top_open_add_task_composer($event)>{{'pop_entry_menu.add_task'|translate}}</a></li>
+                <li>
+                    <a ng-click=vm.js_show_batch_action()>{{'pop_entry_menu.batch_mode'|translate}}</a></li>
+                <li>
+                    <a ng-click=vm.js_archived_all()>{{'pop_entry_menu.archive_complete_task'|translate}}</a></li>
+                <li class=divider></li>
+                <li>
+                    <a href=javascript:; ng-click=vm.js_step(1)>{{'pop_entry_menu.rename_entry'|translate}}</a></li>
+                <li>
+                    <a ng-click=vm.js_watcher_entry_toggle() href=javascript:;>{{'common.txt_subscribe'|translate}}
+                        <span class="text-muted small-tip ng-scope" ng-if=entry.watched>
+                            <i class="color_gray fa fa-eye"></i></span>
+                    </a>
+                </li>
+                <li class=divider></li>
+                <li>
+                    <a href=javascript:; ng-click=vm.js_step(14)>{{'pop_entry_menu.entry_sort'|translate}}</a></li>
+                <li class=divider></li>
+                <li>
+                    <a href=javascript:; ng-click=vm.js_step(11)>{{'pop_entry_menu.more_action'|translate}}</a></li>
+            </ul>
+            <ul class=popbox-menu ng-if=!(global.prj_module.crud|permission:project.permission)>
+                <li>
+                    <a ng-click=vm.js_watcher_entry_toggle() href=javascript:;>{{'common.txt_watch'|translate}}
+                        <span class="text-muted small-tip ng-scope" ng-if=entry.watched>
+                            <i class="color_gray fa fa-check"></i></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </li>
+    <li ng-switch-when=1 class=popbox-step-li>
+        <div class=popbox-header>
+            <button class="back fa fa-chevron-left" ng-click=vm.js_step(0)></button>
+            <button class="cancel fa fa-remove" ng-click=vm.js_close()></button>
+            <h3>{{'pop_entry_menu.title_rename'|translate}}</h3></div>
+        <form name=edit_entry_form w5c-form-validate="" class=wt-form novalidate>
+            <div class=popbox-body>
+                <input name=entry_name type=text ng-model=entry_name placeholder="{{'pop_entry_menu.placeholder_name'|translate}}" class="w_260 form-control" required wt-focus></div>
+            <div class=popbox-footer>
+                <button w5c-form-submit="vm.js_change_name(edit_entry_form, entry_name)" data-loading-text="{{'common.saving'|translate}}" class="btn btn-success mr_15" wt-loading-status=is_save_ing>{{'common.btn_save'|translate}}</button>
+                <button ng-click=vm.js_close(result) class="btn btn-link btn-cancel">{{'common.btn_cancel'|translate}}</button></div>
+        </form>
+    </li>
+    <li ng-switch-when=4 class=popbox-step-li>
+        <div class=popbox-header>
+            <button class="back fa fa-chevron-left" ng-click=vm.js_step(11)></button>
+            <button class="cancel fa fa-remove" ng-click=vm.js_close()></button>
+            <h3>{{'pop_entry_menu.title_archive_entry'|translate}}</h3></div>
+        <div class=popbox-body translate=pop_entry_menu.warn_archive_entry></div>
+        <div class=popbox-footer>
+            <button ng-click=vm.js_archive_entry() class="btn btn-success">{{'pop_entry_menu.btn_confirm_archive'|translate}}</button></div>
+    </li>
+    <li ng-switch-when=5 class=popbox-step-li>
+        <div class=popbox-header>
+            <button class="back fa fa-chevron-left" ng-click=vm.js_step(11)></button>
+            <button class="cancel fa fa-remove" ng-click=vm.js_close()></button>
+            <h3>{{'pop_entry_menu.title_del_entry'|translate}}</h3></div>
+        <div class=popbox-body translate=pop_entry_menu.message_del_entry></div>
+        <div class=popbox-footer>
+            <button ng-click=vm.js_del_entry() class="btn btn-danger">{{'common.btn_confirm_del'|translate}}</button></div>
+    </li>
+    <li ng-switch-when=11 class=popbox-step-li>
+        <div class=popbox-header>
+            <button class="back fa fa-chevron-left" ng-click=vm.js_step(0)></button>
+            <button class="cancel fa fa-remove" ng-click=vm.js_close()></button>
+            <h3>{{'pop_entry_menu.title_more_action'|translate}}</h3></div>
+        <div class=popbox-body>
+            <ul class=popbox-menu>
+                <li>
+                    <a href=javascript:; ng-click=vm.js_to_move_entry()>{{'pop_entry_menu.more_to_other_project'|translate}}</a></li>
+                <li>
+                    <a href=javascript:; ng-click=vm.js_to_copy_entry()>{{'pop_entry_menu.copy_entry'|translate}}</a></li>
+                <li class=divider></li>
+                <li>
+                    <a href=javascript:; ng-click=vm.js_step(4)>{{'pop_entry_menu.archive_entry'|translate}}</a></li>
+                <li>
+                    <a ng-click=vm.js_step(5) href=javascript:;>{{'pop_entry_menu.del_entry'|translate}}</a></li>
+            </ul>
+        </div>
+    </li>
+    <li ng-switch-when=13 class="popbox-step-li w_355">
+        <div class=popbox-header>
+            <button class="back fa fa-chevron-left" ng-click=vm.js_step(11)></button>
+            <button class="cancel fa fa-remove" ng-click=vm.js_close()></button>
+            <h3>{{'pop_entry_menu.title_move_other_project'|translate}}</h3></div>
+        <div class=popbox-body>
+            <div class=form-group>
+                <label class=form-label>{{'pop_entry_menu.form_select_project'|translate}}</label>
+                <ui-select ng-model=entry_move.dest_project theme=select2 append-to-body=false>
+                    <ui-select-match placeholder="{{'pop_entry_menu.placeholder_select_project'|translate}}：">{{$select.selected.name}}</ui-select-match>
+                    <ui-select-choices group-by="'team_name'" repeat="project in entry_move_to_prjs|propsFilter:{name: $select.search}">
+                        <div class=text-overflow ng-bind-html=project.name|reHighlight:$select.search></div>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <div class=form-group>
+                <button class="btn btn-success mr_15" ng-click=vm.js_move_entry()>{{'common.btn_move'|translate}}</button>
+                <button class="btn btn-link" ng-click=vm.js_move_entry_cancel()>{{'common.btn_cancel'|translate}}</button></div>
+        </div>
+    </li>
+    <li ng-switch-when=12 class=popbox-step-li>
+        <div class=popbox-header>
+            <button class="back fa fa-chevron-left" ng-click=vm.js_step(11)></button>
+            <button class="cancel fa fa-remove" ng-click=vm.js_close()></button>
+            <h3>{{'pop_entry_menu.title_copy_enty'|translate}}</h3></div>
+        <div class="popbox-body w_300">
+            <input name=entry_name wt-enter=vm.js_copy_entry(new_entry) ng-model=new_entry.name placeholder="{{'pop_entry_menu.form_entry_name'|translate}}" type=text class="form-control w_260" required autofocus></div>
+        <div class=popbox-footer>
+            <a class="btn btn-success mr_15" ng-click=vm.js_copy_entry(new_entry) data-loading-text="{{'pop_entry_menu.creating'|translate}}" wt-loading-status=is_copying>{{'common.btn_ok'|translate}}</a>
+            <a class="btn btn-link btn-cancel" ng-click=vm.js_step(11)>{{'common.btn_cancel'|translate}}</a></div>
+    </li>
+    <li ng-switch-when=14 class=popbox-step-li>
+        <div class=popbox-header>
+            <button class="back fa fa-chevron-left" ng-click=vm.js_step(0)></button>
+            <button class="cancel fa fa-remove" ng-click=vm.js_close()></button>
+            <h3>{{'pop_entry_menu.title_entry_sort'|translate}}</h3></div>
+        <div class=popbox-body>
+            <ul class="popbox-menu checkable checkable--popboxmenu">
+                <li ng-class="{'selected selected--right':entry.vmSortType==null||entry.vmSortType=='pos'}">
+                    <a href=javascript:; ng-click="vm.js_set_sort('pos','asc')">{{'pop_entry_menu.entry_sort_default'|translate}}</a></li>
+                <li ng-class="{'selected selected--right':entry.vmSortType=='create_date'}">
+                    <a href=javascript:; ng-click="vm.js_set_sort('create_date','desc')">{{'pop_entry_menu.entry_sort_create'|translate}}</a></li>
+                <li ng-class="{'selected selected--right':entry.vmSortType=='update_date'}">
+                    <a href=javascript:; ng-click="vm.js_set_sort('update_date','desc')">{{'pop_entry_menu.entry_sort_update'|translate}}</a></li>
+                <li ng-class="{'selected selected--right':entry.vmSortType=='completed_date'}">
+                    <a href=javascript:; ng-click="vm.js_set_sort('completed_date','desc')">{{'pop_entry_menu.entry_sort_completed'|translate}}</a></li>
+                <li ng-class="{'selected selected--right':entry.vmSortType=='members'}">
+                    <a href=javascript:; ng-click="vm.js_set_sort('members','desc')">{{'pop_entry_menu.entry_sort_assign'|translate}}</a></li>
+                <li ng-class="{'selected selected--right':entry.vmSortType=='expire_date'}">
+                    <a href=javascript:; ng-click="vm.js_set_sort('expire_date','desc')">{{'pop_entry_menu.entry_sort_expire'|translate}}</a></li>
+            </ul>
+        </div>
+    </li>
+</ul>

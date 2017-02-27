@@ -910,7 +910,7 @@ define(['app'], function (app) {
 							}
 						},
 						G.js_add_entry_pop = function(b) {
-							d.popbox({
+							$popbox.popbox({
 								target: b,
 								templateUrl: "/tpl/project/task/pop_add_entry.html",
 								controller: ["$scope", "popbox", "pop_data",
@@ -950,8 +950,8 @@ define(['app'], function (app) {
 								resolve: {
 									pop_data: function() {
 										return {
-											scope: a,
-											entries: a.vm.entries
+											scope: $scope,
+											entries: $scope.vm.entries
 										}
 									}
 								}
@@ -1013,7 +1013,7 @@ define(['app'], function (app) {
 								b.selected_tasks = _.difference(c, d)
 						},
 						G.js_batch_set_expiredate = function(b, c, e, f) {
-							d.popbox({
+							$popbox.popbox({
 								target: b,
 								top: e,
 								left: f,
@@ -1090,7 +1090,7 @@ define(['app'], function (app) {
 								resolve: {
 									pop_data: function() {
 										return {
-											scope: a
+											scope: $scope
 										}
 									}
 								}
@@ -1098,7 +1098,7 @@ define(['app'], function (app) {
 						},
 						G.js_batch_move_task = function(b, c, e, f) {
 							c.entry_id;
-							d.popbox({
+							$popbox.popbox({
 								target: b,
 								top: e,
 								left: f,
@@ -1181,9 +1181,9 @@ define(['app'], function (app) {
 								resolve: {
 									pop_data: function() {
 										return {
-											scope: a,
-											entries: a.vm.entries,
-											entry: c
+											scope: $scope,
+											entries: $scope.vm.entries,
+											entry: $rootScope
 										}
 									}
 								}
@@ -1191,7 +1191,7 @@ define(['app'], function (app) {
 						},
 						G.js_batch_set_assignee = function(b, c, e, f) {
 							c.entry_id;
-							d.popbox({
+							$popbox.popbox({
 								target: b,
 								top: e,
 								left: f,
@@ -1241,9 +1241,9 @@ define(['app'], function (app) {
 								resolve: {
 									pop_data: function() {
 										return {
-											scope: a,
-											entries: a.vm.entries,
-											entry: c
+											scope: $scope,
+											entries: $scope.vm.entries,
+											entry: $rootScope
 										}
 									}
 								}
@@ -1251,7 +1251,7 @@ define(['app'], function (app) {
 						},
 						G.js_batch_set_labels = function(b, c) {
 							var e = a;
-							d.popbox({
+							$popbox.popbox({
 								target: b,
 								template: '<wt-set-task-labels task="task" batchsetlabelfn="set_label" project="project"></wt-set-task-labels>',
 								controller: ["$scope", "popbox",
@@ -1287,11 +1287,11 @@ define(['app'], function (app) {
 						},
 						G.js_show_entry_menu = function(b, c, e, f) {
 							var g = c.entry_id;
-							d.popbox({
+							$popbox.popbox({
 								target: b,
 								top: e,
 								left: f,
-								templateUrl: "/tpl/project/task/pop_entry_menu.html",
+								templateUrl: config.templateUrls.task_pop_entry_menu,
 								controller: ["$rootScope", "$scope", "popbox", "pop_data",
 									function(a, b, d, e) {
 										var f = b.vm = {
@@ -1423,9 +1423,9 @@ define(['app'], function (app) {
 								resolve: {
 									pop_data: function() {
 										return {
-											scope: a,
-											entries: a.vm.entries,
-											entry: c
+											scope: $scope,
+											entries: $scope.vm.entries,
+											entry: $rootScope
 										}
 									}
 								}
@@ -1435,7 +1435,7 @@ define(['app'], function (app) {
 							if(!(1 == e.batch_action_flag || f.is_locked && m(f, c.global.me))) {
 								if(b.stopPropagation(), I && f.tid === J) return void K.close();
 								f.tid && ma(f),
-									K = d.popbox({
+									K = $popbox.popbox({
 										target: b,
 										top: g,
 										left: h,
@@ -1692,9 +1692,9 @@ define(['app'], function (app) {
 										resolve: {
 											pop_data: function() {
 												return {
-													scope: a,
+													scope: $scope,
 													entries: G.entries,
-													entry: e
+													entry: $location
 												}
 											}
 										}
@@ -1771,9 +1771,11 @@ define(['app'], function (app) {
 							},
 							$scope),
 						G.js_show_add_task_composer = function(a, b) {
+							// console.log(a);
+							// console.log(b);
 							this.task_name = "",
-								b.task_bottom_enabled = !0,
-								b.maxheight -= 34
+							b.task_bottom_enabled = !0,
+							b.maxheight -= 34
 						},
 						G.js_cancel_composer = function(a, b, c) {
 							b.task_bottom_enabled && (b.maxheight += 34),

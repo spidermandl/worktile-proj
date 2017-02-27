@@ -121,18 +121,18 @@ define(['app'], function (app) {
 					elMenubar: $(".mod-navbar .center-menu")
 				};
 				$scope.pm.js_pop_project_menu = function(b) {
-						c.popbox({
+						$popbox.popbox({
 							target: b,
-							templateUrl: "/tpl/project/pop_project_menu.html",
-							controller: ["$rootScope", "$scope", "popbox", "pop_data", "projectService",
+							templateUrl: config.templateUrls.task_pop_project_menu,
+							controller: ["$rootScope", "$scope", "popbox", "pop_data", "ProjectService",
 								function(a, b, c, e, f) {
 									b.popbox = c;
 									var g = b.vm = {
 										step: 0,
 										project: e.project,
-										prj_permission_admin: kzi.constant.prj_permission.admin,
-										prj_permission_member: kzi.constant.prj_permission.member,
-										prj_permission_guest: kzi.constant.prj_permission.guest
+										prj_permission_admin: config.constant.prj_permission.admin,
+										prj_permission_member: config.constant.prj_permission.member,
+										prj_permission_guest: config.constant.prj_permission.guest
 									};
 									g.js_close = function() {
 											c.close()
@@ -219,15 +219,16 @@ define(['app'], function (app) {
 							resolve: {
 								pop_data: function() {
 									return {
-										sidebar: a.sidebar,
-										project: a.project
+										sidebar: $rootScope.sidebar,
+										project: $rootScope.project
 									}
 								}
 							}
 						}).open()
 					},
 					$scope.pm.js_pop_set_project_logo = function(f) {
-						e(b.global.prj_module.setting, a.project.permission) && c.popbox({
+						e(b.global.prj_module.setting, a.project.permission) && 
+						$popbox.popbox({
 							target: f,
 							templateUrl: "/tpl/project/pop_project_logo.html",
 							controller: ["$rootScope", "$scope", "popbox", "pop_data",

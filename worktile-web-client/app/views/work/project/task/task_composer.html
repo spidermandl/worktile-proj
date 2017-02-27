@@ -1,0 +1,20 @@
+<div class=entry-task-composer>
+    <div class=composer-body ng-click=vm.focus_textarea($event)>
+        <div class=entry-task-labels>
+            <div ng-repeat="label in vm.new_task.labels" class="task-label {{label.name}}-label"></div>
+        </div>
+        <textarea class="form-control help-block mb_0" ng-model=vm.new_task.temp_name placeholder="{{'task_composer.placeholder_task_name'|translate}}" wt-enter="vm.parse_save($event, vm.new_task, vm.entry, 0)" wt-enter-not-shift></textarea>
+        <div class=composer-body-footer>
+            <div class=task-badges task=task>
+                <span ng-if="vm.new_task.expire_date !=null && vm.new_task.expire_date!=0" class="task-badge fa fa-clock-o" title="{{'task_composer.expired'|translate}}{{vm.new_task.expire_date|smartDateFormat}}">{{vm.new_task.expire_date|smartDateFormat}}</span></div>
+            <div class=entry-task-members ng-if="vm.new_task.members !=null && vm.new_task.members.length > 0">
+                <wt-avatar ng-repeat="member in vm.new_task.members" class="js-popbox member" wt-disable-pop member=member size=30></wt-avatar>
+            </div>
+        </div>
+    </div>
+    <div class=composer-footer>
+        <button ng-click="vm.parse_save($event, vm.new_task);" class="btn btn-success btn--big confirm mr-10" data-loading-text="{{'common.saving'|translate}}" wt-loading-status=is_task_adding>{{'common.btn_save'|translate}}</button>
+        <button ng-click=vm.parse_cancel($event,vm.new_task) class="btn btn-link btn-cancel">{{'common.btn_cancel'|translate}}</button>
+        <a href=javascript:; class="js-popbox fa fa-play-circle-o action-icon" data-placement=right data-align=middle ng-click="vm.parse_show_task_menu($event, vm.entry, vm.new_task)"></a>
+    </div>
+</div>
