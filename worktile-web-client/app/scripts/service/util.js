@@ -1,7 +1,7 @@
 /**
  * @ngdoc function
  * @description
- * # Util
+ * # Util 由bus组件演变过来
  * Controller of the jtWorkApp
  */
  define(['app'], function (app) {

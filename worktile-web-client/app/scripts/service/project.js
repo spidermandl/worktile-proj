@@ -109,7 +109,7 @@ define(['app'], function (app) {
 												}) 
 												: (m(), 1 === l.current_template.type && n()),
 													l.visibilities = util.project.get_visibilities(l.new_project.team_id), 
-													void(l.new_project.visibility || (l.new_project.visibility = config.prj_visibility.private))
+													void(l.new_project.visibility || (l.new_project.visibility = config.constant.prj_visibility.private))
 											) 
 											: 
 											void(l.visibilities = []);
@@ -184,7 +184,8 @@ define(['app'], function (app) {
 												a.preventDefault())
 									},
 									l.change_project_team = function() {
-										l.new_project.visibility = config.prj_visibility.private;
+										l.new_project.visibility = 
+											config.constant.prj_visibility.private;
 										p();
 									},
 									l.close = function() {
@@ -661,20 +662,20 @@ define(['app'], function (app) {
 									project: c,
 									is_prj_copying: !1,
 									visibility_options: [{
-										id: kzi.constant.prj_visibility.private,
+										id: config.constant.prj_visibility.private,
 										name: d.instant("project_service.visibility_options_private")
 									}, {
-										id: kzi.constant.prj_visibility.protected,
+										id: config.constant.prj_visibility.protected,
 										name: d.instant("project_service.visibility_options_protected")
 									}, {
-										id: kzi.constant.prj_visibility.public,
+										id: config.constant.prj_visibility.public,
 										name: d.instant("project_service.visibility_options_public")
 									}],
 									visibility_options2: [{
-										id: kzi.constant.prj_visibility.private,
+										id: config.constant.prj_visibility.private,
 										name: d.instant("project_service.visibility_options_private")
 									}, {
-										id: kzi.constant.prj_visibility.public,
+										id: config.constant.prj_visibility.public,
 										name: d.instant("project_service.visibility_options_public")
 									}]
 								};

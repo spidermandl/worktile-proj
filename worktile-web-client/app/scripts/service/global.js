@@ -37,7 +37,7 @@ define(['app'], function (app) {
 			};
 
 			/**
-			 * 全局上下文数据
+			 * 全局上下文数据 设置到rootScope的global中
 			 * loadAll 的返回值
 			 */
 			var context = {
@@ -54,82 +54,82 @@ define(['app'], function (app) {
 				me : null,//用户基本信息
 
 				constant : config.constant,//常量
-
+				prj_module : config.constant.prj_module,
 				team_module: config.constant.team_module,
 				/**
 				 * team相关
 				 */
-				team : {
-					dismiss: function(a) {
-						var b = i.getTeam(a);
-						i.teams.splice(i.teams.indexOf(b), 1),
-						i.projects = _.reject(i.projects,
-							function(b) {
-								return b.team_id === a
-							}),
-						i.setTeamProjects()
-					},
-					sync: function(a, b) {
-						var c = i.getTeam(a);
-						_.map(b,
-							function(a, b) {
-								void 0 !== c[b] && (c[b] = a)
-							})
-					},
-					remove_member: function(a, b) {
-						var c = _.find(i.teams, {
-							team_id: a
-						});
-						c && (c.member_count = c.member_count - 1);
-						var d = _.reject(i.projects,
-							function(b) {
-								return b.team_id === a
-							});
-						_.forEach(d,
-							function(a) {
-								a.member_count = a.member_count - 1,
-									a.members && (a.members = _.reject(a.members, {
-										uid: b
-									})),
-									a.pid == i.project.pid && (i.project.info.members = _.reject(i.project.info.members, {
-										uid: b
-									}), _.forEach(i.project.tasks,
-										function(a) {
-											a.members = _.reject(a.members, {
-												uid: b
-											})
-										}))
-							})
-					},
-					leave: function(a) {
-						i.teams = _.reject(i.teams,
-								function(b) {
-									return b.team_id === a
-								}),
-							i.projects = _.reject(i.projects,
-								function(b) {
-									return b.team_id === a
-								})
-					},
-					update_base: function(a, b, c, d) {
-						var e = _.find(i.teams, {
-							team_id: a
-						});
-						e && (e.name = b, e.desc = c, e.url = d)
-					},
-					set_logo: function(a, b) {
-						var c = _.find(i.teams, {
-							team_id: a
-						});
-						c && (c.pic = b)
-					},
-					update_visibility: function(a, b) {
-						var c = _.find(i.teams, {
-							team_id: a
-						});
-						c && (c.visibility = b)
-					}
-				},
+				// team : {
+				// 	dismiss: function(a) {
+				// 		var b = i.getTeam(a);
+				// 		i.teams.splice(i.teams.indexOf(b), 1),
+				// 		i.projects = _.reject(i.projects,
+				// 			function(b) {
+				// 				return b.team_id === a
+				// 			}),
+				// 		i.setTeamProjects()
+				// 	},
+				// 	sync: function(a, b) {
+				// 		var c = i.getTeam(a);
+				// 		_.map(b,
+				// 			function(a, b) {
+				// 				void 0 !== c[b] && (c[b] = a)
+				// 			})
+				// 	},
+				// 	remove_member: function(a, b) {
+				// 		var c = _.find(i.teams, {
+				// 			team_id: a
+				// 		});
+				// 		c && (c.member_count = c.member_count - 1);
+				// 		var d = _.reject(i.projects,
+				// 			function(b) {
+				// 				return b.team_id === a
+				// 			});
+				// 		_.forEach(d,
+				// 			function(a) {
+				// 				a.member_count = a.member_count - 1,
+				// 					a.members && (a.members = _.reject(a.members, {
+				// 						uid: b
+				// 					})),
+				// 					a.pid == i.project.pid && (i.project.info.members = _.reject(i.project.info.members, {
+				// 						uid: b
+				// 					}), _.forEach(i.project.tasks,
+				// 						function(a) {
+				// 							a.members = _.reject(a.members, {
+				// 								uid: b
+				// 							})
+				// 						}))
+				// 			})
+				// 	},
+				// 	leave: function(a) {
+				// 		i.teams = _.reject(i.teams,
+				// 				function(b) {
+				// 					return b.team_id === a
+				// 				}),
+				// 			i.projects = _.reject(i.projects,
+				// 				function(b) {
+				// 					return b.team_id === a
+				// 				})
+				// 	},
+				// 	update_base: function(a, b, c, d) {
+				// 		var e = _.find(i.teams, {
+				// 			team_id: a
+				// 		});
+				// 		e && (e.name = b, e.desc = c, e.url = d)
+				// 	},
+				// 	set_logo: function(a, b) {
+				// 		var c = _.find(i.teams, {
+				// 			team_id: a
+				// 		});
+				// 		c && (c.pic = b)
+				// 	},
+				// 	update_visibility: function(a, b) {
+				// 		var c = _.find(i.teams, {
+				// 			team_id: a
+				// 		});
+				// 		c && (c.visibility = b)
+				// 	}
+				// },
 			};
 			var globalDataContext = {
 				contacts : [],
@@ -151,7 +151,762 @@ define(['app'], function (app) {
 					cal_events_end: void 0,
 					events: []
 				},
-
+			   /**
+				* 缓存
+				**/
+                cache: {
+					project: {
+						updateFull: function(a) {
+							a.pid === i.project.info.pid && (i.project.info.name = a.name, i.project.info.desc = a.desc, i.project.info.archived = a.archived, i.project.info.pic = a.pic, i.project.info.bg = a.bg, i.project.info.is_star = a.is_star, i.project.info.curr_role = a.curr_role, i.project.info.permission = a.permission);
+							var b = _.find(i.projects, {
+								pid: a.pid
+							});
+							b && (b.name = a.name, b.desc = a.desc, b.archived = a.archived, b.pic = a.pic, b.bg = a.bg, b.is_star = a.is_star, b.curr_role = a.curr_role, b.permission = a.permission)
+						},
+						update: function(a, b, c, d, e, f) {
+							a === i.project.info.pid && (i.project.info.name = b, i.project.info.bg = c, i.project.info.pic = d, i.project.info.desc = e, i.project.info.visibility = f);
+							var g = _.find(i.projects, {
+								pid: a
+							});
+							g && (g.name = b, g.bg = c, g.pic = d, g.desc = e, g.visibility = f)
+						},
+						set_logo: function(a, b, c) {
+							wt.data.project.set_logo(a, b, c,
+								function() {
+									a === i.project.info.pid && (i.project.info.bg = b, i.project.info.pic = c);
+									var d = _.find(i.projects, {
+										pid: a
+									});
+									d && (d.bg = b, d.pic = c)
+								})
+						},
+						change_extensions: function(a, c, d, e, f) {
+							wt.bus.project.get_extensions(e,
+								function(f) {
+									if(0 === d && (e = _.reject(e, {
+											eid: c.eid
+										})), 1 === d) {
+										e = _.sortBy(e, "pos");
+										var g = _.last(e);
+										e.push({
+											eid: c.eid,
+											type: 1,
+											join_date: moment().valueOf(),
+											pos: 2 * g.pos
+										})
+									}
+									a === i.project.info.pid && 1 === c.type && (i.project.info.navigations = _.filter(f, {
+										type: 1,
+										enable: 1
+									}));
+									var h = _.find(i.projects, {
+										pid: a
+									});
+									h && 1 === c.type && (h.navigations = _.filter(f, {
+											type: 1,
+											enable: 1
+										})),
+										b.$broadcast(kzi.constant.event_names.project_extensions_change, {
+											extensions: e
+										})
+								})
+						},
+						extension_change_pos: function(a, c, d, e) {
+							wt.data.project.extension_change_pos(a, c, d,
+								function(d) {
+									if(a === i.project.info.pid && 1 === c.type) {
+										var f = _.find(i.project.info.navigations, {
+											eid: c.eid
+										});
+										f.pos = d.data;
+										var g = _.find(i.project.info.extensions, {
+											eid: c.eid
+										});
+										g.pos = d.data,
+											i.project.info.extensions = _.sortBy(i.project.info.extensions, "pos"),
+											b.$broadcast(kzi.constant.event_names.project_extensions_change, {
+												extensions: i.project.info.extensions
+											})
+									}
+									e(d)
+								})
+						},
+						add: function(a) {
+							var b = _.find(i.projects, {
+								pid: a.pid
+							});
+							b || i.projects.push(a),
+								i.setTeamProjects()
+						},
+						remove: function(a) {
+							if(i.cache.recent_open.remove("project", a), i.cache.star_projects.remove(a), a === i.project.info.pid && (_.findIndex(i.star_projects, {
+									pid: a
+								}) !== -1 && i.cache.project.set_star(a), i.clearProject()), i.projects && i.projects.length > 0) {
+								var b = _.findWhere(i.projects, {
+									pid: a
+								});
+								b && 1 === b.is_star && i.cache.project.set_star(a),
+									i.projects = _.reject(i.projects,
+										function(b) {
+											return b.pid === a
+										}),
+									i.setTeamProjects()
+							}
+						},
+						shift: function(a, d) {
+							if(i.project.info && i.project.info.pid === a) {
+								i.project.info.team_id = d,
+									i.project.info.visibility === kzi.constant.prj_visibility.protected && d === -1 && (i.project.info.visibility = kzi.constant.prj_visibility.private);
+								var e = _.find(i.teams, {
+									team_id: d
+								});
+								e && (i.project.info.team = {
+										team_id: e.team_id,
+										name: e.name,
+										status: e.status,
+										is_owner: e.is_owner,
+										edition: e.edition
+									}),
+									d === -1 && (i.project.info.team = {
+											team_id: -1,
+											is_owner: 0
+										},
+										c.use(b.global.me.locale).then(function() {
+											i.project.info.team.name = c.instant("projects.project_type_name_personal")
+										}))
+							}
+							var f = _.find(i.projects, {
+								pid: a
+							});
+							f && (f.team_id = d, f.visibility === kzi.constant.prj_visibility.protected && d === -1 && (f.visibility = kzi.constant.prj_visibility.private), i.setTeamProjects())
+						},
+						add_admin: function(a, b) {
+							if(i.projects && i.projects.length > 0) {
+								var c = _.find(i.projects, {
+									pid: a
+								});
+								if(c) {
+									var d = _.find(c.admins, {
+										uid: b.uid
+									});
+									d || c.admins.push(b)
+								}
+							}
+						},
+						remove_admin: function(a, b) {
+							if(i.projects && i.projects.length > 0) {
+								var c = _.find(i.projects, {
+									pid: a
+								});
+								c && (c.admins = _.reject(c.admins,
+									function(a) {
+										return a.uid === b.uid
+									}))
+							}
+						},
+						set_star: function(a) {
+							i.getProject(a, !1, !1).then(function(c) {
+								return 1 === c.archived ? result : (c.is_star = c.is_star ? 0 : 1, void wt.data.project.set_prefs(c.pid, "is_star", c.is_star,
+									function(d) {
+										i.project.info && a === i.project.info.pid && (i.project.info.is_star = c.is_star, i.project.info.star_pos = d.data),
+											c.is_star ? i.cache.star_projects.add(c) : i.cache.star_projects.remove(a),
+											b.$broadcast(kzi.constant.event_names.project_star_change, {
+												pid: a,
+												star_pos: d.data
+											})
+									},
+									function() {
+										c.is_star = c.is_star ? 0 : 1
+									}))
+							})
+						},
+						set_favorite: function(a, b) {
+							i.project.info && a === i.project.info.pid && (i.project.info.is_favorite = b);
+							var c = _.find(i.projects, {
+								pid: a
+							});
+							c && (c.is_favorite = b)
+						},
+						label_remove: function(a, b) {
+							if(i.project && i.project.pid === a) {
+								var c = _.filter(i.project.tasks,
+										function(a) {
+											return a.labels.length > 0
+										}),
+									d = _.map(c, "tid");
+								_.each(d,
+									function(a) {
+										var c = _.find(i.project.tasks, {
+											tid: a
+										});
+										c.labels = _.reject(c.labels,
+											function(a) {
+												return a.name === b
+											})
+									});
+							}
+						},
+						member_remove: function(a, b) {
+							var c = _.find(i.projects, {
+								pid: a
+							});
+							c && c.members && _.remove(c.members, {
+									uid: b
+								}),
+								i.project.pid == a && i.project.info && i.project.info.members && (_.remove(i.project.info.members, {
+									uid: b
+								}), _.forEach(i.project.tasks,
+									function(a) {
+										_.remove(a.members, {
+												uid: b
+											}),
+											_.remove(a.watchers, {
+												uid: b
+											})
+									}))
+						},
+						label_rename: function(a, b) {
+							if(i.project && i.project.pid === a) {
+								var c = _.filter(i.project.tasks,
+										function(a) {
+											return a.labels.length > 0
+										}),
+									d = _.map(c, "tid");
+								_.each(d,
+									function(a) {
+										var c = _.find(i.project.tasks, {
+											tid: a
+										});
+										$(c.labels).each(function(a, c) {
+											c.name === b.name && (c.desc = b.desc)
+										})
+									})
+							}
+						}
+					},
+					star_projects: {
+						add: function(a) {
+							i.star_projects.push(a)
+						},
+						remove: function(a) {
+							i.star_projects = _.reject(i.star_projects, {
+								pid: a
+							})
+						}
+					},
+					recent_open: {
+						get: function() {
+							var a = [];
+							return kzi.localData.get("quickswitch_recentOpen") ? (a = JSON.parse(kzi.localData.get("quickswitch_recentOpen")), _.each(a,
+								function(a) {
+									a.is_current = !1
+								}), a) : a
+						},
+						add: function(a, b) {
+							switch(a) {
+								case "member":
+									var c = {
+										uid: b.uid,
+										name: b.name,
+										display_name: b.display_name,
+										avatar: b.avatar
+									};
+									_.findIndex(i.recent_open, {
+											uid: b.uid
+										}) === -1 ? i.recent_open.unshift(c) : (i.recent_open = _.reject(i.recent_open, {
+											uid: b.uid
+										}), i.recent_open.unshift(c)),
+										i.cache.recent_members._add(b);
+									break;
+								case "project":
+									_.findIndex(i.recent_open, {
+										pid: b.pid
+									}) !== -1 && (i.recent_open = _.reject(i.recent_open, {
+										pid: b.pid
+									}));
+									var d = {
+										pid: b.pid,
+										name: b.name,
+										bg: b.bg,
+										pic: b.pic
+									};
+									i.recent_open.unshift(d),
+										i.cache.recent_projects._add(d)
+							}
+							i.recent_open = i.recent_open.slice(0, f),
+								kzi.localData.set("quickswitch_recentOpen", JSON.stringify(i.recent_open))
+						},
+						remove: function(a, b) {
+							switch(a) {
+								case "member":
+									i.recent_open = _.reject(i.recent_open, {
+											uid: b
+										}),
+										i.cache.recent_members._remove(b);
+									break;
+								case "project":
+									i.recent_open = _.reject(i.recent_open, {
+											pid: b
+										}),
+										i.cache.recent_projects._remove(b)
+							}
+							return kzi.localData.set("quickswitch_recentOpen", JSON.stringify(i.recent_open)),
+								i.recent_open
+						}
+					},
+					recent_projects: {
+						get: function() {
+							var a = [];
+							return kzi.localData.get("quickswitch_recentProject") ? (a = JSON.parse(kzi.localData.get("quickswitch_recentProject")), _.each(a,
+								function(a) {
+									a.is_current = !1
+								}), a) : a
+						},
+						_add: function(a) {
+							_.findIndex(i.recent_projects, {
+									pid: a.pid
+								}) !== -1 && (i.recent_projects = _.reject(i.recent_projects, {
+									pid: a.pid
+								})),
+								i.recent_projects.unshift(a),
+								i.recent_projects = i.recent_projects.slice(0, h),
+								kzi.localData.set("quickswitch_recentProject", JSON.stringify(i.recent_projects))
+						},
+						_remove: function(a) {
+							i.recent_projects = _.reject(i.recent_projects, {
+									pid: a
+								}),
+								kzi.localData.set("quickswitch_recentProject", JSON.stringify(i.recent_projects))
+						}
+					},
+					recent_members: {
+						get: function() {
+							var a = [];
+							return kzi.localData.get("quickswitch_recentMember") ? (a = JSON.parse(kzi.localData.get("quickswitch_recentMember")), _.each(a,
+								function(a) {
+									a.is_current = !1
+								}), a) : a
+						},
+						_add: function(a) {
+							_.findIndex(i.recent_members, {
+									pid: a.uid
+								}) !== -1 && (i.recent_members = _.reject(i.recent_members, {
+									pid: a.uid
+								})),
+								i.recent_members.unshift(a),
+								i.recent_members = i.recent_members.slice(0, g),
+								kzi.localData.set("quickswitch_recentMember", JSON.stringify(i.recent_members))
+						},
+						_remove: function(a) {}
+					},
+					team: {
+						dismiss: function(a) {
+							var b = i.getTeam(a);
+							i.teams.splice(i.teams.indexOf(b), 1),
+								i.projects = _.reject(i.projects,
+									function(b) {
+										return b.team_id === a
+									}),
+								i.setTeamProjects()
+						},
+						sync: function(a, b) {
+							var c = i.getTeam(a);
+							_.map(b,
+								function(a, b) {
+									void 0 !== c[b] && (c[b] = a)
+								})
+						},
+						remove_member: function(a, b) {
+							var c = _.find(i.teams, {
+								team_id: a
+							});
+							c && (c.member_count = c.member_count - 1);
+							var d = _.reject(i.projects,
+								function(b) {
+									return b.team_id === a
+								});
+							_.forEach(d,
+								function(a) {
+									a.member_count = a.member_count - 1,
+										a.members && (a.members = _.reject(a.members, {
+											uid: b
+										})),
+										a.pid == i.project.pid && (i.project.info.members = _.reject(i.project.info.members, {
+											uid: b
+										}), _.forEach(i.project.tasks,
+											function(a) {
+												a.members = _.reject(a.members, {
+													uid: b
+												})
+											}))
+								})
+						},
+						leave: function(a) {
+							i.teams = _.reject(i.teams,
+									function(b) {
+										return b.team_id === a
+									}),
+								i.projects = _.reject(i.projects,
+									function(b) {
+										return b.team_id === a
+									})
+						},
+						update_base: function(a, b, c, d) {
+							var e = _.find(i.teams, {
+								team_id: a
+							});
+							e && (e.name = b, e.desc = c, e.url = d)
+						},
+						set_logo: function(a, b) {
+							var c = _.find(i.teams, {
+								team_id: a
+							});
+							c && (c.pic = b)
+						},
+						update_visibility: function(a, b) {
+							var c = _.find(i.teams, {
+								team_id: a
+							});
+							c && (c.visibility = b)
+						}
+					},
+					task: {
+						add: function(a) {
+							if(null !== i.project.info && a.pid === i.project.info.pid) {
+								var b = _.find(i.project.tasks, {
+									tid: a.tid
+								});
+								b || i.project.tasks.push(a);
+								var c = _.find(i.project.entries, {
+									entry_id: a.entry_id
+								});
+								c && c.tasks && !_.find(c.tasks, {
+									tid: a.tid
+								}) && c.tasks.push(a)
+							}
+						},
+						batch_add: function(a) {
+							if(null !== i.project.info && a[0].pid === i.project.info.pid) {
+								var b = _.find(i.project.entries, {
+									entry_id: a[0].entry_id
+								});
+								_.each(a,
+									function(a) {
+										i.project.tasks.push(a),
+											b && b.tasks && (b.tasks.push(a), b.tasks = _.sortBy(b.tasks,
+												function(a) {
+													return a.pos
+												}))
+									})
+							}
+						},
+						set_expire: function(a, b) {
+							var c = _.find(i.project.tasks, {
+								tid: a
+							});
+							c && (c.expire_date = b, c.update_date = Date.now(), c.badges.expire_date = b)
+						},
+						move: function(a, b, c, d) {
+							var e = _.find(i.project.entries, {
+								entry_id: d
+							});
+							if(e) {
+								var f = _.find(i.project.tasks, {
+									tid: a
+								});
+								f.pos = b,
+									f.update_date = Date.now(),
+									c !== d && (f.entry_id = d)
+							}
+						},
+						del: function(a) {
+							var b = _.find(i.project.tasks, {
+								tid: a
+							});
+							if(b) {
+								b.is_deleted = !0,
+									b.update_date = Date.now();
+								var c = _.find(i.project.entries, {
+									entry_id: b.entry_id
+								});
+								c && c.tasks && (c.tasks = _.reject(c.tasks,
+									function(b) {
+										return b.tid === a
+									}))
+							}
+							return i.project.tasks = _.reject(i.project.tasks,
+									function(b) {
+										return b.tid === a
+									}),
+								i.project.tasks
+						},
+						archive: function(a) {
+							var b = _.find(i.project.tasks, {
+								tid: a
+							});
+							if(b) {
+								b.archived = !0,
+									b.update_date = Date.now();
+								var c = _.find(i.project.entries, {
+									entry_id: b.entry_id
+								});
+								c && c.tasks && (c.tasks = _.reject(c.tasks,
+									function(b) {
+										return b.tid === a
+									}))
+							}
+							return i.project.tasks = _.reject(i.project.tasks,
+									function(b) {
+										return b.tid === a
+									}),
+								i.project.tasks
+						},
+						batch_archive: function(a) {
+							_.each(a,
+								function(a) {
+									i.cache.task.archive(a)
+								})
+						},
+						complete: function(a, b) {
+							var c = _.find(i.project.tasks, {
+								tid: a
+							});
+							c && (c.completed = b, c.update_date = Date.now())
+						},
+						lock: function(a, b) {
+							var c = _.find(i.project.tasks, {
+								tid: a
+							});
+							c && (c.is_locked = b, c.update_date = Date.now())
+						},
+						update_full: function(a) {
+							var b = _.find(i.project.tasks, {
+								tid: a.tid
+							});
+							if(b) {
+								b.name = a.name,
+									b.desc = a.desc,
+									b.pos = a.pos,
+									b.completed = a.completed,
+									b.is_expire = a.is_expire,
+									b.expire_date = a.expire_date,
+									b.update_date = a.update_date,
+									b.badges = a.badges,
+									b.labels = a.labels,
+									b.members = a.members,
+									b.watchers = a.watchers,
+									b.todos = a.todos;
+								var c = _.find(i.project.entries, {
+									entry_id: a.entry_id
+								});
+								c && (b.entry_name = c.name)
+							}
+						}
+					},
+					entry: {
+						add: function(a) {
+							if(a.pid === i.project.pid) {
+								var b = _.find(i.project.entries, {
+									entry_id: a.entry_id
+								});
+								return b ? b : (i.project.entries.push(a), a)
+							}
+						},
+						archive: function(a, b) {
+							if(a === i.project.pid) return i.cache.entry.del(a, b)
+						},
+						unarchive: function(a, b, c) {
+							a === i.project.pid && wt.data.entry.get_tasks(a, b,
+								function(a) {
+									var d = _.find(i.project.entries, {
+										entry_id: b
+									});
+									d || i.project.entries.push(a.data.entry),
+										c(i.project.entries)
+								})
+						},
+						move: function(a, b, c) {
+							if(a === i.project.pid) {
+								var d = _.find(i.project.entries, {
+									entry_id: b
+								});
+								if(d) return d.pos = c,
+									i.project.entries
+							}
+						},
+						rename: function(a, b, c) {
+							if(a === i.project.pid) {
+								var d = _.find(i.project.entries, {
+									entry_id: b
+								});
+								if(d) return d.name = c,
+									i.project.entries
+							}
+						},
+						del: function(a, b) {
+							if(a === i.project.pid) {
+								var c = _.find(i.project.entries, {
+									entry_id: b
+								});
+								return c && (i.project.entries = _.reject(i.project.entries,
+										function(a) {
+											return a.entry_id === b
+										}), i.project.tasks = _.reject(i.project.tasks,
+										function(a) {
+											return a.entry_id === b
+										})),
+									i.project.entries
+							}
+						},
+						untrash: function(a, b, c) {
+							a === i.project.pid && wt.data.entry.get_tasks(a, b,
+								function(a) {
+									var d = _.find(i.project.entries, {
+										entry_id: b
+									});
+									d || i.project.entries.push(a.data.entry),
+										c(i.project.entries)
+								})
+						}
+					},
+					file: {
+						del: function(a, b) {
+							var c = _.filter(i.project.tasks,
+								function(a) {
+									return _.includes(a.fids, b)
+								});
+							_.each(c,
+								function(a) {
+									a.files && (a.files = _.reject(a.files, {
+											fid: b
+										})),
+										a.fids = _.without(a.fids, b)
+								})
+						}
+					},
+					event: {
+						update: function(a, b, c) {
+							var d = _.find(i.project.events, {
+								event_id: a.event_id
+							});
+							if(b === kzi.constant.event_update_type.one) {
+								var e = _.find(i.project.cal_events, {
+									id: a.event_id
+								});
+								d && (d = a),
+									e && (e.title = a.name, e.start = moment(a.start.date).format("YYYY-MM-DD HH:MM"), e.end = moment(a.end.date).format("YYYY-MM-DD HH:MM"))
+							}
+							if(b === kzi.constant.event_update_type.follow_up) {
+								var f = a.event_id,
+									g = _.find(i.project.cal_events, {
+										id: f
+									}),
+									h = moment(a.start.date) - moment(g.start),
+									j = moment(a.end.date) - moment(g.end),
+									k = _.filter(i.project.cal_events, {
+										extend: {
+											recurrence_id: a.recurrence_id
+										}
+									});
+								k = _.filter(k,
+										function(a) {
+											return moment(g.start) <= moment(a.start)
+										}),
+									_.each(k,
+										function(b) {
+											b.title = a.name,
+												b.extend.recurrence_id = c,
+												0 != h && (b.start = moment(b.start).add(h, "milliseconds").format("YYYY-MM-DDTHH:MM")),
+												0 != j && (b.end = moment(b.end).add(j, "milliseconds").format("YYYY-MM-DDTHH:MM"))
+										})
+							}
+						},
+						update_date: function(a, c, d, e, f, g, h) {
+							var j = _.find(i.project.events, {
+									event_id: c
+								}),
+								k = _.find(i.project.cal_events, {
+									id: c
+								});
+							wt.data.event.update_date(a, c, d, e, f, g,
+								function(a) {
+									200 === a.code && (k && (k.start = d + "T" + e + ":00+08:00", k.end = f + "T" + g + ":00+08:00"), j && (j.start.date = parseInt(moment(d + "T" + e).format("x"), 10), j.start.time = e, j.start.time_zone = j.start.time_zone, j.end.date = parseInt(moment(f + "T" + g).format("x"), 10), j.end.time = g, j.end.time_zone = j.end.time_zone), b.$broadcast(kzi.constant.event_names.on_event_update_date, {
+										start_date: parseInt(moment(d + "T" + e).format("x"), 10),
+										end_date: parseInt(moment(f + "T" + g).format("x"), 10)
+									}))
+								})
+						},
+						trash: function(a, b) {
+							var c = parseInt(b);
+							switch(i.project.events = _.reject(i.project.events,
+								function(b) {
+									return b.event_id === a.event_id
+								}), c) {
+								case kzi.constant.event_trash_type.one:
+									i.project.cal_events = _.reject(i.project.cal_events,
+										function(b) {
+											return b.id === a.event_id
+										});
+									break;
+								case kzi.constant.event_trash_type.follow_up:
+									i.project.cal_events = _.reject(i.project.cal_events,
+										function(b) {
+											var c = new Date(b.start).getTime();
+											return c >= a.start.date && b.extend.recurrence_id === a.recurrence_id
+										});
+									break;
+								case kzi.constant.event_trash_type.all:
+									i.project.cal_events = _.reject(i.project.cal_events,
+										function(b) {
+											return b.extend.recurrence_id === a.recurrence_id
+										})
+							}
+							return i.project.events
+						}
+					},
+					user: {
+						avatar: function(a, b) {
+							j(a,
+								function(a) {
+									a.avatar = b
+								})
+						},
+						update: function(a, b, c) {
+							j(a,
+								function(a) {
+									a.display_name = b,
+										a.desc = c
+								})
+						},
+						remove: function(a) {
+							i.project && i.project.info.members && i.project.info.members.length > 0 && (i.project.info.members = _.reject(i.project.info.members,
+								function(b) {
+									return b.uid === a
+								}), i.project.tasks && i.project.tasks.length > 0 && (_.each(i.project.tasks,
+								function(b) {
+									b.members && b.members.length > 0 && (b.members = _.reject(b.members,
+										function(b) {
+											return b.uid === a
+										}))
+								}), b.$broadcast("socket_message_project_member_remove", {
+								uid: a
+							})))
+						},
+						change_state: function(a, c) {
+							if(b.$broadcast(kzi.constant.event_names.member_state_change, {
+									uid: a,
+									state: c
+								}), i.project.info) {
+								var d = _.find(i.project.info.members, {
+									uid: a
+								});
+								d && (d.online = c)
+							}
+							b.global.me.uid === a && (b.global.me.online = c)
+						}
+					}
+				
+                },
 				/**
 				 * 获取用户信息
 				 */
@@ -322,41 +1077,41 @@ define(['app'], function (app) {
 					this.project.cal_events_end = void 0,
 					this.project.events = []
 				},
-				// getPacketProjects = function(a) {
-				// 	var d = a;
-				// 	d instanceof Array || (d = i.projects);
-				// 	var e = [],
-				// 		f = [];
-				// 	return _.each(d,
-				// 			function(a) {
-				// 				if(kzi.constant.prj_module.crud & a.permission) {
-				// 					var d = _.clone(a);
-				// 					if(d.is_star) d.sort = 100,
-				// 						c.use(b.global.me.locale).then(function() {
-				// 							d.team_name = c.instant("projects.project_type_name_star")
-				// 						}),
-				// 						f.push(d);
-				// 					else {
-				// 						if(i.teams) {
-				// 							var g = _.find(i.teams,
-				// 								function(a) {
-				// 									return a.team_id === d.team_id
-				// 								});
-				// 							c.use(b.global.me.locale).then(function() {
-				// 									d.team_name = g ? g.name : c.instant("projects.project_type_name_personal")
-				// 								}),
-				// 								d.sort = g && d.team_id !== -1 ? g.create_date : 1e3
-				// 						}
-				// 						e.push(d)
-				// 					}
-				// 				}
-				// 			}),
-				// 		e = _.union(f, e),
-				// 		i.teams ? _.sortBy(e,
-				// 			function(a) {
-				// 				return a.sort
-				// 			}) : e
-				// },
+				getPacketProjects : function(a) {
+					var d = a;
+					d instanceof Array || (d = i.projects);
+					var e = [],
+						f = [];
+					return _.each(d,
+							function(a) {
+								if(kzi.constant.prj_module.crud & a.permission) {
+									var d = _.clone(a);
+									if(d.is_star) d.sort = 100,
+										c.use(b.global.me.locale).then(function() {
+											d.team_name = c.instant("projects.project_type_name_star")
+										}),
+										f.push(d);
+									else {
+										if(i.teams) {
+											var g = _.find(i.teams,
+												function(a) {
+													return a.team_id === d.team_id
+												});
+											c.use(b.global.me.locale).then(function() {
+													d.team_name = g ? g.name : c.instant("projects.project_type_name_personal")
+												}),
+												d.sort = g && d.team_id !== -1 ? g.create_date : 1e3
+										}
+										e.push(d)
+									}
+								}
+							}),
+						e = _.union(f, e),
+						i.teams ? _.sortBy(e,
+							function(a) {
+								return a.sort
+							}) : e
+				},
 				// setTeamProjects = function() {
 				// 	var a = _.find(i.projects, {
 				// 			team_id: "-1"
@@ -408,18 +1163,23 @@ define(['app'], function (app) {
 				// 			return b(a.data)
 				// 		})
 				// },
-				// loadEntriesAndTasks = function(a, b, c) {
-				// 	return i.project.pid !== a || _.isEmpty(i.project.entries) ? void wt.data.entry.get_list(a, !1,
-				// 		function(c) {
-				// 			var d = c.data.entries,
-				// 				e = c.data.tasks;
-				// 			i.pid = a,
-				// 				i.project.entries = d,
-				// 				i.project.tasks = e,
-				// 				b(i.project)
-				// 		},
-				// 		c, null, "globalDataContext-loadEntriesAndTasks") : b(i.project)
-				// },
+				/**
+				 *加载项目 entry和task
+				 */
+				loadEntriesAndTasks : function(a, b, c) {
+					return this.project.pid !== a || _.isEmpty(this.project.entries) ?
+						void wt.data.entry.get_list(a, !1,
+							function(c) {
+								var d = c.data.entries,
+									e = c.data.tasks;
+								this.pid = a,
+								this.project.entries = d,
+								this.project.tasks = e,
+								b(this.project)
+							},
+							c, null, "globalDataContext-loadEntriesAndTasks") 
+						: b(this.project)
+				},
 				// reloadEntriesAndTasks = function(a, b, c) {
 				// 	wt.data.entry.get_list(a, !1,
 				// 		function(b) {
