@@ -135,85 +135,85 @@ define(['app'], function (app) {
 										prj_permission_guest: config.constant.prj_permission.guest
 									};
 									g.js_close = function() {
+										c.close()
+									},
+									g.js_step = function(a) {
+										g.step = a
+									},
+									g.js_add_project_member = function() {
+										f.showAddMember(g.project),
+											g.js_close()
+									},
+									g.js_project_setting = function() {
+										f.showSetting(g.project),
+											g.js_close()
+									},
+									g.js_project_extension = function() {
+										f.showExtension(g.project),
+											g.js_close()
+									},
+									g.js_project_labels = function() {
+										f.showLabels(g.project),
+											g.js_close()
+									},
+									g.js_project_timingtasks = function() {
+										f.showTimingtasks(g.project),
+											g.js_close()
+									},
+									g.js_project_copy = function() {
+										f.showCopy(g.project),
+											g.js_close()
+									},
+									g.js_project_move = function() {
+										f.showMove(g.project),
+											g.js_close()
+									},
+									g.js_project_export = function() {
+										f.showExport(g.project),
+											g.js_close()
+									},
+									g.js_project_webhook = function() {
+										f.showWebhook(g.project),
+											g.js_close()
+									},
+									g.js_project_createbymail = function() {
+										f.showCreateByMail(g.project),
+											g.js_close()
+									},
+									g.js_project_quit = function() {
+										f.showQuit(g.project),
+											g.js_close()
+									},
+									g.js_project_active = function() {
+										f.showActive(g.project),
+											g.js_close()
+									},
+									g.js_project_archive = function() {
+										f.showArchive(g.project),
+											g.js_close()
+									},
+									g.js_project_del = function() {
+										f.showDel(g.project),
+											g.js_close()
+									},
+									g.js_toggle_star = function() {
+										d.cache.project.set_star(e.project.pid)
+									},
+									g.js_toggle_favorite = function() {
+										var a = e.project.is_favorite ? 0 : 1;
+										e.project.is_favorite = a,
+											wt.data.project.set_favorite(e.project.pid, a,
+												function(a) {
+													d.cache.project.set_favorite(e.project.pid, e.project.is_favorite)
+												},
+												function() {
+													e.project.is_favorite = a ? 0 : 1
+												})
+									},
+									g.change_sidebar_status = function(a, b) {
+										e.sidebar.change_status(a, b),
 											c.close()
-										},
-										g.js_step = function(a) {
-											g.step = a
-										},
-										g.js_add_project_member = function() {
-											f.showAddMember(g.project),
-												g.js_close()
-										},
-										g.js_project_setting = function() {
-											f.showSetting(g.project),
-												g.js_close()
-										},
-										g.js_project_extension = function() {
-											f.showExtension(g.project),
-												g.js_close()
-										},
-										g.js_project_labels = function() {
-											f.showLabels(g.project),
-												g.js_close()
-										},
-										g.js_project_timingtasks = function() {
-											f.showTimingtasks(g.project),
-												g.js_close()
-										},
-										g.js_project_copy = function() {
-											f.showCopy(g.project),
-												g.js_close()
-										},
-										g.js_project_move = function() {
-											f.showMove(g.project),
-												g.js_close()
-										},
-										g.js_project_export = function() {
-											f.showExport(g.project),
-												g.js_close()
-										},
-										g.js_project_webhook = function() {
-											f.showWebhook(g.project),
-												g.js_close()
-										},
-										g.js_project_createbymail = function() {
-											f.showCreateByMail(g.project),
-												g.js_close()
-										},
-										g.js_project_quit = function() {
-											f.showQuit(g.project),
-												g.js_close()
-										},
-										g.js_project_active = function() {
-											f.showActive(g.project),
-												g.js_close()
-										},
-										g.js_project_archive = function() {
-											f.showArchive(g.project),
-												g.js_close()
-										},
-										g.js_project_del = function() {
-											f.showDel(g.project),
-												g.js_close()
-										},
-										g.js_toggle_star = function() {
-											d.cache.project.set_star(e.project.pid)
-										},
-										g.js_toggle_favorite = function() {
-											var a = e.project.is_favorite ? 0 : 1;
-											e.project.is_favorite = a,
-												wt.data.project.set_favorite(e.project.pid, a,
-													function(a) {
-														d.cache.project.set_favorite(e.project.pid, e.project.is_favorite)
-													},
-													function() {
-														e.project.is_favorite = a ? 0 : 1
-													})
-										},
-										g.change_sidebar_status = function(a, b) {
-											e.sidebar.change_status(a, b),
-												c.close()
-										}
+									}
 								}
 							],
 							resolve: {
