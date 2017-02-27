@@ -440,6 +440,7 @@ define(['app'], function (app) {
         return function(a, b) {
             // console.log(a);
             // console.log(b);
+            //console.log(! (!a || !b) && a & b);
             return ! (!a || !b) && a & b
         }
     }]).filter("teamVisibility", ["$translate","config",

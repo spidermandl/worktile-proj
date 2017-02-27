@@ -1054,16 +1054,5 @@ define(['app'], function(app) {
 		/**************************************************************************************************************
 		 *
 		 **************************************************************************************************************/
-		.filter('indexOf', ['config', function(config) {
-			return function(input) {
-				var collection = input[0];
-				var filter = input[1];
-				return collection.indexOf(filter) == -1 ? false : true;
-			};
-		}])
-		.filter('orderBy', ['config', function(config) {
-			return function(input, star_pos) {
-
-			};
-		}]);
+		;
 });

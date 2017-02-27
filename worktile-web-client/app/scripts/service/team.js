@@ -44,7 +44,7 @@ define(['app'], function (app) {
                         }
                         function i() {
                             j.is_first_landing = !1,
-                            wt.me.is_new = "0",
+                            //wt.me.is_new = "0",
                             f.global.is_first_landing = !1
                         }
                         d.track("create_team", "visit");

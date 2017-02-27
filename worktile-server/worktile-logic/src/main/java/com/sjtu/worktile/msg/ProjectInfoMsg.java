@@ -46,7 +46,7 @@ public class ProjectInfoMsg extends PairMsg{
         }
 
         public static class Extension{
-            public long eid = 0;
+            public String eid = null;
             public  String key = null;
             public int type =1;
             public int pos = 0;

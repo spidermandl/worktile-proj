@@ -47,23 +47,27 @@ define(['app'], function (app) {
 					}
 				},
 				l = fastProject;//ui route 传来的参数
+				
 			l ? ($scope.project = l, util.project.get_extensions(l.extensions,
 					function(a) {
 						j(_.filter(a, {
 								enable: 1
 							})),
-							$scope.project.navigations = _.filter(a, {
-								enable: 1,
-								type: 1
-							}),
-							k(l)
-					})) : $timeout(function() {
-					$state.go("project_not_found", {
-						pid: i
-					}, {
-						location: "replace"
-					})
-				}),
+						$scope.project.navigations = _.filter(a, {
+							enable: 1,
+							type: 1
+						}),
+						k(l);
+						console.log($scope.project.navigations);
+					})) 
+					: 
+					$timeout(function() {
+						$state.go("project_not_found", {
+							pid: i
+						}, {
+							location: "replace"
+						})
+					}),
 				$scope.task_filters = {
 					texts: [],
 					labels: [],
@@ -229,8 +233,8 @@ define(['app'], function (app) {
 							controller: ["$rootScope", "$scope", "popbox", "pop_data",
 								function(a, b, c, e) {
 									var f = b.vm = {
-										prj_colors: kzi.constant.prj_colors,
-										prj_icons: kzi.constant.prj_icons,
+										prj_colors: config.constant.prj_colors,
+										prj_icons: config.constant.prj_icons,
 										project: e.project
 									};
 									b.popbox = c,
@@ -269,18 +273,18 @@ define(['app'], function (app) {
 						},
 						50);
 				g(),
-					$scope.$watch("project.navigations",
-						function(a) {
-							j()
-						}),
-					$scope.$watch("sidebar.status",
-						function(a) {
-							j(a)
-						}),
-					$scope.$on("$destroy",
-						function() {
-							$(window).unbind("resize.checkMoreNavMenu")
-						})
+				$scope.$watch("project.navigations",
+					function(a) {
+						j()
+					}),
+				$scope.$watch("sidebar.status",
+					function(a) {
+						j(a)
+					}),
+				$scope.$on("$destroy",
+					function() {
+						$(window).unbind("resize.checkMoreNavMenu")
+					})
 		
 		}])
 		/**************************************************************************************************************

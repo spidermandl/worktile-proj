@@ -1,5 +1,6 @@
 package com.sjtu.worktile.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.sjtu.worktile.configuration.Const;
 import com.sjtu.worktile.exception.AppException;
 import com.sjtu.worktile.model.*;
@@ -94,6 +95,36 @@ public class ProjectController extends BaseController{
     }
 
     /**
+     * 设置 extension
+     * @param msg
+     */
+    private void setExtension(ProjectInfoMsg.OutMsg msg){
+        ProjectInfoMsg.OutMsg.Extension ext =
+                JSON.parseObject("{\"eid\":\"478f3a4c51824ad23cb50c1c60670c0f\",\"key\":\"task\",\"type\":1,\"pos\":65535,\"join_date\":1487675975106}",
+                ProjectInfoMsg.OutMsg.Extension.class);
+        msg.data.info.extensions.add(ext);
+        ext = JSON.parseObject("{\"eid\":\"a0e7b2a565119c0a7ec3126a16016113\",\"key\":\"event\",\"type\":1,\"pos\":131071,\"join_date\":1487675975106}",
+                ProjectInfoMsg.OutMsg.Extension.class);
+        msg.data.info.extensions.add(ext);
+        ext = JSON.parseObject("{\"eid\":\"8c7dd922ad47494fc02c388e12c00eac\",\"key\":\"file\",\"type\":1,\"pos\":196606,\"join_date\":1487675975105}",
+                ProjectInfoMsg.OutMsg.Extension.class);
+        msg.data.info.extensions.add(ext);
+        ext = JSON.parseObject("{\"eid\":\"42b90196b487c54069097a68fe98ab6f\",\"key\":\"post\",\"type\":1,\"pos\":262141,\"join_date\":1487675975105}",
+                ProjectInfoMsg.OutMsg.Extension.class);
+        msg.data.info.extensions.add(ext);
+        ext = JSON.parseObject("{\"eid\":\"71860c77c6745379b0d44304d66b6a13\",\"key\":\"page\",\"type\":1,\"pos\":327676,\"join_date\":1487675975105}",
+                ProjectInfoMsg.OutMsg.Extension.class);
+        msg.data.info.extensions.add(ext);
+        ext = JSON.parseObject("{\"eid\":\"f8b0b924ebd7046dbfa85a856e4682c8\",\"key\":\"graph\",\"type\":1,\"pos\":393211,\"join_date\":1487675975104}",
+                ProjectInfoMsg.OutMsg.Extension.class);
+        msg.data.info.extensions.add(ext);
+        ext = JSON.parseObject("{\"eid\":\"c6c45e4495a68b6d99b5ae9afd78ad03\",\"key\":\"show_task_number\",\"type\":2,\"pos\":65535,\"join_date\":1487675975104}",
+                ProjectInfoMsg.OutMsg.Extension.class);
+        msg.data.info.extensions.add(ext);
+
+    }
+
+    /**
      * 获取项目主要信息
      * @param request
      * @return
@@ -115,6 +146,7 @@ public class ProjectController extends BaseController{
 //        msg.data.info.background =null;
 //        msg.data.info.bg_image = null;
 //        msg.data.info.extensions
+        setExtension(msg);
 //        msg.data.info.labels
         teamService.getTeamInfoById(tProject.getTeamId());
         mappingToTeamMsg(msg.data.info.team,

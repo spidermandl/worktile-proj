@@ -17,7 +17,7 @@
                 </div>
                 <div class=center-menu>
                     <ul>
-                        <li ng-repeat="nav in project.navigations |orderBy:'pos' track by nav.eid" ng-hide="(pm.showNavMore&&$root.global.project_iconmenu!=nav.key)">
+                        <li ng-repeat="nav in project.navigations | orderBy:'pos' track by nav.eid" ng-hide="(pm.showNavMore&&$root.global.project_iconmenu!=nav.key)">
                             <a ng-href=/project/{{project.pid}}/{{nav.key}} ng-class="{'active':$root.global.project_iconmenu==nav.key}" title="{{nav.name + nav.shortcuts}}" ng-bind=nav.name></a>
                         </li>
                         <li ng-if=pm.showNavMore>

@@ -218,8 +218,10 @@
 													e = _.find(a, {
 														eid: b.eid
 													});
-												e ? (d.enable = 1, d.join_date = e.join_date, d.pos = e.pos) : d.enable = 0,
-													f.push(d)
+												e ? 
+													(d.enable = 1, d.join_date = e.join_date, d.pos = e.pos) 
+													: 
+													d.enable = 0,f.push(d)
 											})
 									}),
 								f = _.sortBy(f, "pos"),

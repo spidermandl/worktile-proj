@@ -1037,7 +1037,7 @@ define(['app'], function (app) {
 									null == f.extensions ? 
 									api.get_project_info(b).then(
 										function(msg) {
-											console.log(msg);
+											//console.log(msg);
 											return f = msg.data.info,
 												f.members = msg.data.members,
 												d && (globalDataContext.clearProject(), 
@@ -1166,18 +1166,29 @@ define(['app'], function (app) {
 				/**
 				 *加载项目 entry和task
 				 */
-				loadEntriesAndTasks : function(a, b, c) {
-					return this.project.pid !== a || _.isEmpty(this.project.entries) ?
-						void wt.data.entry.get_list(a, !1,
+				loadEntriesAndTasks : function(pid, b, c) {
+					return this.project.pid !== pid || _.isEmpty(this.project.entries) ?
+						// void wt.data.entry.get_list(pid, !1,
+						// 	function(c) {
+						// 		var d = c.data.entries,
+						// 			e = c.data.tasks;
+						// 		globalDataContext.pid = pid,
+						// 		globalDataContext.project.entries = d,
+						// 		globalDataContext.project.tasks = e,
+						// 		b(globalDataContext.project)
+						// 	},
+						// 	c, null, "globalDataContext-loadEntriesAndTasks") 
+						api.get_project_tasks(pid).then(
 							function(c) {
 								var d = c.data.entries,
 									e = c.data.tasks;
-								this.pid = a,
-								this.project.entries = d,
-								this.project.tasks = e,
-								b(this.project)
+								globalDataContext.pid = pid,
+								globalDataContext.project.entries = d,
+								globalDataContext.project.tasks = e,
+								b(globalDataContext.project)
 							},
-							c, null, "globalDataContext-loadEntriesAndTasks") 
+							c
+						)
 						: b(this.project)
 				},
 				// reloadEntriesAndTasks = function(a, b, c) {

@@ -145,7 +145,7 @@ abstract public class BaseController {
         e.pos =task.getPos();
         //e.archived = ;
         e.create_date = task.getCreateTime().getTime();
-        e.update_date = task.getUpdateTime().getTime();
+        e.update_date = task.getUpdateTime()==null?0:task.getUpdateTime().getTime();
         e.watched = false;
     }
 
