@@ -1,18 +1,17 @@
 package com.sjtu.worktile.msg;
 
 /**
- * Created by lenovo on 2017/2/24.
+ * Created by lenovo on 2017/2/27.
  */
-public class TaskNewTodoMsg extends PairMsg {
+public class TaskDeleteTodoMsg extends PairMsg {
     /**
      * 消息序列号
      */
-    private static final int MSG_CODE = 5016;
+    private static final int MSG_CODE = 5020;
 
     public static class InMsg implements RequestMsg{
         public int code=MSG_CODE;
-        public long task_id=0;//任务id
-        public String content=null;//内容
+        public long task_check_item_id=0;//任务检查项id
     }
 
     public static class OutMsg implements ResponseMsg{
@@ -20,6 +19,7 @@ public class TaskNewTodoMsg extends PairMsg {
     }
     @Override
     void initMsg(){
-
+        inMsg=new TaskDeleteTodoMsg.InMsg();
+        outMsg=new TaskDeleteTodoMsg.OutMsg();
     }
 }
