@@ -13,10 +13,10 @@ define(['app'], function (app) {
 	app.controller('projectTasksCtrl', 
 					['$rootScope','$scope','config','$state','globalDataContext',
 						'$stateParams','$popbox','$translate','$location','fastProject',
-							'Util','$timeout','ycTrack','permissionFilter',
+							'Util','$timeout','ycTrack','permissionFilter','api','wtScrollService',
 			function ($rootScope,$scope,config,$state,globalDataContext,
 					stateParams,$popbox,$translate,$location,fastProject,
-					util,$timeout,ycTrack,permissionFilter) {
+					util,$timeout,ycTrack,permissionFilter,api,wtScrollService) {
 				//["$scope", "$stateParams", "$rootScope", "$popbox", "$location", "$timeout", "$interval", "permissionFilter", "bus", "globalDataContext", "locator", "wtScrollService", "taskLockPermissionFilter", "$translate", "fastProject", "ycTrack"],
 				//     a            b              c            d            e            f          g             h              i            j                 k            l                    m                           n          o             p
 				function q(a) {
@@ -100,10 +100,10 @@ define(['app'], function (app) {
 								entry_id: a.entry_id
 							});
 							a.batch_action_flag = 0,
-								a.selected_tasks = [],
-								a.tasks = c,
-								d && 0 !== a.tasks.length && (a.task_loop_done = !1),
-								a.maxheight = G.entry_maxheight
+							a.selected_tasks = [],
+							a.tasks = c,
+							d && 0 !== a.tasks.length && (a.task_loop_done = !1),
+							a.maxheight = G.entry_maxheight
 						}),
 					G.entries = b.entries,
 					G.tasks = b.tasks,
@@ -597,7 +597,9 @@ define(['app'], function (app) {
 							G.new_task.labels = [],
 							G.new_task.expire_date = null
 						},
-						aa = function(b, c, d) {
+						create_task = function(b, c, d) {
+							//new_task, entry, isTop
+							//    b        c     d
 							if(!_.isUndefined(b) && !_.isUndefined(b.temp_name) && !_.isEmpty(b.temp_name)) {
 								$scope.is_task_adding = !0;
 								var e = c.entry_id,
@@ -605,16 +607,29 @@ define(['app'], function (app) {
 									h = [],
 									i = function() {
 										var b = $("#entry_scroll_" + c.entry_id);
-										d === !0 ? l.scrollTo(b, "top") : f(function() {
-												l.scrollTo(b, "bottom")
+										d === !0 ? 
+											wtScrollService.scrollTo(b, "top") 
+											: $timeout(function() {
+												wtScrollService.scrollTo(b, "bottom")
 											}),
 											$scope.is_task_adding = !1
 									};
 								_.isEmpty(b.members) || (g = _.map(b.members, "uid")),
 									_.isEmpty(b.labels) || (h = _.map(b.labels, "name"));
-								var k = kzi.helper.split_line(b.temp_name),
+								var k = config.helper.split_line(b.temp_name),
 									m = d ? "top" : "bottom";
-								wt.data.task.batch_add(G.pid, e, m, k, g, h, b.expire_date, 0,
+									
+								api.add_task(
+										{	
+											pid: G.pid, 
+											entry_id: e, 
+											pos_type: m, 
+											names: angular.toJson(k, true), 
+											members: angular.toJson(g,true), 
+											labels: angular.toJson(h,true), 
+											expire_date: b.expire_date, 
+											is_locked: 0,
+										},
 										function(a) {
 											200 === a.code && 
 											globalDataContext.cache.task.batch_add(a.data)
@@ -623,7 +638,7 @@ define(['app'], function (app) {
 										function() {
 											i()
 										}),
-									Z()
+								Z()
 							}
 						},
 						ba = function(a, b) {
@@ -982,7 +997,7 @@ define(['app'], function (app) {
 							}
 						},
 						G.js_add_task = function(a, b, c, d) {
-							aa(b, c, d)
+							create_task(b, c, d)
 						},
 						G.js_batch_select_all = function(a, b) {
 							var c = [];

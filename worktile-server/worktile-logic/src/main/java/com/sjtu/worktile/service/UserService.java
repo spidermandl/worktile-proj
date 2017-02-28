@@ -60,6 +60,10 @@ public class UserService {
      * @return
      */
     public List<TUser> findUsersByID(Long[] ids){
+        if (ids == null || ids.length ==0){
+            return new ArrayList<TUser>();
+        }
+
         TUserExample query = new TUserExample();
 
         for (long id : ids){

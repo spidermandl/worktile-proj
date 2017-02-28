@@ -163,7 +163,7 @@ abstract public class BaseController {
         t.pos = task.getPos();//位置
         //t.labels = ;//标签
         t.uid = uid;//用户id
-        t.expire_date = task.getEndTime().getTime();//任务截止日期
+        t.expire_date = task.getEndTime()==null?0:task.getEndTime().getTime();//任务截止日期
         //t.completed = ;//是否完成：0：未完成，1：已完成
         /**
          * 获取分配的成员
@@ -187,7 +187,7 @@ abstract public class BaseController {
         t.is_loop = 0;
         t.archived = 0;
         t.created_at = task.getCreateTime().getTime();
-        t.updated_at = task.getUpdateTime().getTime();
+        t.updated_at = task.getUpdateTime()==null?0:task.getUpdateTime().getTime();
         //t.completed_date = ;//完成日期
         //t.fids =;
         t.entry_name = entry.getTitle();//任务组名称
