@@ -225,8 +225,6 @@ define(['app'], function(app) {
 		/**************************************************************************************************************
 		 *
 		 **************************************************************************************************************/
-		//angular.module("wt.locator", []).service("locator",a),
-		// a.$inject = ["$rootScope", "$state", "$location"],
 		.controller('TeamTasksCtrl', ['$scope', '$rootScope', 'config', '$translate', '$state', 'locator', 'api',
 			function($scope, $rootScope, config, translate, state, locator, api) {
 				//"$rootScope", "$scope", "$state", "$popbox", "globalDataContext", "locator", "$translate",
@@ -235,7 +233,7 @@ define(['app'], function(app) {
 				$rootScope.global.title = [translate.instant("team_tasks.title_name"), " | ", $scope.team.name].join(""),
 					$rootScope.global.loading_done = !0,
 					$scope.loading_tasks = !1;
-				var h = $scope.team.team_id;
+
 				$scope.part_loading_done = !1;
 				var i = $scope.vm = {
 						filter_type_reg: "uncompleted",
@@ -248,7 +246,7 @@ define(['app'], function(app) {
 					$scope.tasks = [];
 				var k = $scope.load_tasks = function() {
 					$scope.loading_tasks = !0,
-						wt.data.team.get_tasks(h, i.filter_user_reg, i.filter_project_reg, i.filter_type_reg, j,
+						api.get_tasks($scope.team.team_id, i.filter_user_reg, i.filter_project_reg, i.filter_type_reg, j,
 							function(a) {
 								_.each(a.data,
 										function(a) {
@@ -261,13 +259,13 @@ define(['app'], function(app) {
 									a.data.length > 0 ? (j += 1, i.is_has_more_task = !0) : i.is_has_more_task = !1
 							},
 							function() {
-								kzi.msg.error(g.instant("team_tasks.get_tasks_fail"))
+								config.msg.error(translate.instant("team_tasks.get_tasks_fail"))
 							},
 							function() {
 								$scope.loading_tasks = !1
 							})
 				};
-				api.get_team_members(h,
+				api.get_team_members($scope.team.team_id,
 						function(a) {
 							$scope.team.members = _.filter(a.data.members,
 								function(a) {
@@ -290,7 +288,7 @@ define(['app'], function(app) {
 					}
 
 			}
-		]).service("locator")
+		])
 		/**************************************************************************************************************
 		 *
 		 **************************************************************************************************************/

@@ -270,9 +270,9 @@ define(['app'], function(app) {
 				/**************************************************************************
 				 **创建任务 api
 				 **************************************************************************/
-				add_task: function(data, success, failure, promise){
+				add_task: function(data, success, failure, promise) {
 					return this.http_post_template(
-						domain+'/api/task/create',
+						domain + '/api/task/create',
 						data,
 						success, failure, promise
 					);
@@ -305,19 +305,34 @@ define(['app'], function(app) {
 					);
 				},
 
-			// get_team_stats: function(team_id, success, failure, promise) {
-			// 	return this.http_get_template(
-			// 		domain + '/api/team/' + team_id + '/projects',
-			// 		success, failure, promise
-			// 	);
-			// },
+				get_team_stats: function(team_id, success, failure, promise) {
+					return this.http_get_template(
+						domain + '/api/team/' + team_id + '/projects',
+						success, failure, promise
+					);
+				},
 
-			// get_tasks_overview: function(team_id, success, failure, promise) {
-			// 	return this.http_get_template(
-			// 		domain + '/api/team/' + team_id + '/projects',
-			// 		success, failure, promise
-			// 	);
-			// },
+				get_tasks_overview: function(team_id, success, failure, promise) {
+					return this.http_get_template(
+						domain + '/api/team/' + team_id + '/projects',
+						success, failure, promise
+					);
+				},
+
+
+				get_team_members: function(team_id, success, failure, promise) {
+					return this.http_get_template(
+						domain + '/api/team/' + team_id + '/projects',
+						success, failure, promise
+					);
+				},
+
+				get_tasks: function(team_id, filter_user_reg, filter_project_reg, filter_type_reg, page, success, failure, promise) {
+					return this.http_get_template(
+						domain + '/api/team/' + team_id + filter_user_reg + filter_project_reg + filter_type_reg + page + '/projects',
+						success, failure, promise
+					);
+				},
 			}
 		}
 	]);
