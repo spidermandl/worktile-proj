@@ -8,6 +8,7 @@ import com.sjtu.worktile.model.mappers.TTaskMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,10 +47,31 @@ public class TaskService {
     }
 
     /**
+     * 获取最大位置数值
+     * @param parend_id
+     * @return
+     */
+    public float getHighestPos(long parend_id){
+        TTaskExample query=new TTaskExample();
+        TTaskExample.Criteria criteria = query.createCriteria();
+        criteria.andParentIdEqualTo(parend_id);
+        query.setOrderByClause("pos desc");
+        List<TTask> tasks = tTaskMapper.selectByExample(query);
+        if (tasks.size()==0)
+            return 0xFFFF;
+        else
+            return tasks.get(0).getPos()+0xFFFF;
+    }
+
+    /**
      * 获取特点组信息
      * @param parent_ids
      */
     public List<TTask> getItemByParentId(Long[] parent_ids){
+        if (parent_ids == null || parent_ids.length ==0){
+            return new ArrayList<TTask>();
+        }
+
         TTaskExample query=new TTaskExample();
         for (Long id : parent_ids) {
             TTaskExample.Criteria criteria = query.createCriteria();

@@ -268,6 +268,16 @@ define(['app'], function(app) {
 					);
 				},
 				/**************************************************************************
+				 **创建任务 api
+				 **************************************************************************/
+				add_task: function(data, success, failure, promise){
+					return this.http_post_template(
+						domain+'/api/task/create',
+						data,
+						success, failure, promise
+					);
+				},
+				/**************************************************************************
 				 **获取未完成任务信息 api
 				 **************************************************************************/
 				get_dashboard_task: function(success, failure, promise) {

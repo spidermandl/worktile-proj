@@ -1,9 +1,7 @@
 /**
  * @ngdoc function
- * @name jtWorkApp.service:IdentityService
+ * @name jtWorkApp.service:yTrack
  * @description
- * 登录前相关api service
- * Controller of the jtWorkApp
  */
 define(['app'], function (app) {
     'use strict';

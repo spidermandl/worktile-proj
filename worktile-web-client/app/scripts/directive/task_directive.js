@@ -26,31 +26,39 @@ define(['app'], function (app) {
 					argFnCancel: "&",
 					argFnShowMore: "&"
 				},
-				link: function(c, d, e) {
+				link: function($scope, element, attr) {
+					//$scope, element, attr
+					//   c        d      e
 					function f() {
 						h(),
 							$timeout(function() {
 									var c = $("#entry_scroll_" + g.entry.entry_id);
 									"top" === g.position ? 
-										(b.scrollTo(c, "top"), d.find("textarea")[0].focus()) 
+										(b.scrollTo(c, "top"), element.find("textarea")[0].focus()) 
 										: 
 										$timeout(function() {
 											wtScrollService.scrollTo(c, "bottom"),
-												d.find("textarea")[0].focus()
+												element.find("textarea")[0].focus()
 										})
 								},
 								50)
 					}
-					var g = c.vm = {
-							entry: c.argEntry,
-							new_task: c.argNewTaskModel,
-							position: c.argPosition
+					var g = $scope.vm = {
+							entry: $scope.argEntry,
+							new_task: $scope.argNewTaskModel,
+							position: $scope.argPosition
 						},
 						h = function() {
 							$(document).bind("mousedown.wtTaskComposer",
 								function(a) {
-									$(a.target).hasClass("entry-task-composer") || $(a.target).parents(".entry-task-composer").length > 0 || $(a.target).hasClass("popbox-avatar") || $(a.target).parents(".popbox-avatar").length > 0 || ($(document).unbind("mousedown.wtTaskComposer"), c.$apply(function() {
-										g.parse_cancel(null)
+									$(a.target).hasClass("entry-task-composer") || 
+									$(a.target).parents(".entry-task-composer").length > 0 || 
+									$(a.target).hasClass("popbox-avatar") || 
+									$(a.target).parents(".popbox-avatar").length > 0 || 
+									($(document).unbind("mousedown.wtTaskComposer"), 
+										$scope.$apply(function() {
+
+										g.parse_cancel(null);
 									}))
 								})
 						};
@@ -63,7 +71,7 @@ define(['app'], function (app) {
 						b.find("textarea").focus()
 					},
 					g.parse_save = function(a, b) {
-						c.argFnSave({
+						$scope.argFnSave({
 							$event: a,
 							new_task: b,
 							entry: g.entry,
@@ -71,21 +79,21 @@ define(['app'], function (app) {
 						})
 					},
 					g.parse_cancel = function(a, b) {
-						c.argFnCancel({
+						$scope.argFnCancel({
 							$event: a,
 							entry: g.entry,
 							new_task: b
 						})
 					},
 					g.parse_show_task_menu = function(a, b, d) {
-						c.argFnShowMore({
+						$scope.argFnShowMore({
 							$event: a,
 							entry: g.entry,
 							new_task: d
 						})
 					},
 					f(),
-					c.$on("$destory",
+					$scope.$on("$destory",
 						function() {
 							$(document).unbind("mousedown.wtTaskComposer")
 						})
@@ -96,8 +104,8 @@ define(['app'], function (app) {
 	/**************************************************************************************************************
 	 *
 	 **************************************************************************************************************/
-	.directive("wtTask", ["config","$timeout", "wtScrollService",
-		function(config,$timeout,wtScrollService) {
+	.directive("wtTask", ["config","$timeout", "wtScrollService","arrReverseFilter",
+		function(config,$timeout,wtScrollService,arrReverseFilter) {
 			//["smartDateFormatFilter", "cutstrFilter", "arrReverseFilter", "sanitize", "$translate"],
 			//            a                    b                 c                d           e
 			return {
@@ -221,22 +229,26 @@ define(['app'], function (app) {
 							};
 							f.$watch(h.task,
 									function(a) {
-										_.isUndefined(a) || _.isNull(a) || _.isEqual(a, {}) || (k.members_reverse = c(a.members), i(a))
-									}, !0),
-								k.parse_fn_check = function(a, b, c) {
-									f.argFnCheck({
-										$event: a,
-										entry: b,
-										task: c
-									})
-								},
-								k.parse_fn_more = function(a, b, c) {
-									f.argFnMore({
-										$event: a,
-										entry: b,
-										task: c
-									})
-								}
+										_.isUndefined(a) || 
+										_.isNull(a) || 
+										_.isEqual(a, {}) || 
+										(k.members_reverse = arrReverseFilter(a.members), i(a))
+									}, 
+									!0),
+							k.parse_fn_check = function(a, b, c) {
+								f.argFnCheck({
+									$event: a,
+									entry: b,
+									task: c
+								})
+							},
+							k.parse_fn_more = function(a, b, c) {
+								f.argFnMore({
+									$event: a,
+									entry: b,
+									task: c
+								})
+							}
 						}
 					}
 				}

@@ -1,5 +1,8 @@
 package com.sjtu.worktile.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.sjtu.worktile.configuration.Const;
 import com.sjtu.worktile.exception.AppException;
 import com.sjtu.worktile.model.TTask;
 import com.sjtu.worktile.model.TTaskAssignment;
@@ -17,6 +20,7 @@ import java.util.Map;
 
 /**
  * Created by Desmond on 10/01/2017.
+ * 任务相关api操作
  */
 @RestController
 @RequestMapping("/api/task")
@@ -40,31 +44,53 @@ public class TaskController extends BaseController {
 
     /**
      * 新增任务
-     * @param parent_id
+     * @param pid
      * @param entry_id
-     * @param title
-     * @param type
+     * @param names
+     * @param members
+     * @param is_locked
+     * @param expire_date
+     * @param labels
+     * @param pos_type
      * @param request
      * @return
      * @throws AppException
      */
     @RequestMapping(value="create",method=RequestMethod.POST)
     @ResponseBody
-    public PairMsg.ResponseMsg create(@RequestParam("parent_id") long parent_id,
+    public TaskNewMsg.OutMsg create(@RequestParam("pid") long pid,
                                       @RequestParam("entry_id") long entry_id,
-                                      @RequestParam("title") String title,
-                                      @RequestParam("type") int type,
+                                      @RequestParam("names") String names,
+                                      @RequestParam(value = "members",required = false) String members,
+                                      @RequestParam("is_locked") int is_locked,
+                                      @RequestParam(value = "expire_date",required = false) Long expire_date,
+                                      @RequestParam(value = "labels",required = false) String labels,
+                                      @RequestParam("pos_type") String pos_type,
                                       final HttpServletRequest request)throws AppException{
+
         long uid=super.getUserID(request);
+
         TTask tTask=new TTask();
-        tTask.setParentId(parent_id);
-        tTask.setCreaterId(uid);
         tTask.setParentId(entry_id);
-        tTask.setTitle(title);
-        tTask.setType(type);
+        tTask.setCreaterId(uid);
+        tTask.setLocked(is_locked);
+        tTask.setTitle(JSON.parseArray(names).getString(0));
+        tTask.setType(Const.TASK_TYPE.TASK);
         tTask.setCreateTime(new Date(System.currentTimeMillis()));
-        TaskNewMsg.OutMsg out=new TaskNewMsg.OutMsg();
+        if (expire_date!=null)
+            tTask.setEndTime(new Date(expire_date));
+        tTask.setPos(taskService.getHighestPos(entry_id));
+        tTask.setCreateTime(new Date());
+        String[] ms = JSON.parseArray(members).toArray(new String[0]);
+        for (String member_id:ms){
+            TTaskAssignment assignment = new TTaskAssignment();
+            assignment.setAssignerId(Long.parseLong(member_id));
+            taskService.assignTask(assignment);
+        }
         taskService.createTask(tTask);
+
+        TaskNewMsg.OutMsg out=new TaskNewMsg.OutMsg();
+        mappingToTaskMsg(out.data,tTask,taskService.findTaskById(entry_id),uid);
         return  out;
     }
 

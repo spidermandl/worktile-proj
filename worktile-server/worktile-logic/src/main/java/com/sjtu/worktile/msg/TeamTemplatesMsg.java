@@ -29,7 +29,7 @@ public class TeamTemplatesMsg extends PairMsg{
 
         public static class Entry{
             public String name= null;
-            public int pos = 0;
+            public float pos = 0;
         }
 
     }

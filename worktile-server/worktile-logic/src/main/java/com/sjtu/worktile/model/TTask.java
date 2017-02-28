@@ -21,7 +21,9 @@ public class TTask {
 
     private Date endTime;
 
-    private Integer pos;
+    private Integer locked;
+
+    private Float pos;
 
     private String pending1;
 
@@ -101,11 +103,19 @@ public class TTask {
         this.endTime = endTime;
     }
 
-    public Integer getPos() {
+    public Integer getLocked() {
+        return locked;
+    }
+
+    public void setLocked(Integer locked) {
+        this.locked = locked;
+    }
+
+    public Float getPos() {
         return pos;
     }
 
-    public void setPos(Integer pos) {
+    public void setPos(Float pos) {
         this.pos = pos;
     }
 

@@ -121,7 +121,7 @@ abstract public class PairMsg {
         class Entry{
             public long entry_id = 0;
             public String name = null;
-            public int pos =0;
+            public float pos =0;
             public int archived = 0;
             public long create_date = 0;
             public long update_date = 0;
@@ -136,7 +136,7 @@ abstract public class PairMsg {
             public long pid = 0;//项目id
             public String name = null;//任务名称
             public String desc = null;//描述
-            public int pos = 0;//位置
+            public float pos = 0;//位置
             public List<Label> labels = new ArrayList<>();//标签
             public long uid = 0;//用户id
             public long expire_date = 0;//任务截止日期
