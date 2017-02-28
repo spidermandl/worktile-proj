@@ -31,6 +31,7 @@
             upload: 'service/upload',
             markdown: 'service/markdown',
             scroll: 'service/scroll',
+            locator: 'service/locator',
             //controller
 			identity : 'controllers/identity',//身份进入
 			dashboard : 'controllers/dashboard',
@@ -76,7 +77,7 @@
                 deps: ['scroll','task_directive','project_item','team_admin_ctrl','markdown'],
             },
             project_ctrl:{
-                deps: ['project_task_ctrl'],
+                deps: ['locator','project_task_ctrl'],
             },
             left_nemu: {
                 deps: ['filters','popbox','left_menu_project','left_menu_avatar','work','team'],

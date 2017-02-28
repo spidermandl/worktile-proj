@@ -8,7 +8,7 @@
 define(['app'], function (app) {
 	'use strict';
 	/**************************************************************************************************************
-	 *
+	 * task显示主页
 	 **************************************************************************************************************/
 	app.controller('projectTasksCtrl', 
 					['$rootScope','$scope','config','$state','globalDataContext',
@@ -400,7 +400,8 @@ define(['app'], function (app) {
 						J = null,
 						K = null,
 						L = !1;
-					$rootScope.global.title = [$translate.instant("task.title_name"), " | ", $scope.project.name].join("");
+					$rootScope.global.title = [$translate.instant("task.title_name"), 
+												" | ", $scope.project.name].join("");
 					var M = function(a) {
 							f(function() {
 								var b = "#task_main_" + a;
@@ -618,7 +619,7 @@ define(['app'], function (app) {
 									_.isEmpty(b.labels) || (h = _.map(b.labels, "name"));
 								var k = config.helper.split_line(b.temp_name),
 									m = d ? "top" : "bottom";
-									
+
 								api.add_task(
 										{	
 											pid: G.pid, 
@@ -1740,14 +1741,14 @@ define(['app'], function (app) {
 						},
 						G.task_loop_done = function(a) {
 							G.loop_entries_count++,
-								f(function() {
-										Y(a,
-											function() {
-												a.task_loop_done = !0
-											})
-									},
-									0),
-								G.loop_entries_count === G.entries.length - 1
+							$timeout(function() {
+									Y(a,
+										function() {
+											a.task_loop_done = !0
+										})
+								},
+								0),
+							G.loop_entries_count === G.entries.length - 1
 						},
 						util.$on("addTaskSuccessEvent",
 							function(a) {
@@ -1907,4 +1908,21 @@ define(['app'], function (app) {
 				}
 						
 			}])
+			/**************************************************************************************************************
+			 *
+			 **************************************************************************************************************/
+			app.controller('projectTaskDetailCtrl', 
+							['$scope','$stateParams','$location','locator','config',
+					function ($scope,stateParams,$location,locator,config) {
+					//["$scope", "$stateParams", "$location", "locator"],
+					//    a            b              c            d
+					var e = b.tid;
+					d.openTask(b.pid, e),
+						a.$on(config.constant.event_names.on_slide_hide,
+							function() {
+								c.path("/project/" + b.pid + "/task")
+							})
+		
+			}])
+
 })

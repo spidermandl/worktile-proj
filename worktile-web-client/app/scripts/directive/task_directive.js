@@ -104,8 +104,8 @@ define(['app'], function (app) {
 	/**************************************************************************************************************
 	 *
 	 **************************************************************************************************************/
-	.directive("wtTask", ["config","$timeout", "wtScrollService",
-		function(config,$timeout,wtScrollService) {
+	.directive("wtTask", ["config","$timeout", "wtScrollService","arrReverseFilter",
+		function(config,$timeout,wtScrollService,arrReverseFilter) {
 			//["smartDateFormatFilter", "cutstrFilter", "arrReverseFilter", "sanitize", "$translate"],
 			//            a                    b                 c                d           e
 			return {
@@ -229,22 +229,26 @@ define(['app'], function (app) {
 							};
 							f.$watch(h.task,
 									function(a) {
-										_.isUndefined(a) || _.isNull(a) || _.isEqual(a, {}) || (k.members_reverse = c(a.members), i(a))
-									}, !0),
-								k.parse_fn_check = function(a, b, c) {
-									f.argFnCheck({
-										$event: a,
-										entry: b,
-										task: c
-									})
-								},
-								k.parse_fn_more = function(a, b, c) {
-									f.argFnMore({
-										$event: a,
-										entry: b,
-										task: c
-									})
-								}
+										_.isUndefined(a) || 
+										_.isNull(a) || 
+										_.isEqual(a, {}) || 
+										(k.members_reverse = arrReverseFilter(a.members), i(a))
+									}, 
+									!0),
+							k.parse_fn_check = function(a, b, c) {
+								f.argFnCheck({
+									$event: a,
+									entry: b,
+									task: c
+								})
+							},
+							k.parse_fn_more = function(a, b, c) {
+								f.argFnMore({
+									$event: a,
+									entry: b,
+									task: c
+								})
+							}
 						}
 					}
 				}
