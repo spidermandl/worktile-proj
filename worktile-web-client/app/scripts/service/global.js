@@ -1149,14 +1149,18 @@ define(['app'], function (app) {
 				// 			return null
 				// 		})
 				// },
-				// loadTeamMembers = function(a) {
-				// 	return wt.data.team.get_team_members_basic(a).then(function(a) {
-				// 			return a.data.data
-				// 		},
-				// 		function() {
-				// 			return null
-				// 		})
-				// },
+				/**
+				 * 获取team中且不在项目中的成员
+				 */
+				loadTeamMembers : function(team_id) {
+					//需要重写
+					return api.me_contacts(function(a) {
+							return a.data.data
+						},
+						function() {
+							return null
+						})
+				},
 				// loadProjectMembers = function(a, b) {
 				// 	return a === i.project.pid && i.project.info && !_.isEmpty(i.project.info.members) ? b(i.project.info.members) : void wt.data.project.get_members(a,
 				// 		function(a) {

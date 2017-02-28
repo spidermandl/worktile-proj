@@ -473,7 +473,16 @@ define(['app'], function (app) {
 								c ? a.is_filter = !1 : a.is_filter = !0
 						},
 						R = function() {
-							_.isEmpty(G.entries) || ($scope.task_filters.texts.length > 0 || $scope.task_filters.labels.length > 0 || a.task_filters.members.length > 0 || a.task_filters.date.length > 0 || a.task_filters.hide_completed ? a.task_filters.turn_on = !0 : a.task_filters.turn_on = !1, _.each(G.entries,
+							_.isEmpty(G.entries) || 
+							($scope.task_filters.texts.length > 0 || 
+								$scope.task_filters.labels.length > 0 || 
+								$scope.task_filters.members.length > 0 || 
+								$scope.task_filters.date.length > 0 || 
+								$scope.task_filters.hide_completed ? 
+									$scope.task_filters.turn_on = !0 
+									: 
+									$scope.task_filters.turn_on = !1, 
+							_.each(G.entries,
 								function(b) {
 									_.isEmpty(b.tasks) || _.each(b.tasks,
 										function(b) {
@@ -1911,18 +1920,166 @@ define(['app'], function (app) {
 			/**************************************************************************************************************
 			 *
 			 **************************************************************************************************************/
-			app.controller('projectTaskDetailCtrl', 
+			.controller('projectTaskDetailCtrl', 
 							['$scope','$stateParams','$location','locator','config',
 					function ($scope,stateParams,$location,locator,config) {
 					//["$scope", "$stateParams", "$location", "locator"],
 					//    a            b              c            d
-					var e = b.tid;
-					d.openTask(b.pid, e),
-						a.$on(config.constant.event_names.on_slide_hide,
-							function() {
-								c.path("/project/" + b.pid + "/task")
-							})
+
+					locator.openTask(stateParams.pid, stateParams.tid),
+					$scope.$on(config.constant.event_names.on_slide_hide,
+						function() {
+							$location.path("/project/" + stateParams.pid + "/task")
+						})
 		
 			}])
+			/**************************************************************************************************************
+			 * 右侧显示成员栏
+			 **************************************************************************************************************/
+			.controller('sidebarMembersCtrl', 
+							['$scope','$stateParams','globalDataContext','$translate','ProjectService','config',
+					function ($scope,stateParams,globalDataContext,$translate,projectService,config) {
+					//["$scope", "$stateParams", "globalDataContext", "$translate", "projectService"]
+					//    a            b                    c                 d             e
+
+				var f = $scope.vm = {},
+					g = stateParams.pid;
+				f.draggable_options = {
+					appendTo: $("#main"),
+					helper: "clone",
+					zIndex: 2e3,
+					delay: 300,
+					start: function(a, b) {
+						b.helper.find("span.avatar-name").remove(),
+							b.helper.find(".avatar-face > i").remove(),
+							b.helper.addClass("member-state-on-drag")
+					},
+					stop: function(a, b) {},
+					drag: function(a, b) {}
+				},
+				f.isMemberFilter = function() {
+					return function(a) {
+						return a.status === config.constant.status.ok && 
+							(a.role === config.constant.role.admin || a.role === config.constant.role.member)
+					}
+				},
+				f.isGuestFilter = function() {
+					return function(a) {
+						return a.status === config.constant.status.ok && 
+							a.role === config.constant.role.guest
+					}
+				},
+				f.isOnlineFilter = function() {
+					return function(a) {
+						return a.status === config.constant.status.ok && (1 === a.online || "1" == a.online)
+					}
+				},
+				f.isStatusPendingFilter = function() {
+					return function(a) {
+						return a.status === config.constant.status.pending
+					}
+				},
+				f.close_sidebar = function() {
+					$scope.sidebar.close()
+				},
+				f.to_add_member = function() {
+					projectService.showAddMember($scope.project)
+				},
+				$scope.$on(config.constant.event_names.project_add_member,
+					function(b, c) {
+						c.pid === g && (_.find($scope.project.members, {
+							uid: c.member.uid
+						}) || $scope.project.members.push(c.member))
+					})
+		
+		
+			}])
+			/**************************************************************************************************************
+			 * 右侧删选栏
+			 **************************************************************************************************************/
+			.controller('sidebarFilterTasksCtrl',
+							['$rootScope','$scope','config','Util',
+					function ($rootScope,$scope,config,util) {
+				//["$rootScope", "$scope"]
+				//       a           b
+
+
+				var c = $scope.vm = {},
+					d = $scope.task_filters,
+					e = function() {
+						$scope.labels = $scope.project.labels,
+							_.isArray($scope.task_filters.texts) ? 
+								$scope.task_filter_text = $scope.task_filters.texts.join(" ") 
+								: 
+								$scope.task_filter_text = "";
+						var a = //wt.bus.member.get_normal_members($scope.project.members);
+								util.member.get_normal_members($scope.project.members);
+						a = _.clone(a),
+							a.push({
+								uid: -1
+							}),
+							$scope.members = a
+					};
+				e(),
+				c.js_filter_text = function() {
+					if(_.isEmpty($scope.task_filter_text)) d.texts = "",
+						$rootScope.$broadcast(config.constant.event_names.on_project_tasks_filter);
+					else {
+						var c = $scope.task_filter_text.toLowerCase().replace("，", ",").replace("　", ",").replace(" ", ",").replace("  ", ",");
+						d.texts = c.split(","),
+							$rootScope.$broadcast(config.constant.event_names.on_project_tasks_filter)
+					}
+				},
+				c.clear_text = function() {
+					$scope.task_filter_text = "",
+						d.texts = [],
+						$rootScope.$broadcast(config.constant.event_names.on_project_tasks_filter)
+				},
+				c.js_filter_member = function(b) {
+					d.members.indexOf(b.uid) < 0 ? 
+						(b.uid == -1 ? 
+							d.members = [b.uid] 
+							: 
+							(d.members.indexOf("-1") >= 0 && d.members.splice(d.members.indexOf("-1"), 1), 
+								d.members.push(b.uid)), b.filter = !0) 
+						: (d.members.splice(d.members.indexOf(b.uid), 1), b.filter = !1),
+						$rootScope.$broadcast(config.constant.event_names.on_project_tasks_filter, {})
+				},
+				c.member_is_filter = function(a) {
+					if(d.members.indexOf(a) >= 0) return !0
+				},
+				c.js_filter_label = function(b) {
+					var c = d.labels.indexOf(b.name);
+					c < 0 ? (d.labels.push(b.name), b.filter = !0) : (b.filter = !1, d.labels.splice(c, 1)),
+						$rootScope.$broadcast(config.constant.event_names.on_project_tasks_filter)
+				},
+				c.label_is_filter = function(a) {
+					if(d.labels.indexOf(a) >= 0) return !0
+				},
+				c.toggle_hide_completed = function() {
+					$scope.task_filters.hide_completed = !$scope.task_filters.hide_completed,
+						$rootScope.$broadcast(config.constant.event_names.on_project_tasks_filter)
+				},
+				c.js_filter_date = function(b) {
+					d.date === b ? d.date = "" : d.date = b,
+						$rootScope.$broadcast(config.constant.event_names.on_project_tasks_filter, {})
+				},
+				c.clear_task_filters = function() {
+					$scope.task_filter_text = "",
+						$rootScope.$broadcast(config.constant.event_names.project_clear_task_filter, null)
+				},
+				c.close_sidebar = function() {
+					c.clear_task_filters(),
+						$scope.sidebar.close()
+				}
+		
+
+
+
+			}])
+
+
+
+
 
 })

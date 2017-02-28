@@ -1,0 +1,91 @@
+<div class=sidebar_main ng-controller=sidebarFilterTasksCtrl>
+    <div class=sidebar_header>
+        <a href=javascript:; ng-click=vm.close_sidebar()>
+            <button class="cancel wtfont wtf-close"></button>
+            <h3>{{'filter_tasks.title'|translate}}</h3></a>
+    </div>
+    <div class=sidebar_body_scroll wt-scroll ng-class="{'sidebar_body_scroll--clearfilter':task_filters.turn_on}">
+        <div class=sidebar_body>
+            <form class=sidebar_search_form role=search>
+                <i class="fa fa-search"></i>
+                <input type=text class=form-control wt-autofocus="" ng-model=task_filter_text ng-change=vm.js_filter_text() placeholder="{{'filter_tasks.placeholder_task_name'|translate}}">
+                <a ng-if=task_filter_text class=clear title="{{'filter_tasks.btn_clear_find'|translate}}" href=javascript:; ng-click=vm.clear_text()>
+                    <i class="fa fa-times-circle-o"></i>
+                </a>
+            </form>
+            <dl class=prj_sidebar_dl ng-if="labels.length > 0">
+                <dt>{{'filter_tasks.find_by_label'|translate}}</dt>
+                <dd>
+                    <ul class="checkable checkable-taskfilter">
+                        <li class=label-item ng-repeat="label in labels track by label.name" ng-class="{'selected':vm.label_is_filter(label.name)}">
+                            <a href=javascript:; class=js-toggle-label-filter ng-click=vm.js_filter_label(label)>
+                                <span class="task-label {{label.name}}-label ml-10"></span>
+                                <span class="label-name help-inline ml-10">{{label.desc}}</span></a>
+                        </li>
+                    </ul>
+                </dd>
+            </dl>
+            <dl class=prj_sidebar_dl>
+                <dt>{{'filter_tasks.find_by_member'|translate}}</dt>
+                <dd>
+                    <ul class="avatars checkable checkable-taskfilter">
+                        <li ng-repeat="member in members track by member.uid" ng-click=vm.js_filter_member(member) ng-class="{'checkable-taskfilter-userban':member.uid == -1,'selected':vm.member_is_filter(member.uid)}">
+                            <wt-avatar member=member class=ml-10 size=30 ng-if="member.uid != -1" wt-disable-pop name=[member.display_name,18]|cutstr nameclass=ml-10></wt-avatar>
+                            <a class="avatar avatar-ban ml-10" href=javascript:; ng-if="member.uid == -1">
+                                <i class="wtfont wtf-ban"></i>
+                                <span class="avatar-name ml-10">{{'filter_tasks.unassign_task'|translate}}</span></a>
+                        </li>
+                    </ul>
+                </dd>
+            </dl>
+            <dl class=prj_sidebar_dl>
+                <dt>{{'filter_tasks.find_by_datetime'|translate}}</dt>
+                <dd>
+                    <ul class="checkable checkable-taskfilter">
+                        <li ng-class="{'selected':task_filters.date == 'today'}">
+                            <a ng-click="vm.js_filter_date('today')">
+                                <span class=ml-10>{{'common.today'|translate}}</span></a>
+                        </li>
+                        <li ng-class="{'selected':task_filters.date == 'tomorrow'}">
+                            <a ng-click="vm.js_filter_date('tomorrow')">
+                                <span class=ml-10>{{'common.tomorrow'|translate}}</span></a>
+                        </li>
+                        <li ng-class="{'selected':task_filters.date == 'week'}">
+                            <a ng-click="vm.js_filter_date('week')">
+                                <span class=ml-10>{{'common.thisweek'|translate}}</span></a>
+                        </li>
+                        <li ng-class="{'selected':task_filters.date == 'nextweek'}">
+                            <a ng-click="vm.js_filter_date('nextweek')">
+                                <span class=ml-10>{{'common.nextweek'|translate}}</span></a>
+                        </li>
+                        <li ng-class="{'selected':task_filters.date == 'month'}">
+                            <a ng-click="vm.js_filter_date('month')">
+                                <span class=ml-10>{{'common.thismonth'|translate}}</span></a>
+                        </li>
+                        <li ng-class="{'selected':task_filters.date == 'due'}">
+                            <a ng-click="vm.js_filter_date('due')">
+                                <span class=ml-10>{{'filter_tasks.find_expired'|translate}}</span></a>
+                        </li>
+                        <li ng-class="{'selected':task_filters.date == 'noset'}">
+                            <a ng-click="vm.js_filter_date('noset')">
+                                <span class=ml-10>{{'filter_tasks.find_unset_expire'|translate}}</span></a>
+                        </li>
+                    </ul>
+                </dd>
+            </dl>
+            <dl class=prj_sidebar_dl>
+                <dt>{{'filter_tasks.more_filter'|translate}}</dt>
+                <dd>
+                    <ul class="checkable checkable-taskfilter">
+                        <li ng-class="{'selected':task_filters.hide_completed}">
+                            <a ng-click=vm.toggle_hide_completed()>
+                                <span class=ml-10>{{'filter_tasks.hide_completed'|translate}}</span></a>
+                        </li>
+                    </ul>
+                </dd>
+            </dl>
+        </div>
+    </div>
+    <div class=sidebar_footer_clearfilter ng-if=task_filters.turn_on>
+        <button class="btn btn-block" ng-click=vm.clear_task_filters()>{{'filter_tasks.clearfilter'|translate}}</button></div>
+</div>

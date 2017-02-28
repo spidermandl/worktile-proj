@@ -48,6 +48,7 @@
 			project_main: 'views/work/project/project.html',
 			project_task: 'views/work/project/task/task.html',
 			project_toolbar: 'views/work/project/task/toolbar.html',
+			project_sidebar_add_member: 'views/work/project/sidebar/dialog_project_add_member.html',
 			task_pop_entry_menu: 'views/work/project/task/pop_entry_menu.html',
 			task_composer: 'views/work/project/task/task_composer.html',
 			task_item: 'views/work/project/task/task_item.html',

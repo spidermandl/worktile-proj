@@ -788,7 +788,9 @@
 						var b = [];
 						return _.each(a,
 								function(a) {
-									a.status === kzi.constant.status.ok && (a.role !== kzi.constant.role.admin && a.role !== kzi.constant.role.member || b.push(a))
+									a.status === config.constant.status.ok && 
+										(a.role !== config.constant.role.admin && 
+											a.role !== config.constant.role.member || b.push(a))
 								}),
 							b
 					},

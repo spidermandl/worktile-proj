@@ -58,7 +58,7 @@ define(['app'], function (app) {
 							type: 1
 						}),
 						k(l);
-						console.log($scope.project.navigations);
+						//console.log($scope.project.navigations);
 					})) 
 					: 
 					$timeout(function() {
@@ -84,7 +84,7 @@ define(['app'], function (app) {
 					change_status: function(b, c) {
 						b === this.status && c === this.sub_status ? (this.status = "", this.sub_status = "") : (this.status = b, this.sub_status = c),
 							config.localData.set("project_sidebar_status", this.status),
-							a.$broadcast(config.constant.event_names.show_project_sidebar, {
+							$rootScope.$broadcast(config.constant.event_names.show_project_sidebar, {
 								status: this.status,
 								sub_status: this.sub_status
 							})

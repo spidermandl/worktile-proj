@@ -6,8 +6,8 @@
 define(['app'], function (app) {
     'use strict';
 
-    app.service('locator',["$rootScope", "$state", "$location",
-        function(a,b,c){
+    app.service('locator',["$rootScope", "$state", "$location","config",
+        function(a,b,c,config){
 
             var d = null,
                 e = null,
@@ -25,29 +25,29 @@ define(['app'], function (app) {
             },
             f.open = function(a, b, c, e) {
                 f.pid = a,
-                    f.xtype = b,
-                    f.xid = c,
-                    f.comment_id = e,
-                    d && d(f.isOpened),
-                    f.isOpened = !0
+                f.xtype = b,
+                f.xid = c,
+                f.comment_id = e,
+                d && d(f.isOpened),
+                f.isOpened = !0
             },
             f.openTask = function(a, b, c) {
-                f.open(a, config.constant.xtype.task, b, c)
+                f.open(a, config.constant.xtype.task, b, c);
             },
             f.openFile = function(a, b, c) {
-                f.open(a, config.constant.xtype.file, b, c)
+                f.open(a, config.constant.xtype.file, b, c);
             },
             f.openPost = function(a, b, c) {
-                f.open(a, config.constant.xtype.post, b, c)
+                f.open(a, config.constant.xtype.post, b, c);
             },
             f.openPage = function(a, b, c) {
-                f.open(a, config.constant.xtype.page, b, c)
+                f.open(a, config.constant.xtype.page, b, c);
             },
             f.openEvent = function(a, b, c) {
-                f.open(a, config.constant.xtype.event, b, c)
+                f.open(a, config.constant.xtype.event, b, c);
             },
             f.openMail = function(a, b) {
-                f.open("", config.constant.xtype.email, a, b)
+                f.open("", config.constant.xtype.email, a, b);
             },
             f.openEntity = function(a, b, c) {
                 switch(b.etype) {
@@ -84,13 +84,13 @@ define(['app'], function (app) {
             },
             f.close = function() {
                 f.pid = "",
-                    f.xtype = "",
-                    f.xid = "",
-                    f.comment_id = "",
-                    f.isOpened = !1,
-                    e && e(),
-                    a.$broadcast(kzi.constant.event_names.on_slide_hide),
-                    a.global.is_scroll_comment = !0
+                f.xtype = "",
+                f.xid = "",
+                f.comment_id = "",
+                f.isOpened = !1,
+                e && e(),
+                a.$broadcast(config.constant.event_names.on_slide_hide),
+                a.global.is_scroll_comment = !0
             }
         
     }]);

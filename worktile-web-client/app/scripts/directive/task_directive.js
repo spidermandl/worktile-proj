@@ -104,8 +104,10 @@ define(['app'], function (app) {
 	/**************************************************************************************************************
 	 *
 	 **************************************************************************************************************/
-	.directive("wtTask", ["config","$timeout", "wtScrollService","arrReverseFilter",
-		function(config,$timeout,wtScrollService,arrReverseFilter) {
+	.directive("wtTask", ["smartDateFormatFilter", "cutstrFilter", "arrReverseFilter", "sanitize", 
+							"$translate","config",
+		function(smartDateFormatFilter, cutstrFilter, arrReverseFilter, sanitize,
+				 $translate,config) {
 			//["smartDateFormatFilter", "cutstrFilter", "arrReverseFilter", "sanitize", "$translate"],
 			//            a                    b                 c                d           e
 			return {
@@ -124,8 +126,12 @@ define(['app'], function (app) {
 					argPopMemberOptions: "="
 				},
 				compile: function(f, g) {
+					//element, attributes
+					//   f          g
 					return {
-						pre: function(f, g, h) {
+						pre: function($scope, g, h) {
+							//scope, element, attributes
+							//   f       g         h
 							function i(c) {
 								var f = $(g).children(".task-badges"),
 									h = [],
@@ -135,11 +141,11 @@ define(['app'], function (app) {
 										m = "",
 										n = "",
 										o = j(c);
-									n = e.instant("directive_task.expire_when", {
+									n = $translate.instant("directive_task.expire_when", {
 											time: l
 										}),
-										1 === o && (m = "badge-expire-due", n = e.instant("directive_task.expire_already")),
-										2 === o && (m = "badge-expire-soon", n = e.instant("directive_task.expire_soon")),
+										1 === o && (m = "badge-expire-due", n = $translate.instant("directive_task.expire_already")),
+										2 === o && (m = "badge-expire-soon", n = $translate.instant("directive_task.expire_soon")),
 										h.push('<span class="task-badge fa fa-clock-o {{timeClass}}" '.replace("{{timeClass}}", m)),
 										h.push('title="{{timeTitle}}">{{timeText}}</span>'.replace("{{timeTitle}}", n).replace("{{timeText}}", l)),
 										i = !0
@@ -149,9 +155,9 @@ define(['app'], function (app) {
 										q = "",
 										r = "";
 									c.badges.todo_checked_count === c.badges.todo_count && (q = " badge-todo-done"),
-										r = c.badges.todo_checked_count === c.badges.todo_count ? e.instant("directive_task.todo_completed", {
+										r = c.badges.todo_checked_count === c.badges.todo_count ? $translate.instant("directive_task.todo_completed", {
 											count: c.badges.todo_checked_count
-										}) : e.instant("directive_task.todo_completed", {
+										}) : $translate.instant("directive_task.todo_completed", {
 											count: c.badges.todo_checked_count + "/" + c.badges.todo_count
 										}),
 										h.push('<span class="task-badge fa fa-list {{todoClass}}" '.replace("{{todoClass}}", q)),
@@ -160,7 +166,7 @@ define(['app'], function (app) {
 								}
 								if(c.badges.comment_count > 0) {
 									var s = c.badges.comment_count,
-										t = e.instant("directive_task.comment_count", {
+										t = $translate.instant("directive_task.comment_count", {
 											count: c.badges.comment_count
 										});
 									h.push('<span class="task-badge fa fa-comment-o" '),
@@ -169,7 +175,7 @@ define(['app'], function (app) {
 								}
 								if(c.files && c.files.length > 0 || c.badges.file_count > 0) {
 									var u = c.badges.file_count > 0 ? c.badges.file_count : c.files.length,
-										v = e.instant("directive_task.file_count", {
+										v = $translate.instant("directive_task.file_count", {
 											count: u
 										}),
 										w = u;
@@ -178,17 +184,17 @@ define(['app'], function (app) {
 										i = !0
 								}
 								if(c.desc && c.desc.length > 0) {
-									var x = e.instant("directive_task.has_desc");
+									var x = $translate.instant("directive_task.has_desc");
 									h.push('<span class="task-badge fa fa-align-left" title="' + x + '"></span>'),
 										i = !0
 								}
 								if(1 === c.is_locked) {
-									var x = e.instant("directive_task.is_lock");
+									var x = $translate.instant("directive_task.is_lock");
 									h.push('<span class="task-badge fa fa-lock" title="' + x + '"></span>'),
 										i = !0
 								}
 								if(1 === c.is_loop) {
-									var x = e.instant("directive_task.is_timingtask");
+									var x = $translate.instant("directive_task.is_timingtask");
 									h.push('<span class="task-badge fa fa-repeat" title="' + x + '"></span>'),
 										i = !0
 								}
@@ -203,11 +209,11 @@ define(['app'], function (app) {
 										function(a) {
 											var c = d(a.desc);
 											h.push('<span class="task-badge task-label {{name}}-label" '.replace("{{name}}", a.name)),
-												h.push('title="{{desc}}">'.replace("{{desc}}", c)),
-												h.push(b([c, 10])),
-												h.push("</span>")
+											h.push('title="{{desc}}">'.replace("{{desc}}", c)),
+											h.push(b([c, 10])),
+											h.push("</span>")
 										}),
-									f.html(h.join(""))
+								f.html(h.join(""))
 							}
 
 							function j(a) {
@@ -220,14 +226,14 @@ define(['app'], function (app) {
 								}
 								return b
 							}
-							var k = f.dm = {
-								showProject: f.argShowProject,
-								viewType: null == f.argViewType ? "card" : f.argViewType,
-								disableCheck: f.argDisableCheck,
-								showMore: f.argShowMore,
+							var k = $scope.dm = {
+								showProject: $scope.argShowProject,
+								viewType: null == $scope.argViewType ? "card" : $scope.argViewType,
+								disableCheck: $scope.argDisableCheck,
+								showMore: $scope.argShowMore,
 								members_reverse: []
 							};
-							f.$watch(h.task,
+							$scope.$watch(h.task,
 									function(a) {
 										_.isUndefined(a) || 
 										_.isNull(a) || 
@@ -236,14 +242,16 @@ define(['app'], function (app) {
 									}, 
 									!0),
 							k.parse_fn_check = function(a, b, c) {
-								f.argFnCheck({
+								//console.log('parse_fn_check')
+								$scope.argFnCheck({
 									$event: a,
 									entry: b,
 									task: c
 								})
 							},
 							k.parse_fn_more = function(a, b, c) {
-								f.argFnMore({
+								//console.log('parse_fn_more')
+								$scope.argFnMore({
 									$event: a,
 									entry: b,
 									task: c
