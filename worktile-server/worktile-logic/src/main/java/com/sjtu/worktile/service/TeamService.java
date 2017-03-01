@@ -64,6 +64,9 @@ public class TeamService {
          */
         List<TTeam> teams = getSelfTeam(uid);
         TUserRoleExample query = new TUserRoleExample();
+        if (teams.size()==0){//没有team
+            return new ArrayList<TUser>();
+        }
         for (TTeam t:teams) {
             TUserRoleExample.Criteria criteria = query.createCriteria();
             criteria.andTeamIdEqualTo(t.getId());
@@ -86,6 +89,7 @@ public class TeamService {
         }
         return tUserMapper.selectByExample(uQuery);
     }
+
 
     /**
      * 创建team

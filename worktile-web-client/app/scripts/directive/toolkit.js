@@ -182,6 +182,8 @@ define(['app'], function (app) {
 			restrict: "A",
 			priority: -2e3,
 			link: function(a, b, c) {
+				//scope,element,attrs
+				//console.log(b);
 				a.$watch(c.droppable, function(a, c) {
 					_.isEmpty(a) || b.droppable(a)
 				})

@@ -22,7 +22,7 @@ import java.util.List;
 public class TeamController extends BaseController{
 
     /**
-     * 获取用户所在的组信息
+     * 获取用户所在的team信息
      * @param request
      * @return
      */

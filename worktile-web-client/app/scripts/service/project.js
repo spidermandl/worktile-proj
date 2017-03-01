@@ -199,8 +199,8 @@ define(['app'], function (app) {
 				this.showAddMember = function(c) {
 					var e = a.open({
 						windowClass: "dialog-w680",
-						templateUrl: "/app/js/service/project/dialog_project_add_member.html",
-						controller: ["$scope", "$rootScope", "$location", "bus", "$window",
+						templateUrl: config.templateUrls.project_sidebar_add_member,
+						controller: ["$scope", "$rootScope", "$location", "Util", "$window",
 							function(a, g, h, i, j) {
 								function k() {
 									if(l.project.link_join_code) {
@@ -212,26 +212,29 @@ define(['app'], function (app) {
 												l.invite_qrcode = a
 											})
 									}
-									return "-1" === l.project.team_id || l.project.team_id === -1 ? void(l.part_loading_done = !0) : void b.loadTeamMembers(l.project.team_id).then(function(a) {
-										var b = _.map(l.project.members, "uid");
-										a = _.reject(a, {
-												status: kzi.constant.status.pending
-											}),
+									return "-1" === l.project.team_id || l.project.team_id === -1 ? 
+										void(l.part_loading_done = !0) 
+										: 
+										void globalDataContext.loadTeamMembers(l.project.team_id).then(function(a) {
+											var b = _.map(l.project.members, "uid");
 											a = _.reject(a, {
-												uid: g.global.me.uid
-											}),
-											_.each(a,
-												function(a) {
-													b.indexOf(a.uid) < 0 ? a.role === config.role.guest ? l.unassigned_team_visitors.push(a) : l.unassigned_team_members.push(a) : l.contact_members_exist.push(a);
+													status: config.constant.status.pending
 												}),
-											_.each(l.project.members,
-												function(a) {
-													!_.find(l.contact_members_exist), {
-														uid: a.uid
-													} && l.contact_members_exist.push(a)
+												a = _.reject(a, {
+													uid: g.global.me.uid
 												}),
-											l.part_loading_done = !0
-									})
+												_.each(a,
+													function(a) {
+														b.indexOf(a.uid) < 0 ? a.role === config.role.guest ? l.unassigned_team_visitors.push(a) : l.unassigned_team_members.push(a) : l.contact_members_exist.push(a);
+													}),
+												_.each(l.project.members,
+													function(a) {
+														!_.find(l.contact_members_exist), {
+															uid: a.uid
+														} && l.contact_members_exist.push(a)
+													}),
+												l.part_loading_done = !0
+										})
 								}
 								var l = a.vm = {
 									part_loading_done: !1,
@@ -249,7 +252,7 @@ define(['app'], function (app) {
 									is_searching: !1,
 									search_member: [],
 									error_show_not_support_phone: !1,
-									invite_message: d.instant("project_service.invite_message"),
+									invite_message: $translate.instant("project_service.invite_message"),
 									invite_email_batch: [],
 									invite_email_batch_error: "",
 									invite_link_open: !1,
@@ -293,7 +296,7 @@ define(['app'], function (app) {
 														uid: a.data.uid
 													}) ? a.data.status = 3 : a.data.status = 1,
 													l.search_member = [a.data]
-											})) : ($('input[name="search_user_input"]').addClass("error"), kzi.msg.warn(d.instant("project_service.warn_phone_email_valid")))
+											})) : ($('input[name="search_user_input"]').addClass("error"), kzi.msg.warn($translate.instant("project_service.warn_phone_email_valid")))
 									},
 									l.js_contact_add_all = function() {
 										var a = [],
@@ -307,7 +310,7 @@ define(['app'], function (app) {
 												}),
 											wt.data.project.add_members(l.prj_id, a,
 												function(a) {
-													kzi.msg.success(d.instant("project_service.full_add_members_success")),
+													kzi.msg.success($translate.instant("project_service.full_add_members_success")),
 														_.each(l.unassigned_team_members,
 															function(a) {
 																_.findIndex(l.contact_members_selected, {
@@ -321,7 +324,7 @@ define(['app'], function (app) {
 														l.unassigned_team_members = []
 												},
 												function() {
-													kzi.msg.error(d.instant("project_service.full_add_members_fail"))
+													kzi.msg.error($translate.instant("project_service.full_add_members_fail"))
 												})
 									},
 									l.js_contact_add = function(a) {
@@ -337,7 +340,7 @@ define(['app'], function (app) {
 												},
 												wt.data.project.invite_members(l.prj_id, [b],
 													function(e) {
-														kzi.msg.success(d.instant("project_service.invite_members_success")),
+														kzi.msg.success($translate.instant("project_service.invite_members_success")),
 															l.search_user_input = "",
 															l.search_member = [],
 															_.find(l.contact_members_invited, {
@@ -349,11 +352,11 @@ define(['app'], function (app) {
 															$('input[name="search_user_input"]').focus()
 													},
 													function(a) {
-														kzi.msg.error(d.instant("project_service.invite_members_fail"))
+														kzi.msg.error($translate.instant("project_service.invite_members_fail"))
 													})
 										} else wt.data.project.add_member(l.prj_id, a.uid, kzi.constant.role.member,
 											function(b) {
-												kzi.msg.success(d.instant("project_service.add_member_success")),
+												kzi.msg.success($translate.instant("project_service.add_member_success")),
 													l.project.members.push(b.data),
 													l.contact_members_exist.push(b.data),
 													l.contact_members_selected.push(b.data),
@@ -376,7 +379,7 @@ define(['app'], function (app) {
 													})
 											},
 											function() {
-												kzi.msg.error(d.instant("project_service.add_member_fail"))
+												kzi.msg.error($translate.instant("project_service.add_member_fail"))
 											})
 									},
 									l.js_invite_link_open = function() {
@@ -392,7 +395,7 @@ define(['app'], function (app) {
 													})
 											},
 											function() {
-												kzi.msg.error(d.instant("project_service.join_link_open_fail"))
+												kzi.msg.error($translate.instant("project_service.join_link_open_fail"))
 											})
 									},
 									l.js_toggle_visitors_fold = function() {
@@ -405,7 +408,7 @@ define(['app'], function (app) {
 													l.project.link_join_code = ""
 											},
 											function() {
-												kzi.msg.error(d.instant("project_service.join_link_close_fail"))
+												kzi.msg.error($translate.instant("project_service.join_link_close_fail"))
 											})
 									}
 							}
@@ -424,8 +427,8 @@ define(['app'], function (app) {
 									d.use(f.global.me.locale).then(function() {
 											_.each(m.apps_all,
 												function(a) {
-													a.name = d.instant(a.name),
-														a.desc = d.instant(a.desc)
+													a.name = $translate.instant(a.name),
+														a.desc = $translate.instant(a.desc)
 												})
 										}),
 										a.temp_prj = _.clone(m.project),
@@ -458,10 +461,10 @@ define(['app'], function (app) {
 										a.temp_prj.name === m.project.name && a.temp_prj.bg === m.project.bg && a.temp_prj.pic === m.project.pic && a.temp_prj.desc === m.project.desc && a.temp_prj.visibility === m.project.visibility || (a.is_prj_saveing = !0, _.isEmpty(m.project.desc) && (m.project.desc = ""), wt.data.project.update(m.project.pid, a.temp_prj.name, a.temp_prj.bg, a.temp_prj.pic, a.temp_prj.desc, a.temp_prj.visibility,
 											function() {
 												b.cache.project.update(m.project.pid, a.temp_prj.name, a.temp_prj.bg, a.temp_prj.pic, a.temp_prj.desc, a.temp_prj.visibility),
-													kzi.msg.success(d.instant("project_service.update_project_success"))
+													kzi.msg.success($translate.instant("project_service.update_project_success"))
 											},
 											function() {
-												kzi.msg.error(d.instant("project_service.update_project_fail"))
+												kzi.msg.error($translate.instant("project_service.update_project_fail"))
 											},
 											function() {
 												a.is_prj_saveing = !1
@@ -491,17 +494,17 @@ define(['app'], function (app) {
 										m.project.show_background = 1 === parseInt(m.project.show_background, 10) ? "0" : "1",
 											wt.data.project.set_prefs(m.project.pid, "show_background", m.project.show_background,
 												function(a) {
-													kzi.msg.success(d.instant("account.toggle_show_background_success"))
+													kzi.msg.success($translate.instant("account.toggle_show_background_success"))
 												})
 									},
 									m.set_background = function(a) {
 										m.project.background !== a && wt.data.project.set_background(m.project.pid, a,
 											function() {
 												m.project.background = a,
-													kzi.msg.success(d.instant("account.set_background_success"))
+													kzi.msg.success($translate.instant("account.set_background_success"))
 											},
 											function() {
-												kzi.msg.error(d.instant("account.set_background_fail"))
+												kzi.msg.error($translate.instant("account.set_background_fail"))
 											})
 									},
 									m.background_file_select = function(a, b) {
@@ -522,20 +525,20 @@ define(['app'], function (app) {
 																	m.project.bg_image = b.url
 																},
 																function() {
-																	kzi.msg.error(d.instant("account.save_background_fail"))
+																	kzi.msg.error($translate.instant("account.save_background_fail"))
 																},
 																function() {
 																	m.background_image_uploading = !1
-																}) : (m.background_image_uploading = !1, kzi.msg.error(d.instant("account.upload_background_fail")))
+																}) : (m.background_image_uploading = !1, kzi.msg.error($translate.instant("account.upload_background_fail")))
 														})
-											} else "pattern" === m.backgorundfile_model.$error && kzi.msg.error(d.instant("account.upload_background_format_err")),
-												"maxSize" === m.backgorundfile_model.$error && kzi.msg.error(d.instant("account.upload_background_too_large"))
+											} else "pattern" === m.backgorundfile_model.$error && kzi.msg.error($translate.instant("account.upload_background_format_err")),
+												"maxSize" === m.backgorundfile_model.$error && kzi.msg.error($translate.instant("account.upload_background_too_large"))
 									},
 									m.toggle_email_notify = function() {
 										var a = m.project.is_notify ? 0 : 1;
 										wt.data.project.set_prefs(m.project.pid, "is_notify", a,
 											function(b) {
-												1 === a ? kzi.msg.success(d.instant("project_service.email_notify_opened")) : kzi.msg.success(d.instant("project_service.email_notify_closed")),
+												1 === a ? kzi.msg.success($translate.instant("project_service.email_notify_opened")) : kzi.msg.success($translate.instant("project_service.email_notify_closed")),
 													m.project.is_notify = a
 											},
 											function() {})
@@ -621,14 +624,14 @@ define(['app'], function (app) {
 														c.js_close = function() {
 															e.close()
 														},
-														c.delete_message = d.instant("service_timingtask.del_desc"),
-														c.delete_title = d.instant("service_timingtask.del_title"),
-														c.delete_button = d.instant("service_timingtask.btn_del"),
+														c.delete_message = $translate.instant("service_timingtask.del_desc"),
+														c.delete_title = $translate.instant("service_timingtask.del_title"),
+														c.delete_button = $translate.instant("service_timingtask.btn_del"),
 														c.js_sure_delete = function() {
 															c.is_deleting = !0,
 																wt.data.timingtask.del_timingtask(b.pid, b.ttid,
 																	function(b) {
-																		200 == b.code && (kzi.msg.info(d.instant("service_timingtask.success_del")), a.$broadcast(config.constant.event_names.show_project_setting_timingtask), c.js_close())
+																		200 == b.code && (kzi.msg.info($translate.instant("service_timingtask.success_del")), a.$broadcast(config.constant.event_names.show_project_setting_timingtask), c.js_close())
 																	},
 																	null,
 																	function() {
@@ -663,20 +666,20 @@ define(['app'], function (app) {
 									is_prj_copying: !1,
 									visibility_options: [{
 										id: config.constant.prj_visibility.private,
-										name: d.instant("project_service.visibility_options_private")
+										name: $translate.instant("project_service.visibility_options_private")
 									}, {
 										id: config.constant.prj_visibility.protected,
-										name: d.instant("project_service.visibility_options_protected")
+										name: $translate.instant("project_service.visibility_options_protected")
 									}, {
 										id: config.constant.prj_visibility.public,
-										name: d.instant("project_service.visibility_options_public")
+										name: $translate.instant("project_service.visibility_options_public")
 									}],
 									visibility_options2: [{
 										id: config.constant.prj_visibility.private,
-										name: d.instant("project_service.visibility_options_private")
+										name: $translate.instant("project_service.visibility_options_private")
 									}, {
 										id: config.constant.prj_visibility.public,
-										name: d.instant("project_service.visibility_options_public")
+										name: $translate.instant("project_service.visibility_options_public")
 									}]
 								};
 								a.prj_copy = {
@@ -698,10 +701,10 @@ define(['app'], function (app) {
 												function(a) {
 													c = a.data.pid,
 														b.cache.project.add(a.data),
-														kzi.msg.success(d.instant("project_service.copy_project_success"))
+														kzi.msg.success($translate.instant("project_service.copy_project_success"))
 												},
 												function(a) {
-													kzi.msg.error(d.instant("project_service.copy_project_fail"))
+													kzi.msg.error($translate.instant("project_service.copy_project_fail"))
 												},
 												function() {
 													a.vm.is_prj_copying = !1,
@@ -744,11 +747,11 @@ define(['app'], function (app) {
 										_.isEmpty(a.to_team_id) || (a.is_transfering = !0, wt.data.project.transfer(k.project.pid, a.to_team_id,
 											function() {
 												b.cache.project.shift(k.project.pid, a.to_team_id),
-													kzi.msg.success(d.instant("project_service.move_project_success")),
+													kzi.msg.success($translate.instant("project_service.move_project_success")),
 													k.js_close()
 											},
 											function() {
-												kzi.msg.error(d.instant("project_service.move_project_fail"))
+												kzi.msg.error($translate.instant("project_service.move_project_fail"))
 											},
 											function() {
 												a.is_transfering = !1
@@ -835,7 +838,7 @@ define(['app'], function (app) {
 								a.webhook_action = kzi.constant.actions,
 									_.each(a.webhook_action,
 										function(a) {
-											a.desc = d.instant(a.desc)
+											a.desc = $translate.instant(a.desc)
 										}),
 									a.to_edit_webhook = function(b) {
 										k.is_add = !0,
@@ -853,17 +856,17 @@ define(['app'], function (app) {
 									},
 									a.js_webhook_add_edit = function() {
 										if(a.edit_webhook.is_every = parseInt(a.edit_webhook.is_every), 1 !== a.edit_webhook.is_every) {
-											if(a.edit_webhook.actions = _.without(a.edit_webhook.actions, void 0, ""), 0 === a.edit_webhook.actions.length) return void kzi.msg.warn(d.instant("project_service.warn_add_webhook_action_require"));
+											if(a.edit_webhook.actions = _.without(a.edit_webhook.actions, void 0, ""), 0 === a.edit_webhook.actions.length) return void kzi.msg.warn($translate.instant("project_service.warn_add_webhook_action_require"));
 											a.edit_webhook.actions = _.uniq(a.edit_webhook.actions)
 										} else a.edit_webhook.actions = [];
 										a.edit_webhook.wid ? wt.data.webhook.change_webhook(k.pid, a.edit_webhook,
 											function(a) {
-												kzi.msg.info(d.instant("project_service.edit_webhook_success")),
+												kzi.msg.info($translate.instant("project_service.edit_webhook_success")),
 													k.is_add = !1,
 													j()
 											}) : wt.data.webhook.add_webhook(k.pid, a.edit_webhook,
 											function(a) {
-												kzi.msg.info(d.instant("project_service.add_webhook_success")),
+												kzi.msg.info($translate.instant("project_service.add_webhook_success")),
 													k.is_add = !1,
 													j()
 											})
@@ -878,14 +881,14 @@ define(['app'], function (app) {
 														b.js_close = function() {
 															e.close()
 														},
-														b.delete_message = d.instant("project_service.del_webhook_info"),
-														b.delete_title = d.instant("project_service.del_webhook_title"),
-														b.delete_button = d.instant("project_service.del_webhook_btn"),
+														b.delete_message = $translate.instant("project_service.del_webhook_info"),
+														b.delete_title = $translate.instant("project_service.del_webhook_title"),
+														b.delete_button = $translate.instant("project_service.del_webhook_btn"),
 														b.js_sure_delete = function() {
 															b.is_deleting = !0,
 																wt.data.webhook.del_webhook(k.pid, c.wid,
 																	function(a) {
-																		200 === a.code && (kzi.msg.info(d.instant("project_service.del_webhook_success")), f.scope.vm.is_add = !1, k.is_add = !1, j(), b.js_close())
+																		200 === a.code && (kzi.msg.info($translate.instant("project_service.del_webhook_success")), f.scope.vm.is_add = !1, k.is_add = !1, j(), b.js_close())
 																	},
 																	null,
 																	function() {
@@ -960,7 +963,7 @@ define(['app'], function (app) {
 											function() {
 												b.cache.project.remove(k.project.pid),
 													g.path("/dashboard"),
-													kzi.msg.info(d.instant("project_service.quit_project_success", {
+													kzi.msg.info($translate.instant("project_service.quit_project_success", {
 														project_name: k.project.name
 													})),
 													k.js_close()
@@ -968,7 +971,7 @@ define(['app'], function (app) {
 											null,
 											function() {
 												a.is_quiting = !1
-											})) : kzi.msg.warn(d.instant("project_service.warn_name_valid_confirm_quit"))
+											})) : kzi.msg.warn($translate.instant("project_service.warn_name_valid_confirm_quit"))
 									},
 									j(),
 									k.js_close = function() {
@@ -1001,7 +1004,7 @@ define(['app'], function (app) {
 													k.project.archived = 1,
 														k.project.permission = kzi.constant.prj_module.view,
 														b.cache.project.remove(k.pid),
-														kzi.msg.success(d.instant("project_service.archive_success")),
+														kzi.msg.success($translate.instant("project_service.archive_success")),
 														k.js_close()
 												},
 												null,
@@ -1038,7 +1041,7 @@ define(['app'], function (app) {
 											wt.data.project.unarchive(g.pid,
 												function() {
 													g.project.archived = 0,
-														kzi.msg.success(d.instant("project_service.unarchive_success")),
+														kzi.msg.success($translate.instant("project_service.unarchive_success")),
 														e.reloadProjects(function(a) {
 															var b = _.find(a, {
 																pid: g.pid
@@ -1086,7 +1089,7 @@ define(['app'], function (app) {
 											null,
 											function() {
 												k.is_deleting = !1
-											})) : kzi.msg.warn(d.instant("project_service.warn_project_name_valid"))
+											})) : kzi.msg.warn($translate.instant("project_service.warn_project_name_valid"))
 									},
 									j(),
 									k.js_close = function() {
@@ -1129,7 +1132,7 @@ define(['app'], function (app) {
 									order_apps_status: !1
 								};
 								l.js_toggle_extension = function(a) {
-										if(1 === a.pro && l.project.members.length <= 5) return void kzi.msg.error(d.instant("dialog_project_extension.warn_enable_vip"));
+										if(1 === a.pro && l.project.members.length <= 5) return void kzi.msg.error($translate.instant("dialog_project_extension.warn_enable_vip"));
 										var e = 0 == a.enable ? 1 : 0;
 										wt.data.project.set_extension(l.project.pid, a, e,
 											function(d) {

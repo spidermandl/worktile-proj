@@ -2,7 +2,7 @@
     <dd ng-switch on=vm.step>
         <div ng-switch-default></div>
         <div ng-switch-when=1>
-            <ng-include src= "'/tpl/project/sidebar/project_members.html'"></ng-include>
+            <ng-include src= "'/views/work/project/sidebar/project_members.html'"></ng-include>
         </div>
         <div ng-switch-when=2 type=setting>
             <ng-include src= "'/tpl/project/sidebar/project_setting_menu.html'"></ng-include>
@@ -11,7 +11,7 @@
             <ng-include src= "'/tpl/project/sidebar/add_member.html'"></ng-include>
         </div>
         <div ng-switch-when=4 type=filter_tasks>
-            <ng-include src= "'/tpl/project/sidebar/filter_tasks.html'"></ng-include>
+            <ng-include src= "'/views/work/project/sidebar/filter_tasks.html'"></ng-include>
         </div>
         <div ng-switch-when=5 type=setting_base_info>
             <ng-include src= "'/tpl/project/sidebar/project_setting_baseinfo.html'"></ng-include>
