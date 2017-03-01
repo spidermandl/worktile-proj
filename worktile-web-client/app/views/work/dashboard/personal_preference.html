@@ -1,0 +1,28 @@
+<div class="layout_content">
+	<div class="layout_content_main">
+		<div class="mod-navbar">
+			<div class="main">
+				<div class="title">
+					<h3><i class="\"wtfont" wtf-user\"></i>{{'account.title_name'|translate}}</h3>
+				</div>
+				<div class="main_toolbar">
+				</div>
+				<div class="center-menu">
+					<ul>
+						<li><a class="\"{{{true:'active'}[vm.header_nav_menu=='account_baseinfo']}}\"" ui-sref-active="active" ui-sref="account.settings">{{'account.baseinfo_name'|translate}}</a></li>
+						<li><a ui-sref-active="active" href ui-sref="account.individuation">{{'account.individuation_name'|translate}}</a></li>
+						<li><a ui-sref-active="active" href ui-sref="account.security">{{'account.security_name'|translate}}</a></li>
+						<li><a ui-sref-active="active" href ui-sref="account.message">{{'account.message_name'|translate}}</a></li>
+						<li><a ui-sref-active="active" href ui-sref="account.apps">{{'account.apps_name'|translate}}</a></li>
+						<li><a ui-sref-active="active" href ui-sref="account.thirdparty">{{'account.thirdparty_name'|translate}}</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="\"height-nonav" height-nonav--notab\" wt-scroll>
+			<dl class="\"frame" frame--account-setting\" wt-minheight="112" ng-show="global.loading_done">
+				<ui-view></ui-view>
+			</dl>
+		</div>
+	</div>
+</div>

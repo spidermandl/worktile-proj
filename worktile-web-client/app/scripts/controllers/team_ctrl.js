@@ -72,7 +72,7 @@ define(['app'], function(app) {
 						resolve: {
 							pop_data: function() {
 								return {
-									team: b.team
+									team: $scope.team
 								};
 							}
 						}
@@ -168,11 +168,11 @@ define(['app'], function(app) {
 			function($scope, $rootScope, config, translate, util, state, api, teamService) {
 				//"$rootScope", "$scope", "$state", "util", "teamService", "$translate"
 				//     a            b         c       d          e              f
-				function g() {
+				function team_member() {
 					return $scope.team ? ($rootScope.global.title = [translate.instant("team_projects.title_name"), " | ", $scope.team.name].join(""), _.each(teamService.projects,
 							function(a) {
-								h.me_pids.push(a.pid)
-							}), $rootScope.global.loading_done = !0, h.part_loading_done = !1,
+								$scope.vm.me_pids.push(a.pid)
+							}), $rootScope.global.loading_done = !0, $scope.vm.part_loading_done = !1,
 						void api.get_team_projects($scope.team.team_id,
 							function(a) {
 								$scope.team.projects = a.data,
@@ -180,10 +180,10 @@ define(['app'], function(app) {
 							},
 							null,
 							function() {
-								h.part_loading_done = !0
+								$scope.vm.part_loading_done = !0
 							})) : c.go("dashboard.default")
 				}
-				var h = $scope.vm = {
+				$scope.vm = {
 					part_loading_done: !1,
 					me_pids: [],
 					filter_type: "me",
@@ -194,32 +194,32 @@ define(['app'], function(app) {
 				};
 				$scope.parent_vm = $scope.$parent.vm;
 				if (null != $scope.team) {
-					g();
+					team_member();
 					var i = function() {
-						h.projects.participateds = _.filter($scope.team.projects,
+						$scope.vm.projects.participateds = _.filter($scope.team.projects,
 								function(a) {
-									return _.includes(h.me_pids, a.pid)
+									return _.includes($scope.vm.me_pids, a.pid)
 								}),
-							h.projects.teampublics = _.filter($scope.team.projects,
+							$scope.vm.projects.teampublics = _.filter($scope.team.projects,
 								function(a) {
 
-									return !_.includes(h.me_pids, a.pid) && (a.visibility === config.constant.prj_visibility.protected || a.visibility === config.constant.prj_visibility.public)
+									return !_.includes($scope.vm.me_pids, a.pid) && (a.visibility === config.constant.prj_visibility.protected || a.visibility === config.constant.prj_visibility.public)
 
 								}),
-							h.projects.participateds = _.sortBy(h.projects.participateds,
+							$scope.vm.projects.participateds = _.sortBy($scope.vm.projects.participateds,
 								function(a) {
 									return a.pos
 								}),
-							h.projects.teampublics = _.sortBy(h.projects.teampublics,
+							$scope.vm.projects.teampublics = _.sortBy($scope.vm.projects.teampublics,
 								function(a) {
 									return a.pos
 								})
 					};
-					h.js_reset_filter_type = function(a) {
-							h.filter_type = a
+					$scope.vm.js_reset_filter_type = function(a) {
+							$scope.vm.filter_type = a
 						},
-						h.js_new_project = function(a) {
-							d.showAdd($scope.team ? $scope.team.team_id : "")
+						$scope.vm.js_new_project = function(a) {
+							util.showAdd($scope.team ? $scope.team.team_id : "")
 						}
 				}
 
@@ -230,7 +230,6 @@ define(['app'], function(app) {
 		 **************************************************************************************************************/
 		.controller('TeamTasksCtrl', ['$scope', '$rootScope', 'config', '$translate', '$state', 'locator', 'api',
 			function($scope, $rootScope, config, translate, state, locator, api) {
-
 				//"$rootScope", "$scope", "$state", "$popbox", "globalDataContext", "locator", "$translate",
 				//		a           b         c          d               e               f           g
 				if (!$scope.team) return state.go("dashboard.default");
@@ -238,18 +237,18 @@ define(['app'], function(app) {
 					$rootScope.global.loading_done = !0,
 					$scope.loading_tasks = !1;
 				$scope.part_loading_done = !1;
-				var i = $scope.vm = {
-						filter_type_reg: "uncompleted",
-						filter_project_reg: "all",
-						filter_user_reg: "all",
-						is_has_more_task: !0
-					},
-					j = 1;
+				$scope.vm = {
+					filter_type_reg: "uncompleted",
+					filter_project_reg: "all",
+					filter_user_reg: "all",
+					is_has_more_task: !0
+				};
+				var j = 1;
 				$scope.locator = locator,
 					$scope.tasks = [];
-				var k = $scope.load_tasks = function() {
+				$scope.load_tasks = function() {
 					$scope.loading_tasks = !0,
-						api.get_tasks($scope.team.team_id, i.filter_user_reg, i.filter_project_reg, i.filter_type_reg, j,
+						api.get_tasks($scope.team.team_id, $scope.vm.filter_user_reg, $scope.vm.filter_project_reg, $scope.vm.filter_type_reg, j,
 
 							function(a) {
 								_.each(a.data,
@@ -260,10 +259,10 @@ define(['app'], function(app) {
 											c && (a.project = c),
 												b.tasks.push(a)
 										}),
-									a.data.length > 0 ? (j += 1, i.is_has_more_task = !0) : i.is_has_more_task = !1
+									a.data.length > 0 ? (j += 1, $scope.vm.is_has_more_task = !0) : $scope.vm.is_has_more_task = !1
 							},
 							function() {
-								config.msg.error(translate.instant("team_tasks.get_tasks_fail"))
+								config.constant.msg.error(translate.instant("team_tasks.get_tasks_fail"))
 							},
 							function() {
 								$scope.loading_tasks = !1
@@ -281,15 +280,15 @@ define(['app'], function(app) {
 						function() {
 							$scope.part_loading_done = !0
 						}),
-					k(),
+					$scope.load_tasks(),
 					$scope.js_reset_filter_type = function(a) {
-						i.filter_type_reg !== a && (i.filter_type_reg = a, j = 1, $scope.tasks = [], k())
+						$scope.vm.filter_type_reg !== a && ($scope.vm.filter_type_reg = a, j = 1, $scope.tasks = [], k())
 					},
 					$scope.js_toggle_filter_user = function(a) {
-						i.filter_user_reg === a ? i.filter_user_reg = "all" : i.filter_user_reg = a,
+						$scope.vm.filter_user_reg === a ? $scope.vm.filter_user_reg = "all" : $scope.vm.filter_user_reg = a,
 							j = 1,
 							$scope.tasks = [],
-							k()
+							$scope.load_tasks()
 					}
 
 			}
@@ -302,7 +301,7 @@ define(['app'], function(app) {
 
 				//["$rootScope", "$scope", "$state", "projectService", "globalDataContext", "$popbox", "$translate"]
 				//       a           b         c             d                   e               f            g
-				var h = $scope.vm = {
+				$scope.vm = {
 					part_loading_done: !1,
 					overview: {
 						completed: null,
@@ -315,7 +314,7 @@ define(['app'], function(app) {
 				};
 				if ($scope.team) {
 					$rootScope.global.title = [translate.instant("team_graphs.title_name"), " | ", $scope.team.name].join(""),
-						h.part_loading_done = !1;
+						$scope.vm.part_loading_done = !1;
 					var i = function(a) {
 							var b = [];
 							return _.each(a,
@@ -334,14 +333,14 @@ define(['app'], function(app) {
 						j = function(a, b, c, d) {
 							if (c || d) {
 								var e = wt.bus.team.calculate_stats_pos(c, d),
-									f = _.find(h.stats_list, {
+									f = _.find($scope.vm.stats_list, {
 										pid: a,
 										type: b
 									});
 								f.pos = e,
 									wt.data.team.update_team_stats_pos(a, b, e,
 										function(a) {
-											200 === a.code && (h.stats_list = _.sortBy(h.stats_list,
+											200 === a.code && ($scope.vm.stats_list = _.sortBy($scope.vm.stats_list,
 												function(a) {
 													return a.pos
 												}))
@@ -350,31 +349,31 @@ define(['app'], function(app) {
 						};
 					api.get_team_stats($scope.team.team_id,
 							function(a) {
-								200 === a.code && a.data.length > 0 && (h.stats_list = i(a.data), h.stats_list = _.sortBy(h.stats_list, "pos"))
+								200 === a.code && a.data.length > 0 && ($scope.vm.stats_list = i(a.data), $scope.vm.stats_list = _.sortBy($scope.vm.stats_list, "pos"))
 							},
 							null,
 							function() {
 								api.get_tasks_overview($scope.team.team_id,
 										function(a) {
-											200 === a.code && (h.overview = a.data)
+											200 === a.code && ($scope.vm.overview = a.data)
 										}),
 									$rootScope.global.loading_done = !0,
-									h.part_loading_done = !0
+									$scope.vm.part_loading_done = !0
 							}),
-						h.js_pop_add_stats = function(a) {
+						$scope.vm.js_pop_add_stats = function(a) {
 							popbox.popbox({
 								target: a,
 								templateUrl: "/tpl/team/pop_add_team_stats.html",
 								controller: ["$scope", "popbox", "pop_data", "globalDataContext", "$rootScope",
 									function(a, b, c, d, e) {
 										function f() {
-											_.each(h.stats_type,
+											_.each($scope.vm.stats_type,
 												function(a) {
 													a.disable = !1
 												})
 										}
 										a.popbox = b;
-										var h = a.vm = {
+										a.vm = {
 											projects: _.find(d.teams, {
 												team_id: c.team_id
 											}).projects,
@@ -384,46 +383,46 @@ define(['app'], function(app) {
 											stats_type: kzi.constant.stats_type_list,
 											pop_add_loading: !1
 										};
-										_.each(h.stats_type,
+										_.each($scope.vm.stats_type,
 												function(a) {
 													a.desc = translate.instant(a.desc)
 												}),
 											f(),
-											h.js_close = function() {
+											a.vm.js_close = function() {
 												b.close()
 											},
-											h.js_select_click = function() {
-												h.project_not_select = !1
+											a.vm.js_select_click = function() {
+												a.vm.project_not_select = !1
 											},
-											h.js_select_project = function() {
+											a.vm.js_select_project = function() {
 												var a = _.map(_.filter(c.stats_list, {
-													pid: h.project_select
+													pid: a.vm.project_select
 												}), "type");
-												_.each(h.stats_type,
+												_.each(a.vm.stats_type,
 													function(b) {
-														_.indexOf(a, b.value) >= 0 ? (b.disable = !0, h.stats_type_select = _.reject(h.stats_type_select,
+														_.indexOf(a, b.value) >= 0 ? (b.disable = !0, a.vm.stats_type_select = _.reject(a.vm.stats_type_select,
 															function(a) {
 																return a === b.value
 															})) : b.disable = !1
 													})
 											},
-											h.js_select_stats = function(a, b) {
-												$(a.target).parents("li").hasClass("disable") || (_.indexOf(h.stats_type_select, b) < 0 ? h.stats_type_select.push(b) : h.stats_type_select = _.reject(h.stats_type_select,
+											a.vm.js_select_stats = function(a, b) {
+												$(a.target).parents("li").hasClass("disable") || (_.indexOf(a.vm.stats_type_select, b) < 0 ? a.vm.stats_type_select.push(b) : a.vm.stats_type_select = _.reject(a.vm.stats_type_select,
 													function(a) {
 														return a === b
 													}))
 											},
-											h.js_add_stats = function() {
-												return h.project_select ? _.filter(h.stats_type, {
+											a.vm.js_add_stats = function() {
+												return a.vm.project_select ? _.filter(a.vm.stats_type, {
 													disable: !0
-												}).length === kzi.constant.stats_type_list.length ? void kzi.msg.warn(g.instant("team_graphs.stats_overall_exist")) : void 0 === h.stats_type_select ? void kzi.msg.warn(g.instant("team_graphs.choose_stats_type")) : (h.pop_add_loading = !0, void wt.data.team.add_team_stats(h.project_select, h.stats_type_select,
+												}).length === kzi.constant.stats_type_list.length ? void kzi.msg.warn(translate.instant("team_graphs.stats_overall_exist")) : void 0 === a.vm.stats_type_select ? void kzi.msg.warn(translate.instant("team_graphs.choose_stats_type")) : (a.vm.pop_add_loading = !0, void wt.data.team.add_team_stats(a.vm.project_select, a.vm.stats_type_select,
 													function(a) {
-														200 === a.code && (kzi.msg.success(g.instant("team_graphs.add_stats_success")), e.$broadcast(kzi.constant.event_names.team_add_stats, a.data), h.js_close())
+														200 === a.code && (kzi.msg.success(translate.instant("team_graphs.add_stats_success")), e.$broadcast(kzi.constant.event_names.team_add_stats, a.data), a.vm.js_close())
 													},
 													null,
 													function() {
-														h.pop_add_loading = !1
-													})) : (h.project_not_select = !0, void kzi.msg.warn(g.instant("team_graphs.choose_stats_project")))
+														a.vm.pop_add_loading = !1
+													})) : (a.vm.project_not_select = !0, void kzi.msg.warn(translate.instant("team_graphs.choose_stats_project")))
 											}
 									}
 								],
@@ -437,7 +436,7 @@ define(['app'], function(app) {
 								}
 							}).open()
 						},
-						h.stats_sort_options = {
+						$scope.vm.stats_sort_options = {
 							containment: ".team-dashboard",
 							placeholder: "portlet-placeholder",
 							helper: "clone",
@@ -467,13 +466,13 @@ define(['app'], function(app) {
 						$scope.$on(config.constant.event_names.team_add_stats,
 
 							function(a, b) {
-								h.stats_list = h.stats_list.concat(i([b])),
-									h.stats_list = _.sortBy(h.stats_list, "pos")
+								$scope.vm.stats_list = $scope.vm.stats_list.concat(i([b])),
+									$scope.vm.stats_list = _.sortBy($scope.vm.stats_list, "pos")
 							}),
 						$scope.$on(config.constant.event_names.team_remove_stats,
 
 							function(a, b) {
-								h.stats_list = _.reject(h.stats_list, {
+								$scope.vm.stats_list = _.reject($scope.vm.stats_list, {
 									pid: b.pid,
 									type: b.type
 								})
@@ -485,12 +484,12 @@ define(['app'], function(app) {
 		/**************************************************************************************************************
 		 *
 		 **************************************************************************************************************/
-		.controller('TeamCalendarCtrl', ['$scope', '$rootScope', 'config',
-			function($scope, $rootScope, config) {
+		.controller('TeamCalendarCtrl', ['$scope', '$rootScope', 'config', 'teamCalendarFilterData',
+			function($scope, $rootScope, config, teamCalendarFilterData) {
 				//"$rootScope", "$scope", "$popbox", "uiCalendarConfig", "globalDataContext", "locator", "teamCalendarFilterData", "$translate"
 				//     a            b          c             d                     e              f                g                     h
 				function i() {
-					var a = g.myCalendar.fullCalendar("getView");
+					var a = teamCalendarFilterData.myCalendar.fullCalendar("getView");
 					$("#calendar_title").html(a.title);
 					var b = new Date(a.start).getTime(),
 						c = new Date(a.end).getTime(),
@@ -517,7 +516,7 @@ define(['app'], function(app) {
 					team_id: b.team.team_id,
 					cache_calendar: null
 				};
-				a.global.title = [h.instant("team_calendars.title_name"), " | ", b.team.name].join("");
+				$rootScope.global.title = [h.instant("team_calendars.title_name"), " | ", b.team.name].join("");
 				var m, n, o = null,
 					p = null;
 				k();
@@ -541,7 +540,7 @@ define(['app'], function(app) {
 								});
 								if (d) {
 									var e = wt.bus.event.event_to_calEvent(c, d.bg);
-									c.attendees && c.attendees.indexOf(a.global.me.uid) >= 0 ? e.extend.i_attended = 1 : e.extend.i_attended = 0,
+									c.attendees && c.attendees.indexOf($rootScope.global.me.uid) >= 0 ? e.extend.i_attended = 1 : e.extend.i_attended = 0,
 										d.is_calendar || (d.is_calendar = 1, _.defaults(d, {
 											is_checked: !0
 										}), b.calendar_projects.push(d), b.calendar_projects = _.sortBy(b.calendar_projects,
@@ -561,7 +560,7 @@ define(['app'], function(app) {
 							a.extend && a.extend.xtype === kzi.constant.xtype.event ? f.openEvent(a.extend.pid, a.id) : f.openTask(a.extend.pid, a.id)
 					},
 					b.onDayClick = function(d, e, f) {
-						if (a.global.loading_done) {
+						if ($rootScope.global.loading_done) {
 							var g = kzi.helper.mouse_position(e);
 							$(e.currentTarget).attr("data-placement", "right"),
 								$(e.currentTarget).attr("data-align", "top"),

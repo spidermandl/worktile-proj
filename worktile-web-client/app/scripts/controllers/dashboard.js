@@ -8,10 +8,10 @@
 define(['app'], function(app) {
 	'use strict';
 
-	app.controller('DashboardTaskCtrl', ['$scope', '$rootScope', 'config', 'ycTrack', 
-				'$translate', 'api', 'Util','Center',
-			function($scope, $rootScope, config, ycTrack, 
-					translate, api, util,center) {
+	app.controller('DashboardTaskCtrl', ['$scope', '$rootScope', 'config', 'ycTrack',
+			'$translate', 'api', 'Util', 'Center',
+			function($scope, $rootScope, config, ycTrack,
+				translate, api, util, center) {
 
 				$rootScope.global.loading_done = true; //需要重构
 				//["$rootScope", "$scope", "$location", "locator", "globalDataContext", "$timeout", "bus", "$translate", "taskService", "ycTrack"]
@@ -869,125 +869,126 @@ define(['app'], function(app) {
 								}
 							}
 							u(),
-							t()
-					})
-		
-	}])
-	/**************************************************************************************************************
-	 *
-	 **************************************************************************************************************/
-	.controller('CalendarSubscribeCtrl', 
-		['$scope','$rootScope','config',
-		function ($scope,$rootScope,config) {
-
-	}])
-	/**************************************************************************************************************
-	 *
-	 **************************************************************************************************************/
-	.controller('DashboardActivityFeedCtrl', 
-		['$scope','$rootScope','config','ycTrack',
-		function ($scope,$rootScope,config,ycTrack) {
-			//["$rootScope", "$scope", "$translate", "ycTrack"]
-			//      a            b            c           d
-			function e() {
-				a.global.title = [c.instant("dashboard.title_name_feed"), " | ", c.instant("dashboard.title_name")].join(""),
-					f.loadingDone = !1,
-					wt.data.activity.get_feeds("all", 0, f.feedData.currentPage, kzi.config.default_count,
-						function(a) {
-							_.isEmpty(a.data) ? f.feedData.feeds = f.feedData.feeds || [] : (f.feedData.currentPage++, _.isEmpty(f.feedData.feeds) ? f.feedData.feeds = a.data : f.feedData.feeds = f.feedData.feeds.concat(a.data)),
-								a.data.length < kzi.config.default_count ? f.feedData.hasMore = !1 : f.feedData.hasMore = !0
-						},
-						null,
-						function() {
-							f.loadingDone = !0
+								t()
 						})
-			}
-			ycTrack.track("dashboard_feed", "visit");
-			var f = b.vm = {
-				loadingDone: !0,
-				feedData: {
-					currentPage: 1,
-					feeds: [],
-					hasMore: !0
-				}
-			};
-			e(),
-				f.js_loadMoreActivityFeeds = function() {
-					e()
-				},
-				f.js_refresh_feed = function() {
-					f.feedData.feeds = [],
-						f.feedData.currentPage = 1,
-						e()
-				}
 
-	}])
-	/**************************************************************************************************************
-	 *
-	 **************************************************************************************************************/
-	.controller('DashboardEmailCtrl', ['$scope','$rootScope','config',
-		function ($scope,$rootScope,config) {
-			//["$rootScope", "$scope", "locator", "$popbox", "$translate", "ycTrack"]
-			//       a           b         c           d           e            f
-			function g() {
-				a.global.title = [e.instant("dashboard.title_name_email"), " | ", e.instant("dashboard.title_name")].join(""),
-					b.loadingDone = !1,
-					wt.data.mail.get_list(b.emailData.currentPage, "all",
-						function(a) {
-							_.isEmpty(a.data) ? b.emailData.emails = b.emailData.emails || [] : (b.emailData.currentPage++, _.isEmpty(b.emailData.emails) ? b.emailData.emails = a.data : b.emailData.emails = b.emailData.emails.concat(a.data)),
-								a.data.length < kzi.config.default_count ? b.emailData.hasMore = !1 : b.emailData.hasMore = !0
-						},
-						null,
-						function() {
-							b.loadingDone = !0
-						})
 			}
-			f.track("dashboard_email", "visit"),
-				b.loadingDone = !0,
-				b.emailData = {},
-				b.emailData.currentPage = 1,
-				b.emailData.emails = [],
-				b.emailData.hasMore = !0,
-				g(),
-				b.loadMoreEmails = function() {
-					g()
-				},
-				b.js_pop_showhelp = function(a) {
-					d.popbox({
-						target: a,
-						templateUrl: "/tpl/dashboard/pop_dashboard_mailhelp.html",
-						controller: ["$scope", "popbox", "pop_data",
-							function(a, b, c) {
-								a.popbox = b;
-								a.pm = {};
-								a.js_close = function() {
-									b.close()
-								}
-							}
-						],
-						resolve: {
-							pop_data: function() {
-								return {
-									$scope: b
-								}
-							}
-						}
-					}).open()
-				},
-				b.showEmailDetail = function(a) {
-					c.openMail(a.mail_id),
-						wt.data.mail.set_read(a.mail_id,
-							function() {
-								a.is_read = !0
-							})
-				},
-				b.$on(config.constant.event_names.on_mail_trash,
-					function(a, c) {
-						b.emailData.emails && (b.emailData.emails = _.reject(b.emailData.emails,
+		])
+		/**************************************************************************************************************
+		 *
+		 **************************************************************************************************************/
+		.controller('CalendarSubscribeCtrl', ['$scope', '$rootScope', 'config',
+			function($scope, $rootScope, config) {
+
+			}
+		])
+		/**************************************************************************************************************
+		 *
+		 **************************************************************************************************************/
+		.controller('DashboardActivityFeedCtrl', ['$scope', '$rootScope', 'config', 'ycTrack',
+			function($scope, $rootScope, config, ycTrack) {
+				//["$rootScope", "$scope", "$translate", "ycTrack"]
+				//      a            b            c           d
+				function e() {
+					a.global.title = [c.instant("dashboard.title_name_feed"), " | ", c.instant("dashboard.title_name")].join(""),
+						f.loadingDone = !1,
+						wt.data.activity.get_feeds("all", 0, f.feedData.currentPage, kzi.config.default_count,
 							function(a) {
-								return a.mail_id === c.mail_id
-							}))
-					})
+								_.isEmpty(a.data) ? f.feedData.feeds = f.feedData.feeds || [] : (f.feedData.currentPage++, _.isEmpty(f.feedData.feeds) ? f.feedData.feeds = a.data : f.feedData.feeds = f.feedData.feeds.concat(a.data)),
+									a.data.length < kzi.config.default_count ? f.feedData.hasMore = !1 : f.feedData.hasMore = !0
+							},
+							null,
+							function() {
+								f.loadingDone = !0
+							})
+				}
+				ycTrack.track("dashboard_feed", "visit");
+				var f = b.vm = {
+					loadingDone: !0,
+					feedData: {
+						currentPage: 1,
+						feeds: [],
+						hasMore: !0
+					}
+				};
+				e(),
+					f.js_loadMoreActivityFeeds = function() {
+						e()
+					},
+					f.js_refresh_feed = function() {
+						f.feedData.feeds = [],
+							f.feedData.currentPage = 1,
+							e()
+					}
+
+			}
+		])
+		/**************************************************************************************************************
+		 *
+		 **************************************************************************************************************/
+		.controller('DashboardEmailCtrl', ['$scope', '$rootScope', 'config',
+			function($scope, $rootScope, config) {
+				//["$rootScope", "$scope", "locator", "$popbox", "$translate", "ycTrack"]
+				//       a           b         c           d           e            f
+				function g() {
+					a.global.title = [e.instant("dashboard.title_name_email"), " | ", e.instant("dashboard.title_name")].join(""),
+						b.loadingDone = !1,
+						wt.data.mail.get_list(b.emailData.currentPage, "all",
+							function(a) {
+								_.isEmpty(a.data) ? b.emailData.emails = b.emailData.emails || [] : (b.emailData.currentPage++, _.isEmpty(b.emailData.emails) ? b.emailData.emails = a.data : b.emailData.emails = b.emailData.emails.concat(a.data)),
+									a.data.length < kzi.config.default_count ? b.emailData.hasMore = !1 : b.emailData.hasMore = !0
+							},
+							null,
+							function() {
+								b.loadingDone = !0
+							})
+				}
+				f.track("dashboard_email", "visit"),
+					b.loadingDone = !0,
+					b.emailData = {},
+					b.emailData.currentPage = 1,
+					b.emailData.emails = [],
+					b.emailData.hasMore = !0,
+					g(),
+					b.loadMoreEmails = function() {
+						g()
+					},
+					b.js_pop_showhelp = function(a) {
+						d.popbox({
+							target: a,
+							templateUrl: "/tpl/dashboard/pop_dashboard_mailhelp.html",
+							controller: ["$scope", "popbox", "pop_data",
+								function(a, b, c) {
+									a.popbox = b;
+									a.pm = {};
+									a.js_close = function() {
+										b.close()
+									}
+								}
+							],
+							resolve: {
+								pop_data: function() {
+									return {
+										$scope: b
+									}
+								}
+							}
+						}).open()
+					},
+					b.showEmailDetail = function(a) {
+						c.openMail(a.mail_id),
+							wt.data.mail.set_read(a.mail_id,
+								function() {
+									a.is_read = !0
+								})
+					},
+					b.$on(config.constant.event_names.on_mail_trash,
+						function(a, c) {
+							b.emailData.emails && (b.emailData.emails = _.reject(b.emailData.emails,
+								function(a) {
+									return a.mail_id === c.mail_id
+								}))
+						})
 
 			}
 		])
@@ -1056,5 +1057,5 @@ define(['app'], function(app) {
 		/**************************************************************************************************************
 		 *
 		 **************************************************************************************************************/
-		;
+	;
 });

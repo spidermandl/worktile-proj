@@ -1,0 +1,64 @@
+<div class="dialog dialog-feedback">
+	<div class="dialog-head">
+		<span class="dialog-close"><i class="wtfont wtf-close" ng-click="vm.js_close()"></i></span>
+		<div class="dialog-title">
+			{{\'feedback_form.title_name\'|translate}}
+		</div>
+	</div>
+	<div class="dialog-body">
+		<div class="feedback_help_list" ng-if="vm.status.code==0">
+			<div translate="feedback_form.first_tips">
+			</div>
+			<div class="form-group">
+				<input type="text" class="form-control input-block" wt-focus="" autofocus="" autocomplete="off" ng-model="vm.help_keywords" placeholder="{{\'feedback_form.placeholder_search_help\'|translate}}">
+			</div>
+			<ul>
+				<li ng-repeat="link in vm.help_links_init" ng-if="vm.help_links.length==0"><a href="{{link.url}}" target="_blank">{{link.title}}</a></li>
+				<li ng-repeat="link in vm.help_links"><a href="{{link.url}}" target="_blank">{{link.title}}</a></li>
+			</ul>
+			<a href="javascript:;" class="color-text-act-blue" ng-click="vm.js_feedback_begin()">{{\'feedback_form.send_feedback\'|translate}} </a>{{\'feedback_form.phone_number\'|translate}}
+		</div>
+		<form class="feedback_send_form" ng-if="vm.status.code==1" name="feedback_form" w5c-form-validate="{blurTrig:false,showMsg:false}" method="POST" enctype="multipart/form-data" class="form-horizontal wt-form" action="{{vm.action_url}}" role="form">
+			<div class="form-group">
+				<label for="feedback_type" class="control-label label-text">{{\'feedback_form.form_feedback_type\'|translate}}</label>
+				<select class="form-control" id="feedback_type" name="feedback_type" ng-model="vm.feedback_type" ng-pattern="[1-7]{1}" required ng-options="type.name for type in vm.feedback_types">
+					<option value="" selected="selected" disabled="disabled">{{\'feedback_form.placeholder_type\'|translate}}</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="feedback_desc" class="control-label label-text">{{\'feedback_form.your_question\'|translate}}</label><textarea class="form-control" rows="6" id="feedback_desc" name="feedback_desc" ng-model="vm.feedback_desc" required placeholder="{{\'feedback_form.need_we_know\'|translate}}"></textarea>
+				<div class="file-wrap">
+					<button class="btn btn-block" ngf-select="vm.js_file_select($file)"><span ng-show="vm.on_upload"><i class="fa fa-spinner fa-spin fa-lg"></i>&nbsp;&nbsp;{{vm.progressPercentage}}%</span><span ng-hide="vm.on_upload"><i class="fa fa-paperclip"></i></span></button>
+					<div class="text-warning mt-20" ng-if="vm.file_path.length>
+						 0">
+						<dl class="file-list">
+							<dt><img ng-if="!isImage" ng-src="{{\'/img/icons/\'+vm.file_ext+\'.png\'}}"><img ng-if="isImage" ng-src="{{vm.file_path}}"></dt>
+							<dd><a href="{{vm.file_path}}" target="_blank">{{vm.file_name}}</a><br>
+							{{vm.file_size}}k</dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+			<div class="form-group" ng-show="feedback_form.$errors.length>
+				 0">
+				<div class="alert alert-danger">
+					<i class="fa fa-info-circle"></i> {{feedback_form.$errors[0]}}
+				</div>
+			</div>
+			<div class="form-group">
+				<button type="button" w5c-form-submit="vm.js_feedback_submit(feedback_form)" class="btn btn-success btn-green" data-loading-text="{{\'feedback_form.submiting\'|translate}}" loading-status="vm.isSubmit">{{\'feedback_form.submit_feedback\'|translate}}</button> &nbsp; <button type="button" ng-click="vm.js_close()" class="btn btn-link">{{\'common.btn_cancel\'|translate}}</button>
+				<div class="pull-right outer-link">
+					<a href="/help" target="_blank" class="btn btn-default"><i class="wtfont wtf-message"></i> {{\'feedback_form.link_helpcenter\'|translate}} </a>&nbsp;
+					<div class="divider-v">
+					</div>
+					&nbsp; <a href="/upgrade" target="_blank" class="btn btn-default pro-link"><i class="wtfont wtf-worktile"></i> {{\'feedback_form.linK_pro\'|translate}}</a>
+				</div>
+			</div>
+		</form>
+		<div class="success-panel" ng-if="vm.status.code==2">
+			<i class="imgicon-success"></i><br>
+			<span class="w_397 center-block">{{vm.status.message}}</span><br>
+			<a class="btn btn-success" href="javascript:;" ng-click="vm.js_feedback_again()">{{\'feedback_form.link_refeedback\'|translate}}</a>
+		</div>
+	</div>
+</div>

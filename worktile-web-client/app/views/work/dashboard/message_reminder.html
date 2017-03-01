@@ -1,0 +1,149 @@
+<dd class="frame-dd">
+<div ng-hide="vm.part_loading_done" class="\"part-loading" mt-20\">
+</div>
+<div ng-show="vm.part_loading_done">
+	<dl class="dl-form">
+		<dt>{{'account_message.form_title_excuse'|translate}} <span class="dl-form-desc">{{'account_message.desc_excuse'|translate}}</span></dt>
+		<dd>
+		<div class="radio--fancy">
+			<a href="javascript:;" class="fa" ng-click="js_toggle_smart_notice()" ng-class="\"{1:'fa-toggle-on'," 0:'fa-toggle-off' }[vm.notice_for_smart]\"></a><span>{{'account_message.toggle_no_excuse'|translate}}</span><br>
+			<ins ng-class="\"{1:'on',0:'off'}[vm.notice_for_smart]\"" ng-bind="\"{1:'account_message.opened',0:'account_message.closed'}[vm.notice_for_smart]|translate\""></ins>
+		</div>
+		</dd>
+	</dl>
+	<dl class="dl-form">
+		<dt>{{'account_message.form_title_email_notify'|translate}} <span class="dl-form-desc">{{'account_message.desc_email_notify'|translate}}</span></dt>
+		<dd ng-if="!vm.is_setting_notice_by_email">
+		<div class="radio--fancy">
+			<a href="javascript:;" class="fa" ng-click="js_toggle_email_notice()" ng-class="\"{1:'fa-toggle-on'," 0:'fa-toggle-off' }[vm.notice_by_email]\"></a><span>{{'account_message.toggle_email_notify'|translate}}</span><br>
+			<ins ng-class="\"{1:'on',0:'off'}[vm.notice_by_email]\"" ng-bind="\"{1:'account_message.opened',0:'account_message.closed'}[vm.notice_by_email]|translate\""></ins>
+		</div>
+		<div ng-if="vm.notice_by_email">
+			<button class="btn" ng-click="vm.js_set_notice_by_email_open()">{{'account_message.btn_set_email_notify_type'|translate}}</button>
+		</div>
+		</dd><dd ng-if="vm.is_setting_notice_by_email"><wt-notice-panel ng-if="vm.is_setting_notice_by_email_onload" checklist="vm.check_list_notice_by_email" onsave="vm.js_save_notice_by_email()" oncancel="vm.js_set_notice_by_email_close()"></wt-notice-panel></dd>
+	</dl>
+	<dl class="dl-form">
+		<dt>{{'account_message.form_title_wechat_notify'|translate}} <span class="dl-form-desc">{{'account_message.desc_wechat_notify'|translate}}</span></dt>
+		<dd ng-if="!vm.is_setting_notice_by_weixin">
+		<div class="\"alert" alert-info w-400\" ng-if="\"$root.global.me.is_bind_weixin==0\"">
+			<i class="\"fa" fa-info-circle mr-5\"></i><span translate="account_message.tips_wechat_notify_bind"></span>
+		</div>
+		<div ng-if="\"$root.global.me.is_bind_weixin==1\"">
+			<div class="radio--fancy">
+				<a href="javascript:;" class="fa" ng-click="vm.js_toggle_weixin_notice()" ng-class="\"{1:'fa-toggle-on'," 0:'fa-toggle-off' }[vm.notice_by_weixin]\"></a><span>{{'account_message.toggle_wechat_notify'|translate}}</span><br>
+				<ins ng-class="\"{1:'on',0:'off'}[vm.notice_by_weixin]\"" ng-bind="\"{1:'account_message.opened',0:'account_message.closed'}[vm.notice_by_weixin]|translate\""></ins>
+			</div>
+			<div ng-if="vm.notice_by_weixin">
+				<button class="btn" ng-click="vm.js_set_notice_by_weixin_open()">{{'account_message.btn_set_wechat_notify_type'|translate}}</button>
+			</div>
+		</div>
+		</dd><dd ng-if="vm.is_setting_notice_by_weixin"><wt-notice-panel ng-if="vm.is_setting_notice_by_weixin_onload" checklist="vm.check_list_notice_by_weixin" onsave="vm.js_save_notice_by_weixin()" oncancel="vm.js_set_notice_by_weixin_close()"></wt-notice-panel></dd>
+	</dl>
+	<dl class="dl-form">
+		<dt>{{'account_message.form_title_mobile_notify'|translate}} <span class="dl-form-desc">{{'account_message.desc_mobile_notify'|translate}}</span></dt>
+		<dd ng-if="!vm.is_setting_notice_by_mobile">
+		<div class="radio--fancy">
+			<a href="javascript:;" class="fa" ng-click="vm.js_toggle_mobile_notice()" ng-class="\"{1:'fa-toggle-on'," 0:'fa-toggle-off' }[vm.notice_by_mobile]\"></a><span>{{'account_message.toggle_mobile_notify'|translate}}</span><br>
+			<ins ng-class="\"{1:'on',0:'off'}[vm.notice_by_mobile]\"" ng-bind="\"{1:'account_message.opened',0:'account_message.closed'}[vm.notice_by_mobile]|translate\""></ins>
+		</div>
+		<div ng-if="vm.notice_by_mobile">
+			<button class="btn" ng-click="vm.js_set_notice_by_mobile_open()">{{'account_message.btn_set_mobile_notify_type'|translate}}</button>
+		</div>
+		</dd><dd ng-if="vm.is_setting_notice_by_mobile"><wt-notice-panel ng-if="vm.is_setting_notice_by_mobile_onload" checklist="vm.check_list_notice_by_mobile" onsave="vm.js_save_notice_by_mobile()" oncancel="vm.js_set_notice_by_mobile_close()"></wt-notice-panel></dd>
+	</dl>
+	<dl class="dl-form">
+		<dt>{{'account_message.form_title_desktop_notify'|translate}} <span class="dl-form-desc">{{'account_message.desc_desktop_notify'|translate}}</span></dt>
+		<dd>
+		<div ng-if="vm.is_notify_not_set">
+			<button class="\"btn" btn-success\" ng-click="vm.js_enabled_notify()">{{'account_message.toggle_desktop_notify'|translate}}</button>
+		</div>
+		<div ng-if="!vm.is_notify_not_set">
+			<div class="w_550" ng-if="!vm.is_notify_enabled">
+				<div class="\"alert" alert-warning\" ng-if="vm.is_setting_notify" translate="account_message.tips_desktop_notify">
+				</div>
+				<div class="\"alert" alert-danger\" ng-if="!vm.is_setting_notify" translate="account_message.warn_desktop_notify">
+				</div>
+			</div>
+			<div class="radio--fancy" ng-if="vm.is_notify_enabled">
+				<a href="javascript:;" class="fa" ng-click="vm.js_toggle_desk_notice()" ng-class="\"{1:'fa-toggle-on'," 0:'fa-toggle-off' }[vm.desk_notice]\"></a><span>{{'account_message.toggle_desktop_notify'|translate}} <a href="javascript:;" class="color_link_text" ng-click="vm.sendNotifyTest()">{{'account_message.test_desktop_notify'|translate}}</a></span><br>
+				<ins ng-class="\"{1:'on',0:'off'}[vm.desk_notice]\"" ng-bind="\"{1:'account_message.opened',0:'account_message.closed'}[vm.desk_notice]|translate\""></ins>
+			</div>
+		</div>
+		</dd>
+	</dl>
+	<dl class="dl-form">
+		<dt>{{'account_message.form_title_express'|translate}} <span class="dl-form-desc">{{'account_message.desc_express'|translate}}</span></dt>
+		<dd>
+		<div class="radio--fancy">
+			<a href="javascript:;" class="fa" ng-click="js_toggle_change_express()" ng-class="\"{1:'fa-toggle-on'," 0:'fa-toggle-off' }[vm.notice_for_express]\"></a><span>{{'account_message.toggle_express'|translate}}</span><br>
+			<ins ng-class="\"{1:'on',0:'off'}[vm.notice_for_express]\"" ng-bind="\"{1:'account_message.opened',0:'account_message.closed'}[vm.notice_for_express]|translate\""></ins>
+		</div>
+		</dd>
+	</dl>
+	<dl class="dl-form">
+		<dt>{{'account_message.form_title_dailymail_notify'|translate}} <span class="dl-form-desc">{{'account_message.desc_dailymail_notify'|translate}}</span></dt>
+		<dd>
+		<div class="radio--fancy">
+			<a href="javascript:;" class="fa" ng-click="js_toggle_daily_email()" ng-class="\"{1:'fa-toggle-on'," 0:'fa-toggle-off' }[vm.notice_for_daily_mail]\"></a><span>{{'account_message.toggle_dailymail_notify'|translate}}</span><br>
+			<ins ng-class="\"{1:'on',0:'off'}[vm.notice_for_daily_mail]\"" ng-bind="\"{1:'account_message.opened',0:'account_message.closed'}[vm.notice_for_daily_mail]|translate\""></ins>
+		</div>
+		</dd>
+	</dl>
+	<dl class="dl-form">
+		<dt>{{'account_message.form_title_weekmail_notify'|translate}} <span class="dl-form-desc">{{'account_message.desc_weekmail_notify'|translate}}</span></dt>
+		<dd>
+		<div class="radio--fancy">
+			<a href="javascript:;" class="fa" ng-click="js_toggle_weekly_email()" ng-class="\"{1:'fa-toggle-on'," 0:'fa-toggle-off' }[vm.notice_for_weekly_mail]\"></a><span>{{'account_message.toggle_weekmail_notify'|translate}}</span><br>
+			<ins ng-class="\"{1:'on',0:'off'}[vm.notice_for_weekly_mail]\"" ng-bind="\"{1:'account_message.opened',0:'account_message.closed'}[vm.notice_for_weekly_mail]|translate\""></ins>
+		</div>
+		</dd>
+	</dl>
+	<dl class="dl-form">
+		<dt>{{'account_message.form_title_webhook'|translate}} <span class="dl-form-desc">{{'account_message.desc_webhook'|translate}}</span></dt>
+		<dd>
+		<table class="\"table" table--fancy\">
+		<thead>
+		<tr>
+			<th>
+				{{'account_message.col_webhook_name'|translate}}
+			</th>
+			<th>
+				{{'account_message.col_webhook_url'|translate}}
+			</th>
+			<th>
+				{{'account_message.col_webhook_secret'|translate}}
+			</th>
+			<th>
+			</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr ng-repeat="\"webhook" in vm.webhook_list\">
+			<td>
+				&nbsp;&nbsp;{{webhook.name}}
+			</td>
+			<td>
+				&nbsp;&nbsp;{{webhook.web_hook_url}}
+			</td>
+			<td>
+				&nbsp;&nbsp;{{webhook.secret}} <span ng-if="!webhook.secret" class="color-text-light">{{'account_message.col_secret_empty'|translate}}</span>
+			</td>
+			<td>
+				<a data-placement="bottom" data-align="right" href="javascript:" class="js-popbox" ng-click="js_add_webhook($event,webhook.wid,webhook.name,webhook.web_hook_url,webhook.secret)"><i class="\"fa" fa-pencil\"></i></a>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="4" class="text-gray" ng-show="\"vm.webhook_list.length" ="=" 0\">
+				<span class="color-text-light">&nbsp;&nbsp;{{'account_message.warn_webhook_empty'|translate}}</span>
+			</td>
+		</tr>
+		</tbody>
+		</table>
+		<div>
+			<button class="\"btn" js-popbox\" data-placement="bottom" data-align="left" ng-click="js_add_webhook($event,null,null,null,null)">{{'common.btn_add'|translate}}</button>
+		</div>
+		</dd>
+	</dl>
+</div>
+</dd>

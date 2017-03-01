@@ -1,0 +1,49 @@
+<dd class="frame-dd">
+<div ng-hide="vm.part_loading_done" class="\"part-loading" mt-20\">
+</div>
+<div ng-show="vm.part_loading_done" class="table-list">
+	<a href="//open.worktile.com/apps" target="_blank" class="pull-right">{{'account_apps.link_more_apps'|translate}} <i class="\"fa" fa-angle-double-right\"></i></a>
+	<p class="color-text-grayer">
+		{{'account_apps.title_show_allow_apps'|translate}}
+	</p>
+	<table class="\"table" table--fancy\">
+	<thead>
+	<tr>
+		<th>
+			{{'account_apps.col_app_name'|translate}}
+		</th>
+		<th>
+			{{'account_apps.col_allow_datetime'|translate}}
+		</th>
+		<th>
+			{{'account_apps.col_allow_expire_datetime'|translate}}
+		</th>
+		<th>
+			{{'account_apps.col_setting'|translate}}
+		</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr ng-repeat="\"app" in account_apps\">
+		<td>
+			&nbsp;&nbsp;{{app|appClientName}} <span class="\"edition" ng-binding edition-free\" ng-class="\"{1:'edition-free'," 2:'edition-business', 3:'edition-nonprofit'}[team.edition]\">{{app|GetClientEdition}}</span>
+		</td>
+		<td>
+			{{app.create_date|timeFullFormatZHCN}}
+		</td>
+		<td>
+			{{'account_apps.content_never_expire'|translate}}
+		</td>
+		<td>
+			<a href="javascript:;" class="btn" data-placement="bottom" ng-click="js_pop_decommissioning($event,app)">{{'account_apps.btn_remove_app'|translate}}</a>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="4" ng-show="\"account_apps.length" ="=" 0\">
+			<span class="color-text-light">&nbsp;&nbsp; {{'account_apps.warn_empty_allow_apps'|translate}}</span>
+		</td>
+	</tr>
+	</tbody>
+	</table>
+</div>
+</dd>

@@ -1,0 +1,180 @@
+<dd class="frame-dd">
+<dl class="dl-form account_twofactor_warp">
+	<dt>{{\'account_security.form_title_twofactory\'|translate}} <span class="dl-form-desc"><span ng-hide="account.twofactor_enabled == 1" translate="account_security.desc_twofactory"></span><span ng-show="account.twofactor_enabled == 1" translate="account_security.tips_twofactory"></span></span></dt>
+	<dd>
+	<div class="navigate-step" ng-show="vm.two_step>
+		 1">
+		<div class="line">
+			<div ng-class="{true:\'active\'}[vm.two_step>
+				= 3]">
+			</div>
+			<div ng-class="{true:\'active\'}[vm.two_step>
+				= 4]">
+			</div>
+		</div>
+		<ol>
+			<li ng-class="{true:\'active\'}[vm.two_step>= 2]"><span class="step-title">{{\'account_security.step_1_install_twofactory_app\'|translate}}</span><br>
+			<span class="number">1</span></li>
+			<li ng-class="{true:\'active\'}[vm.two_step>= 3]"><span class="step-title">{{\'account_security.step_2_add_account\'|translate}}</span><br>
+			<span class="number">2</span></li>
+			<li ng-class="{true:\'active\'}[vm.two_step>= 4]"><span class="step-title">{{\'account_security.step_3_verify_open\'|translate}}</span><br>
+			<span class="number">3</span></li>
+		</ol>
+	</div>
+	<div ng-switch="vm.two_step">
+		<div ng-switch-when="0">
+			<div class="form-group">
+				<div class="account_status" ng-class="{1:\'on\',0:\'off\'}[account.twofactor_enabled]">
+					{{\'account_security.tips_current_status\'|translate}} <b ng-class="{1:\'color-text-act-green\',0:\'color-text-act-red\'}[account.twofactor_enabled]" ng-bind="{1:\'common.txt_enable\',0:\'common.txt_close\'}[account.twofactor_enabled]|translate"></b>
+				</div>
+				<dl class="recovery_code" ng-show="account.twofactor_enabled == 1">
+					<dt><a href="javascript:;" ng-click="vm.account_show_recovery_code=!vm.account_show_recovery_code"><i class="fa fa-ticket"></i> {{\'account_security.btn_show_safe_code\'|translate}}</a></dt>
+					<dd ng-if="vm.account_show_recovery_code">
+					<ul>
+						<li ng-repeat="recovery_code in vm.recovery_codes">{{recovery_code}}</li>
+					</ul>
+					</dd>
+				</dl>
+			</div>
+			<div class="form-group">
+				<button class="btn btn-default mt_13" ng-show="account.twofactor_enabled == 0" ng-click="vm.js_two_step(1)" wt-scroll-foucs=".account_twofactor_warp">{{\'account_security.btn_open_twofactory\'|translate}}</button><button class="btn btn-default mt_13" data-loading-text="{{\'account_security.closeing_twofactory\'|translate}}" wt-loading-status="is_disable_twofactoring" ng-show="account.twofactor_enabled == 1" ng-click="js_disable_twofactor()">{{\'account_security.btn_close_twofactory\'|translate}}</button>
+			</div>
+		</div>
+		<div class="text-center" ng-switch-when="1">
+			<wt-confirm-password confirm-cancel="vm.js_two_step(0)" confirm-success="vm.js_two_step(2)"></wt-confirm-password>
+		</div>
+		<div class="col-xs-10 text-center" ng-switch-when="2">
+			<div class="clearfix">
+				<div class="col-xs-5 pull-left">
+					<img src="/img/inner/account/install.png">
+				</div>
+				<div class="col-xs-7 text-left pull-right">
+					<h5>{{\'account_security.text_install_app\'|translate}}</h5>
+					<p>
+						{{\'account_security.text_install_app2\'|translate}}
+					</p>
+					<div class="account-marketplace" translate="account_security.text_install_app3">
+					</div>
+					<div class="account-marketplace" translate="account_security.text_install_app4">
+					</div>
+					<div translate="account_security.text_install_app5">
+					</div>
+				</div>
+			</div>
+			<div class="form-group col-xs-10 p_20">
+				<button class="btn float_left mr_45" ng-click="vm.js_two_step(1)"><i class="fa fa-caret-left"></i> {{\'common.btn_prev_step\'|translate}}</button><button class="btn btn-success" ng-click="vm.js_two_step(3)">{{\'common.btn_next_step\'|translate}} <i class="fa fa-caret-right"></i></button>
+			</div>
+		</div>
+		<div class="col-xs-10 text-center" ng-switch-when="3">
+			<div class="clearfix">
+				<div class="col-xs-5 pull-left">
+					<img src="/img/inner/account/account-qrcode.png">
+				</div>
+				<div class="col-xs-7 text-left pull-right">
+					<h5>{{\'account_security.add_account_to_app\'|translate}}</h5>
+					<p>
+						{{\'account_security.open_app_scan_qrcode\'|translate}}
+					</p>
+					<div class="part-loading mt_60" wt-loading-done="loading_twofactor_secret_done">
+					</div>
+					<div ng-show="loading_twofactor_secret_done">
+						<p ng-bind-html="twofactor_secret.qrcode">
+						</p>
+						<p class="alert alert-info col-xs-8">
+							<i class="fa fa-info-circle mr-5"></i> {{\'account_security.manual_add_account\'|translate}}<br>
+							<b>{{\'account_security.account\'|translate}} </b>{{twofactor_secret.name}}<br>
+							<b>{{\'account_security.key\'|translate}} </b>{{twofactor_secret.secret}}
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="form-group col-xs-10 p_20">
+				<button class="btn mr_45" ng-click="vm.js_two_step(2)"><i class="fa fa-caret-left"></i> {{\'common.btn_prev_step\'|translate}}</button><button class="btn btn-success" ng-click="vm.js_two_step(4)">{{\'common.btn_next_step\'|translate}} <i class="fa fa-caret-right"></i></button>
+			</div>
+		</div>
+		<div class="col-xs-10 text-center" ng-switch-when="4">
+			<div class="clearfix">
+				<div class="col-xs-5 pull-left">
+					<img src="/img/inner/account/account-code.png">
+				</div>
+				<div class="col-xs-7 text-left pull-right">
+					<h5>{{\'account_security.text_open_dynamic_verify\'|translate}}</h5>
+					<p>
+						{{\'account_security.tips_enter_dynamic_code\'|translate}}
+					</p>
+					<div class="input-group w_300">
+						<input type="text" class="form-control" wt-enter="vm.js_enable_twofactor()" ui-event="{ focus : \'js_twofactor_focus()\' }" ng-model="input.factor"><span class="input-group-btn"><button class="btn btn-success" type="button" data-loading-text="{{\'account_security.opening\'|translate}}" wt-loading-status="is_enable_twofactoring" ng-click="vm.js_enable_twofactor()">{{\'account_security.verify_and_open\'|translate}}</button></span>
+					</div>
+					<div class="form-group w_300 mt_12" ng-show="input.enable_twofactor_errors.length>
+						 0">
+						<div class="alert alert-danger">
+							<i class="fa fa-times-circle"></i> {{input.enable_twofactor_errors}}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group col-xs-10 p_20">
+				<button class="btn" ng-click="vm.js_two_step(3)"><i class="fa fa-caret-left"></i> {{\'common.btn_prev_step\'|translate}}</button>
+			</div>
+		</div>
+	</div>
+	</dd>
+</dl>
+<dl class="dl-form">
+	<dt>{{\'account_security.title_quit_session\'|translate}} <span class="dl-form-desc">{{\'account_security.desc_quit_session\'|translate}}</span></dt>
+	<dd>
+	<div ng-switch="vm.clear_session_step">
+		<div ng-switch-when="0">
+			<button class="btn" type="button" ng-click="vm.js_clear_session_step(1)">{{\'account_security.btn_quit_session\'|translate}}</button>
+		</div>
+		<div ng-switch-when="1">
+			<wt-confirm-password confirm-cancel="vm.js_clear_session_step(0)" confirm-success="vm.js_clear_session()"></wt-confirm-password>
+		</div>
+	</div>
+	</dd>
+</dl>
+<dl class="dl-form">
+	<dt>{{\'account_security.form_title_access_log\'|translate}}</dt>
+	<dd>
+	<div ng-hide="vm.part_loading_done" class="part-loading mt-20">
+	</div>
+	<div class="table-list" ng-show="vm.part_loading_done">
+		<table class="table table-hover table--fancy">
+		<thead>
+		<tr>
+			<th>
+				&nbsp; {{\'account_security.col_app\'|translate}} &nbsp;
+			</th>
+			<th>
+				{{\'account_security.col_visitor_date\'|translate}}
+			</th>
+			<th>
+				{{\'account_security.col_ip_address\'|translate}}
+			</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr ng-repeat="history in vm.account_histories">
+			<td>
+				&nbsp; &nbsp;{{history.source|clientName}}
+			</td>
+			<td>
+				<span class="mr_15">{{history.create_date|timeFormatZHCN}}</span>
+			</td>
+			<td>
+				{{history.location + \'（\'+ history.ipaddress + \'）\'}}
+			</td>
+		</tr>
+		<tr>
+			<td colspan="4" ng-show="vm.account_histories.length == 0">
+				{{\'account_security.warn_empty_visitor\'|translate}}
+			</td>
+		</tr>
+		</tbody>
+		</table>
+		<div class="pull-right" wt-pagination="security_pagination_opts">
+		</div>
+	</div>
+	</dd>
+</dl>
+</dd>

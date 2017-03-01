@@ -1,0 +1,264 @@
+<dd class="frame-dd">
+<div ng-hide="vm.part_loading_done" class="part-loading mt-20">
+</div>
+<div ng-show="vm.part_loading_done">
+	<dl class="dl-form">
+		<dt>{{\'account_profile.form_title_avatar\'|translate}} <span class="dl-form-desc" translate="account_profile.desc_avatar"></span></dt>
+		<dd>
+		<div ng-if="!avatar.src">
+			<wt-avatar member="global.me" size="80" wt-disable-drag wt-disable-pop class="mr_15"></wt-avatar><button ngf-multiple="false" ngf-select ngf-change="js_file_select($files)" ngf-accept="\'.png,.jpg\'" class="btn btn-local-upload mt_28">{{\'account_profile.btn_set_avatar\'|translate}}</button> &nbsp; &nbsp; &nbsp; <a class="btn mt_28" ng-if="$root.global.me.avatar!=\'default_avatar.png\'" ng-click="vm.js_clear_avatar()">{{\'account_profile.remove_avatar\'|translate}}</a>
+		</div>
+		<div ng-if="avatar.src">
+			<div class="avatar-ngjcrop min-h150" ng-jcrop="avatar.src" selection="avatar.selection" thumbnail="avatar.thumbnail">
+			</div>
+			<div class="mt_28">
+				<button class="btn btn-default mr-14" ng-disabled="avatar.uploading" ngf-multiple="false" ngf-select ngf-change="js_file_select($files)" ng-accept="\'.png,.jpg\'">{{\'account_profile.rechoose_avatar_file\'|translate}}</button><button class="btn btn-success mr-14" wt-loading-status="avatar.uploading" data-loading-text="{{\'account_profile.avatar_uploading\'|translate}}" ng-click="js_save_avatar()">{{\'common.btn_save\'|translate}}</button><button class="btn btn-link btn-cancel mr-14" ng-disabled="avatar.uploading" ng-click="vm.cancel_upload_avatar()">{{\'common.btn_cancel\'|translate}}</button>
+			</div>
+		</div>
+		</dd>
+	</dl>
+	<dl class="dl-form">
+		<dt>{{\'account_profile.form_title_username\'|translate}} <span class="dl-form-desc" translate="account_profile.desc_username"></span></dt>
+		<dd>
+		<div ng-if="!vm.updated_name_is_edit">
+			<ul class="dl-form-ul">
+				<li><span class="dl-form-li-title">{{\'account_profile.show_username_status\'|translate}}： </span>{{::$root.global.me.name}}</li>
+			</ul>
+			<div class="mt_28">
+				<button ng-if="!vm.is_updated_name" class="btn" ng-click="vm.js_updated_name_is_edit()">{{\'account_profile.btn_change_username\'|translate}}</button>
+			</div>
+		</div>
+		<form ng-if="vm.updated_name_is_edit" name="username_update_form" w5c-form-validate="" class="form-horizontal wt-form w-660" novalidate>
+			<div class="form-group">
+				<label class="sr-only">{{\'account_profile.username\'|translate}}：</label>
+				<div class="col-xs-4">
+					<input wt-autofocus="" name="signup_name" type="text" class="form-control" ng-model="vm.temp_username" placeholder="{{\'account_profile.username\'|translate}}" required wt-remote-unique-check="{url:\'/api/user/name/check?name=\'+vm.temp_username}" ng-pattern="$root.global.constant.regex.username">
+					<div class="mt-5 text-muted">
+						{{\'account_profile.desc_username_warn\'|translate}}
+					</div>
+				</div>
+			</div>
+			<div class="form-group" ng-show="username_update_form.$errors.length>
+				 0">
+				<div class="col-xs-10">
+					<div class="alert alert-danger mb_0">
+						<i class="fa fa-times-circle"></i> {{username_update_form.$errors[0]}}
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-xs-10">
+					<button w5c-form-submit="vm.js_user_change_username(username_update_form,vm.temp_username)" class="btn btn-success mr-14 mt_13" data-loading-text="{{\'common.saving\'|translate}}" wt-loading-status="vm.username_updating">{{\'account_profile.btn_confirm_update\'|translate}}</button><button ng-click="vm.temp_username=\'\'; vm.updated_name_is_edit = false" class="btn btn-link btn-cancel mt_13">{{\'common.btn_cancel\'|translate}}</button>
+				</div>
+			</div>
+		</form>
+		</dd>
+	</dl>
+	<dl class="dl-form">
+		<dt>{{\'account_profile.form_title\'|translate}}</dt>
+		<dd>
+		<div ng-if="!base_info.is_edit">
+			<ul class="dl-form-ul">
+				<li><span class="dl-form-li-title">{{\'account_profile.realname\'|translate}}： </span>{{base_info.name}}</li>
+				<li><span class="dl-form-li-title">{{\'account_profile.position_title\'|translate}}： </span>{{base_info.title||(\'account_profile.form_content_empty\'|translate)}}</li>
+				<li><span class="dl-form-li-title">{{\'account_profile.department_title\'|translate}}： </span>{{base_info.department||(\'account_profile.form_content_empty\'|translate)}}</li>
+				<li><span class="dl-form-li-title">{{\'account_profile.personal_slogon\'|translate}}： </span><span ng-bind="base_info.desc||(\'account_profile.form_content_empty\'|translate)"></span></li>
+			</ul>
+			<button class="btn btn-default mt_28" ng-click="base_info.is_edit = true">{{\'account_profile.btn_edit_userinfo\'|translate}}</button>
+		</div>
+		<div ng-if="base_info.is_edit">
+			<form name="user_update_form" w5c-form-validate="" class="form-horizontal wt-form w-660" novalidate>
+				<div class="form-group">
+					<label class="sr-only">{{\'account_profile.realname\'|translate}}：</label>
+					<div class="col-xs-4">
+						<input wt-autofocus="" name="display_name" type="text" class="form-control" ng-model="base_info.name" placeholder="{{\'account_profile.realname\'|translate}}" required ng-pattern="$root.global.constant.regex.display_name">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="sr-only">{{\'account_profile.position_title\'|translate}}：</label>
+					<div class="col-xs-4">
+						<input name="user_title" type="text" class="form-control" ng-model="base_info.title" placeholder="{{\'account_profile.position_title\'|translate}}" ng-pattern="$root.global.constant.regex.user_title">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="sr-only">{{\'account_profile.department_title\'|translate}}：</label>
+					<div class="col-xs-4">
+						<input name="user_department" type="text" class="form-control" ng-model="base_info.department" placeholder="{{\'account_profile.department_title\'|translate}}" ng-pattern="$root.global.constant.regex.user_department">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="sr-only control-label p_0">{{\'account_profile.personal_slogon\'|translate}}：</label>
+					<div class="col-xs-10">
+						<textarea class="form-control" rows="2" ng-model="base_info.desc" placeholder="{{\'account_profile.personal_slogon\'|translate}}"></textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-xs-10">
+						<button w5c-form-submit="vm.js_user_update()" class="btn btn-success mr-14 mt_13" wt-loading-status="base_info.updating" data-loading-text="{{\'common.saving\'|translate}}">{{\'common.btn_save\'|translate}}</button><button ng-click="vm.js_cancel_base_info_edit()" class="btn mt_13 btn-link btn-cancel">{{\'common.btn_cancel\'|translate}}</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		</dd>
+	</dl>
+	<dl class="dl-form">
+		<dt>{{\'account_profile.form_title_bind_wechat\'|translate}} <span class="dl-form-desc">{{\'account_profile.desc_bind_wechat\'|translate}}</span></dt>
+		<dd>
+		<ul class="dl-form-ul">
+			<li><span class="dl-form-li-title">{{\'account_profile.show_bind_wechat_status\'|translate}}： </span><span ng-if="!vm.is_bind_weixin">{{\'account_profile.bind_wechat_unbind\'|translate}} </span><span ng-if="vm.is_bind_weixin" ng-class="{true:\'color-text-act-green\'}[vm.weixin_nick_name!=null]">{{\'account_profile.bind_wechat_binded\'|translate}} <span ng-if="vm.weixin_nick_name!=null">: {{vm.weixin_nick_name}}</span><a href="javascript:;" class="pl-30" ng-mouseenter="vm.js_show_worktile_weixin($event)" ng-mouseleave="vm.js_close_worktile_weixin()"><i class="fa fa-qrcode"></i> {{\'account_profile.tips_pic_alt\'|translate}}</a></span></li>
+		</ul>
+		<div class="mt_28">
+			<button ng-if="!vm.is_bind_weixin" class="btn" ng-click="vm.js_bind_weixin($event)">{{\'account_profile.btn_bind_wechat\'|translate}}</button><button ng-if="vm.is_bind_weixin" class="btn" ng-click="vm.js_unbind_weixin($event)">{{\'account_profile.btn_unbind_wechat\'|translate}}</button>
+		</div>
+		</dd>
+	</dl>
+	<dl class="dl-form account_password_wrap">
+		<dt>{{\'account_profile.form_title_password\'|translate}} <span class="dl-form-desc">{{\'account_profile.desc_password\'|translate}}</span></dt>
+		<dd><button ng-if="!password.is_edit" class="btn" ng-click="password.is_edit = true" wt-scroll-foucs=".account_password_wrap">{{\'account_profile.btn_set_password\'|translate}}</button>
+		<div ng-if="password.is_edit">
+			<form name="user_pwd_form" w5c-form-validate="" class="form-horizontal wt-form w-660" novalidate>
+				<div class="form-group">
+					<label class="sr-only">{{\'account_profile.old_password\'|translate}}：</label>
+					<div class="col-xs-10">
+						<input name="pwd_old" autofocus="" type="password" class="form-control" ng-model="password.old" placeholder="{{\'account_profile.old_password\'|translate}}" required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="sr-only">{{\'account_profile.new_password\'|translate}}：</label>
+					<div class="col-xs-10">
+						<input name="pwd_new" type="password" class="form-control" ng-model="password.new" placeholder="{{\'account_profile.new_password\'|translate}}" ng-minlength="6" required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="sr-only">{{\'account_profile.reply_new_password\'|translate}}：</label>
+					<div class="col-xs-10">
+						<input name="pwd_again" type="password" class="form-control" ng-model="password.repeat" wt-repeat-password="pwd_new" placeholder="{{\'account_profile.reply_new_password_placeholder\'|translate}}">
+					</div>
+				</div>
+				<div class="form-group" ng-show="user_pwd_form.$errors.length>
+					 0">
+					<div class="col-xs-10">
+						<div class="alert alert-danger mb_0">
+							<i class="fa fa-times-circle"></i> {{user_pwd_form.$errors[0]}}
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-xs-10">
+						<button w5c-form-submit="vm.js_user_change_pwd()" class="btn btn-success mr-14 mt_13" data-loading-text="{{\'common.saving\'|translate}}" wt-loading-status="password.updating">{{\'account_profile.btn_confirm_update\'|translate}}</button><button ng-click="vm.js_cancel_pwd_edit()" class="btn btn-link btn-cancel mt_13">{{\'common.btn_cancel\'|translate}}</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		</dd>
+	</dl>
+	<dl class="dl-form account_phone_wrap">
+		<dt>{{\'account_profile.form_title_phone\'|translate}} <span class="dl-form-desc">{{\'account_profile.desc_phone\'|translate}}</span></dt>
+		<dd>
+		<div ng-if="vm.phone_step == 1">
+			<div>
+				<span class="mr-10 color-text-grayer">{{\'account_profile.tips_phone_current\'|translate}}</span>
+				<div class="help-inline" ng-if="global.me.phone">
+					{{global.me.phone_prefix?\'+\'+global.me.phone_prefix:\'+86\'}}
+				</div>
+				{{global.me.phone||(\'account_profile.warn_phone_empty\'|translate)}}
+			</div>
+			<button class="btn mt_28 mr-15" ng-click="vm.js_change_phone_step(2)" wt-scroll-foucs=".account_phone_wrap">{{{true:\'account_profile.btn_bind_phone\',false:\'account_profile.btn_set_phone\'}[global.me.phone==\'\']|translate }}</button><button ng-if="global.me.phone!=\'\'" class="btn mt_28" ng-click="vm.js_change_phone_step(4)" wt-scroll-foucs=".account_phone_wrap">{{\'account_profile.btn_remove_phone\'|translate}}</button>
+		</div>
+		<div ng-if="vm.phone_step == 2">
+			<wt-confirm-password class="w_360" confirm-cancel="vm.js_change_phone_step(1)" confirm-success="vm.js_change_phone_step(3)"></wt-confirm-password>
+		</div>
+		<div ng-if="vm.phone_step == 3">
+			<form name="user_new_phone_form" w5c-form-validate="" class="wt-form w-660" novalidate>
+				<p ng-if="global.me.phone">
+					{{\'account_profile.tips_phone_current\'|translate}} {{global.me.phone_prefix?\'+\'+global.me.phone_prefix:\'+86\'}} {{global.me.phone}}
+				</p>
+				<div class="form-group input-group--phone">
+					<div class="input-group">
+						<div class="input-group-btn">
+							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">{{vm.phone_prefix.name}} <span class="caret"></span></button>
+							<ul class="dropdown-menu" role="menu">
+								<li ng-repeat="prefix in vm.phone_prefixs" ng-click="vm.js_change_phone_prefix(prefix)"><a href="javascript:;">{{prefix.name}} {{prefix.val}}</a></li>
+							</ul>
+						</div>
+						<div class="input-group-btn input-group-btn--phone-prefix">
+							<input type="number" class="form-control" name="new_phone_prefix" ng-model="vm.phone_prefix.val" readonly="true" required ng-pattern="$root.global.constant.regex.mobile_area">
+						</div>
+						<input name="new_phone" autofocus="" type="text" class="form-control" ng-model="vm.new_phone" placeholder="{{\'account_profile.placeholder_new_phone\'|translate}}" ng-change="vm.js_change_phone()" required ng-pattern="$root.global.constant.regex.mobile_probable" wt-remote-unique-check="{url:\'/api/user/phone/check?phone=\'+(vm.new_phone|encodeURIComponent)}">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row mlr-0">
+						<div class="col-xs-8 pl-0">
+							<input class="form-control" type="text" placeholder="{{\'account_profile.placeholder_verify_code\'|translate}}" name="phone_code" ng-model="vm.phone_code" required>
+						</div>
+						<button class="btn btn-success col-xs-4 fs-17" type="button" ng-click="vm.js_get_phone_code(user_new_phone_form)" ng-disabled="!user_new_phone_form.new_phone_prefix.$valid||!user_new_phone_form.new_phone.$valid||vm.waiting_for_phone_code" ng-bind="vm.new_phone_text"></button>
+					</div>
+				</div>
+				<div class="alert alert-danger mt-10" ng-show="user_new_phone_form.$errors.length>
+					 0"><i class="fa fa-times-circle"></i> {{user_new_phone_form.$errors[0]}}
+				</div>
+				<div class="mt_5">
+					<button w5c-form-submit="vm.js_user_change_phone(user_new_phone_form, vm.new_phone)" class="btn btn-success mr_15" data-loading-text="{{\'common.sending\'|translate}}" wt-loading-status="vm.is_sending_phone">{{\'account_profile.btn_bind_phone\'|translate}}</button><button type="button" ng-click="vm.js_change_phone_step(1)" class="btn btn-link btn-cancel mr_15">{{\'common.btn_cancel\'|translate}}</button>
+				</div>
+			</form>
+		</div>
+		<div ng-if="vm.phone_step == 4">
+			<form name="user_remove_phone_form" w5c-form-validate="" class="wt-form w-660" novalidate>
+				<p ng-if="global.me.phone">
+					{{\'account_profile.tips_phone_current\'|translate}} {{global.me.phone_prefix?\'+\'+global.me.phone_prefix:\'+86\'}} {{global.me.phone}}
+				</p>
+				<div class="form-group">
+					<div class="row mlr-0">
+						<div class="col-xs-8 pl-0">
+							<input class="form-control" type="text" placeholder="{{\'account_profile.placeholder_verify_code\'|translate}}" name="phone_code" ng-model="vm.phone_code" required>
+						</div>
+						<button class="btn btn-success col-xs-4 fs-17" type="button" ng-click="vm.js_get_remove_phone_code(user_remove_phone_form)" ng-disabled="vm.waiting_for_phone_code" ng-bind="vm.new_phone_text"></button>
+					</div>
+				</div>
+				<div class="alert alert-danger mt-10" ng-show="user_remove_phone_form.$errors.length>
+					 0"><i class="fa fa-times-circle"></i> {{user_remove_phone_form.$errors[0]}}
+				</div>
+				<div class="mt_5">
+					<button w5c-form-submit="vm.js_user_remove_phone(user_remove_phone_form)" class="btn btn-success mr_15" data-loading-text="{{\'common.sending\'|translate}}" wt-loading-status="vm.is_removing_phone">{{\'account_profile.btn_remove_phone\'|translate}}</button><button type="button" ng-click="vm.js_change_phone_step(1)" class="btn btn-link btn-cancel mr_15">{{\'common.btn_cancel\'|translate}}</button>
+				</div>
+			</form>
+		</div>
+		</dd>
+	</dl>
+	<dl class="dl-form account_email_wrap">
+		<dt>{{\'account_profile.form_title_email\'|translate}} <span class="dl-form-desc">{{\'account_profile.desc_email\'|translate}}</span></dt>
+		<dd>
+		<div ng-if="vm.email_step == 1">
+			<div>
+				<span class="mr-10 color-text-grayer">{{\'account_profile.tips_current_email\'|translate}} </span>{{global.me.email||(\'account_profile.warn_email_empty\'|translate)}}
+			</div>
+			<button class="btn mt_28" ng-click="js_change_email_step(2)" wt-scroll-foucs=".account_email_wrap">{{\'account_profile.btn_update_email\'|translate}}</button>
+		</div>
+		<div ng-if="vm.email_step == 2">
+			<wt-confirm-password class="w_360" confirm-cancel="js_change_email_step(1)" confirm-success="js_change_email_step(3)"></wt-confirm-password>
+		</div>
+		<div ng-if="vm.email_step == 3">
+			<form name="user_new_email_form" w5c-form-validate="" class="wt-form w-660" novalidate>
+				<p ng-if="global.me.email">
+					{{\'account_profile.tips_current_email\'|translate}} {{global.me.email}}
+				</p>
+				<input name="new_email" autofocus="" type="email" class="form-control" ng-model="vm.new_email" placeholder="{{\'account_profile.placeholder_new_email\'|translate}}" required wt-remote-unique-check="{url:\'/api/user/email/check?email=\'+(vm.new_email|encodeURIComponent)}">
+				<div class="alert alert-danger mt-10" ng-show="user_new_email_form.$errors.length>
+					 0"><i class="fa fa-times-circle"></i> {{user_new_email_form.$errors[0]}}
+				</div>
+				<div class="alert alert-info mt-20" ng-hide="vm.send_email_success">
+					<i class="fa fa-info-circle mr-5"></i> {{\'account_profile.tips_email_send_before\'|translate}}
+				</div>
+				<div class="alert alert-success mt-20" ng-show="vm.send_email_success">
+					<i class="fa fa-check mr-5"></i> {{\'account_profile.tips_email_send_after\'|translate}}
+				</div>
+				<div class="mt_5">
+					<button w5c-form-submit="vm.js_user_change_email(user_new_email_form, vm.new_email)" class="btn btn-success mr_15" data-loading-text="{{\'common.sending\'|translate}}" wt-loading-status="vm.is_sending_email">{{\'account_profile.btn_send_verify_email\'|translate}}</button><button type="button" ng-click="js_change_email_step(1)" class="btn btn-link btn-cancel mr_15">{{\'common.btn_cancel\'|translate}}</button>
+				</div>
+			</form>
+		</div>
+		</dd>
+	</dl>
+</div>
+</dd>
