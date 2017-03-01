@@ -327,9 +327,9 @@ define(['app'], function(app) {
 					);
 				},
 
-				get_tasks: function(team_id, filter_user_reg, filter_project_reg, filter_type_reg, page, success, failure, promise) {
+				get_tasks: function(team_id, page, filter, uid, pid, dt, success, failure, promise) {
 					return this.http_get_template(
-						domain + '/api/team/' + team_id + filter_user_reg + filter_project_reg + filter_type_reg + page + '/projects',
+						domain + '/api/team/' + team_id + page + filter + uid + pid + dt + '/projects',
 						success, failure, promise
 					);
 				},
