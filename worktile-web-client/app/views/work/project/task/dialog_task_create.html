@@ -1,0 +1,66 @@
+<div class="dialog dialog-task-create">
+    <div class=dialog-head>
+        <span class=dialog-close>
+            <i class="wtfont wtf-close" ng-click=vm.close()></i>
+        </span>
+        <div class=dialog-title>{{'dialog_task_create.title_name'|translate}}</div></div>
+    <div class=dialog-body>
+        <form name=add_task_form w5c-form-validate="" novalidate="" role=form class="w-590 m-0-auto">
+            <div class=form-group>
+                <textarea wt-autofocus="" name=taskName class="js-task-name form-control" wt-autofocus="" placeholder="{{'dialog_task_create.placeholder'|translate}}" required="" ng-model=vm.new_task.name rows=5 wt-enter=vm.create_task(add_task_form) wt-enter-not-shift></textarea>
+                <span class="text-muted help-inlineblock mt-5">{{'dialog_task_create.tooltip_text'|translate}}</span></div>
+            <div class=row>
+                <div class=col-sm-6>
+                    <h5>{{'dialog_task_create.form_name_project'|translate}}</h5>
+                    <div class=form-group>
+                        <ui-select name=selectProject ng-model=vm.new_task.pid theme=select2 append-to-body=true ng-change=vm.change_task_project()>
+                            <ui-select-match placeholder="{{'dialog_task_create.form_placeholder_project'|translate}}">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices group-by="'team_name'" repeat="project.pid as project in projects|propsFilter:{name: $select.search}">
+                                <div class=text-overflow ng-bind-html=project.name|reHighlight:$select.search></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                <div class=col-sm-6>
+                    <h5>{{'dialog_task_create.form_name_entry'|translate}}</h5>
+                    <div class=form-group>
+                        <select class=form-control name=selectEntry ng-model=vm.new_task.entry_id required="" ng-options="entry.entry_id as entry.name for entry in vm.entries">
+                            <option value="" selected=selected disabled=disabled>{{'dialog_task_create.form_placeholder_entry'|translate}}</option></select>
+                    </div>
+                </div>
+            </div>
+            <div class=row ng-if=vm.show_date>
+                <div class=col-sm-6>
+                    <h5>{{'dialog_task_create.form_name_expire'|translate}}</h5>
+                    <div class=form-group>
+                        <input type=text class=form-control readonly=readonly ng-click=vm.js_show_datepicker($event,vm.new_task) value={{vm.new_task.expire_date|taskDatetimeFormat}}></div>
+                </div>
+            </div>
+            <div class=row>
+                <div class=col-sm-6>
+                    <div class=form-group>
+                        <h5>{{'dialog_task_create.form_name_member'|translate}}</h5>
+                        <ul class=avatars>
+                            <li ng-repeat="member in vm.new_task.members track by member.uid">
+                                <wt-avatar member=member size=40></wt-avatar>
+                            </li>
+                            <li>
+                                <div class="js-popbox text-center" data-placement=right data-align=center type=member wt-pop-toggle-members="vm.js_toggle_member($event, member, xEntity)" team-id=vm.new_task.team_id pid=vm.new_task.pid entity=vm.new_task>
+                                    <a class=avatar-add href=javascript:;>
+                                        <span class=o>＋</span></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class=col-sm-6>
+                    <a href=javascript:; class=toggle-lock ng-click=vm.js_toggle_lock(vm.new_task)>
+                        <i class="fa fa-fw" ng-class="{0:'fa-unlock',1:'fa-lock'}[vm.new_task.is_locked]"></i>{{'dialog_task_create.form_name_lock'|translate}}</a>
+                </div>
+            </div>
+            <div class=form-group>
+                <button wt-loading-status=vm.saving data-loading-text="{{'common.saving'|translate}}" w5c-form-submit=vm.create_task(add_task_form) class="btn btn-success">{{'common.btn_save'|translate}}</button>
+                <button class="btn btn-link btn-cancel" ng-click=vm.close()>{{'common.btn_cancel'|translate}}</button></div>
+        </form>
+    </div>
+</div>

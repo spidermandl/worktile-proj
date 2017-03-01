@@ -8,8 +8,10 @@
 define(['app'], function (app) {
  	'use strict';
 
-	app.service('globalDataContext', ['$http','api','$rootScope','localStorageService','$state','config','$q',
-		function ($http,api,$rootScope,localStorageService,$state,config,$q) {
+	app.service('globalDataContext', ['$http','api','$rootScope','localStorageService',
+				'$state','config','$q','$translate',
+		function ($http,api,$rootScope,localStorageService,
+				$state,config,$q,$translate) {
 			/**
 			 *用户登出
 			 */
@@ -271,8 +273,8 @@ define(['app'], function (app) {
 											team_id: -1,
 											is_owner: 0
 										},
-										c.use(b.global.me.locale).then(function() {
-											i.project.info.team.name = c.instant("projects.project_type_name_personal")
+										$translate.use(b.global.me.locale).then(function() {
+											i.project.info.team.name = $translate.instant("projects.project_type_name_personal")
 										}))
 							}
 							var f = _.find(i.projects, {
@@ -1079,26 +1081,26 @@ define(['app'], function (app) {
 				},
 				getPacketProjects : function(a) {
 					var d = a;
-					d instanceof Array || (d = i.projects);
+					d instanceof Array || (d = this.projects);
 					var e = [],
 						f = [];
 					return _.each(d,
 							function(a) {
-								if(kzi.constant.prj_module.crud & a.permission) {
+								if(config.constant.prj_module.crud & a.permission) {
 									var d = _.clone(a);
 									if(d.is_star) d.sort = 100,
-										c.use(b.global.me.locale).then(function() {
-											d.team_name = c.instant("projects.project_type_name_star")
+										$translate.use($rootScope.global.me.locale).then(function() {
+											d.team_name = $translate.instant("projects.project_type_name_star")
 										}),
 										f.push(d);
 									else {
-										if(i.teams) {
-											var g = _.find(i.teams,
+										if(globalDataContext.teams) {
+											var g = _.find(globalDataContext.teams,
 												function(a) {
 													return a.team_id === d.team_id
 												});
-											c.use(b.global.me.locale).then(function() {
-													d.team_name = g ? g.name : c.instant("projects.project_type_name_personal")
+											$translate.use($rootScope.global.me.locale).then(function() {
+													d.team_name = g ? g.name : $translate.instant("projects.project_type_name_personal")
 												}),
 												d.sort = g && d.team_id !== -1 ? g.create_date : 1e3
 										}
@@ -1107,7 +1109,7 @@ define(['app'], function (app) {
 								}
 							}),
 						e = _.union(f, e),
-						i.teams ? _.sortBy(e,
+						globalDataContext.teams ? _.sortBy(e,
 							function(a) {
 								return a.sort
 							}) : e
@@ -1123,8 +1125,8 @@ define(['app'], function (app) {
 				// 		var e = {
 				// 			team_id: "-1"
 				// 		};
-				// 		c.use(b.global.me.locale).then(function() {
-				// 				e.name = c.instant("projects.project_type_name_personal")
+				// 		$translate.use(b.global.me.locale).then(function() {
+				// 				e.name = $translate.instant("projects.project_type_name_personal")
 				// 			}),
 				// 			i.teams.unshift(e)
 				// 	}!a && d && (i.teams = _.reject(i.teams,

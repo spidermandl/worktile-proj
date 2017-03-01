@@ -53,6 +53,7 @@
 			task_composer: 'views/work/project/task/task_composer.html',
 			task_item: 'views/work/project/task/task_item.html',
 			task_pop_project_menu: 'views/work/project/task/pop_project_menu.html',
+			task_dialog_create: 'views/work/project/task/dialog_task_create.html',
 			'dashboard.default': 'views/work/dashboard/dashboard_task.html',
 			calendar_event_create: 'views/work/dashboard/dialog_event_create.html',//创建日历event
 			calendar_pop_event_create: 'views/work/dashboard/calendar/pop_add_event.html',
@@ -94,11 +95,7 @@
 			signup_password: {
 				required : "注册密码不能为空",
 			},
-			// password : {
-			// 	required: "密码不能为空",
-			// 	minlength: "密码长度不能小于{minlength}",
-			// 	maxlength: "密码长度不能大于{maxlength}",
-			// },
+			
      	},
      	errors : error,//错误提示信息
      	constant : constant,//常量信息
@@ -186,7 +183,7 @@
 			return wt.appConfig.box.base_url;
 		},
 		feed_url: function() {
-			return wt.appConfig.feed_host;
+			return ;//wt.appConfig.feed_host;
 		},
 		box_url_regex: function() {
 			return new RegExp(wt.appConfig.box.box_url_regex);
