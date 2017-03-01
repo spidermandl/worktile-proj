@@ -15,183 +15,183 @@ define(['app'], function (app) {
         	//       a                b              c           d             e           f             g
 			var h = this;
 			this.showAdd = function(e, g) {
-					a.open({
-						windowClass: "dialog-w680",
-						templateUrl: config.templateUrls.project_dialog_create,
-						controller: ["$scope", "$uibModalInstance", "$rootScope",
-							function(h, i, j) {
-								function k() {
-									l.teams = util.team.get_add_prj_teams(globalDataContext.teams);
-									api.get_template_list(function(a) {
-										l.system_templates = a.data,
-											_.each(l.system_templates,
-												function(a) {
-													_.each(a.projects,
-														function(a) {
-															a.type = 2;
-														});
-												})
-									});
-									n();
-									e && l.change_project_team();
-								}
-								var l = h.vm = {
-										new_project: {
-											name: "",
-											template_id: "",
-											desc: "",
-											team_id: e
-										},
-										current_template: {
+				a.open({
+					windowClass: "dialog-w680",
+					templateUrl: config.templateUrls.project_dialog_create,
+					controller: ["$scope", "$uibModalInstance", "$rootScope",
+						function(h, i, j) {
+							function k() {
+								l.teams = util.team.get_add_prj_teams(globalDataContext.teams);
+								api.get_template_list(function(a) {
+									l.system_templates = a.data,
+										_.each(l.system_templates,
+											function(a) {
+												_.each(a.projects,
+													function(a) {
+														a.type = 2;
+													});
+											})
+								});
+								n();
+								e && l.change_project_team();
+							}
+							var l = h.vm = {
+									new_project: {
+										name: "",
+										template_id: "",
+										desc: "",
+										team_id: e
+									},
+									current_template: {
+										type: null,
+										id: "",
+										name: ""
+									},
+									teams: [],
+									filter_templates_category: null,
+									system_templates: [],
+									step_index: 0
+								},
+								m = function() {
+									l.system_templates = _.reject(l.system_templates, {
+										category: $translate.instant("dialog_project_create.filter_title_team_template")
+									})
+								},
+								n = function() {
+									l.current_template = {
 											type: null,
-											id: "",
-											name: ""
-										},
-										teams: [],
-										filter_templates_category: null,
-										system_templates: [],
-										step_index: 0
-									},
-									m = function() {
-										l.system_templates = _.reject(l.system_templates, {
-											category: $translate.instant("dialog_project_create.filter_title_team_template")
+											id: ""
+										};
+									$translate.use(j.global.me.locale).then(function() {
+										l.current_template.name = $translate.instant("dialog_project_create.current_template_empty");
+									});
+								},
+								o = function(a) {
+									var d = a.data;
+									f.track("create_project", "done", "创建项目弹窗", d.team_id === -1 ? "个人项目" : "团队项目"),
+										globalDataContext.cache.project.add(d),
+										d.member_count = 1,
+										i.close(),
+										g ? g(a.data) : c.go("project", {
+											pid: d.pid
 										})
-									},
-									n = function() {
-										l.current_template = {
-												type: null,
-												id: ""
-											};
-										$translate.use(j.global.me.locale).then(function() {
-											l.current_template.name = $translate.instant("dialog_project_create.current_template_empty");
-										});
-									},
-									o = function(a) {
-										var d = a.data;
-										f.track("create_project", "done", "创建项目弹窗", d.team_id === -1 ? "个人项目" : "团队项目"),
-											globalDataContext.cache.project.add(d),
-											d.member_count = 1,
-											i.close(),
-											g ? g(a.data) : c.go("project", {
-												pid: d.pid
-											})
-									},
-									//创建项目第一个弹窗
-									p = function() {
-										return l.new_project.team_id ? 
-											(l.new_project.team_id && "-1" !== l.new_project.team_id ? 
-												api.get_project_templates(l.new_project.team_id).then(function(a) {
-														var b = a.data;
-														_.each(b,
-																function(a, b) {
-																	b + 1 <= 5 ? a.image = b + 1 + ".jpg" : a.image = b % 5 + 1 + ".jpg",
-																		a.type = 1,
-																		a.id = a.template_id
-																}),
-															m(),
-															l.system_templates.unshift({
-																category: $translate.instant("dialog_project_create.filter_title_team_template"),
-																projects: b
-															});
-														var c = _.find(l.teams, {
-															team_id: l.new_project.team_id
+								},
+								//创建项目第一个弹窗
+								p = function() {
+									return l.new_project.team_id ? 
+										(l.new_project.team_id && "-1" !== l.new_project.team_id ? 
+											api.get_project_templates(l.new_project.team_id).then(function(a) {
+													var b = a.data;
+													_.each(b,
+															function(a, b) {
+																b + 1 <= 5 ? a.image = b + 1 + ".jpg" : a.image = b % 5 + 1 + ".jpg",
+																	a.type = 1,
+																	a.id = a.template_id
+															}),
+														m(),
+														l.system_templates.unshift({
+															category: $translate.instant("dialog_project_create.filter_title_team_template"),
+															projects: b
 														});
-														if(null != c.template_id && "" !== c.template_id && 0 !== c.template_id) {
-															var e = _.find(l.system_templates[0].projects, {
-																template_id: c.template_id
-															});
-															l.current_template = {
-																type: 1,
-																id: e.id,
-																name: e.name
-															}
-														} else 1 === l.current_template.type && n()
-												}) 
-												: (m(), 1 === l.current_template.type && n()),
-													l.visibilities = util.project.get_visibilities(l.new_project.team_id), 
-													void(l.new_project.visibility || (l.new_project.visibility = config.constant.prj_visibility.private))
-											) 
-											: 
-											void(l.visibilities = []);
-									};
-								l.js_filter_templates_category = function(a) {
-										l.filter_templates_category = a
-									},
-									l.js_select_template = function(a) {
-										l.current_template.id === a.id ? n() : (l.current_template.type = a.type, l.current_template.id = a.id, l.current_template.name = a.name)
-									},
-									l.js_select_template_ok = function() {
-										l.step_index = 0
-									},
-									l.js_cancel_select_template = function() {
-										l.step_index = 0
-									},
-									l.js_goto_template_list = function() {
-										l.filter_templates_category = null,
-											l.step_index = 1
-									},
-									l.js_preview_template = function(b, c) {
-										b.stopPropagation(),
-											a.open({
-												windowClass: "dialog-w1000",
-												templateUrl: config.templateUrls.dialog_project_create_preview_template,
-												controller: ["$scope", "$uibModalInstance",
-													function(a, b) {
-														function d() {
-															2 == c.type && wt.data.templates.get(c.id,
-																function(a) {
-																	e.template.entries = a.data.entries
-																})
+													var c = _.find(l.teams, {
+														team_id: l.new_project.team_id
+													});
+													if(null != c.template_id && "" !== c.template_id && 0 !== c.template_id) {
+														var e = _.find(l.system_templates[0].projects, {
+															template_id: c.template_id
+														});
+														l.current_template = {
+															type: 1,
+															id: e.id,
+															name: e.name
 														}
-														var e = a.vm = {
-															template: c
-														};
-														d(),
-															e.close = function() {
-																b.close()
-															}
+													} else 1 === l.current_template.type && n()
+											}) 
+											: (m(), 1 === l.current_template.type && n()),
+												l.visibilities = util.project.get_visibilities(l.new_project.team_id), 
+												void(l.new_project.visibility || (l.new_project.visibility = config.constant.prj_visibility.private))
+										) 
+										: 
+										void(l.visibilities = []);
+								};
+							l.js_filter_templates_category = function(a) {
+									l.filter_templates_category = a
+								},
+								l.js_select_template = function(a) {
+									l.current_template.id === a.id ? n() : (l.current_template.type = a.type, l.current_template.id = a.id, l.current_template.name = a.name)
+								},
+								l.js_select_template_ok = function() {
+									l.step_index = 0
+								},
+								l.js_cancel_select_template = function() {
+									l.step_index = 0
+								},
+								l.js_goto_template_list = function() {
+									l.filter_templates_category = null,
+										l.step_index = 1
+								},
+								l.js_preview_template = function(b, c) {
+									b.stopPropagation(),
+										a.open({
+											windowClass: "dialog-w1000",
+											templateUrl: config.templateUrls.dialog_project_create_preview_template,
+											controller: ["$scope", "$uibModalInstance",
+												function(a, b) {
+													function d() {
+														2 == c.type && wt.data.templates.get(c.id,
+															function(a) {
+																e.template.entries = a.data.entries
+															})
 													}
-												]
-											})
-									},
-									//创建项目
-									l.js_project_add = function(a) {
-										l.saving || 
-											(l.saving = !0, 
-												"-1" === l.new_project.team_id || l.new_project.team_id === -1 ? 
-												api.add_project({
-														team_id:0,
-														name: l.new_project.name, 
-														desc: l.new_project.desc, 
-														visibility: l.new_project.visibility, 
-														template_type: l.current_template.type, 
-														template_id: l.current_template.id===""?1:l.current_template.id, 
-													},
-													o, null,
-													function() {
-														l.saving = !1
-													})
-												: 
-												api.add_project({
-														team_id: l.new_project.team_id===""? 0:l.new_project.team_id, 
-														name: l.new_project.name, 
-														desc: l.new_project.desc, 
-														visibility: l.new_project.visibility, 
-														template_type: l.current_template.type, 
-														template_id: l.current_template.id===""?1:l.current_template.id, 
-													},
-													o, null, null), 
-												a.preventDefault())
-									},
-									l.change_project_team = function() {
-										l.new_project.visibility = 
-											config.constant.prj_visibility.private;
-										p();
-									},
-									l.close = function() {
-										i.close()
-									},
-									k()
+													var e = a.vm = {
+														template: c
+													};
+													d(),
+														e.close = function() {
+															b.close()
+														}
+												}
+											]
+										})
+								},
+								//创建项目
+								l.js_project_add = function(a) {
+									l.saving || 
+										(l.saving = !0, 
+											"-1" === l.new_project.team_id || l.new_project.team_id === -1 ? 
+											api.add_project({
+													team_id:0,
+													name: l.new_project.name, 
+													desc: l.new_project.desc, 
+													visibility: l.new_project.visibility, 
+													template_type: l.current_template.type, 
+													template_id: l.current_template.id===""?1:l.current_template.id, 
+												},
+												o, null,
+												function() {
+													l.saving = !1
+												})
+											: 
+											api.add_project({
+													team_id: l.new_project.team_id===""? 0:l.new_project.team_id, 
+													name: l.new_project.name, 
+													desc: l.new_project.desc, 
+													visibility: l.new_project.visibility, 
+													template_type: l.current_template.type, 
+													template_id: l.current_template.id===""?1:l.current_template.id, 
+												},
+												o, null, null), 
+											a.preventDefault())
+								},
+								l.change_project_team = function() {
+									l.new_project.visibility = 
+										config.constant.prj_visibility.private;
+									p();
+								},
+								l.close = function() {
+									i.close()
+								},
+								k()
 							}
 						]
 					})
@@ -1205,6 +1205,84 @@ define(['app'], function (app) {
 						]
 					})
 				}
+
+				/**
+				* projectsService
+				*/
+				this.showArchiveList = function() {
+					var b = a.open({
+						windowClass: "dialog-w680",
+						templateUrl: "/app/js/service/project/dialog_projects_archive.html",
+						controller: ["$scope", "$state",
+							function(a, c) {
+								function d() {
+									wt.data.project.get_all("archive",
+										function(a) {
+											200 === a.code && (e.archived_projects = a.data)
+										},
+										null,
+										function() {
+											e.part_loading_done = !0
+										})
+								}
+								var e = a.vm = {
+									part_loading_done: !1,
+									search_project_input: "",
+									archived_projects: []
+								};
+								d(),
+									e.js_to_project = function(a) {
+										c.go("project", {
+												pid: a.pid
+											}, {
+												reload: !0
+											}),
+											e.js_close()
+									},
+									e.js_close = function() {
+										b.close()
+									}
+							}
+						]
+					})
+				},
+				this.showFavoriteList = function() {
+					var b = a.open({
+						windowClass: "dialog-w680",
+						templateUrl: "/app/js/service/project/dialog_projects_favorite.html",
+						controller: ["$scope", "$state",
+							function(a, c) {
+								function d() {
+									wt.data.project.get_favorite(function(a) {
+											200 === a.code && (e.favorite_projects = a.data)
+										},
+										null,
+										function() {
+											e.part_loading_done = !0
+										})
+								}
+								var e = a.vm = {
+									part_loading_done: !1,
+									search_project_input: "",
+									favorite_projects: []
+								};
+								d(),
+									e.js_to_project = function(a) {
+										c.go("project", {
+												pid: a.pid
+											}, {
+												reload: !0
+											}),
+											e.js_close()
+									},
+									e.js_close = function() {
+										b.close()
+									}
+							}
+						]
+					})
+				}
+		
 		
 
     }])

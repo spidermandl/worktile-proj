@@ -8,8 +8,10 @@
 define(['app'], function(app) {
 	'use strict';
 
-	app.controller('DashboardTaskCtrl', ['$scope', '$rootScope', 'config', 'ycTrack', '$translate', 'api', 'Util',
-			function($scope, $rootScope, config, ycTrack, translate, api, util) {
+	app.controller('DashboardTaskCtrl', ['$scope', '$rootScope', 'config', 'ycTrack', 
+				'$translate', 'api', 'Util','Center',
+			function($scope, $rootScope, config, ycTrack, 
+					translate, api, util,center) {
 
 				$rootScope.global.loading_done = true; //需要重构
 				//["$rootScope", "$scope", "$location", "locator", "globalDataContext", "$timeout", "bus", "$translate", "taskService", "ycTrack"]
