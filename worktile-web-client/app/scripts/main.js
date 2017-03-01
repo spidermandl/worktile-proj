@@ -22,8 +22,8 @@
             //service
             global : 'service/global',
             util : 'service/util',
+            center: 'service/center',
             account : 'service/account',
-            work : 'service/work',
             api: 'service/api',
             team: 'service/team',
             track: 'service/track',
@@ -32,6 +32,13 @@
             markdown: 'service/markdown',
             scroll: 'service/scroll',
             locator: 'service/locator',
+            feed: 'service/feed',
+            shortcut: 'service/shortcut',
+            quickswitch: 'service/quickswitch',
+            task: 'service/task',
+            event: 'service/event',
+            file: 'service/file',
+            feedback: 'service/feedback',
             //controller
 			identity : 'controllers/identity',//身份进入
 			dashboard : 'controllers/dashboard',
@@ -49,10 +56,10 @@
             project_item : 'directive/project_item',
             task_directive: 'directive/task_directive',
             //filter
-            //translate : 'filter/translate',
             filters : 'filter/filters',
             //provider
             popbox : 'provider/popbox',
+            notify: 'provider/notify',
 　　　　 },
 	    shim: {
             configuration: {
@@ -63,6 +70,9 @@
             },
             global:{
                 deps: ['util','api','toolkit'],
+            },
+            center:{
+                deps: ['feed','notify'],
             },
             identity: {
                 deps: ['account'],
@@ -80,7 +90,8 @@
                 deps: ['locator','project_task_ctrl'],
             },
             left_nemu: {
-                deps: ['filters','popbox','left_menu_project','left_menu_avatar','work','team'],
+                deps: ['center','shortcut','quickswitch','task','event','file','feedback','filters',
+                    'popbox','left_menu_project','left_menu_avatar','team'],
             },
             team: {
                 deps: ['track','team_logo','project','upload'],
