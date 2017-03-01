@@ -18,6 +18,7 @@
             app : 'app',//app.js
         	configuration : 'constant/config',
             error : 'constant/error',
+            constant: 'constant/constant',
             //service
             global : 'service/global',
             util : 'service/util',
@@ -29,12 +30,16 @@
             project: 'service/project',
             upload: 'service/upload',
             markdown: 'service/markdown',
+            scroll: 'service/scroll',
+            locator: 'service/locator',
             //controller
 			identity : 'controllers/identity',//身份进入
 			dashboard : 'controllers/dashboard',
             search : 'controllers/search',
             team_ctrl: 'controllers/team_ctrl',
             team_admin_ctrl: 'controllers/team_admin_ctrl',
+            project_ctrl: 'controllers/project_ctrl',
+            project_task_ctrl: 'controllers/project_task_ctrl',
 			//指令
 			left_nemu : 'directive/left_menu',
             left_menu_project : 'directive/left_menu_project',
@@ -42,6 +47,7 @@
             toolkit : 'directive/toolkit',
             team_logo : 'directive/team_logo',
             project_item : 'directive/project_item',
+            task_directive: 'directive/task_directive',
             //filter
             //translate : 'filter/translate',
             filters : 'filter/filters',
@@ -50,7 +56,7 @@
 　　　　 },
 	    shim: {
             configuration: {
-                deps: ['error'],//deps 载入依赖模块
+                deps: ['error','constant'],//deps 载入依赖模块
             },
             app: {
                 deps: ['configuration'],
@@ -68,7 +74,10 @@
                 deps: ['left_nemu'],
             },
             team_ctrl: {
-                deps: ['project_item','team_admin_ctrl','markdown'],
+                deps: ['scroll','task_directive','project_item','team_admin_ctrl','markdown'],
+            },
+            project_ctrl:{
+                deps: ['locator','project_task_ctrl'],
             },
             left_nemu: {
                 deps: ['filters','popbox','left_menu_project','left_menu_avatar','work','team'],
@@ -87,6 +96,7 @@
             'dashboard',
             'search',
             'team_ctrl',
+            'project_ctrl',
         ],
         function (app) {
             app.init();

@@ -12,7 +12,6 @@ define(['app'], function(app) {
 			function($scope, $rootScope, config, ycTrack, translate, api, util) {
 
 				$rootScope.global.loading_done = true; //需要重构
-
 				//["$rootScope", "$scope", "$location", "locator", "globalDataContext", "$timeout", "bus", "$translate", "taskService", "ycTrack"]
 				//       a,          b,         c,          d,             e,                f,       g,        h,              i,           j
 				function k() {
@@ -382,15 +381,15 @@ define(['app'], function(app) {
 					$scope.vm.load_more_completed_tasks = function() {
 						m()
 					},
-					$scope.$on(config.event_names.on_task_trash,
+					$scope.$on(config.constant.event_names.on_task_trash,
 						function(a, b) {
 							$scope.vm.toggle_task(b, !1, !0)
 						}),
-					$scope.$on(config.event_names.on_task_complete,
+					$scope.$on(config.constant.event_names.on_task_complete,
 						function(a, b, c) {
 							$scope.vm.toggle_task(b, !0)
 						}),
-					$scope.$on(config.event_names.on_task_update,
+					$scope.$on(config.constant.event_names.on_task_update,
 						function(a, b, c) {
 							var d = _.find($scope.vm.gtdTaskTempMark, {
 								tid: b.tid
@@ -403,7 +402,7 @@ define(['app'], function(app) {
 									})),
 								$scope.vm.toggle_task(b, !1)
 						}),
-					$scope.$on(config.event_names.on_task_assign,
+					$scope.$on(config.constant.event_names.on_task_assign,
 						function(a, b) {
 							"gtd" === $scope.vm.mytaskViewStatus &&
 								(_.find($scope.vm.gtdEntrys[0], {
@@ -808,7 +807,7 @@ define(['app'], function(app) {
 					m.js_add_event = function() {
 						h.showAdd(!1)
 					},
-					$scope.$on(config.event_names.on_task_update,
+					$scope.$on(config.constant.event_names.on_task_update,
 						function(a, b) {
 							var c = _.find(q, {
 								id: b.tid
@@ -817,12 +816,12 @@ define(['app'], function(app) {
 								u(),
 								t()
 						}),
-					$scope.$on(config.event_names.on_event_add,
+					$scope.$on(config.constant.event_names.on_event_add,
 						function(a, b) {
 							u(),
 								t()
 						}),
-					$scope.$on(config.event_names.on_task_trash,
+					$scope.$on(config.constant.event_names.on_task_trash,
 						function(a, b) {
 							var c = _.find(q, {
 								id: b.tid
@@ -834,7 +833,7 @@ define(['app'], function(app) {
 								u(),
 								t()
 						}),
-					$scope.$on(config.event_names.on_task_complete,
+					$scope.$on(config.constant.event_names.on_task_complete,
 						function(a, b) {
 							var c = _.find(q, {
 								id: b.tid
@@ -843,7 +842,7 @@ define(['app'], function(app) {
 								u(),
 								t()
 						}),
-					$scope.$on(config.event_names.on_event_update,
+					$scope.$on(config.constant.event_names.on_event_update,
 						function(b, c, d, e) {
 							if (p) {
 								var f = _.find(p, {
@@ -980,7 +979,7 @@ define(['app'], function(app) {
 								a.is_read = !0
 							})
 				},
-				b.$on(kzi.constant.event_names.on_mail_trash,
+				b.$on(config.constant.event_names.on_mail_trash,
 					function(a, c) {
 						b.emailData.emails && (b.emailData.emails = _.reject(b.emailData.emails,
 							function(a) {
@@ -1055,16 +1054,5 @@ define(['app'], function(app) {
 		/**************************************************************************************************************
 		 *
 		 **************************************************************************************************************/
-		.filter('indexOf', ['config', function(config) {
-			return function(input) {
-				var collection = input[0];
-				var filter = input[1];
-				return collection.indexOf(filter) == -1 ? false : true;
-			};
-		}])
-		.filter('orderBy', ['config', function(config) {
-			return function(input, star_pos) {
-
-			};
-		}]);
+		;
 });

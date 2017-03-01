@@ -45,7 +45,7 @@ public class AccountTests extends BaseTest{
                 .post(RequestBody.create(MEDIA_TYPE_TEXT,JSON.toJSONString(new RegisterMsg.InMsg(){
                     {
                         phone="12444444444";//用户电话
-                        username="aab";//用户名
+                        username="铜仁";//用户名
                         password="aaa";//用户密码
                     }
                 }))).build();

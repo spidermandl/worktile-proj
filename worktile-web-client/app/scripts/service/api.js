@@ -10,6 +10,7 @@ define(['app'], function(app) {
 
 	app.service('api', ['$http', 'localStorageService', 'Util', '$q',
 		function($http, localStorageService, util, $q) {
+			var domain = 'http://localhost:8080';
 			return {
 				/************************************************************************
 				 * get 父类方法
@@ -116,7 +117,7 @@ define(['app'], function(app) {
 						'application/x-www-form-urlencoded;charset=utf-8';
 
 					return $http.post(
-							'http://localhost:8080/user/login',
+							domain + '/user/login',
 							util.transformPostRequest({
 								username: input.name,
 								password: input.password,
@@ -162,7 +163,7 @@ define(['app'], function(app) {
 				 *************************************************************************/
 				getcode: function(success, failure) {
 					return this.http_get_template(
-						'http://localhost:8080/user/login/code',
+						domain + '/user/login/code',
 						success, failure);
 				},
 				/************************************************************************
@@ -170,7 +171,7 @@ define(['app'], function(app) {
 				 *************************************************************************/
 				me_profile: function(success, failure) {
 					return this.http_get_template(
-						'http://localhost:8080/api/me/profile',
+						domain + '/api/me/profile',
 						success, failure);
 				},
 				/**************************************************************************
@@ -178,7 +179,7 @@ define(['app'], function(app) {
 				 **************************************************************************/
 				me_logout: function(success, failure) {
 					return this.http_get_template(
-						'http://localhost:8080/user/logout',
+						domain + '/user/logout',
 						success, failure);
 				},
 				/**************************************************************************
@@ -186,7 +187,7 @@ define(['app'], function(app) {
 				 **************************************************************************/
 				me_contacts: function(success, failure) {
 					return this.http_get_template(
-						'http://localhost:8080/api/team/contacts',
+						domain + '/api/team/contacts',
 						success, failure);
 				},
 				/**************************************************************************
@@ -194,7 +195,7 @@ define(['app'], function(app) {
 				 **************************************************************************/
 				create_team: function(body, success, failure, promise) {
 					return this.http_post_template(
-						'http://localhost:8080/api/team/create',
+						domain + '/api/team/create',
 						body, success, failure, promise
 					);
 				},
@@ -203,7 +204,7 @@ define(['app'], function(app) {
 				 **************************************************************************/
 				team_list: function(success, failure, promise) {
 					return this.http_get_template(
-						'http://localhost:8080/api/team/list',
+						domain + '/api/team/list',
 						success, failure, promise
 					);
 				},
@@ -212,7 +213,7 @@ define(['app'], function(app) {
 				 **************************************************************************/
 				team_basic: function(team_id) {
 					return this.http_get_template(
-						'http://localhost:8080/api/team/' + team_id + '/basic'
+						domain + '/api/team/' + team_id + '/basic'
 					);
 				},
 				/**************************************************************************
@@ -220,7 +221,7 @@ define(['app'], function(app) {
 				 **************************************************************************/
 				get_team_projects: function(team_id, success, failure, promise) {
 					return this.http_get_template(
-						'http://localhost:8080/api/team/' + team_id + '/projects',
+						domain + '/api/team/' + team_id + '/projects',
 						success, failure, promise
 					);
 				},
@@ -229,7 +230,7 @@ define(['app'], function(app) {
 				 **************************************************************************/
 				get_project_templates: function(team_id) {
 					return this.http_get_template(
-						'http://localhost:8080/api/team/' + team_id + '/project/templates'
+						domain + '/api/team/' + team_id + '/project/templates'
 					);
 				},
 				/**************************************************************************
@@ -237,7 +238,7 @@ define(['app'], function(app) {
 				 **************************************************************************/
 				add_project: function(data, success, failure, promise) {
 					return this.http_post_template(
-						'http://localhost:8080/api/project/create',
+						domain + '/api/project/create',
 						data,
 						success, failure, promise
 					);
@@ -247,7 +248,33 @@ define(['app'], function(app) {
 				 **************************************************************************/
 				project_list: function() {
 					return this.http_get_template(
-						'http://localhost:8080/api/project/list'
+						domain + '/api/project/list'
+					);
+				},
+				/**************************************************************************
+				 **获取project 总体信息 api
+				 **************************************************************************/
+				get_project_info: function(project_id) {
+					return this.http_get_template(
+						domain + '/api/project/' + project_id + '/info'
+					);
+				},
+				/**************************************************************************
+				 **获取project 任务 api
+				 **************************************************************************/
+				get_project_tasks: function(project_id) {
+					return this.http_get_template(
+						domain + '/api/project/' + project_id + '/tasks'
+					);
+				},
+				/**************************************************************************
+				 **创建任务 api
+				 **************************************************************************/
+				add_task: function(data, success, failure, promise) {
+					return this.http_post_template(
+						domain + '/api/task/create',
+						data,
+						success, failure, promise
 					);
 				},
 				/**************************************************************************
@@ -255,7 +282,7 @@ define(['app'], function(app) {
 				 **************************************************************************/
 				get_dashboard_task: function(success, failure, promise) {
 					return this.http_get_template(
-						'http://localhost:8080/api/task/uncompleted',
+						domain + '/api/task/uncompleted',
 						success, failure, promise
 					);
 				},
@@ -264,7 +291,7 @@ define(['app'], function(app) {
 				 **************************************************************************/
 				get_template_list: function() {
 					return this.http_get_template(
-						'http://localhost:8080/api/template/list'
+						domain + '/api/template/list'
 					);
 				},
 				/**************************************************************************
@@ -272,11 +299,12 @@ define(['app'], function(app) {
 				 **************************************************************************/
 				get_feed_list: function(data, success, failure, promise) {
 					return this.http_post_template(
-						'http://localhost:8080/api/feed/list',
+						domain + '/api/feed/list',
 						data,
 						success, failure, promise
 					);
 				},
+<<<<<<< HEAD
 //				/**************************************************************************
 //				 ** 获取团队成员信息 api
 //				 **************************************************************************/
@@ -312,6 +340,36 @@ define(['app'], function(app) {
 						'http://localhost:8080/api/team/' + team_id + '/projects',
 						success, failure, promise
 					);  
+=======
+
+				get_team_stats: function(team_id, success, failure, promise) {
+					return this.http_get_template(
+						domain + '/api/team/' + team_id + '/projects',
+						success, failure, promise
+					);
+				},
+
+				get_tasks_overview: function(team_id, success, failure, promise) {
+					return this.http_get_template(
+						domain + '/api/team/' + team_id + '/projects',
+						success, failure, promise
+					);
+				},
+
+
+				get_team_members: function(team_id, success, failure, promise) {
+					return this.http_get_template(
+						domain + '/api/team/' + team_id + '/projects',
+						success, failure, promise
+					);
+				},
+
+				get_tasks: function(team_id, page, filter, uid, pid, dt, success, failure, promise) {
+					return this.http_get_template(
+						domain + '/api/team/' + team_id + page + filter + uid + pid + dt + '/projects',
+						success, failure, promise
+					);
+>>>>>>> development
 				},
 			}
 		}

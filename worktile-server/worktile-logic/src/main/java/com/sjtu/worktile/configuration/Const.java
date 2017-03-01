@@ -42,14 +42,19 @@ public class Const {
     }
 
     /**
-     * 用户角色: 1:管理员，2:成员，3:访客，4:来宾,公开项目可以访问
+     * team用户角色: 1:管理员，2:成员，3:访客，4:来宾,公开项目可以访问
+     * project用户角色: 5:管理员，6:成员，7:访客
      */
     public final static class USER_ROLE{
-        public static final int ADMIN =1;
-        public static final int MEMBER =2;
-        public static final int VISITOR =3;
-        public static final int GUEST =4;
+        public static final int TEAM_ADMIN =1;
+        public static final int TEAM_MEMBER =2;
+        public static final int TEAM_VISITOR =3;
+        public static final int TEAM_GUEST =4;
+        public static final int PROJECT_ADMIN = 5;
+        public static final int PROJECT_MEMBER = 6;
+        public static final int PROJECT_VISITOR =7;
     }
+
 
     /**
      * 任务类型: 1:entry，2:普通task

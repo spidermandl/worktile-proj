@@ -8,6 +8,7 @@ import com.sjtu.worktile.model.mappers.*;
 import com.sjtu.worktile.msg.TeamTemplatesMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -24,6 +25,14 @@ public class ProjectService {
     @Autowired
     private TUserRoleMapper tUserRoleMapper;
 
+    /**
+     * 根据id获取项目
+     * @param pid
+     * @return
+     */
+    public TProject getProjectById(long pid){
+        return tProjectMapper.selectByPrimaryKey(pid);
+    }
     /**
      * 获取用户所有项目信息
      * @param uid
@@ -54,6 +63,7 @@ public class ProjectService {
      * @param entries
      * @param uid
      */
+    @Transactional
     public void createProject(TProject project,String entries,long uid){
         /**
          * 插入project项
@@ -66,7 +76,7 @@ public class ProjectService {
         TUserRole role = new TUserRole();
         role.setUserId(uid);
         role.setProjectId(project.getId());
-        role.setRoleId(Const.USER_ROLE.ADMIN);
+        role.setRoleId(Const.USER_ROLE.PROJECT_ADMIN);
         tUserRoleMapper.insert(role);
 
         /**
@@ -111,5 +121,17 @@ public class ProjectService {
         if (roles!=null && roles.size()==1)
             return roles.get(0);
         return null;
+    }
+
+    /**
+     * 获取project中所有角色
+     * @param pid
+     * @return
+     */
+    public List<TUserRole> getRolesInProject(long pid){
+        TUserRoleExample query = new TUserRoleExample();
+        TUserRoleExample.Criteria criteria = query.createCriteria();
+        criteria.andProjectIdEqualTo(pid);
+        return tUserRoleMapper.selectByExample(query);
     }
 }

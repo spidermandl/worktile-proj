@@ -13,7 +13,7 @@ define(['app'], function (app) {
 	    return {
 	      	restrict: 'E',
 	      	templateUrl: config.templateUrls.left_menu,
-	      	link: function (scope,element,attrs) {
+	      	link: function (scope,element,attrs){
 				//$rootScope.global.loading_done = true;
 		      	scope.vm = {
 					//弹出创建快捷方式

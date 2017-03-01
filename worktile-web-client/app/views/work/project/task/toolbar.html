@@ -1,0 +1,48 @@
+<div class=sub_toolbar>
+    <div class="btn-group js-popbox mr-5" data-placement=bottom data-align=right ng-if=global.prj_module.crud|permission:project.permission>
+        <button class="btn btn-success btn--fancy" ng-click=vm.js_add_task()>{{'task_toolbar.btn_add_task'|translate}}</button>
+        <a class="btn btn-success btn--fancy dropdown-toggle" data-toggle=dropdown>
+            <i class="fa fa-caret-down"></i>
+        </a>
+        <ul class="dropdown-menu pull-right">
+            <li>
+                <a href=javascript:; id=btn_new_task ng-click=vm.js_add_task()>
+                    <i class="fa fa-fw"></i>{{'task_toolbar.btn_add_task'|translate}}</a>
+            </li>
+            <li>
+                <a href=javascript:; wt-click=vm.show_add_entry_pop($event)>
+                    <i class="fa fa-fw"></i>{{'task_toolbar.btn_add_entry'|translate}}</a>
+            </li>
+        </ul>
+    </div>
+    <div class="btn-group js-popbox">
+        <a href=javascript:; class="btn btn--fancy" ng-click=vm.show_tasks_filter_detail($event)>
+            <span class=color_main ng-if=task_filters.turn_on>{{'task_toolbar.btn_open'|translate}}</span>
+            <span ng-if=!task_filters.turn_on>{{'task_toolbar.btn_filter'|translate}}</span></a>
+        <a class="btn btn--fancy dropdown-toggle" href=javascript:; data-toggle=dropdown>
+            <i class="fa fa-caret-down"></i>
+        </a>
+        <ul class="dropdown-menu pull-right">
+            <li>
+                <a href=javascript:; ng-click=vm.filter_tasks_assign_me()>
+                    <i class=fa ng-class="{true:'fa-check',false:'icon-xx'}[task_filters.type == 'assign_me']"></i>{{'task_toolbar.assign_me'|translate}}</a>
+            </li>
+            <li>
+                <a href=javascript:; ng-click=vm.filter_tasks_my_watch()>
+                    <i class=fa ng-class="{true:'fa-check',false:'icon-xx'}[task_filters.type == 'my_watch']"></i>{{'task_toolbar.my_watch'|translate}}</a>
+            </li>
+            <li>
+                <a href=javascript:; ng-click=vm.filter_tasks_my_create()>
+                    <i class=fa ng-class="{true:'fa-check',false:'icon-xx'}[task_filters.type == 'my_create']"></i>{{'task_toolbar.my_create'|translate}}</a>
+            </li>
+            <li class=divider></li>
+            <li>
+                <a href=javascript:; ng-click=vm.show_tasks_filter_detail($event)>
+                    <i class="fa fa-fw"></i>{{'task_toolbar.task_filter'|translate}}</a>
+            </li>
+        </ul>
+    </div>
+    <a class=prj_top_icon href=javascript:; ng-click="sidebar.change_status('members','')" ng-class="{'active':sidebar.status == 'members'||sidebar.status == 'add_member'}" tooltip-placement=bottom uib-tooltip="{{'common.txt_member'|translate}}">
+        <i class="wtfont wtf-userlist"></i>
+    </a>
+</div>

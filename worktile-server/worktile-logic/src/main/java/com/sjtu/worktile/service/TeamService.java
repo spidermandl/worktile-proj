@@ -9,6 +9,7 @@ import com.sjtu.worktile.model.mappers.TUserRoleMapper;
 import com.sjtu.worktile.msg.PairMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,6 +64,9 @@ public class TeamService {
          */
         List<TTeam> teams = getSelfTeam(uid);
         TUserRoleExample query = new TUserRoleExample();
+        if (teams.size()==0){//没有team
+            return new ArrayList<TUser>();
+        }
         for (TTeam t:teams) {
             TUserRoleExample.Criteria criteria = query.createCriteria();
             criteria.andTeamIdEqualTo(t.getId());
@@ -86,6 +90,7 @@ public class TeamService {
         return tUserMapper.selectByExample(uQuery);
     }
 
+
     /**
      * 创建team
      * @param team
@@ -99,7 +104,7 @@ public class TeamService {
         TUserRole role = new TUserRole();
         role.setUserId(uid);
         role.setTeamId(team.getId());
-        role.setRoleId(Const.USER_ROLE.ADMIN);
+        role.setRoleId(Const.USER_ROLE.TEAM_ADMIN);
         tUserRoleMapper.insert(role);
     }
 
@@ -171,6 +176,7 @@ public class TeamService {
      * 删除团队，以及团队相关数据
      * @param team_id
      */
+    @Transactional
     public void diableTeam(long team_id){
         /**
          * 删除team中的用户

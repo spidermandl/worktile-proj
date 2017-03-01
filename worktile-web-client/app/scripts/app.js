@@ -342,8 +342,9 @@
                 controller: "projectHomeCtrl",
                 resolve: {
                     fastProject: ["$stateParams", "globalDataContext",
-                    function(a, b) {
-                        return b.getProject(a.pid, !0, !0).then(function(a) {
+                    function(stateParams, globalDataContext) {
+                        return globalDataContext.getProject(stateParams.pid, !0, !0)
+                        .then(function(a) {
                             return a ? a: null;
                         });
                     }]
@@ -359,11 +360,11 @@
                 need_load: !1,
                 views: {
                     "": {
-                        templateUrl: "/tpl/project/task/tasks.html",
+                        templateUrl: config.templateUrls.project_task,
                         controller: "projectTasksCtrl"
                     },
                     toolbar: {
-                        templateUrl: "/tpl/project/task/toolbar.html",
+                        templateUrl: config.templateUrls.project_toolbar,
                         controller: "projectTasksToolbarCtrl"
                     }
                 }

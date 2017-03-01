@@ -1,0 +1,44 @@
+<div class=sidebar_member ng-controller=sidebarMembersCtrl>
+    <div class=sidebar_header>
+        <a href=javascript:; ng-click=vm.close_sidebar()>
+            <button class="cancel wtfont wtf-close"></button>
+            <h3>{{'project_members.title'|translate}}
+                <span class=member-count>({{project.members.length}})</span></h3>
+        </a>
+    </div>
+    <div class=member_list wt-height=60 wt-scroll ng-show=project.members>
+        <ul class=avatars>
+            <li ng-if="$root.global.loading_done && ($root.global.prj_module.setting|permission:project.permission)">
+                <div class="js-popbox member text-center" ng-click=vm.to_add_member() uib-tooltip="{{'project_members.btn_add_member'|translate}}" tooltip-placement=bottom>
+                    <a class=avatar-add href=javascript:;>
+                        <span class=o>＋</span></a>
+                </div>
+            </li>
+            <li ng-repeat="member in project.members|filter:vm.isMemberFilter()">
+                <div class="js-popbox member" data-placement=left ng-class="{true: 'member-pendding'}[member.status==3]" title="{{{3:'project_members.status_quit'}[member.status]|translate}}">
+                    <wt-avatar member=member wt-member-control project=project status=true class=text-center namebr=true role=member.role drag="{true: vm.draggable_options,false:''}[member.status==1 && member.role != 3 && project.curr_role!=3]"></wt-avatar>
+                </div>
+            </li>
+        </ul>
+        <div ng-if="((project.members|filter:vm.isGuestFilter()).length > 0)">
+            <h4>{{'common.txt_visitor'|translate}}</h4>
+            <ul class=avatars>
+                <li ng-repeat="member in project.members|filter:vm.isGuestFilter()">
+                    <div class="js-popbox member" data-placement=left>
+                        <wt-avatar member=member status=true wt-member-control project=project class=text-center namebr=true></wt-avatar>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div ng-if="((project.members|filter:{status:2}).length > 0)">
+            <h4>{{'project_members.status_pending'|translate}}</h4>
+            <ul class=avatars>
+                <li ng-repeat="member in project.members|filter:vm.isStatusPendingFilter()">
+                    <div class="js-popbox member member-pendding" title="{{'project_members.status_pending_title'|translate}}" data-placement=left>
+                        <wt-avatar member=member status=true wt-member-control project=project class=text-center namebr=true role=member.role></wt-avatar>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

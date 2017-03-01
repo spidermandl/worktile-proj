@@ -23,9 +23,6 @@ import java.util.*;
 @RestController
 @RequestMapping("/user")
 public class UserController extends BaseController{
-    @Autowired
-    private UserService userService;
-
 
     /**
      * 登录用户api

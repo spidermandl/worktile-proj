@@ -1,7 +1,7 @@
 package com.sjtu.worktile.msg;
 
-import java.lang.reflect.Field;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Desmond on 04/01/2017.
@@ -37,22 +37,22 @@ abstract public class PairMsg {
      */
     abstract void initMsg();
 
-    public static interface RequestMsg{
+    public interface RequestMsg{
         int code = 0;//消息索引号
     }
 
-    public static interface ResponseMsg{
+    public interface ResponseMsg{
         int code = 0;//消息索引号
         String token = null;//token
         Data data = null;
-        public interface Data{
+        interface Data{
 
         }
 
         /**
          * 用户信息 输出格式
          */
-        public static class User {
+        class User {
             public long uid =0;
             public String name = null;
             public String email= null;
@@ -71,7 +71,7 @@ abstract public class PairMsg {
         /**
          * team相关信息
          */
-        public static class Team {
+        class Team {
             public long team_id = 0;
             public String url = null;//团队url
             public String name =null;
@@ -79,7 +79,7 @@ abstract public class PairMsg {
             public String desc = null;//team 描述
             public int status = 0;
             public int edition = 1;
-            public Date create_date = null;
+            public long create_date = 0;
             public int visibility = 1; //团队类型， 1:私有,2:公开
             public int industry = 1;
             public int[] default_pids = null;//默认pids
@@ -99,7 +99,7 @@ abstract public class PairMsg {
         /**
          * 项目信息 输出格式
          */
-        public static class Project{
+        class Project{
             public long pid = 0;
             public String name =null;
             public long team_id= 0;
@@ -114,6 +114,69 @@ abstract public class PairMsg {
             public int curr_role= 1;
             public int permission= 31;//当前用户权限: 31:管理员，15:成员，7:访客，5:来宾，0:无法操作
         }
+
+        /**
+         * 任务组
+         */
+        class Entry{
+            public long entry_id = 0;
+            public String name = null;
+            public float pos =0;
+            public int archived = 0;
+            public long create_date = 0;
+            public long update_date = 0;
+            public boolean watched = false;
+        }
+        /**
+         * 任务输出格式
+         */
+        class Task{
+            public long tid = 0;//任务id
+            public long entry_id = 0;//任务组id
+            public long pid = 0;//项目id
+            public String name = null;//任务名称
+            public String desc = null;//描述
+            public float pos = 0;//位置
+            public List<Label> labels = new ArrayList<>();//标签
+            public long uid = 0;//用户id
+            public long expire_date = 0;//任务截止日期
+            public int completed = 1;//是否完成：0：未完成，1：已完成
+            public List<User> members = new ArrayList<>();//分配的成员
+            public List<Badge> badges = new ArrayList<>();//附加信息
+            public List<Todo> todos = new ArrayList<>();//检查项
+            public int is_deleted = 0;//是否删除
+            public int is_locked = 0;//是否锁定
+            public int is_loop = 0;
+            public int archived = 0;
+            public long created_at = 0;
+            public long updated_at = 0;
+            public long completed_date = 0;//完成日期
+            public List<Fid> fids = new ArrayList<>();
+            public String entry_name = null;//任务组名称
+            public List<User> watchers = new ArrayList<>();//关注的人
+
+            public static class Label{
+                String name =null;//标签名称
+                String desc = null;//描述
+            }
+            public static class Todo{
+                int todo_id = 0;//检查项id
+                String name = null;//检查项名称
+                int checked = 0;//检查结果
+                int pos = 0;
+            }
+            public static class Badge{
+                public long expire_date = 0;//过期时间
+                public int comment_count = 1;//评论数量
+                public int todo_checked_couont = 0;//已检查过的数量
+                public int todo_count = 2;//检查项数量
+                public int file_count =0;//文件数量
+            }
+            public static class Fid{
+
+            }
+        }
+
     }
 
 //    /**

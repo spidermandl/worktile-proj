@@ -665,6 +665,66 @@ public class TTaskExample {
             return (Criteria) this;
         }
 
+        public Criteria andLockedIsNull() {
+            addCriterion("locked is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLockedIsNotNull() {
+            addCriterion("locked is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLockedEqualTo(Integer value) {
+            addCriterion("locked =", value, "locked");
+            return (Criteria) this;
+        }
+
+        public Criteria andLockedNotEqualTo(Integer value) {
+            addCriterion("locked <>", value, "locked");
+            return (Criteria) this;
+        }
+
+        public Criteria andLockedGreaterThan(Integer value) {
+            addCriterion("locked >", value, "locked");
+            return (Criteria) this;
+        }
+
+        public Criteria andLockedGreaterThanOrEqualTo(Integer value) {
+            addCriterion("locked >=", value, "locked");
+            return (Criteria) this;
+        }
+
+        public Criteria andLockedLessThan(Integer value) {
+            addCriterion("locked <", value, "locked");
+            return (Criteria) this;
+        }
+
+        public Criteria andLockedLessThanOrEqualTo(Integer value) {
+            addCriterion("locked <=", value, "locked");
+            return (Criteria) this;
+        }
+
+        public Criteria andLockedIn(List<Integer> values) {
+            addCriterion("locked in", values, "locked");
+            return (Criteria) this;
+        }
+
+        public Criteria andLockedNotIn(List<Integer> values) {
+            addCriterion("locked not in", values, "locked");
+            return (Criteria) this;
+        }
+
+        public Criteria andLockedBetween(Integer value1, Integer value2) {
+            addCriterion("locked between", value1, value2, "locked");
+            return (Criteria) this;
+        }
+
+        public Criteria andLockedNotBetween(Integer value1, Integer value2) {
+            addCriterion("locked not between", value1, value2, "locked");
+            return (Criteria) this;
+        }
+
         public Criteria andPosIsNull() {
             addCriterion("pos is null");
             return (Criteria) this;
@@ -675,52 +735,52 @@ public class TTaskExample {
             return (Criteria) this;
         }
 
-        public Criteria andPosEqualTo(Integer value) {
+        public Criteria andPosEqualTo(Float value) {
             addCriterion("pos =", value, "pos");
             return (Criteria) this;
         }
 
-        public Criteria andPosNotEqualTo(Integer value) {
+        public Criteria andPosNotEqualTo(Float value) {
             addCriterion("pos <>", value, "pos");
             return (Criteria) this;
         }
 
-        public Criteria andPosGreaterThan(Integer value) {
+        public Criteria andPosGreaterThan(Float value) {
             addCriterion("pos >", value, "pos");
             return (Criteria) this;
         }
 
-        public Criteria andPosGreaterThanOrEqualTo(Integer value) {
+        public Criteria andPosGreaterThanOrEqualTo(Float value) {
             addCriterion("pos >=", value, "pos");
             return (Criteria) this;
         }
 
-        public Criteria andPosLessThan(Integer value) {
+        public Criteria andPosLessThan(Float value) {
             addCriterion("pos <", value, "pos");
             return (Criteria) this;
         }
 
-        public Criteria andPosLessThanOrEqualTo(Integer value) {
+        public Criteria andPosLessThanOrEqualTo(Float value) {
             addCriterion("pos <=", value, "pos");
             return (Criteria) this;
         }
 
-        public Criteria andPosIn(List<Integer> values) {
+        public Criteria andPosIn(List<Float> values) {
             addCriterion("pos in", values, "pos");
             return (Criteria) this;
         }
 
-        public Criteria andPosNotIn(List<Integer> values) {
+        public Criteria andPosNotIn(List<Float> values) {
             addCriterion("pos not in", values, "pos");
             return (Criteria) this;
         }
 
-        public Criteria andPosBetween(Integer value1, Integer value2) {
+        public Criteria andPosBetween(Float value1, Float value2) {
             addCriterion("pos between", value1, value2, "pos");
             return (Criteria) this;
         }
 
-        public Criteria andPosNotBetween(Integer value1, Integer value2) {
+        public Criteria andPosNotBetween(Float value1, Float value2) {
             addCriterion("pos not between", value1, value2, "pos");
             return (Criteria) this;
         }

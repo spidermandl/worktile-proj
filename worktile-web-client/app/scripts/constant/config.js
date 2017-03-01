@@ -4,7 +4,7 @@
  * @description
  * constant of the jtWorkApp
  */
- define(['error'],function (error,require) {
+ define(['error','constant'],function (error,constant,require) {
  	'use strict';
 	return {
 		baseUrl: 'views/',
@@ -46,17 +46,17 @@
 			project_dialog_add_member: 'views/work/project/dialog_project_add_member.html',
 			project_grid_item: 'views/work/project/project_grid_item.html',
 			project_main: 'views/work/project/project.html',
+			project_task: 'views/work/project/task/task.html',
+			project_toolbar: 'views/work/project/task/toolbar.html',
+			project_sidebar_add_member: 'views/work/project/sidebar/dialog_project_add_member.html',
+			task_pop_entry_menu: 'views/work/project/task/pop_entry_menu.html',
+			task_composer: 'views/work/project/task/task_composer.html',
+			task_item: 'views/work/project/task/task_item.html',
+			task_pop_project_menu: 'views/work/project/task/pop_project_menu.html',
 			'dashboard.default': 'views/work/dashboard/dashboard_task.html',
 			calendar_event_create: 'views/work/dashboard/dialog_event_create.html',//创建日历event
 			calendar_pop_event_create: 'views/work/dashboard/calendar/pop_add_event.html',
 			about: 'views/about.html',
-		},
-		//正则表达式
-		regex:{
-			mobile_area: "^[0-9]{1,4}$",
-			mobile_probable: "^[0-9]{6,15}$",
-			mobile: ["^(\\+?0?86\\-?)?1[345789]\\d{9}$|", "^(\\+?27|0)\\d{9}$|", "^(\\+?61|0)4\\d{8}|", "^(\\+?33|0)[67]\\d{8}$|", "^(\\+351)?9[1236]\\d{7}$"].join(""),
-			email: "^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$",
 		},
 		//电话前缀
 		phone_prefixs:[
@@ -67,47 +67,6 @@
 				{ name : '美国', val: 1,},
 				{ name : '其他', val: null,},
 			],
-		team_industries : {
-	        0 : "",
-	        1 : "CONS.team_industries.www",
-	        2 : "CONS.team_industries.b2b",
-	        3 : "CONS.team_industries.education",
-	        4 : "CONS.team_industries.game",
-	        5 : "CONS.team_industries.industry",
-	        6 : "CONS.team_industries.finance",
-	        7 : "CONS.team_industries.consulting",
-	        8 : "CONS.team_industries.estate",
-	        9 : "CONS.team_industries.ngo",
-	        13 : "CONS.team_industries.other"
-	    },
-	    scale : [{
-			    value: 1,
-		        text: "CONS.scale.1-10"
-		    },
-		    {
-		        value: 2,
-		        text: "CONS.scale.11-20"
-		    },
-		    {
-		        value: 3,
-		        text: "CONS.scale.21-50"
-		    },
-		    {
-		        value: 4,
-		        text: "CONS.scale.51-100"
-		    },
-		    {
-		        value: 5,
-		        text: "CONS.scale.101-200"
-		    },
-		    {
-		        value: 6,
-		        text: "CONS.scale.201-500"
-		    },
-		    {
-		        value: 7,
-		        text: "CONS.scale.500+"
-		    }],
 
 		//输入验证错误提示信息
 		VALIDATE_ERROR : {
@@ -141,137 +100,8 @@
 			// 	maxlength: "密码长度不能大于{maxlength}",
 			// },
      	},
-     	event_names : {
-			emit_filter_activity_by_type: "emit_filter_activities_by_type",
-			filter_activity_by_type: "filter_activities_by_type",
-			filter_activity_by_prj: "filter_activities_by_prj",
-			reload_item_activities: "reload_item_activities",
-			clear_item_activities: "clear_item_activities",
-			clear_comment_activity: "clear_comment_activity",
-			emit_filter_watch_by_type: "emit_filter_watch_by_type",
-			filter_watch_by_type: "filter_watch_by_type",
-			filter_posts_by_sort: "filter_posts_by_sort",
-			post_comment_add: "post_comment_add",
-			shortcut_key_to_edit: "shortcut_key_to_edit",
-			shortcut_key_to_cancel: "shortcut_key_to_cancel",
-			shortcut_key_to_task: "shortcut_key_to_task",
-			shortcut_key_select_prjs: "shortcut_key_select_prjs",
-			shortcut_key_left_menu: "shortcut_key_left_menu",
-			load_entity_task: "load_entity_task",
-			load_entity_event: "load_entity_event",
-			load_entity_post: "load_entity_post",
-			load_entity_file: "load_entity_file",
-			load_entity_page: "load_entity_page",
-			load_entity_mail: "load_entity_mail",
-			load_comments: "load_comments",
-			clear_comments: "clear_comments",
-			select_comment_tab: "select_comment_tab",
-			select_activity_tab: "select_activity_tab",
-			load_teams_projects_sucess: "load_teams_projects_sucess",
-			notice_new: "notice_new",
-			load_prj_feed: "load_prj_feed",
-			show_project_sidebar: "show_project_sidebar",
-			on_project_tasks_filter: "on_project_tasks_filter",
-			show_project_tasks_filter: "show_project_tasks_filter",
-			show_project_setting: "show_project_setting",
-			show_project_setting_step0: "show_project_setting_step0",
-			show_project_setting_label: "show_project_setting_label",
-			show_project_setting_prjcopy: "show_project_setting_prjcopy",
-			show_project_setting_exportdata: "show_project_setting_exportdata",
-			show_project_setting_createbymail: "show_project_setting_createbymail",
-			show_project_setting_baseinfo: "show_project_setting_baseinfo",
-			show_project_setting_timingtask: "show_project_setting_timingtask",
-			project_add_member: "project_add_member",
-			project_clear_task_filter: "project_clear_task_filter",
-			project_sort_change: "project_sort_change",
-			project_star_change: "project_star_change",
-			project_extensions_change: "project_extensions_change",
-			on_file_add: "on_file_add",
-			on_weixin_bind: "on_weixin_bind",
-			on_pastefile_to_task: "on_pastefile_to_task",
-			on_pastefile_to_event: "on_pastefile_to_event",
-			on_pastefile_to_file: "on_pastefile_to_file",
-			on_pastefile_to_post: "on_pastefile_to_post",
-			on_pastefile_to_folder: "on_pastefile_to_folder",
-			on_uploadfile_add: "on_uploadfile_add",
-			on_uploadfile_add_to_post: "on_uploadfile_add_to_post",
-			on_uploadfile_del_to_post: "on_uploadfile_del_to_post",
-			on_task_add: "on_task_add",
-			on_task_trash: "on_task_trash",
-			on_task_archive: "on_task_archive",
-			on_task_complete: "on_task_complete",
-			on_task_lock: "on_task_lock",
-			on_task_move: "on_task_move",
-			on_task_update: "on_task_update",
-			on_task_comment: "on_task_comment",
-			on_task_expire_date: "on_task_expire_date",
-			on_task_badges_file: "on_task_badges_file",
-			on_task_unarchived: "on_task_unarchived",
-			on_task_badges_check: "on_task_badges_check",
-			on_task_assign: "on_task_assign",
-			on_event_add: "on_event_add",
-			on_event_update: "on_event_update",
-			on_event_update_date: "on_event_update_date",
-			on_event_trash: "on_event_trash",
-			on_file_trash: "on_file_trash",
-			on_file_move: "on_file_move",
-			on_file_update: "on_file_update",
-			on_post_trash: "on_post_trash",
-			on_post_toggle_top: "on_post_toggle_top",
-			on_post_comment: "on_post_comment",
-			on_post_update: "on_post_update",
-			on_page_add: "on_page_add",
-			on_page_del: "on_page_del",
-			on_page_update: "on_page_update",
-			on_page_trash: "on_page_trash",
-			on_slide_hide: "on_slide_hide",
-			on_mail_trash: "on_mail_trash",
-			on_right_menu: "on_right_menu",
-			member_state_change: "member_state_change",
-			team_member_role_change: "team_member_role_change",
-			project_member_role_change: "project_member_role_change",
-			project_permission_change: "project_permission_change",
-			on_comment_new: "on_comment_new",
-			scroll_up: "scroll_up",
-			scroll_down: "scroll_down",
-			scroll_page_up: "scroll_page_up",
-			scroll_page_down: "scroll_page_down",
-			page_go_full_screen: "page_go_full_screen",
-			header_hide: "header_hide",
-			header_show: "header_show",
-			post_updated_by_editor: "post_updated_by_editor",
-			post_created_by_editor: "post_created_by_editor",
-			page_updated_by_editor: "page_saved_by_editor",
-			page_created_by_editor: "page_created_by_editor",
-			team_add_stats: "team_add_stats",
-			team_remove_stats: "team_remove_stats",
-			autosave_cancel: "autosave_cancel",
-			broadcast_show: "broadcast_show"
-		},
-		team_visibility : {
-			private: 1,
-			public: 2
-		},
-		team_permission : {
-			owner: 31,
-			admin: 15,
-			member: 3,
-			guest: 1,
-			deny: 0
-		},
-		team_module : {
-			setting: 16,
-			add_project: 8,
-			add_member: 4,
-			view: 2,
-			view_base: 1
-		},
-		prj_visibility : {
-			private: 1,
-			protected: 2,
-			public: 3
-		},
-     	errors : error,
+     	errors : error,//错误提示信息
+     	constant : constant,//常量信息
      	whiteList: {
 			a: ["target", "href", "title"],
 			abbr: ["title"],
@@ -337,10 +167,10 @@
 			ul: [],
 			video: ["autoplay", "controls", "loop", "preload", "src", "height", "width"]
 		},
-     	/**
+     	/*************************************************************************************
      	 *constant
      	 * a:window;  b: window.jQuery || null,
-     	 **/
+     	 *************************************************************************************/
 		feed_turn_on: !0,
 		debug: function() {
 			return "dev" === wt.env && !c.util.isIE() && "object" == typeof a.console

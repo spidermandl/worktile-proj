@@ -343,7 +343,7 @@ define(['app'], function (app) {
     }]).filter("teamIndustries", ["$translate",
     function(a) {
         return function(b) {
-            return kzi.constant.team_industries[b] ? a.instant(kzi.constant.team_industries[b]) : a.instant("common.txt_unknow")
+            return config.constant.team_industries[b] ? a.instant(config.constant.team_industries[b]) : a.instant("common.txt_unknow")
         }
     }]).filter("memberStatus", ["$translate",
     function(a) {
@@ -422,11 +422,11 @@ define(['app'], function (app) {
     function(a) {
         return function(b) {
             switch (b) {
-            case kzi.constant.prj_visibility.private:
+            case config.constant.prj_visibility.private:
                 return a.instant("filter.project_visibility_private");
-            case kzi.constant.prj_visibility.protected:
+            case config.constant.prj_visibility.protected:
                 return a.instant("filter.project_visibility_protected");
-            case kzi.constant.prj_visibility.public:
+            case config.constant.prj_visibility.public:
                 return a.instant("filter.project_visibility_public");
             default:
                 return ""
@@ -440,15 +440,16 @@ define(['app'], function (app) {
         return function(a, b) {
             // console.log(a);
             // console.log(b);
+            //console.log(! (!a || !b) && a & b);
             return ! (!a || !b) && a & b
         }
     }]).filter("teamVisibility", ["$translate","config",
     function(translate,config) {
         return function(visibility) {
             switch (visibility) {
-                case config.team_visibility.private:
+                case config.constant.team_visibility.private:
                     return translate.instant("filter.team_visibility_private");
-                case config.team_visibility.public:
+                case config.constant.team_visibility.public:
                     return translate.instant("filter.team_visibility_public");
                 default:
                     return ""

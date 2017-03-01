@@ -7,7 +7,7 @@ public class TaskNewTodoMsg extends PairMsg {
     /**
      * 消息序列号
      */
-    private static final int MSG_CODE = 5011;
+    private static final int MSG_CODE = 5016;
 
     public static class InMsg implements RequestMsg{
         public int code=MSG_CODE;

@@ -22,7 +22,7 @@ define(['app'], function (app) {
                             j.is_first_landing || (j.team_invite_email = [{
                                 email: ""
                             }]),
-                            j.all_industries = _.toArray(config.team_industries),//kzi.constant.team_industries),
+                            j.all_industries = _.toArray(config.constant.team_industries),
                             j.all_industries.splice(0, 1),
                             _.each(j.all_industries,
                                 function(index, key) {
@@ -44,7 +44,7 @@ define(['app'], function (app) {
                         }
                         function i() {
                             j.is_first_landing = !1,
-                            wt.me.is_new = "0",
+                            //wt.me.is_new = "0",
                             f.global.is_first_landing = !1
                         }
                         d.track("create_team", "visit");
@@ -110,7 +110,7 @@ define(['app'], function (app) {
                             }
                         },
                         j.js_team_industy_change = function() {
-                            _.each(config.team_industries,//kzi.constant.team_industries,
+                            _.each(config.constant.team_industries,
                             function(index, key) {
                                 c.instant(index) == j.team_industry_text && (j.team_industry = key)
                             })

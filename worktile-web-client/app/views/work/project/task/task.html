@@ -1,0 +1,63 @@
+<div ng-if=vm.part_loading_done class="entries_panel js-sortable layout_content_main_tasks" wt-mousedown-move ng-mousemove=vm.js_mousemove_entries_panel($event) ng-mouseover=vm.js_mouseover_entries_panel($event) wt-scroll='{"dir":"x"}'>
+    <div class=entries_panel_sortarea sortable=vm.entries_sort_options>
+        <div id="{{::'entry_main_'+entry.entry_id}}" class=entry ng-class="{'entry-selected':entry.selected == true}" ng-repeat="entry in vm.entries | orderBy:'+pos' track by entry.entry_id " pos={{entry.pos}} entry-id={{::entry.entry_id}}>
+            <div class=entry_header ng-class="{'entry_header_archived':vm.project_archived}">
+                <i class="wtfont wtf-entryhover" ng-if=!vm.project_archived></i>
+                <div class=entry_header_title>
+                    <h2>
+                        <span ng-if=!entry.batch_action_flag title={{entry.name}} ng-bind=entry.name></span>
+                        <span ng-if=entry.batch_action_flag>{{'tasks.title'|translate}}</span>
+                        <i ng-if=entry.watched class="fa fa-eye"></i>
+                    </h2>
+                </div>
+                <a href=javascript:; class=entry_header_number ng-if="vm.project_extensions_for_task.show_entry_number && !entry.batch_action_flag">{{ entry.countComplateTask }} / {{entry.tasks.length}}</a>
+                <a href=javascript:; class="js-popbox entry_header_menu" ng-if="(global.prj_module.watch|permission:project.permission)&& (!entry.batch_action_flag)" ng-click=vm.js_show_entry_menu($event,entry) data-placement=top data-align=left>
+                    <i class="fa fa-play-circle-o"></i>
+                </a>
+                <a href=javascript:; class="js-popbox entry_header_menu no_rotate" ng-if=entry.batch_action_flag ng-click="vm.js_batch_close_action($event, entry)" data-placement=bottom data-align=left>{{'common.txt_done'|translate}}</a></div>
+            <div class=entry-batch-panel ng-if=entry.batch_action_flag>
+                <div class=entry-batch-paenl-info>
+                    <a href=javascript:; ng-click="vm.js_batch_select_all($event, entry)">{{'tasks.btn_checkall'|translate}}</a>|
+                    <a href=javascript:; ng-click="vm.js_batch_select_reverse($event, entry)">{{'tasks.btn_invert_checkall'|translate}}</a>
+                    <span translate=tasks.batch_select_count translate-values={count:entry.selected_tasks.length}></span>
+                </div>
+                <hr>
+                <ul class=list-col-4>
+                    <li class="text-center p_5">
+                        <button class="btn btn-sm btn-block btn--batch js-popbox" ng-disabled="entry.selected_tasks.length==0" data-placement=bottom ng-click="vm.js_batch_set_expiredate($event, entry)">{{'tasks.batch_datetime'|translate}}</button></li>
+                    <li class="text-center p_5">
+                        <button class="btn btn-sm btn-block btn--batch js-popbox" ng-disabled="entry.selected_tasks.length==0" data-placement=bottom ng-click="vm.js_batch_set_assignee($event, entry)">{{'tasks.batch_assign'|translate}}</button></li>
+                    <li class="text-center p_5">
+                        <button class="btn btn-sm btn-block btn--batch js-popbox" ng-disabled="entry.selected_tasks.length==0" data-placement=bottom ng-click=vm.js_batch_set_labels($event,entry)>{{'tasks.batch_labels'|translate}}</button></li>
+                    <li class="text-center p_5">
+                        <button class="btn btn-sm btn-block btn--batch js-popbox" ng-disabled="entry.selected_tasks.length==0" data-placement=bottom ng-click="vm.js_batch_move_task($event, entry)">{{'tasks.batch_move'|translate}}</button></li>
+                </ul>
+            </div>
+            <div ng-if="entry.task_loop_done==false" class="part-loading mt-20"></div>
+            <div class="entry-task-panel ng-hide" ng-hide="entry.task_loop_done==false" id="{{::'entry_scroll_'+entry.entry_id}}" wt-scroll="" wt-maxheight=entry.maxheight>
+                <wt-task-composer class=entry-add-top-composer ng-if=entry.task_top_enabled arg-position=top arg-entry=entry arg-new-task-model=vm.new_task arg-fn-save="vm.js_add_task($event, new_task, entry, isTop);" arg-fn-cancel=vm.js_cancel_composer($event,entry,new_task) arg-fn-show-more=vm.js_show_task_menu($event,entry,new_task)></wt-task-composer>
+                <div class="entry-tasks js-sortable" sortable=vm.tasks_sort_options ng-click=vm.js_delegate_task_click($event,entry)>
+                    <wt-task ng-repeat="task in entry.tasks track by task.tid" task=task entry=entry arg-fn-check=vm.js_complete_task($event,entry,task) arg-show-more=vm.checkEntityPermission(task) arg-fn-more=vm.js_show_task_menu($event,entry,task) arg-pop-member-options={true:vm.pop_member_options}[vm.checkEntityPermission(task)] wt-repeat-done=vm.task_loop_done(entry) wt-disable-drag=!vm.checkEntityPermission(task) ng-hide=task.is_filter class="right_click_trigger slide-trigger js-popbox {{vm.project_extensions_for_task.show_task_aging&&(task.update_date|taskAgingLevel)}}" ng-class="{'task-selected':(task.selected||locator.xid==task.tid),'task-selected--batch':task.selected_batch,'task-last-nocomposer':($last&&!(global.prj_module.crud|permission:project.permission))}" droppable={true:vm.member_drop_options,false:null}[vm.checkEntityPermission(task)] ng-mouseleave=vm.js_mouseleave_task($event,task) task-entry-id={{task.entry_id}} task-pos={{task.pos}}></wt-task>
+                </div>
+                <wt-task-composer class=entry-add-bottom-composer ng-if=entry.task_bottom_enabled arg-position=bottom arg-entry=entry arg-new-task-model=vm.new_task arg-fn-save="vm.js_add_task($event, new_task, entry, isTop);" arg-fn-cancel=vm.js_cancel_composer($event,entry,new_task) arg-fn-show-more=vm.js_show_task_menu($event,entry,new_task)></wt-task-composer>
+            </div>
+            <div class=entry-task-footer ng-if="entry.batch_action_flag!=1 && global.prj_module.crud|permission:project.permission" ng-show=!entry.task_bottom_enabled>
+                <a href=javascript:; class=js-add-task-composer ng-click="vm.js_show_add_task_composer($event, entry)" ng-if=!entry.task_bottom_enabled>
+                    <i class="fa fa-plus-circle"></i>{{'tasks.btn_add_task'|translate}}</a>
+            </div>
+        </div>
+    </div>
+    <div class=entry-new ng-if="global.loading_done && (global.prj_module.crud|permission:project.permission)" ng-class="{true:'entry-add'}[vm.is_show_add_entry]">
+        <a href=javascript:; ng-show=!vm.is_show_add_entry ng-click="vm.is_show_add_entry = !vm.is_show_add_entry" ng-class="{true:'entry-add'}[!vm.is_show_add_entry]">
+            <i class="fa fa-plus-circle"></i>{{'tasks.btn_add_entry'|translate}}</a>
+        <div ng-show=vm.is_show_add_entry wt-show-edit=vm.is_show_add_entry>
+            <div class=form-group>
+                <input name=entry_name ng-model=vm.entry_name placeholder="{{'tasks.placeholder_entry_name'|translate}}" wt-enter=vm.js_add_entry(vm.entry_name) type=text class=form-control required wt-focus=vm.entry_input_focus></div>
+            <div class=form-group>
+                <button ng-click=vm.js_add_entry(vm.entry_name) data-loading-text="{{'common.saving'|translate}}" class="btn btn-success mr_15" wt-loading-status=vm.is_adding_entry>{{'common.btn_save'|translate}}</button>
+                <button ng-click="vm.is_show_add_entry = false" class="btn btn-link btn-cancel">{{'common.btn_cancel'|translate}}</button></div>
+        </div>
+    </div>
+</div>
+<div ng-if=!vm.part_loading_done class="part-loading mt-20"></div>
+<ui-view></ui-view>

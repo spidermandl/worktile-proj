@@ -55,6 +55,25 @@ public class UserService {
     }
 
     /**
+     * 批量获取用户
+     * @param ids
+     * @return
+     */
+    public List<TUser> findUsersByID(Long[] ids){
+        if (ids == null || ids.length ==0){
+            return new ArrayList<TUser>();
+        }
+
+        TUserExample query = new TUserExample();
+
+        for (long id : ids){
+            TUserExample.Criteria criteria = query.createCriteria();
+            criteria.andIdEqualTo(id);
+            query.or(criteria);
+        }
+        return tUserMapper.selectByExample(query);
+    }
+    /**
      * 根据条件获取用户
      * @param condition
      * @return

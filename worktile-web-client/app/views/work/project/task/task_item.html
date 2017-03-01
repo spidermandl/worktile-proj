@@ -1,0 +1,18 @@
+<div id="{{::'task_main_'+task.tid}}" task-id={{::task.tid}} class="task task_style {{'task-'+dm.viewType}}">
+    <div class=entry-task-main ng-class="{1:'task-completed-style'}[task.completed]">
+        <a class=entry-task-check id="{{::'task_check_'+task.tid}}" ng-if=!argDisableCheck ng-click=dm.parse_fn_check($event,entry,task)>
+            <i class=fa ng-class="{0:'fa-square-o',1:'fa-check-square'}[task.completed]"></i>
+        </a>
+        <a class="entry-task-check entry-task-check-noHover" id="{{::'task_check_'+task.tid}}" ng-if=argDisableCheck>
+            <i class=fa ng-class="{0:'fa-square-o',1:'fa-check-square'}[task.completed]"></i>
+        </a>
+        <a class=entry-task-title href=javascript:; ng-bind=task.name></a>
+        <a href=javascript:; id="{{::'icon_action_task_'+task.tid}}" class="js-popbox entry-task-menu" ng-if=argShowMore data-placement=right data-align=middle data-auto-adapt=true ng-click=dm.parse_fn_more($event,entry,task)>
+            <i class="fa fa-play-circle-o"></i>
+        </a>
+    </div>
+    <div class=task-badges></div>
+    <div class=entry-task-members>
+        <wt-avatar ng-repeat="member in dm.members_reverse track by member.uid" class="js-popbox member" wt-pop-member=argPopMemberOptions pop-member=member pop-extended-attr=task wt-stop-propagation="mousedown click" member=member size=28></wt-avatar>
+    </div>
+</div>

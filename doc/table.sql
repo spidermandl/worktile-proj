@@ -28,7 +28,7 @@ CREATE TABLE `s_permission` (
   `role_id` int(11) NOT NULL,
   `mode` int(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +37,7 @@ CREATE TABLE `s_permission` (
 
 LOCK TABLES `s_permission` WRITE;
 /*!40000 ALTER TABLE `s_permission` DISABLE KEYS */;
-INSERT INTO `s_permission` VALUES (1,'ç®¡ç†å‘˜',1,31),(2,'æˆå‘˜',2,15),(3,'è®¿å®¢',3,7),(4,'æ¥å®¾',4,5),(5,'æ— æ³•æ“ä½œ',5,0);
+INSERT INTO `s_permission` VALUES (1,'team管理员',1,31),(2,'team成员',2,15),(3,'team访客',3,7),(4,'team游客',4,5),(5,'team无效',0,0),(6,'project管理员',5,31),(7,'project成员',6,15),(8,'project访客',7,7);
 /*!40000 ALTER TABLE `s_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -52,7 +52,7 @@ CREATE TABLE `s_role` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -61,7 +61,7 @@ CREATE TABLE `s_role` (
 
 LOCK TABLES `s_role` WRITE;
 /*!40000 ALTER TABLE `s_role` DISABLE KEYS */;
-INSERT INTO `s_role` VALUES (1,'ç®¡ç†å‘˜'),(2,'æˆå‘˜'),(3,'è®¿å®¢'),(4,'æ¥å®¾');
+INSERT INTO `s_role` VALUES (1,'team管理员'),(2,'team成员'),(3,'team访客'),(4,'team游客'),(5,'project管理员'),(6,'project成员'),(7,'project访客');
 /*!40000 ALTER TABLE `s_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -73,14 +73,14 @@ DROP TABLE IF EXISTS `s_template`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `s_template` (
-  `id` int(11) NOT NULL,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(20) DEFAULT NULL,
   `entries` text,
   `pending1` varchar(20) DEFAULT NULL,
   `pending2` varchar(20) DEFAULT NULL,
   `pending3` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -89,7 +89,7 @@ CREATE TABLE `s_template` (
 
 LOCK TABLES `s_template` WRITE;
 /*!40000 ALTER TABLE `s_template` DISABLE KEYS */;
-INSERT INTO `s_template` VALUES (1,'é€šç”¨','[{\"name\":\"è¦åš\",\"pos\":65535},{\"name\":\"åœ¨åš\",\"pos\":131071},{\"name\":\"å¾…å®š\",\"pos\":196606}]',NULL,NULL,NULL),(2,'ç ”å‘','[{\"name\":\"æ”¶ä»¶ç®±\",\"pos\":65535},{\"name\":\"å¼€å‘ä¸­\",\"pos\":131071},{\"name\":\"å¾…æµ‹è¯•\",\"pos\":196606},{\"name\":\"å¾…å‘å¸ƒ\",\"pos\":262141},{\"name\":\"å·²å‘å¸ƒ\",\"pos\":327676}]',NULL,NULL,NULL),(3,'äº§å“Roadmap','[{\"name\":\"æ”¶ä»¶ç®±\",\"pos\":65535},{\"name\":\"å¾…å‘å¸ƒ\",\"pos\":131071},{\"name\":\"å·²å‘å¸ƒ\",\"pos\":196606},{\"name\":\"å·²å®Œæˆ\",\"pos\":262141}]',NULL,NULL,NULL),(4,'CRMæ¨¡æ¿','[{\"name\":\"å®¢æˆ·èµ„æ–™åº“\",\"pos\":65535},{\"name\":\"é”€å”®æœºä¼š\",\"pos\":131071},{\"name\":\"è”ç³»ä¸­\",\"pos\":196606},{\"name\":\"å·²è”ç³»\",\"pos\":262141},{\"name\":\"å”®å‰\",\"pos\":327676},{\"name\":\"æˆå•\",\"pos\":393211},{\"name\":\"å”®åŽ\",\"pos\":458746}]',NULL,NULL,NULL),(5,'Bugç®¡ç†','[{\"name\":\"æ”¶ä»¶ç®±\",\"pos\":65535},{\"name\":\"å¼€å‘\",\"pos\":131071},{\"name\":\"æµ‹è¯•\",\"pos\":196606},{\"name\":\"ä¸Šçº¿\",\"pos\":262141}]',NULL,NULL,NULL),(6,'æ‹›è˜æµç¨‹','[{\"name\":\"ç®€åŽ†åº“\",\"pos\":65535},{\"name\":\"ç¬”è¯•\",\"pos\":131071},{\"name\":\"é¢è¯•\",\"pos\":196606},{\"name\":\"è¯•ç”¨æœŸ\",\"pos\":262141},{\"name\":\"å…¥èŒ\",\"pos\":327676}]',NULL,NULL,NULL),(7,'å†…å®¹ç¼–è¾‘','[{\"name\":\"ç­–åˆ’ç»„ç¨¿\",\"pos\":65535},{\"name\":\"é€‰é¢˜\",\"pos\":131071},{\"name\":\"åˆç¨¿\",\"pos\":196606},{\"name\":\"å®¡ç¨¿\",\"pos\":262141},{\"name\":\"æ ¡å¯¹\",\"pos\":327676},{\"name\":\"å®šç¨¿\",\"pos\":393211},{\"name\":\"å‘å¸ƒ\",\"pos\":458746}]',NULL,NULL,NULL),(8,'äº§å“è®¾è®¡','[{\"name\":\"éœ€æ±‚äº†è§£\",\"pos\":65535},{\"name\":\"å¤´è„‘é£Žæš´\",\"pos\":131071},{\"name\":\"æƒ³æ³•\\bæ”¶ç¼©\",\"pos\":196606},{\"name\":\"åŽŸåž‹\",\"pos\":262141},{\"name\":\"éªŒè¯ä¸Žæµ‹è¯•\",\"pos\":327676}]',NULL,NULL,NULL);
+INSERT INTO `s_template` VALUES (1,'通用','[{\"name\":\"要做\",\"pos\":65535},{\"name\":\"在做\",\"pos\":131071},{\"name\":\"待定\",\"pos\":196606}]',NULL,NULL,NULL),(2,'研发','[{\"name\":\"收件箱\",\"pos\":65535},{\"name\":\"开发中\",\"pos\":131071},{\"name\":\"待测试\",\"pos\":196606},{\"name\":\"待发布\",\"pos\":262141},{\"name\":\"已发布\",\"pos\":327676}]',NULL,NULL,NULL),(3,'产品Roadmap','[{\"name\":\"收件箱\",\"pos\":65535},{\"name\":\"待发布\",\"pos\":131071},{\"name\":\"已发布\",\"pos\":196606},{\"name\":\"已完成\",\"pos\":262141}]',NULL,NULL,NULL),(4,'CRM 模板','[{\"name\":\"客户资料库\",\"pos\":65535},{\"name\":\"销售机会\",\"pos\":131071},{\"name\":\"联系中\",\"pos\":196606},{\"name\":\"已联系\",\"pos\":262141},{\"name\":\"售前\",\"pos\":327676},{\"name\":\"成单\",\"pos\":393211},{\"name\":\"售后\",\"pos\":458746}]',NULL,NULL,NULL),(5,'Bug管理','[{\"name\":\"收件箱\",\"pos\":65535},{\"name\":\"开发\",\"pos\":131071},{\"name\":\"测试\",\"pos\":196606},{\"name\":\"上线\",\"pos\":262141}]',NULL,NULL,NULL),(6,'招聘流程','[{\"name\":\"简历库\",\"pos\":65535},{\"name\":\"笔试\",\"pos\":131071},{\"name\":\"面试\",\"pos\":196606},{\"name\":\"试用期\",\"pos\":262141},{\"name\":\"入职\",\"pos\":327676}]',NULL,NULL,NULL),(7,'内容编辑','[{\"name\":\"策划组稿\",\"pos\":65535},{\"name\":\"选题\",\"pos\":131071},{\"name\":\"初稿\",\"pos\":196606},{\"name\":\"审稿\",\"pos\":262141},{\"name\":\"校对\",\"pos\":327676},{\"name\":\"定稿\",\"pos\":393211},{\"name\":\"发布\",\"pos\":458746}]',NULL,NULL,NULL),(8,'产品设计','[{\"name\":\"需求了解\",\"pos\":65535},{\"name\":\"头脑风暴\",\"pos\":131071},{\"name\":\"想法\\b收缩\",\"pos\":196606},{\"name\":\"原型\",\"pos\":262141},{\"name\":\"验证与测试\",\"pos\":327676}]',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `s_template` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -113,7 +113,7 @@ CREATE TABLE `t_project` (
   `pending2` varchar(20) DEFAULT NULL,
   `pending3` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,7 +122,7 @@ CREATE TABLE `t_project` (
 
 LOCK TABLES `t_project` WRITE;
 /*!40000 ALTER TABLE `t_project` DISABLE KEYS */;
-INSERT INTO `t_project` VALUES (8,4,'111',NULL,'111',1,'2017-02-23 21:44:31',1,NULL,NULL,NULL);
+INSERT INTO `t_project` VALUES (11,4,'asdasd',NULL,'',1,'2017-02-27 22:54:38',2,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `t_project` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -148,7 +148,7 @@ CREATE TABLE `t_task` (
   `pending2` varchar(20) DEFAULT NULL,
   `pending3` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -157,7 +157,7 @@ CREATE TABLE `t_task` (
 
 LOCK TABLES `t_task` WRITE;
 /*!40000 ALTER TABLE `t_task` DISABLE KEYS */;
-INSERT INTO `t_task` VALUES (11,'å®¢æˆ·èµ„æ–™åº“',NULL,4,1,'2017-02-23 21:44:31',NULL,8,NULL,65535,NULL,NULL,NULL),(12,'é”€å”®æœºä¼š',NULL,4,1,'2017-02-23 21:44:31',NULL,8,NULL,131071,NULL,NULL,NULL),(13,'è”ç³»ä¸­',NULL,4,1,'2017-02-23 21:44:31',NULL,8,NULL,196606,NULL,NULL,NULL),(14,'å·²è”ç³»',NULL,4,1,'2017-02-23 21:44:31',NULL,8,NULL,262141,NULL,NULL,NULL),(15,'å”®å‰',NULL,4,1,'2017-02-23 21:44:31',NULL,8,NULL,327676,NULL,NULL,NULL),(16,'æˆå•',NULL,4,1,'2017-02-23 21:44:31',NULL,8,NULL,393211,NULL,NULL,NULL),(17,'å”®åŽ',NULL,4,1,'2017-02-23 21:44:31',NULL,8,NULL,458746,NULL,NULL,NULL);
+INSERT INTO `t_task` VALUES (28,'收件箱',NULL,4,1,'2017-02-27 22:54:38',NULL,11,NULL,65535,NULL,NULL,NULL),(29,'开发中',NULL,4,1,'2017-02-27 22:54:38',NULL,11,NULL,131071,NULL,NULL,NULL),(30,'待测试',NULL,4,1,'2017-02-27 22:54:38',NULL,11,NULL,196606,NULL,NULL,NULL),(31,'待发布',NULL,4,1,'2017-02-27 22:54:38',NULL,11,NULL,262141,NULL,NULL,NULL),(32,'已发布',NULL,4,1,'2017-02-27 22:54:38',NULL,11,NULL,327676,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `t_task` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -408,7 +408,7 @@ CREATE TABLE `t_user` (
   `pending2` varchar(20) DEFAULT NULL,
   `pending3` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -417,7 +417,7 @@ CREATE TABLE `t_user` (
 
 LOCK TABLES `t_user` WRITE;
 /*!40000 ALTER TABLE `t_user` DISABLE KEYS */;
-INSERT INTO `t_user` VALUES (4,'desmond','c5dea055dfcfb15cd9c24018bf821916',NULL,NULL,NULL,NULL,NULL,'13585871125',NULL,'2017-01-08 21:07:10',NULL,'b9c9e7ef2dd9bc374a5d8d5e8f8a999e',NULL,NULL,NULL);
+INSERT INTO `t_user` VALUES (4,'desmond','c5dea055dfcfb15cd9c24018bf821916',NULL,NULL,NULL,NULL,NULL,'13585871125',NULL,'2017-01-08 21:07:10',NULL,'b9c9e7ef2dd9bc374a5d8d5e8f8a999e',NULL,NULL,NULL),(5,'铜仁','ee8ce9ff46efad5ea4249b3419a2beeb',NULL,NULL,NULL,NULL,NULL,'12444444444',NULL,'2017-02-27 21:33:21',NULL,'ded4bcef00d3bb156fce3bd13189802a',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `t_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -435,7 +435,7 @@ CREATE TABLE `t_user_role` (
   `project_id` bigint(20) DEFAULT NULL,
   `team_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -444,7 +444,7 @@ CREATE TABLE `t_user_role` (
 
 LOCK TABLES `t_user_role` WRITE;
 /*!40000 ALTER TABLE `t_user_role` DISABLE KEYS */;
-INSERT INTO `t_user_role` VALUES (1,4,1,NULL,1),(2,4,1,NULL,2),(4,4,1,8,NULL);
+INSERT INTO `t_user_role` VALUES (1,4,1,NULL,1),(2,4,1,NULL,2),(4,4,1,8,NULL),(5,4,1,9,NULL),(6,4,5,10,NULL),(7,4,5,11,NULL);
 /*!40000 ALTER TABLE `t_user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -457,4 +457,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-02-24 10:52:01
+-- Dump completed on 2017-02-28  1:15:59

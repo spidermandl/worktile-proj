@@ -18,17 +18,30 @@ define(['app'], function(app) {
 				//    a             b         c           d             e              f                   g           h
 				function getTeamInfo() {
 					//console.log(team);
+<<<<<<< HEAD
 					team && team.permission != config.team_permission.guest ?
 						($scope.team = team,
 							$rootScope.global.loading_done = !0,
 							$scope.vm.user_is_team_owner = $scope.team.permission == config.team_permission.owner,
 							$scope.vm.user_is_team_admin = $scope.team.permission == config.team_permission.owner || $scope.team.permission == config.team_permission.admin,
 							$scope.$on(config.event_names.team_member_role_change,
+=======
+					team && team.permission != config.constant.team_permission.guest ?
+						($scope.team = team,
+							$rootScope.global.loading_done = !0,
+							$scope.vm.user_is_team_owner = $scope.team.permission == config.constant.team_permission.owner,
+							$scope.vm.user_is_team_admin = $scope.team.permission == config.constant.team_permission.owner || $scope.team.permission == config.constant.team_permission.admin,
+							$scope.$on(config.constant.event_names.team_member_role_change,
+>>>>>>> development
 								function(a, d) {
 									$scope.team &&
 										$scope.team.team_id === d.team_id &&
 										($scope.team.permission = d.team_permission,
+<<<<<<< HEAD
 											config.team_module.view_base & d.team_permission || $state.go("dashboard.default"))
+=======
+											config.constant.team_module.view_base & d.team_permission || $state.go("dashboard.default"))
+>>>>>>> development
 								})) :
 						wt.data.team.get_full(
 							$scope.vm.team_id,
@@ -201,7 +214,11 @@ define(['app'], function(app) {
 								}),
 							h.projects.teampublics = _.filter($scope.team.projects,
 								function(a) {
+<<<<<<< HEAD
 									return !_.includes(h.me_pids, a.pid) && (a.visibility === config.prj_visibility.protected || a.visibility === config.prj_visibility.public)
+=======
+									return !_.includes(h.me_pids, a.pid) && (a.visibility === config.constant.prj_visibility.protected || a.visibility === config.constant.prj_visibility.public)
+>>>>>>> development
 								}),
 							h.projects.participateds = _.sortBy(h.projects.participateds,
 								function(a) {
@@ -225,15 +242,24 @@ define(['app'], function(app) {
 		/**************************************************************************************************************
 		 *
 		 **************************************************************************************************************/
+<<<<<<< HEAD
 		.controller('TeamTasksCtrl', ['$scope', '$rootScope', 'config', '$translate', '$state', 'Locator','api',
 			function($scope, $rootScope, config, translate, state, locator,api) {
+=======
+		.controller('TeamTasksCtrl', ['$scope', '$rootScope', 'config', '$translate', '$state', 'locator', 'api',
+			function($scope, $rootScope, config, translate, state, locator, api) {
+>>>>>>> development
 				//"$rootScope", "$scope", "$state", "$popbox", "globalDataContext", "locator", "$translate",
 				//		a           b         c          d               e               f           g
 				if (!$scope.team) return state.go("dashboard.default");
 				$rootScope.global.title = [translate.instant("team_tasks.title_name"), " | ", $scope.team.name].join(""),
 					$rootScope.global.loading_done = !0,
 					$scope.loading_tasks = !1;
+<<<<<<< HEAD
 				var h = $scope.team.team_id;
+=======
+
+>>>>>>> development
 				$scope.part_loading_done = !1;
 				var i = $scope.vm = {
 						filter_type_reg: "uncompleted",
@@ -246,7 +272,11 @@ define(['app'], function(app) {
 					$scope.tasks = [];
 				var k = $scope.load_tasks = function() {
 					$scope.loading_tasks = !0,
+<<<<<<< HEAD
 						wt.data.team.get_tasks(h, i.filter_user_reg, i.filter_project_reg, i.filter_type_reg, j,
+=======
+						api.get_tasks($scope.team.team_id, i.filter_user_reg, i.filter_project_reg, i.filter_type_reg, j,
+>>>>>>> development
 							function(a) {
 								_.each(a.data,
 										function(a) {
@@ -259,17 +289,29 @@ define(['app'], function(app) {
 									a.data.length > 0 ? (j += 1, i.is_has_more_task = !0) : i.is_has_more_task = !1
 							},
 							function() {
+<<<<<<< HEAD
 								kzi.msg.error(g.instant("team_tasks.get_tasks_fail"))
+=======
+								config.msg.error(translate.instant("team_tasks.get_tasks_fail"))
+>>>>>>> development
 							},
 							function() {
 								$scope.loading_tasks = !1
 							})
 				};
+<<<<<<< HEAD
 				api.get_team_members(h,
 						function(a) {
 							$scope.team.members = _.filter(a.data.members,
 								function(a) {
 									return a.role != kzi.constant.role.guest && a.status == kzi.constant.user_status.ok
+=======
+				api.get_team_members($scope.team.team_id,
+						function(a) {
+							$scope.team.members = _.filter(a.data.members,
+								function(a) {
+									return a.role != config.constant.role.guest && a.status == config.constant.user_status.ok
+>>>>>>> development
 								})
 						},
 						null,
@@ -292,8 +334,13 @@ define(['app'], function(app) {
 		/**************************************************************************************************************
 		 *
 		 **************************************************************************************************************/
+<<<<<<< HEAD
 		.controller('TeamGraphsCtrl', ['$scope', '$rootScope', 'config','$translate','api',
 			function($scope, $rootScope, config,translate,api) {
+=======
+		.controller('TeamGraphsCtrl', ['$scope', '$rootScope', 'config', '$translate', 'api',
+			function($scope, $rootScope, config, translate, api) {
+>>>>>>> development
 				//["$rootScope", "$scope", "$state", "projectService", "globalDataContext", "$popbox", "$translate"]
 				//       a           b         c             d                   e               f            g
 				var h = $scope.vm = {
@@ -457,12 +504,20 @@ define(['app'], function(app) {
 									j(c.pid, c.type, d, e)
 							}
 						},
+<<<<<<< HEAD
 						$scope.$on(config.event_names.team_add_stats,
+=======
+						$scope.$on(config.constant.event_names.team_add_stats,
+>>>>>>> development
 							function(a, b) {
 								h.stats_list = h.stats_list.concat(i([b])),
 									h.stats_list = _.sortBy(h.stats_list, "pos")
 							}),
+<<<<<<< HEAD
 						$scope.$on(config.event_names.team_remove_stats,
+=======
+						$scope.$on(config.constant.event_names.team_remove_stats,
+>>>>>>> development
 							function(a, b) {
 								h.stats_list = _.reject(h.stats_list, {
 									pid: b.pid,
@@ -550,6 +605,7 @@ define(['app'], function(app) {
 						b.preventDefault(),
 							b.stopPropagation(),
 							a.extend && a.extend.xtype === kzi.constant.xtype.event ? f.openEvent(a.extend.pid, a.id) : f.openTask(a.extend.pid, a.id)
+<<<<<<< HEAD
 					},
 					b.onDayClick = function(d, e, f) {
 						if (a.global.loading_done) {
@@ -579,6 +635,37 @@ define(['app'], function(app) {
 								}).open()
 						}
 					},
+=======
+					},
+					b.onDayClick = function(d, e, f) {
+						if (a.global.loading_done) {
+							var g = kzi.helper.mouse_position(e);
+							$(e.currentTarget).attr("data-placement", "right"),
+								$(e.currentTarget).attr("data-align", "top"),
+								$(e.currentTarget).addClass("js-popbox"),
+								$(e.currentTarget).attr("data-auto-adapt", "true"),
+								c.popbox({
+									target: e,
+									templateUrl: "/ycjs/directive/event/pop_add_event.html",
+									controller: "newEventCtrl",
+									top: g.y,
+									left: g.x,
+									resolve: {
+										pop_data: function() {
+											return {
+												save_success: function(a) {
+													b.js_new_event_success(a)
+												},
+												start_date: d,
+												is_team_calendar: !0,
+												team_id: l.team_id
+											}
+										}
+									}
+								}).open()
+						}
+					},
+>>>>>>> development
 					l.calendarEventSources = [{
 						events: function(a, b, c, d) {
 							function f(a) {
@@ -733,7 +820,11 @@ define(['app'], function(app) {
 						g.myCalendar.fullCalendar("today"),
 							i()
 					},
+<<<<<<< HEAD
 					b.$on(kzi.constant.event_names.on_task_update,
+=======
+					b.$on(config.constant.event_names.on_task_update,
+>>>>>>> development
 						function(a, b) {
 							var c = _.find(p, {
 								id: b.tid
@@ -742,7 +833,11 @@ define(['app'], function(app) {
 								g.removeEvents(),
 								g.refetchEvents()
 						}),
+<<<<<<< HEAD
 					b.$on(kzi.constant.event_names.on_task_trash,
+=======
+					b.$on(config.constant.event_names.on_task_trash,
+>>>>>>> development
 						function(a, b) {
 							var c = _.find(p, {
 								id: b.tid
@@ -754,7 +849,11 @@ define(['app'], function(app) {
 								g.removeEvents(),
 								g.refetchEvents()
 						}),
+<<<<<<< HEAD
 					b.$on(kzi.constant.event_names.on_task_complete,
+=======
+					b.$on(config.constant.event_names.on_task_complete,
+>>>>>>> development
 						function(a, b) {
 							var c = _.find(p, {
 								id: b.tid
@@ -763,7 +862,11 @@ define(['app'], function(app) {
 								g.removeEvents(),
 								g.refetchEvents()
 						}),
+<<<<<<< HEAD
 					b.$on(kzi.constant.event_names.on_event_update,
+=======
+					b.$on(config.constant.event_names.on_event_update,
+>>>>>>> development
 						function(b, c, d, e) {
 							if (o) {
 								var f = _.find(o, {
@@ -788,7 +891,11 @@ define(['app'], function(app) {
 								}
 							}
 						}),
+<<<<<<< HEAD
 					b.$on(kzi.constant.event_names.on_event_trash,
+=======
+					b.$on(config.constant.event_names.on_event_trash,
+>>>>>>> development
 						function(a, c, d) {
 							if (o) {
 								var e = parseInt(d);
@@ -916,6 +1023,7 @@ define(['app'], function(app) {
 		/**************************************************************************************************************
 		 *
 		 **************************************************************************************************************/
+<<<<<<< HEAD
 		.controller('teamAdminHomeCtrl', ['$scope', '$rootScope', 'config',
 			function($scope, $rootScope, config) {
 
@@ -980,6 +1088,8 @@ define(['app'], function(app) {
 		/**************************************************************************************************************
 		 *
 		 **************************************************************************************************************/
+=======
+>>>>>>> development
 
 
 
