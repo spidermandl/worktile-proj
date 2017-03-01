@@ -54,6 +54,10 @@
 			task_item: 'views/work/project/task/task_item.html',
 			task_pop_project_menu: 'views/work/project/task/pop_project_menu.html',
 			task_dialog_create: 'views/work/project/task/dialog_task_create.html',
+			task_pop_task_menu: 'views/work/project/task/pop_task_menu.html',
+			event_toolbar: 'views/work/project/event/toolbar.html',
+			event_main: 'views/work/project/event/event.html',
+			event_pop_add: 'views/work/project/event/pop_add_event.html',
 			'dashboard.default': 'views/work/dashboard/dashboard_task.html',
 			calendar_event_create: 'views/work/dashboard/dialog_event_create.html',//创建日历event
 			calendar_pop_event_create: 'views/work/dashboard/calendar/pop_add_event.html',
@@ -479,16 +483,16 @@
 			},
 			msg : {
 				info: function(a, b) {
-					d("info", a, b)
+					//d("info", a, b)
 				},
 				error: function(a, b) {
-					d("danger", a, b);
+					//d("danger", a, b);
 				},
 				success: function(a, b) {
-					d("success", a, b)
+					//d("success", a, b)
 				},
 				warn: function(a, b) {
-					d("warning", a, b)
+					//d("warning", a, b)
 				}
 			},
 			localData : {

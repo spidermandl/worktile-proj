@@ -39,6 +39,7 @@
             event: 'service/event',
             file: 'service/file',
             feedback: 'service/feedback',
+            time: 'service/time',
             //controller
 			identity : 'controllers/identity',//身份进入
 			dashboard : 'controllers/dashboard',
@@ -47,6 +48,7 @@
             team_admin_ctrl: 'controllers/team_admin_ctrl',
             project_ctrl: 'controllers/project_ctrl',
             project_task_ctrl: 'controllers/project_task_ctrl',
+            project_event_ctrl: 'controllers/project_event_ctrl',
 			//指令
 			left_nemu : 'directive/left_menu',
             left_menu_project : 'directive/left_menu_project',
@@ -87,7 +89,7 @@
                 deps: ['scroll','task_directive','project_item','team_admin_ctrl','markdown'],
             },
             project_ctrl:{
-                deps: ['locator','project_task_ctrl'],
+                deps: ['time','locator','project_event_ctrl','project_task_ctrl',],
             },
             left_nemu: {
                 deps: ['center','shortcut','quickswitch','task','event','file','feedback','filters',

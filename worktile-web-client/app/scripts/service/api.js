@@ -304,7 +304,50 @@ define(['app'], function(app) {
 						success, failure, promise
 					);
 				},
-
+				/**************************************************************************
+				 **未实现 api
+				 **************************************************************************/
+				get_for_uncompleted: function(success, failure, promise) {
+					return this.http_get_template(
+						domain+'/api/task/unknown',
+						success, failure, promise
+					);
+				},
+				get_for_completed: function(success, failure, promise) {
+					return this.http_get_template(
+						domain+'/api/task/unknown',
+						success, failure, promise
+					);
+				},
+				get_events_and_tasks: function(data, success, failure, promise) {
+					return this.http_post_template(
+						domain+'/api/calendar/task',
+						data,
+						success, failure, promise
+					);
+				},
+				get_team_members_with_stats: function(team_id, success, failure, promise) {
+					return this.http_get_template(
+						domain+'/api/team/unknown',
+						success, failure, promise
+					);
+				},
+				get_team_members: function(team_id, success, failure, promise) {
+					return this.http_get_template(
+						domain+'/api/team/unknown',
+						success, failure, promise
+					);
+				},
+				get_tasks: function(data, success, failure, promise) {
+					return this.http_post_template(
+						domain+'/api/task/unknown',
+						data,
+						success, failure, promise
+					);
+				},
+				/**************************************************************************
+				 **未实现 api
+				 **************************************************************************/
 
 			}
 		}

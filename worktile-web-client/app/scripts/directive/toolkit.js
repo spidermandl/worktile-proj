@@ -308,10 +308,16 @@ define(['app'], function (app) {
 		return {
 			restrict: "A",
 			link: function(b, c, d) {
+				//$scope, element, attr
 				b.$watch(d.wtLoadingStatus, function(b, d) {
-					b === !0 ? c.button("loading") : b === !1 && a(function() {
-						c.button("reset")
-					})
+					b === !0 ? 
+						c.button("loading") 
+						: 
+						b === !1 && a(function() {
+							console.log('----------wtLoadingStatus');
+							console.log(c);
+							c.button("reset")
+						})
 				})
 			}
 		}

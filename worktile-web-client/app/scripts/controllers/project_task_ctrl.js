@@ -11,14 +11,14 @@ define(['app'], function (app) {
 	 * task显示主页
 	 **************************************************************************************************************/
 	app.controller('projectTasksCtrl', 
-					['$rootScope','$scope','config','$state','globalDataContext',
-						'$stateParams','$popbox','$translate','$location','fastProject',
-							'Util','$timeout','ycTrack','permissionFilter','api','wtScrollService',
-			function ($rootScope,$scope,config,$state,globalDataContext,
-					stateParams,$popbox,$translate,$location,fastProject,
-					util,$timeout,ycTrack,permissionFilter,api,wtScrollService) {
+					["$scope", "$stateParams", "$rootScope", "$popbox", "$location", "$timeout", 
+					"$interval", "permissionFilter", "Util", "globalDataContext", "locator", 
+					"wtScrollService", "taskLockPermissionFilter", "$translate", "fastProject", 
+					"ycTrack",'api','config',
+			function (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p,api,config) {
 				//["$scope", "$stateParams", "$rootScope", "$popbox", "$location", "$timeout", "$interval", "permissionFilter", "bus", "globalDataContext", "locator", "wtScrollService", "taskLockPermissionFilter", "$translate", "fastProject", "ycTrack"],
 				//     a            b              c            d            e            f          g             h              i            j                 k            l                    m                           n          o             p
+				
 				function q(a) {
 					var b = null;
 					return _.isEmpty(G.entries) ? null : (_.each(G.entries,
@@ -50,10 +50,10 @@ define(['app'], function (app) {
 
 				function t(a, b, c, d, e, f) {
 					s(b, c, d, e),
-						wt.data.task.change_entry(a, b.tid, c.entry_id, d.entry_id, e,
-							function(a) {
-								_.isFunction(f) && f()
-							})
+					wt.data.task.change_entry(a, b.tid, c.entry_id, d.entry_id, e,
+						function(a) {
+							_.isFunction(f) && f()
+						})
 				}
 
 				function u(a, b, c, d, e, f) {
@@ -84,76 +84,69 @@ define(['app'], function (app) {
 				* 获取entries和task 后的回调函数
 				**/
 				function v(b, d) {
-					//console.log(b);
-					G.team_id = fastProject.team_id,
-						G.permission = fastProject.permission;
+					G.team_id = o.team_id,
+						G.permission = o.permission;
 					var e = null;
 					_.each(b.tasks,
 							function(a) {
 								a.is_filter = !1,
-									a.selected = !1,
-									H === a.tid && (e = a)
+								a.selected = !1,
+								H === a.tid && (e = a)
 							}),
-					_.each(b.entries,
-						function(a) {
-							var c = _.where(b.tasks, {
-								entry_id: a.entry_id
-							});
-							a.batch_action_flag = 0,
-							a.selected_tasks = [],
-							a.tasks = c,
-							d && 0 !== a.tasks.length && (a.task_loop_done = !1),
-							a.maxheight = G.entry_maxheight
-						}),
-					G.entries = b.entries,
-					G.tasks = b.tasks,
-					_.each(G.entries,
-						function(a) {
-							a.tasks = _.sortBy(a.tasks,
-									function(a) {
-										return a.pos
-									}),
-								a.countComplateTask = _.filter(a.tasks, {
-									completed: 1
-								}).length
-						}),
-					_.isEmpty($scope.task_filters.turn_on) && ("assign_me" === $scope.task_filters.type ? 
-						T($rootScope.global.me) 
-						: 
-						"my_watch" === $scope.task_filters.type ?
-							 U($rootScope.global.me) 
-							 :
-							 "my_create" === $scope.task_filters.type ? 
-							 	V($rootScope.global.me) 
-							 	: 
-							 	($scope.task_filters.texts.length > 0 ||
-							 	$scope.task_filters.labels.length > 0 || 
-							 	$scope.task_filters.members.length > 0 || 
-							 	$scope.task_filters.date.length > 0 || 
-							 	$scope.task_filters.hide_completed) && R()),
-					G.part_loading_done = !0,
-					$rootScope.global.prj_module.crud & $scope.project.permission ? 
-						(y(), B(), C(), w()) 
-						: 
-						(G.project_archived = !0, 
-							G.entries_sort_options = 
-								G.tasks_sort_options = {
-										disabled: !0
-									},
-							G.member_drop_options = null, 
-							G.pop_member_options = null),
-					ja()
+						_.each(b.entries,
+							function(a) {
+								var c = _.where(b.tasks, {
+									entry_id: a.entry_id
+								});
+								a.batch_action_flag = 0,
+									a.selected_tasks = [],
+									a.tasks = c,
+									d && 0 !== a.tasks.length && (a.task_loop_done = !1),
+									a.maxheight = G.entry_maxheight
+							}),
+						G.entries = b.entries,
+						G.tasks = b.tasks,
+						_.each(G.entries,
+							function(a) {
+								a.tasks = _.sortBy(a.tasks,
+										function(a) {
+											return a.pos
+										}),
+									a.countComplateTask = _.filter(a.tasks, {
+										completed: 1
+									}).length
+							}),
+						_.isEmpty(a.task_filters.turn_on) && ("assign_me" === a.task_filters.type ? 
+							T(c.global.me) 
+							: 
+							"my_watch" === a.task_filters.type ? 
+								U(c.global.me) 
+								: 
+								"my_create" === a.task_filters.type ? 
+									V(c.global.me) 
+									: 
+									(a.task_filters.texts.length > 0 || 
+										a.task_filters.labels.length > 0 || 
+										a.task_filters.members.length > 0 || 
+										a.task_filters.date.length > 0 || 
+										a.task_filters.hide_completed) && R()),
+						G.part_loading_done = !0,
+						c.global.prj_module.crud & a.project.permission ? (y(), B(), C(), w()) : (G.project_archived = !0, G.entries_sort_options = G.tasks_sort_options = {
+								disabled: !0
+							},
+							G.member_drop_options = null, G.pop_member_options = null),
+						ja()
 				}
 
 				function w() {
 					G.pop_member_options = {
-						name: $translate.instant("task.member_remove"),
-						ongoing: $translate.instant("task.member_removing"),
+						name: n.instant("task.member_remove"),
+						ongoing: n.instant("task.member_removing"),
 						click: function(b, d, e, f, g) {
 							g && (e.assigned = !0, wt.bus.member.set_task_member_toggle(G.pid, g, e,
 								function() {
 									e.setting_toggle_member = !1,
-										$rootScope.$broadcast(config.constant.event_names.on_task_update, $scope.task),
+										c.$broadcast(config.constant.event_names.on_task_update, a.task),
 										e.assigned = !1
 								},
 								null, f))
@@ -202,10 +195,10 @@ define(['app'], function (app) {
 								e = r(b.item.prev()),
 								f = r(b.item.next()),
 								g = 0;
-							g = null == e ? f.pos / 2 : null == f ? e.pos + kzi.config.default_pos : (f.pos + e.pos) / 2,
+							g = null == e ? f.pos / 2 : null == f ? e.pos + config.config.default_pos : (f.pos + e.pos) / 2,
 								c.pos !== g && (c.pos = g, wt.data.entry.change_pos(G.pid, d, g,
 									function(a) {
-										G.entries = globalDataContext.cache.entry.move(G.pid, d, g)
+										G.entries = j.cache.entry.move(G.pid, d, g)
 									}))
 						}
 					}
@@ -272,7 +265,7 @@ define(['app'], function (app) {
 									d = 0,
 									e = c.item.prev().attr("task-id"),
 									f = c.item.next().attr("task-id");
-								if(b.update_date = Date.now(), _.isEmpty(e) && _.isEmpty(f)) d = kzi.config.default_pos;
+								if(b.update_date = Date.now(), _.isEmpty(e) && _.isEmpty(f)) d = config.config.default_pos;
 								else if(_.isEmpty(e)) {
 									var g = _.find(G.tasks, {
 										tid: f
@@ -282,7 +275,7 @@ define(['app'], function (app) {
 									var h = _.find(G.tasks, {
 										tid: e
 									});
-									d = h.pos + kzi.config.default_pos
+									d = h.pos + config.config.default_pos
 								} else {
 									var g = _.find(G.tasks, {
 											tid: f
@@ -354,17 +347,16 @@ define(['app'], function (app) {
 				}
 
 				function F() {
-					_.findIndex($scope.project.extensions, {
+					_.findIndex(a.project.extensions, {
 							eid: "c6c45e4495a68b6d99b5ae9afd78ad03"
 						}) !== -1 ? G.project_extensions_for_task.show_entry_number = !0 : G.project_extensions_for_task.show_entry_number = !1,
-						_.findIndex($scope.project.extensions, {
+						_.findIndex(a.project.extensions, {
 							eid: "de70ff6da777e4c47bafbdf735cc3985"
 						}) !== -1 ? G.project_extensions_for_task.show_task_aging = !0 : G.project_extensions_for_task.show_task_aging = !1
 				}
-				if(ycTrack.track("project_task", "visit"), $scope.project) {
-					var G = $scope.vm = {
-						permissionCRUD: permissionFilter($rootScope.global.prj_module.crud, 
-							$scope.project.permission),
+				if(p.track("project_task", "visit"), a.project) {
+					var G = a.vm = {
+						permissionCRUD: h(c.global.prj_module.crud, a.project.permission),
 						task_menu_default_step: 0,
 						currentEntry: null,
 						currentTask: null,
@@ -372,7 +364,7 @@ define(['app'], function (app) {
 						taskIndex: 0,
 						part_loaeding_done: !1,
 						team_id: -1,
-						pid: stateParams.pid,
+						pid: b.pid,
 						permission: 0,
 						new_task: {
 							members: [],
@@ -395,13 +387,12 @@ define(['app'], function (app) {
 						}
 					};
 					G.entry_maxheight = G.permissionCRUD ? 186 : 150;
-					var H = stateParams.tid,
+					var H = b.tid,
 						I = !1,
 						J = null,
 						K = null,
 						L = !1;
-					$rootScope.global.title = [$translate.instant("task.title_name"), 
-												" | ", $scope.project.name].join("");
+					c.global.title = [n.instant("task.title_name"), " | ", a.project.name].join("");
 					var M = function(a) {
 							f(function() {
 								var b = "#task_main_" + a;
@@ -415,7 +406,7 @@ define(['app'], function (app) {
 							})
 						},
 						O = function() {
-							$scope.$$phase || $scope.$apply(),
+							a.$$phase || a.$apply(),
 								l.scrollTo($(".task-selected").parents(".wt-scroll").eq(0), ".task-selected")
 						},
 						P = function() {
@@ -473,45 +464,47 @@ define(['app'], function (app) {
 								c ? a.is_filter = !1 : a.is_filter = !0
 						},
 						R = function() {
-							_.isEmpty(G.entries) || 
-							($scope.task_filters.texts.length > 0 || 
-								$scope.task_filters.labels.length > 0 || 
-								$scope.task_filters.members.length > 0 || 
-								$scope.task_filters.date.length > 0 || 
-								$scope.task_filters.hide_completed ? 
-									$scope.task_filters.turn_on = !0 
+							_.isEmpty(G.entries) || (a.task_filters.texts.length > 0 || 
+								a.task_filters.labels.length > 0 || a.task_filters.members.length > 0 || 
+								a.task_filters.date.length > 0 || a.task_filters.hide_completed ? 
+									a.task_filters.turn_on = !0 
 									: 
-									$scope.task_filters.turn_on = !1, 
-							_.each(G.entries,
-								function(b) {
-									_.isEmpty(b.tasks) || _.each(b.tasks,
+									a.task_filters.turn_on = !1, 
+									_.each(G.entries,
 										function(b) {
-											Q(b, $scope.task_filters)
-										})
-								}))
+											_.isEmpty(b.tasks) || _.each(b.tasks,
+												function(b) {
+													Q(b, a.task_filters)
+												})
+										}))
 						};
-					$scope.$on(config.constant.event_names.on_project_tasks_filter,
+					a.$on(config.constant.event_names.on_project_tasks_filter,
 							function(a, b) {
 								R()
 							}),
-					$scope.$on(config.constant.event_names.project_clear_task_filter,
-						function(b, c) {
-							W(),
-								$scope.task_filters.type = ""
-						});
+						a.$on(config.constant.event_names.project_clear_task_filter,
+							function(b, c) {
+								W(),
+									a.task_filters.type = ""
+							});
 					var S = function(b, c) {
-							if(_.isEmpty($scope.task_filters.turn_on)) {
+							if(_.isEmpty(a.task_filters.turn_on)) {
 								var d = !0;
-								if("assign_me" === $scope.task_filters.type) d = _.any(b.members,
+								if("assign_me" === a.task_filters.type) d = _.any(b.members,
 									function(a) {
 										return a.uid === c.uid
 									});
-								else if("my_watch" === $scope.task_filters.type) d = _.any(b.watchers,
+								else if("my_watch" === a.task_filters.type) d = _.any(b.watchers,
 									function(a) {
 										return a.uid === c.uid
 									});
 								else if("my_create" === a.task_filters.type) d = c.uid === b.uid;
-								else if($scope.task_filters.texts.length > 0 || $scope.task_filters.labels.length > 0 || a.task_filters.members.length > 0 || a.task_filters.date.length > 0 || a.task_filters.hide_completed) return void Q(b, a.task_filters);
+								else if(a.task_filters.texts.length > 0 || 
+									a.task_filters.labels.length > 0 || 
+									a.task_filters.members.length > 0 || 
+									a.task_filters.date.length > 0 || 
+									a.task_filters.hide_completed) 
+									return void Q(b, a.task_filters);
 								d ? b.is_filter = !1 : b.is_filter = !0
 							}
 						},
@@ -555,118 +548,118 @@ define(['app'], function (app) {
 								})
 						},
 						W = function() {
-							$scope.task_filters.texts = [],
-							$scope.task_filters.labels = [],
-							$scope.task_filters.members = [],
-							$scope.task_filters.hide_completed = !1,
-							$scope.task_filters.date = "",
-							R()
+							a.task_filters.texts = [],
+								a.task_filters.labels = [],
+								a.task_filters.members = [],
+								a.task_filters.hide_completed = !1,
+								a.task_filters.date = "",
+								R()
 						},
 						X = function() {
 							G.part_loaeding_done = !1,
-							G.loop_entries_count = 0,
-							F(),
-							globalDataContext.loadEntriesAndTasks(G.pid,
-								function(a) {
-									v(a, !0)
-								},
-								function(a) {
-									a.code === config.errors.prj_error.not_found.code ? 
-										$location.path("/project/" + G.pid + "/notfound") 
-										: 
-										a.code === config.errors.error.permission_deny.code ? 
-											$location.path("/project/" + G.pid + "/notfound") 
-											: wt.data.error(a)
-								})
+								G.loop_entries_count = 0,
+								F(),
+								j.loadEntriesAndTasks(G.pid,
+									function(a) {
+										v(a, !0)
+									},
+									function(a) {
+										a.code === config.statuses.prj_error.not_found.code ? 
+											e.path("/project/" + G.pid + "/notfound") 
+											: 
+											a.code === config.statuses.error.permission_deny.code ? 
+												e.path("/project/" + G.pid + "/notfound") 
+												: 
+												wt.data.error(a)
+									})
 						},
 						Y = function(b, d) {
-							$rootScope.global.prj_module.crud & $scope.project.permission && 
-								b.tasks.length !== _.uniq(b.tasks, "pos").length ? 
-									wt.data.task.change_entry_for_batch_task(
-										G.pid, _.map(b.tasks, "tid"), 
-										b.entry_id, b.entry_id, 
-										kzi.config.default_pos, !0,
-										function(a) {
-											_.each(a.data,
-												function(a) {
-													var c = _.find(b.tasks, {
-														tid: a.tid
-													});
-													c && (c.pos = a.pos)
-												})
-										},
-										null,
-										function() {
-											d()
-										}) 
-									: d()
+							c.global.prj_module.crud & a.project.permission && b.tasks.length !== _.uniq(b.tasks, "pos").length ? 
+								wt.data.task.change_entry_for_batch_task(
+									G.pid, 
+									_.map(b.tasks, "tid"), 
+									b.entry_id, 
+									b.entry_id, 
+									config.config.default_pos, 
+									!0,
+									function(a) {
+										_.each(a.data,
+											function(a) {
+												var c = _.find(b.tasks, {
+													tid: a.tid
+												});
+												c && (c.pos = a.pos)
+											})
+									},
+									null,
+									function() {
+										d()
+									}) 
+								: 
+								d()
 						},
 						Z = function() {
 							G.new_task.temp_name = "",
-							G.new_task.members = [],
-							G.new_task.labels = [],
-							G.new_task.expire_date = null
+								G.new_task.members = [],
+								G.new_task.labels = [],
+								G.new_task.expire_date = null
 						},
 						create_task = function(b, c, d) {
-							//new_task, entry, isTop
-							//    b        c     d
 							if(!_.isUndefined(b) && !_.isUndefined(b.temp_name) && !_.isEmpty(b.temp_name)) {
-								$scope.is_task_adding = !0;
+								a.is_task_adding = !0;
 								var e = c.entry_id,
 									g = [],
 									h = [],
 									i = function() {
 										var b = $("#entry_scroll_" + c.entry_id);
-										d === !0 ? 
-											wtScrollService.scrollTo(b, "top") 
-											: $timeout(function() {
-												wtScrollService.scrollTo(b, "bottom")
+										d === !0 ? l.scrollTo(b, "top") : f(function() {
+												l.scrollTo(b, "bottom")
 											}),
-											$scope.is_task_adding = !1
+											a.is_task_adding = !1
 									};
 								_.isEmpty(b.members) || (g = _.map(b.members, "uid")),
 									_.isEmpty(b.labels) || (h = _.map(b.labels, "name"));
 								var k = config.helper.split_line(b.temp_name),
 									m = d ? "top" : "bottom";
+								
 
 								api.add_task(
-										{	
-											pid: G.pid, 
-											entry_id: e, 
-											pos_type: m, 
-											names: angular.toJson(k, true), 
-											members: angular.toJson(g,true), 
-											labels: angular.toJson(h,true), 
-											expire_date: b.expire_date, 
-											is_locked: 0,
-										},
-										function(a) {
-											200 === a.code && 
-											globalDataContext.cache.task.batch_add(a.data)
-										},
-										null,
-										function() {
-											i()
-										}),
+									{	
+										pid: G.pid, 
+										entry_id: e, 
+										pos_type: m, 
+										names: angular.toJson(k, true), 
+										members: angular.toJson(g,true), 
+										labels: angular.toJson(h,true), 
+										expire_date: b.expire_date, 
+										is_locked: 0,
+									},
+									function(a) {
+										200 === a.code && 
+										globalDataContext.cache.task.batch_add(a.data)
+									},
+									null,
+									function() {
+										i()
+									}),
+																
 								Z()
 							}
 						},
 						ba = function(a, b) {
-							b ? G.tasks = globalDataContext.cache.task.archive(a.tid) 
-								: G.tasks = globalDataContext.cache.task.del(a.tid)
+							b ? G.tasks = j.cache.task.archive(a.tid) : G.tasks = j.cache.task.del(a.tid)
 						},
 						ca = function(a, b) {
 							b.tasks = _.reject(b.tasks,
 									function(b) {
 										return _.contains(a, b.tid)
 									}),
-								kzi.console.log("remove batch task …")
+								config.console.log("remove batch task …")
 						},
 						da = function(a, b) {
 							_.each(a.tasks,
 									function(a, c) {
-										1 === a.completed && _.includes(b, a.tid) && 
-											globalDataContext.cache.task.archive(a.tid)
+										1 === a.completed && _.includes(b, a.tid) && j.cache.task.archive(a.tid)
 									}),
 								a.tasks = _.reject(a.tasks,
 									function(a) {
@@ -697,31 +690,31 @@ define(['app'], function (app) {
 							}) || G.tasks.push(a)
 						},
 						fa = function(a) {
-							G.entries = globalDataContext.cache.entry.del(G.pid, a.entry_id)
+							G.entries = j.cache.entry.del(G.pid, a.entry_id)
 						};
-					$scope.$on("socket_message_entry_list",
+					a.$on("socket_message_entry_list",
 							function(a, b) {
-								v(globalDataContext.project)
+								v(j.project)
 							}),
-					$scope.$on("socket_message_entry_list_update",
+					a.$on("socket_message_entry_list_update",
 						function(a, b) {
 							G.entries = b.entries
 						}),
-					$scope.$on("socket_message_entry_add",
+					a.$on("socket_message_entry_add",
 						function(a, b) {
 							b.entry.tasks = [],
 								b.entry.maxheight = G.entry_maxheight,
 								b.entry.countComplateTask = 0
 						}),
-					$scope.$on(config.constant.event_names.on_task_move,
+					a.$on(config.constant.event_names.on_task_move,
 						function(a, b) {
-							v(globalDataContext.project)
+							v(j.project)
 						}),
-					$scope.$on(config.constant.event_names.on_task_add,
+					a.$on(config.constant.event_names.on_task_add,
 						function(a, b) {
 							ea(b.task)
 						}),
-					$scope.$on("socket_message_project_member_remove",
+					a.$on("socket_message_project_member_remove",
 						function(a, b) {
 							_.each(G.entries,
 								function(a) {
@@ -789,15 +782,11 @@ define(['app'], function (app) {
 									}))
 						}
 					};
-					$scope.$on(config.constant.event_names.shortcut_key_to_task,
+					a.$on(config.constant.event_names.shortcut_key_to_task,
 							function(b, d) {
-								if(c.global.prj_module.crud & $scope.project.permission) {
+								if(c.global.prj_module.crud & a.project.permission) {
 									L = !0;
-									var e = [config.constant.keyASCIIs.A, 
-											config.constant.keyASCIIs.L, 
-											config.constant.keyASCIIs.D, 
-											config.constant.keyASCIIs.W, 
-											config.constant.keyASCIIs.M];
+									var e = [config.constant.keyASCIIs.A, config.constant.keyASCIIs.L, config.constant.keyASCIIs.D, config.constant.keyASCIIs.W, config.constant.keyASCIIs.M];
 									if(!(I === !0 && $.inArray(d, e) < 0)) switch(d) {
 										case config.constant.keyASCIIs.VK_DOWN:
 										case config.constant.keyASCIIs.J:
@@ -805,12 +794,7 @@ define(['app'], function (app) {
 											break;
 										case config.constant.keyASCIIs.VK_UP:
 										case config.constant.keyASCIIs.K:
-											_.isEmpty(G.currentTask) ? 
-												ga() 
-												: 
-												G.taskIndex > 0 ? 
-													(G.taskIndex--, ia(G.currentEntry.tasks[G.taskIndex]), O()) 
-													: _.isEmpty(G.currentEntry) ? ga() : la(G.entryIndex, !0);
+											_.isEmpty(G.currentTask) ? ga() : G.taskIndex > 0 ? (G.taskIndex--, ia(G.currentEntry.tasks[G.taskIndex]), O()) : _.isEmpty(G.currentEntry) ? ga() : la(G.entryIndex, !0);
 											break;
 										case config.constant.keyASCIIs.VK_LEFT:
 											_.isEmpty(G.currentEntry) ? ga() : la(G.entryIndex, !1);
@@ -876,11 +860,11 @@ define(['app'], function (app) {
 										case config.constant.keyASCIIs.VK_LessThan:
 											if(!_.isEmpty(G.currentEntry) && !_.isEmpty(G.currentTask) && G.checkEntityPermission(G.currentTask) && G.entryIndex > 0) {
 												var h = G.entries[G.entryIndex - 1],
-													i = kzi.config.default_pos;
+													i = config.config.default_pos;
 												_.isEmpty(h.tasks) || (i = _.max(h.tasks,
 														function(a) {
 															return a.pos
-														}).pos + kzi.config.default_pos + 1),
+														}).pos + config.config.default_pos + 1),
 													delete G.currentTask.$$hashKey,
 													t(G.pid, G.currentTask, G.currentEntry, h, i,
 														function() {
@@ -895,11 +879,11 @@ define(['app'], function (app) {
 										case config.constant.keyASCIIs.VK_GreaterThan:
 											if(!_.isEmpty(G.currentEntry) && !_.isEmpty(G.currentTask) && G.checkEntityPermission(G.currentTask) && G.entries.length > G.entryIndex + 1) {
 												var h = G.entries[G.entryIndex + 1],
-													i = kzi.config.default_pos;
+													i = config.config.default_pos;
 												_.isEmpty(h.tasks) || (i = _.max(h.tasks,
 														function(a) {
 															return a.pos
-														}).pos + kzi.config.default_pos + 1),
+														}).pos + config.config.default_pos + 1),
 													delete G.currentTask.$$hashKey,
 													t(G.pid, G.currentTask, G.currentEntry, h, i,
 														function() {
@@ -935,7 +919,7 @@ define(['app'], function (app) {
 							}
 						},
 						G.js_add_entry_pop = function(b) {
-							$popbox.popbox({
+							d.popbox({
 								target: b,
 								templateUrl: "/tpl/project/task/pop_add_entry.html",
 								controller: ["$scope", "popbox", "pop_data",
@@ -951,7 +935,7 @@ define(['app'], function (app) {
 													var g = wt.bus.entry.calculate_entry_pos(c.entries, !0);
 													wt.data.entry.add(d.pid, e, g,
 														function(a) {
-															var d = globalDataContext.cache.entry.add(a.data);
+															var d = j.cache.entry.add(a.data);
 															d.tasks = [],
 																d.maxheight = c.scope.vm.entry_maxheight,
 																d.countComplateTask = 0,
@@ -975,8 +959,8 @@ define(['app'], function (app) {
 								resolve: {
 									pop_data: function() {
 										return {
-											scope: $scope,
-											entries: $scope.vm.entries
+											scope: a,
+											entries: a.vm.entries
 										}
 									}
 								}
@@ -990,7 +974,7 @@ define(['app'], function (app) {
 									function(a) {
 										_.isEmpty(G.entries) && (G.entries = []),
 											G.entry_name = "";
-										var b = globalDataContext.cache.entry.add(a.data);
+										var b = j.cache.entry.add(a.data);
 										b.tasks = [],
 											b.maxheight = G.entry_maxheight,
 											b.countComplateTask = 0,
@@ -1038,7 +1022,7 @@ define(['app'], function (app) {
 								b.selected_tasks = _.difference(c, d)
 						},
 						G.js_batch_set_expiredate = function(b, c, e, f) {
-							$popbox.popbox({
+							d.popbox({
 								target: b,
 								top: e,
 								left: f,
@@ -1115,7 +1099,7 @@ define(['app'], function (app) {
 								resolve: {
 									pop_data: function() {
 										return {
-											scope: $scope
+											scope: a
 										}
 									}
 								}
@@ -1123,7 +1107,7 @@ define(['app'], function (app) {
 						},
 						G.js_batch_move_task = function(b, c, e, f) {
 							c.entry_id;
-							$popbox.popbox({
+							d.popbox({
 								target: b,
 								top: e,
 								left: f,
@@ -1142,73 +1126,73 @@ define(['app'], function (app) {
 												d.close()
 											},
 											b.is_task_moving = !1,
-											b.task_move.projects = globalDataContext.getPacketProjects(),
+											b.task_move.projects = j.getPacketProjects(),
 											b.task_move.move_to_prj = _.find(b.task_move.projects,
 												function(a) {
 													return a.pid === G.pid
 												});
 										var f = !0;
 										b.$watch("task_move.move_to_prj",
-											function(a, d) {
-												a && (b.task_move.entries = null, b.task_move.move_to_entry = null, wt.data.entry.get_list(a.pid, !0,
-													function(a) {
-														b.task_move.entries = a.data.entries,
-															f ? (f = !1, b.task_move.move_to_entry = _.find(b.task_move.entries,
-																function(a) {
-																	return a.entry_id === c.entry_id
-																})) : b.task_move.move_to_entry = b.task_move.entries[0]
-													},
-													function(a) {
-														kzi.msg.error($translate.instant("task.load_project_entry_list_fails"))
-													},
-													null, "project-task-js_batch_move_task"))
-											}),
-										b.move_task = function() {
-											if(_.each(e.entry.tasks,
-													function(a) {
-														a.selected_batch = !1
-													}), b.task_move.move_to_prj.pid === G.pid) {
-												if(b.task_move.move_to_entry.entry_id === _.find(e.entry.tasks, {
-														tid: c.selected_tasks[0]
-													}).entry_id) return void G.js_close();
-												var a = _.find(b.entries, {
-														entry_id: b.task_move.move_to_entry.entry_id
-													}).tasks,
-													d = kzi.config.default_pos;
-												a && (d = _.max(a,
-													function(a) {
-														return a.pos
-													}).pos + kzi.config.default_pos + 1);
-												var f = _.find(b.entries,
-													function(a) {
-														return a.entry_id === b.task_move.move_to_entry.entry_id
-													});
-												u(G.pid, c.selected_tasks, c, f, d,
-													function(a) {
-														c.selected_tasks = [],
-															G.js_close()
-													})
-											} else b.is_task_moving = !0,
-												wt.data.task.batch_move(G.pid, b.entry.selected_tasks, b.task_move.move_to_prj.pid, b.task_move.move_to_entry.entry_id,
-													function() {
-														ca(b.entry.selected_tasks, b.entry)
-													},
-													function() {
-														kzi.msg.error($translate.instant("task.move_fail"))
-													},
-													function() {
-														b.is_task_moving = !1,
-															G.js_close()
-													})
-										}
+												function(a, d) {
+													a && (b.task_move.entries = null, b.task_move.move_to_entry = null, wt.data.entry.get_list(a.pid, !0,
+														function(a) {
+															b.task_move.entries = a.data.entries,
+																f ? (f = !1, b.task_move.move_to_entry = _.find(b.task_move.entries,
+																	function(a) {
+																		return a.entry_id === c.entry_id
+																	})) : b.task_move.move_to_entry = b.task_move.entries[0]
+														},
+														function(a) {
+															config.msg.error(n.instant("task.load_project_entry_list_fails"))
+														},
+														null, "project-task-js_batch_move_task"))
+												}),
+											b.move_task = function() {
+												if(_.each(e.entry.tasks,
+														function(a) {
+															a.selected_batch = !1
+														}), b.task_move.move_to_prj.pid === G.pid) {
+													if(b.task_move.move_to_entry.entry_id === _.find(e.entry.tasks, {
+															tid: c.selected_tasks[0]
+														}).entry_id) return void G.js_close();
+													var a = _.find(b.entries, {
+															entry_id: b.task_move.move_to_entry.entry_id
+														}).tasks,
+														d = config.config.default_pos;
+													a && (d = _.max(a,
+														function(a) {
+															return a.pos
+														}).pos + config.config.default_pos + 1);
+													var f = _.find(b.entries,
+														function(a) {
+															return a.entry_id === b.task_move.move_to_entry.entry_id
+														});
+													u(G.pid, c.selected_tasks, c, f, d,
+														function(a) {
+															c.selected_tasks = [],
+																G.js_close()
+														})
+												} else b.is_task_moving = !0,
+													wt.data.task.batch_move(G.pid, b.entry.selected_tasks, b.task_move.move_to_prj.pid, b.task_move.move_to_entry.entry_id,
+														function() {
+															ca(b.entry.selected_tasks, b.entry)
+														},
+														function() {
+															config.msg.error(n.instant("task.move_fail"))
+														},
+														function() {
+															b.is_task_moving = !1,
+																G.js_close()
+														})
+											}
 									}
 								],
 								resolve: {
 									pop_data: function() {
 										return {
-											scope: $scope,
-											entries: $scope.vm.entries,
-											entry: $rootScope
+											scope: a,
+											entries: a.vm.entries,
+											entry: c
 										}
 									}
 								}
@@ -1216,7 +1200,7 @@ define(['app'], function (app) {
 						},
 						G.js_batch_set_assignee = function(b, c, e, f) {
 							c.entry_id;
-							$popbox.popbox({
+							d.popbox({
 								target: b,
 								top: e,
 								left: f,
@@ -1266,9 +1250,9 @@ define(['app'], function (app) {
 								resolve: {
 									pop_data: function() {
 										return {
-											scope: $scope,
-											entries: $scope.vm.entries,
-											entry: $rootScope
+											scope: a,
+											entries: a.vm.entries,
+											entry: c
 										}
 									}
 								}
@@ -1276,7 +1260,7 @@ define(['app'], function (app) {
 						},
 						G.js_batch_set_labels = function(b, c) {
 							var e = a;
-							$popbox.popbox({
+							d.popbox({
 								target: b,
 								template: '<wt-set-task-labels task="task" batchsetlabelfn="set_label" project="project"></wt-set-task-labels>',
 								controller: ["$scope", "popbox",
@@ -1312,7 +1296,7 @@ define(['app'], function (app) {
 						},
 						G.js_show_entry_menu = function(b, c, e, f) {
 							var g = c.entry_id;
-							$popbox.popbox({
+							d.popbox({
 								target: b,
 								top: e,
 								left: f,
@@ -1398,7 +1382,7 @@ define(['app'], function (app) {
 													f.js_step(12)
 											},
 											f.js_to_move_entry = function() {
-												b.entry_move_to_prjs = globalDataContext.getPacketProjects(),
+												b.entry_move_to_prjs = j.getPacketProjects(),
 													b.entry_move.dest_project = _.find(b.entry_move_to_prjs,
 														function(a) {
 															return a.pid === f.pid
@@ -1408,14 +1392,14 @@ define(['app'], function (app) {
 											f.js_move_entry = function() {
 												return f.pid === b.entry_move.dest_project.pid ? void f.js_close() : void wt.data.entry.move(f.pid, c.entry_id, b.entry_move.dest_project.pid,
 													function() {
-														globalDataContext.cache.entry.del(f.pid, c.entry_id),
+														j.cache.entry.del(f.pid, c.entry_id),
 															e.scope.vm.entries = _.reject(e.scope.vm.entries,
 																function(a) {
 																	return a.entry_id === c.entry_id;
 																})
 													},
 													function() {
-														kzi.msg.error($translate.instant("task.move_entry_fail"))
+														config.msg.error(n.instant("task.move_entry_fail"))
 													},
 													function() {
 														f.js_close()
@@ -1431,7 +1415,7 @@ define(['app'], function (app) {
 														wt.data.entry.copy_entry(f.pid, a.entry_id, a.name, c,
 															function(a) {
 																e.entries.push(a.data),
-																	globalDataContext.reloadEntriesAndTasks(f.pid, "fromCopyEntry",
+																	j.reloadEntriesAndTasks(f.pid, "fromCopyEntry",
 																		function(a) {
 																			v(a)
 																		}),
@@ -1448,9 +1432,9 @@ define(['app'], function (app) {
 								resolve: {
 									pop_data: function() {
 										return {
-											scope: $scope,
-											entries: $scope.vm.entries,
-											entry: $rootScope
+											scope: a,
+											entries: a.vm.entries,
+											entry: c
 										}
 									}
 								}
@@ -1460,13 +1444,13 @@ define(['app'], function (app) {
 							if(!(1 == e.batch_action_flag || f.is_locked && m(f, c.global.me))) {
 								if(b.stopPropagation(), I && f.tid === J) return void K.close();
 								f.tid && ma(f),
-									K = $popbox.popbox({
+									K = d.popbox({
 										target: b,
 										top: g,
 										left: h,
 										autoAdapt: !0,
-										templateUrl: "/tpl/project/task/pop_task_menu.html",
-										controller: ["$scope", "popbox", "pop_data", "$rootScope", "$wtUploadFile", "bus", "timingtaskService",
+										templateUrl: config.templateUrls.task_pop_task_menu,
+										controller: ["$scope", "popbox", "pop_data", "$rootScope", "$UploadFile", "Util", "timingtaskService",
 											function(a, b, c, d, g, h, i) {
 												a.popbox = b;
 												var l = a.vm = {
@@ -1498,17 +1482,17 @@ define(['app'], function (app) {
 														wt.bus.member.set_task_member_toggle(l.pid, c, b,
 															function() {
 																c.update_date = Date.now(),
-																	d.$broadcast(kzi.constant.event_names.on_task_update, c)
+																	d.$broadcast(config.constant.event_names.on_task_update, c)
 															})
 													},
 													l.js_toggle_watch = function(a, b, c) {
-														wt.bus.watch.set_watcher_toggle(l.pid, c, kzi.constant.xtype.task, c.tid, b,
+														wt.bus.watch.set_watcher_toggle(l.pid, c, config.constant.xtype.task, c.tid, b,
 															function() {
 																c.update_date = Date.now()
 															})
 													},
 													l.js_watch_all = function(a, c, d, e) {
-														wt.bus.watch.watch_all(l.pid, d, kzi.constant.xtype.task, d.tid, c,
+														wt.bus.watch.watch_all(l.pid, d, config.constant.xtype.task, d.tid, c,
 																function() {
 																	d.update_date = Date.now()
 																},
@@ -1556,7 +1540,7 @@ define(['app'], function (app) {
 													},
 													l.js_show_task_move = function() {
 														l.js_step(5),
-															a.task_move.projects = globalDataContext.getPacketProjects(),
+															a.task_move.projects = j.getPacketProjects(),
 															a.task_move.project = _.find(a.task_move.projects,
 																function(a) {
 																	return a.pid === l.pid
@@ -1566,11 +1550,11 @@ define(['app'], function (app) {
 													l.move_task = function() {
 														if(a.task_move.project.pid === l.pid) {
 															if(a.task_move.entry.entry_id === f.entry_id) return;
-															var b = kzi.config.default_pos;
+															var b = config.config.default_pos;
 															a.task_move.entry.tasks.length > 0 && (b = _.max(a.task_move.entry.tasks,
 																function(a) {
 																	return a.pos
-																}).pos + kzi.config.default_pos + 1);
+																}).pos + config.config.default_pos + 1);
 															var c = _.find(a.task_move.entries,
 																function(b) {
 																	return b.entry_id === a.task_move.entry.entry_id
@@ -1585,7 +1569,7 @@ define(['app'], function (app) {
 																	ba(f)
 																},
 																function() {
-																	kzi.msg.error($translate.instant("task.move_fail"))
+																	config.msg.error(n.instant("task.move_fail"))
 																},
 																function() {
 																	a.is_task_moving = !1,
@@ -1593,7 +1577,7 @@ define(['app'], function (app) {
 																})
 													},
 													l.js_change_project = function() {
-														globalDataContext.loadEntries(a.task_move.project.pid,
+														j.loadEntries(a.task_move.project.pid,
 															function(b) {
 																if(b && 0 !== b.length) {
 																	a.task_move.entries = b;
@@ -1615,7 +1599,7 @@ define(['app'], function (app) {
 													l.js_archive_task = function() {
 														wt.data.task.archive(l.pid, f.tid,
 																function() {
-																	d.$broadcast(kzi.constant.event_names.on_task_archive, f.tid)
+																	d.$broadcast(config.constant.event_names.on_task_archive, f.tid)
 																}),
 															b.close()
 													},
@@ -1640,7 +1624,7 @@ define(['app'], function (app) {
 														}
 													},
 													l.file_upload_option = {
-														url: [kzi.config.box_url(), "?pid=" + f.pid, "&token=" + kzi.get_cookie("sid")].join(""),
+														url: [config.box_url(), "?pid=" + f.pid, "&token=" + config.get_cookie("sid")].join(""),
 														formData: {
 															target: "prj",
 															type: "task",
@@ -1653,12 +1637,12 @@ define(['app'], function (app) {
 														}
 													},
 													l.uploadlink_option = {
-														url: [kzi.config.box_url(), "uploadbylink", "?pid=" + f.pid, "&token=" + kzi.get_cookie("sid")].join(""),
+														url: [config.box_url(), "uploadbylink", "?pid=" + f.pid, "&token=" + config.get_cookie("sid")].join(""),
 														formData: l.file_upload_option.formData
 													},
 													l.js_uploadbylink_uploading = !1,
 													l.js_uploadbylink = function(a) {
-														if(_.isEmpty(l.uploadlink_url) || !kzi.validator.isUrl(l.uploadlink_url)) return kzi.msg.warn($translate.instant("common.uploadbylink_err_link_valid")),
+														if(_.isEmpty(l.uploadlink_url) || !config.validator.isUrl(l.uploadlink_url)) return config.msg.warn(n.instant("common.uploadbylink_err_link_valid")),
 															void $(a.target).prev().focus();
 														l.js_uploadbylink_uploading = !0;
 														var b = _.extend({
@@ -1667,20 +1651,20 @@ define(['app'], function (app) {
 															l.uploadlink_option.formData);
 														wt.data.file.uploadlink(l.uploadlink_option.url, b,
 															function(a) {
-																8100 === a.code && kzi.msg.warn($translate.instant("common.uploadbylink_err_file_too_large")),
+																8100 === a.code && config.msg.warn(n.instant("common.uploadbylink_err_file_too_large")),
 																	200 === a.code && h.file.new_upload(a,
 																		function(a) {
 																			f.update_date = Date.now(),
 																				f.files ? f.files.push(a.data) : f.files = [a.data],
 																				f.badges.file_count = f.files.length,
-																				kzi.msg.info($translate.instant("common.uploadbylink_success")),
+																				config.msg.info(n.instant("common.uploadbylink_success")),
 																				l.uploadlink_url = "",
 																				l.js_uploadbylink_uploading = !1,
 																				l.js_close()
 																		})
 															},
 															function() {
-																kzi.msg.warn($translate.instant("common.uploadbylink_fail"))
+																config.msg.warn(n.instant("common.uploadbylink_fail"))
 															},
 															function() {
 																l.js_uploadbylink_uploading = !1
@@ -1717,9 +1701,9 @@ define(['app'], function (app) {
 										resolve: {
 											pop_data: function() {
 												return {
-													scope: $scope,
+													scope: a,
 													entries: G.entries,
-													entry: $location
+													entry: e
 												}
 											}
 										}
@@ -1746,61 +1730,59 @@ define(['app'], function (app) {
 											g = 0; f < b.selected_tasks.length; f++) b.selected_tasks[f] != c.tid ? b.selected_tasks[g++] = b.selected_tasks[f] : d = f;
 									d != -1 ? b.selected_tasks.length -= 1 : b.selected_tasks.push(c.tid)
 								}
-							} else $location.path("/project/" + c.pid + "/task/" + c.tid)
+							} else e.path("/project/" + c.pid + "/task/" + c.tid)
 						},
 						G.task_loop_done = function(a) {
 							G.loop_entries_count++,
-							$timeout(function() {
-									Y(a,
-										function() {
-											a.task_loop_done = !0
-										})
-								},
-								0),
-							G.loop_entries_count === G.entries.length - 1
+								f(function() {
+										Y(a,
+											function() {
+												a.task_loop_done = !0
+											})
+									},
+									0),
+								G.loop_entries_count === G.entries.length - 1
 						},
-						util.$on("addTaskSuccessEvent",
+						i.$on("addTaskSuccessEvent",
 							function(a) {
 								ea(a),
 									M(a.tid),
 									N(a.entry_id)
 							},
-							$scope),
-						util.$on("showAddEntryPopEvent",
+							a),
+						i.$on("showAddEntryPopEvent",
 							function(a) {
 								G.js_add_entry_pop(a)
 							},
-							$scope),
-						util.$on("filterTasksAssignMeEvent",
+							a),
+						i.$on("filterTasksAssignMeEvent",
 							function(b) {
 								W(),
 									"assign_me" === a.task_filters.type ? (T(null), a.task_filters.turn_on = !1, a.task_filters.type = null) : (a.task_filters.type = "assign_me", a.task_filters.turn_on = !0, T(c.global.me))
 							},
-							$scope),
-						util.$on("filterTasksMyWatchEvent",
+							a),
+						i.$on("filterTasksMyWatchEvent",
 							function(b) {
 								W(),
 									"my_watch" === a.task_filters.type ? (U(null), a.task_filters.turn_on = !1, a.task_filters.type = null) : (a.task_filters.type = "my_watch", a.task_filters.turn_on = !0, U(c.global.me))
 							},
-							$scope),
-						util.$on("filterTasksMyCreateEvent",
+							a),
+						i.$on("filterTasksMyCreateEvent",
 							function(b) {
 								W(),
 									"my_create" === a.task_filters.type ? (V(null), a.task_filters.turn_on = !1, a.task_filters.type = null) : (a.task_filters.type = "my_create", a.task_filters.turn_on = !0, V(c.global.me))
 							},
-							$scope),
-						util.$on("showTasksFilterDetailEvent",
+							a),
+						i.$on("showTasksFilterDetailEvent",
 							function(b) {
-								$scope.task_filters.turn_on && (W(), $scope.task_filters.type = ""),
-									$scope.sidebar.change_status("filter_tasks")
+								a.task_filters.turn_on && (W(), a.task_filters.type = ""),
+									a.sidebar.change_status("filter_tasks")
 							},
-							$scope),
+							a),
 						G.js_show_add_task_composer = function(a, b) {
-							// console.log(a);
-							// console.log(b);
 							this.task_name = "",
-							b.task_bottom_enabled = !0,
-							b.maxheight -= 34
+								b.task_bottom_enabled = !0,
+								b.maxheight -= 34
 						},
 						G.js_cancel_composer = function(a, b, c) {
 							b.task_bottom_enabled && (b.maxheight += 34),
@@ -1815,10 +1797,10 @@ define(['app'], function (app) {
 								e.update_date = Date.now(),
 									e.completed ? (e.completed = 0, wt.data.task.uncomplete(G.pid, f,
 										function() {
-											c.$broadcast(kzi.constant.event_names.on_task_complete, e)
+											c.$broadcast(config.constant.event_names.on_task_complete, e)
 										})) : (e.completed = 1, wt.data.task.complete(G.pid, f,
 										function() {
-											c.$broadcast(kzi.constant.event_names.on_task_complete, e)
+											c.$broadcast(config.constant.event_names.on_task_complete, e)
 										}))
 							}
 						},
@@ -1827,21 +1809,21 @@ define(['app'], function (app) {
 							return a && a.is_locked && m(a, c.global.me) && (b = !1),
 								b
 						},
-						$scope.$on(config.constant.event_names.on_task_complete,
+						a.$on(config.constant.event_names.on_task_complete,
 							function(a, b) {
 								if(b.pid === G.pid) {
-									globalDataContext.cache.task.complete(b.tid, b.completed);
+									j.cache.task.complete(b.tid, b.completed);
 									var c = _.find(G.entries, {
 										entry_id: b.entry_id
 									});
 									c && (0 === b.completed ? c.countComplateTask-- : c.countComplateTask++)
 								}
 							}),
-						$scope.$on(config.constant.event_names.on_task_trash,
+						a.$on(config.constant.event_names.on_task_trash,
 							function(a, b) {
 								b && ba(b)
 							}),
-						$scope.$on(config.constant.event_names.on_task_archive,
+						a.$on(config.constant.event_names.on_task_archive,
 							function(a, b) {
 								if(b) {
 									var c = _.find(G.tasks, {
@@ -1850,44 +1832,52 @@ define(['app'], function (app) {
 									c && ba(c, !0)
 								}
 							}),
-						$scope.$on(config.constant.event_names.on_right_menu,
+						a.$on(config.constant.event_names.on_right_menu,
 							function(b, d) {
 								if(c.global.prj_module.watch & a.project.permission) {
-									var e = kzi.helper.mouse_position(d),
+									var e = config.helper.mouse_position(d),
 										f = null,
 										g = null;
-									if($(d.target).hasClass("task") ? f = $(d.target).attr("task-id") : $(d.target).parents(".task").length > 0 ? f = $(d.target).parents(".task").attr("task-id") : $(d.target).parents(".entry").length > 0 && (g = $(d.target).parents(".entry").attr("entry-id")), f) {
-										var h = _.find(G.tasks, {
-												tid: f
-											}),
-											g = h.entry_id,
-											i = _.find(G.entries, {
-												entry_id: g
-											});
-										G.js_show_task_menu(d, i, h, e.y, e.x)
-									} else {
-										var i = _.find(G.entries, {
-											entry_id: g
-										});
-										G.js_show_entry_menu(d, i, e.y, e.x)
-									}
+									if($(d.target).hasClass("task") ? 
+										f = $(d.target).attr("task-id") 
+										: 
+										$(d.target).parents(".task").length > 0 ? 
+											f = $(d.target).parents(".task").attr("task-id") 
+											: 
+											$(d.target).parents(".entry").length > 0 && 
+											(g = $(d.target).parents(".entry").attr("entry-id")), f) {
+												var h = _.find(G.tasks, {
+														tid: f
+													}),
+													g = h.entry_id,
+													i = _.find(G.entries, {
+														entry_id: g
+													});
+												G.js_show_task_menu(d, i, h, e.y, e.x)
+											} else {
+												var i = _.find(G.entries, {
+													entry_id: g
+												});
+												G.js_show_entry_menu(d, i, e.y, e.x)
+											}
 								}
 							}),
-						$scope.$on(config.constant.event_names.project_extensions_change,
+						a.$on(config.constant.event_names.project_extensions_change,
 							function(a, b) {
 								F()
 							});
 					var na, oa = null;
 					X()
 				}
+
 			
 
 			}])
 			/**************************************************************************************************************
 			 *
 			 **************************************************************************************************************/
-			.controller('projectTasksToolbarCtrl', ['$scope','Util',
-						function ($scope,util) {
+			.controller('projectTasksToolbarCtrl', ['$scope','Util','taskService',
+						function ($scope,util,taskService) {
 				//["$scope", "bus", "taskService"],
 				//     a       b           c
 				$scope.vm = {};

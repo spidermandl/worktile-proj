@@ -46,7 +46,7 @@ define(['app'], function (app) {
 				frame :null, //首页面类型 work or guest
 
 				//加载等待阶段
-				loading_init : true,
+				loading_init : false,//屏幕遮罩
 				i18n_loading_done : true,
 				//左控制栏
 				header_menu : '',
@@ -58,82 +58,17 @@ define(['app'], function (app) {
 				constant : config.constant,//常量
 				prj_module : config.constant.prj_module,
 				team_module: config.constant.team_module,
-				/**
-				 * team相关
-				 */
-				// team : {
-				// 	dismiss: function(a) {
-				// 		var b = i.getTeam(a);
-				// 		i.teams.splice(i.teams.indexOf(b), 1),
-				// 		i.projects = _.reject(i.projects,
-				// 			function(b) {
-				// 				return b.team_id === a
-				// 			}),
-				// 		i.setTeamProjects()
-				// 	},
-				// 	sync: function(a, b) {
-				// 		var c = i.getTeam(a);
-				// 		_.map(b,
-				// 			function(a, b) {
-				// 				void 0 !== c[b] && (c[b] = a)
-				// 			})
-				// 	},
-				// 	remove_member: function(a, b) {
-				// 		var c = _.find(i.teams, {
-				// 			team_id: a
-				// 		});
-				// 		c && (c.member_count = c.member_count - 1);
-				// 		var d = _.reject(i.projects,
-				// 			function(b) {
-				// 				return b.team_id === a
-				// 			});
-				// 		_.forEach(d,
-				// 			function(a) {
-				// 				a.member_count = a.member_count - 1,
-				// 					a.members && (a.members = _.reject(a.members, {
-				// 						uid: b
-				// 					})),
-				// 					a.pid == i.project.pid && (i.project.info.members = _.reject(i.project.info.members, {
-				// 						uid: b
-				// 					}), _.forEach(i.project.tasks,
-				// 						function(a) {
-				// 							a.members = _.reject(a.members, {
-				// 								uid: b
-				// 							})
-				// 						}))
-				// 			})
-				// 	},
-				// 	leave: function(a) {
-				// 		i.teams = _.reject(i.teams,
-				// 				function(b) {
-				// 					return b.team_id === a
-				// 				}),
-				// 			i.projects = _.reject(i.projects,
-				// 				function(b) {
-				// 					return b.team_id === a
-				// 				})
-				// 	},
-				// 	update_base: function(a, b, c, d) {
-				// 		var e = _.find(i.teams, {
-				// 			team_id: a
-				// 		});
-				// 		e && (e.name = b, e.desc = c, e.url = d)
-				// 	},
-				// 	set_logo: function(a, b) {
-				// 		var c = _.find(i.teams, {
-				// 			team_id: a
-				// 		});
-				// 		c && (c.pic = b)
-				// 	},
-				// 	update_visibility: function(a, b) {
-				// 		var c = _.find(i.teams, {
-				// 			team_id: a
-				// 		});
-				// 		c && (c.visibility = b)
-				// 	}
-				// },
+				
 			};
+			/**
+			 * 服务放回对象
+			 */
 			var globalDataContext = {
+				f : 5,
+				g : 5,
+				h : 5,
+
+
 				contacts : [],
 				teams : [],
 				projects : [],
@@ -208,7 +143,7 @@ define(['app'], function (app) {
 											type: 1,
 											enable: 1
 										})),
-										b.$broadcast(kzi.constant.event_names.project_extensions_change, {
+										b.$broadcast(config.constant.event_names.project_extensions_change, {
 											extensions: e
 										})
 								})
@@ -226,7 +161,7 @@ define(['app'], function (app) {
 										});
 										g.pos = d.data,
 											i.project.info.extensions = _.sortBy(i.project.info.extensions, "pos"),
-											b.$broadcast(kzi.constant.event_names.project_extensions_change, {
+											b.$broadcast(config.constant.event_names.project_extensions_change, {
 												extensions: i.project.info.extensions
 											})
 									}
@@ -258,7 +193,7 @@ define(['app'], function (app) {
 						shift: function(a, d) {
 							if(i.project.info && i.project.info.pid === a) {
 								i.project.info.team_id = d,
-									i.project.info.visibility === kzi.constant.prj_visibility.protected && d === -1 && (i.project.info.visibility = kzi.constant.prj_visibility.private);
+									i.project.info.visibility === config.constant.prj_visibility.protected && d === -1 && (i.project.info.visibility = config.constant.prj_visibility.private);
 								var e = _.find(i.teams, {
 									team_id: d
 								});
@@ -280,7 +215,7 @@ define(['app'], function (app) {
 							var f = _.find(i.projects, {
 								pid: a
 							});
-							f && (f.team_id = d, f.visibility === kzi.constant.prj_visibility.protected && d === -1 && (f.visibility = kzi.constant.prj_visibility.private), i.setTeamProjects())
+							f && (f.team_id = d, f.visibility === config.constant.prj_visibility.protected && d === -1 && (f.visibility = config.constant.prj_visibility.private), i.setTeamProjects())
 						},
 						add_admin: function(a, b) {
 							if(i.projects && i.projects.length > 0) {
@@ -312,7 +247,7 @@ define(['app'], function (app) {
 									function(d) {
 										i.project.info && a === i.project.info.pid && (i.project.info.is_star = c.is_star, i.project.info.star_pos = d.data),
 											c.is_star ? i.cache.star_projects.add(c) : i.cache.star_projects.remove(a),
-											b.$broadcast(kzi.constant.event_names.project_star_change, {
+											b.$broadcast(config.constant.event_names.project_star_change, {
 												pid: a,
 												star_pos: d.data
 											})
@@ -399,7 +334,7 @@ define(['app'], function (app) {
 					recent_open: {
 						get: function() {
 							var a = [];
-							return kzi.localData.get("quickswitch_recentOpen") ? (a = JSON.parse(kzi.localData.get("quickswitch_recentOpen")), _.each(a,
+							return config.localData.get("quickswitch_recentOpen") ? (a = JSON.parse(config.localData.get("quickswitch_recentOpen")), _.each(a,
 								function(a) {
 									a.is_current = !1
 								}), a) : a
@@ -413,17 +348,22 @@ define(['app'], function (app) {
 										display_name: b.display_name,
 										avatar: b.avatar
 									};
-									_.findIndex(i.recent_open, {
+									_.findIndex(globalDataContext.recent_open, {
 											uid: b.uid
-										}) === -1 ? i.recent_open.unshift(c) : (i.recent_open = _.reject(i.recent_open, {
-											uid: b.uid
-										}), i.recent_open.unshift(c)),
-										i.cache.recent_members._add(b);
+										}) === -1 ? 
+											globalDataContext.recent_open.unshift(c) 
+											: 
+											(globalDataContext.recent_open = _.reject(globalDataContext.recent_open, {
+												uid: b.uid
+											}), 
+											globalDataContext.recent_open.unshift(c)),
+											globalDataContext.cache.recent_members._add(b);
 									break;
 								case "project":
-									_.findIndex(i.recent_open, {
+									_.findIndex(globalDataContext.recent_open, {
 										pid: b.pid
-									}) !== -1 && (i.recent_open = _.reject(i.recent_open, {
+									}) !== -1 && 
+									(globalDataContext.recent_open = _.reject(globalDataContext.recent_open, {
 										pid: b.pid
 									}));
 									var d = {
@@ -432,72 +372,78 @@ define(['app'], function (app) {
 										bg: b.bg,
 										pic: b.pic
 									};
-									i.recent_open.unshift(d),
-										i.cache.recent_projects._add(d)
+									globalDataContext.recent_open.unshift(d),
+										globalDataContext.cache.recent_projects._add(d)
 							}
-							i.recent_open = i.recent_open.slice(0, f),
-								kzi.localData.set("quickswitch_recentOpen", JSON.stringify(i.recent_open))
+							globalDataContext.recent_open = globalDataContext.recent_open.slice(0, globalDataContext.f),
+							config.localData.set("quickswitch_recentOpen", JSON.stringify(globalDataContext.recent_open))
 						},
 						remove: function(a, b) {
 							switch(a) {
 								case "member":
-									i.recent_open = _.reject(i.recent_open, {
+									globalDataContext.recent_open = _.reject(globalDataContext.recent_open, {
 											uid: b
 										}),
-										i.cache.recent_members._remove(b);
+										globalDataContext.cache.recent_members._remove(b);
 									break;
 								case "project":
-									i.recent_open = _.reject(i.recent_open, {
+									globalDataContext.recent_open = _.reject(globalDataContext.recent_open, {
 											pid: b
 										}),
-										i.cache.recent_projects._remove(b)
+										globalDataContext.cache.recent_projects._remove(b)
 							}
-							return kzi.localData.set("quickswitch_recentOpen", JSON.stringify(i.recent_open)),
-								i.recent_open
+							return config.localData.set("quickswitch_recentOpen", JSON.stringify(globalDataContext.recent_open)),
+								globalDataContext.recent_open
 						}
 					},
 					recent_projects: {
 						get: function() {
 							var a = [];
-							return kzi.localData.get("quickswitch_recentProject") ? (a = JSON.parse(kzi.localData.get("quickswitch_recentProject")), _.each(a,
-								function(a) {
-									a.is_current = !1
-								}), a) : a
+							return config.localData.get("quickswitch_recentProject") ? 
+								(a = JSON.parse(config.localData.get("quickswitch_recentProject")), _.each(a,
+									function(a) {
+										a.is_current = !1
+									}), a) 
+								: 
+								a
 						},
 						_add: function(a) {
-							_.findIndex(i.recent_projects, {
+							_.findIndex(globalDataContext.recent_projects, {
 									pid: a.pid
-								}) !== -1 && (i.recent_projects = _.reject(i.recent_projects, {
+								}) !== -1 && 
+									(globalDataContext.recent_projects = _.reject(globalDataContext.recent_projects, {
 									pid: a.pid
 								})),
-								i.recent_projects.unshift(a),
-								i.recent_projects = i.recent_projects.slice(0, h),
-								kzi.localData.set("quickswitch_recentProject", JSON.stringify(i.recent_projects))
+								globalDataContext.recent_projects.unshift(a),
+								globalDataContext.recent_projects = globalDataContext.recent_projects.slice(0, globalDataContext.h),
+								config.localData.set("quickswitch_recentProject", 
+									JSON.stringify(globalDataContext.recent_projects))
 						},
 						_remove: function(a) {
-							i.recent_projects = _.reject(i.recent_projects, {
+							globalDataContext.recent_projects = _.reject(globalDataContext.recent_projects, {
 									pid: a
 								}),
-								kzi.localData.set("quickswitch_recentProject", JSON.stringify(i.recent_projects))
+								config.localData.set("quickswitch_recentProject", JSON.stringify(globalDataContext.recent_projects))
 						}
 					},
 					recent_members: {
 						get: function() {
 							var a = [];
-							return kzi.localData.get("quickswitch_recentMember") ? (a = JSON.parse(kzi.localData.get("quickswitch_recentMember")), _.each(a,
+							return config.localData.get("quickswitch_recentMember") ? 
+								(a = JSON.parse(config.localData.get("quickswitch_recentMember")), _.each(a,
 								function(a) {
 									a.is_current = !1
 								}), a) : a
 						},
 						_add: function(a) {
-							_.findIndex(i.recent_members, {
+							_.findIndex(globalDataContext.recent_members, {
 									pid: a.uid
-								}) !== -1 && (i.recent_members = _.reject(i.recent_members, {
+								}) !== -1 && (globalDataContext.recent_members = _.reject(globalDataContext.recent_members, {
 									pid: a.uid
 								})),
-								i.recent_members.unshift(a),
-								i.recent_members = i.recent_members.slice(0, g),
-								kzi.localData.set("quickswitch_recentMember", JSON.stringify(i.recent_members))
+								globalDataContext.recent_members.unshift(a),
+								globalDataContext.recent_members = globalDataContext.recent_members.slice(0, g),
+								config.localData.set("quickswitch_recentMember", JSON.stringify(globalDataContext.recent_members))
 						},
 						_remove: function(a) {}
 					},
@@ -791,14 +737,14 @@ define(['app'], function (app) {
 							var d = _.find(i.project.events, {
 								event_id: a.event_id
 							});
-							if(b === kzi.constant.event_update_type.one) {
+							if(b === config.constant.event_update_type.one) {
 								var e = _.find(i.project.cal_events, {
 									id: a.event_id
 								});
 								d && (d = a),
 									e && (e.title = a.name, e.start = moment(a.start.date).format("YYYY-MM-DD HH:MM"), e.end = moment(a.end.date).format("YYYY-MM-DD HH:MM"))
 							}
-							if(b === kzi.constant.event_update_type.follow_up) {
+							if(b === config.constant.event_update_type.follow_up) {
 								var f = a.event_id,
 									g = _.find(i.project.cal_events, {
 										id: f
@@ -832,7 +778,7 @@ define(['app'], function (app) {
 								});
 							wt.data.event.update_date(a, c, d, e, f, g,
 								function(a) {
-									200 === a.code && (k && (k.start = d + "T" + e + ":00+08:00", k.end = f + "T" + g + ":00+08:00"), j && (j.start.date = parseInt(moment(d + "T" + e).format("x"), 10), j.start.time = e, j.start.time_zone = j.start.time_zone, j.end.date = parseInt(moment(f + "T" + g).format("x"), 10), j.end.time = g, j.end.time_zone = j.end.time_zone), b.$broadcast(kzi.constant.event_names.on_event_update_date, {
+									200 === a.code && (k && (k.start = d + "T" + e + ":00+08:00", k.end = f + "T" + g + ":00+08:00"), j && (j.start.date = parseInt(moment(d + "T" + e).format("x"), 10), j.start.time = e, j.start.time_zone = j.start.time_zone, j.end.date = parseInt(moment(f + "T" + g).format("x"), 10), j.end.time = g, j.end.time_zone = j.end.time_zone), b.$broadcast(config.constant.event_names.on_event_update_date, {
 										start_date: parseInt(moment(d + "T" + e).format("x"), 10),
 										end_date: parseInt(moment(f + "T" + g).format("x"), 10)
 									}))
@@ -844,20 +790,20 @@ define(['app'], function (app) {
 								function(b) {
 									return b.event_id === a.event_id
 								}), c) {
-								case kzi.constant.event_trash_type.one:
+								case config.constant.event_trash_type.one:
 									i.project.cal_events = _.reject(i.project.cal_events,
 										function(b) {
 											return b.id === a.event_id
 										});
 									break;
-								case kzi.constant.event_trash_type.follow_up:
+								case config.constant.event_trash_type.follow_up:
 									i.project.cal_events = _.reject(i.project.cal_events,
 										function(b) {
 											var c = new Date(b.start).getTime();
 											return c >= a.start.date && b.extend.recurrence_id === a.recurrence_id
 										});
 									break;
-								case kzi.constant.event_trash_type.all:
+								case config.constant.event_trash_type.all:
 									i.project.cal_events = _.reject(i.project.cal_events,
 										function(b) {
 											return b.extend.recurrence_id === a.recurrence_id
@@ -895,7 +841,7 @@ define(['app'], function (app) {
 							})))
 						},
 						change_state: function(a, c) {
-							if(b.$broadcast(kzi.constant.event_names.member_state_change, {
+							if(b.$broadcast(config.constant.event_names.member_state_change, {
 									uid: a,
 									state: c
 								}), i.project.info) {

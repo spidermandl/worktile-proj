@@ -10,78 +10,64 @@ define(['app'], function (app) {
 	/**************************************************************************************************************
 	 *
 	 **************************************************************************************************************/
-	app.controller('TeamCtrl', ['$rootScope','$scope','config','$state','teamCalendarFilterData',
-								'$stateParams','$popbox','$translate',"team_basic_info",
-		function ($rootScope,$scope,config,$state,teamCalendarFilterData,
-					stateParams,$popbox,$translate,team) {
-			//["$rootScope", "$scope", "$state", "$stateParams", "team", "teamCalendarFilterData", "$popbox", "$translate"]
-			//    a             b         c           d             e              f                   g           h
-			function getTeamInfo() {
-				//console.log(team);
-				team && team.permission != config.constant.team_permission.guest ? 
-					($scope.team = team, 
-						$rootScope.global.loading_done = !0, 
-						$scope.vm.user_is_team_owner = $scope.team.permission == config.constant.team_permission.owner,
-						$scope.vm.user_is_team_admin = $scope.team.permission == config.constant.team_permission.owner 
-													|| $scope.team.permission == config.constant.team_permission.admin,
-						$scope.$on(config.constant.event_names.team_member_role_change,
-							function(a, d) {
-								$scope.team && 
-								$scope.team.team_id === d.team_id && 
-								($scope.team.permission = d.team_permission, 
-									config.constant.team_module.view_base & d.team_permission || $state.go("dashboard.default"))
-							})) 
-					: 
-					wt.data.team.get_full(
-						$scope.vm.team_id,
-						function(b) {
-							$scope.vm.public_team = b.data;
-							$rootScope.global.title = [$translate.instant("team.title_name_public_team"), " | ", $scope.vm.public_team.info.name].join("");
-							$rootScope.global.loading_done = !0;
-						},
-						function(a) {
-							$state.go("not_found", {
-								type: "team"
-							});
+	app.controller('TeamCtrl', ["$rootScope", "$scope", "$state", "$stateParams", "team_basic_info", 
+				"teamCalendarFilterData", "$popbox", "$translate",'config',
+		function (a, b, c, d, e, f, g, h,config) {
+
+			function i() {
+				e && e.permission != config.constant.team_permission.guest ? (b.team = e, a.global.loading_done = !0, j.user_is_team_owner = b.team.permission == config.constant.team_permission.owner, j.user_is_team_admin = b.team.permission == config.constant.team_permission.owner || b.team.permission == config.constant.team_permission.admin, b.$on(config.constant.event_names.team_member_role_change,
+					function(a, d) {
+						b.team && b.team.team_id === d.team_id && (b.team.permission = d.team_permission, config.constant.team_module.view_base & d.team_permission || c.go("dashboard.default"))
+					})) : wt.data.team.get_full(j.team_id,
+					function(b) {
+						j.public_team = b.data,
+							a.global.title = [h.instant("team.title_name_public_team"), " | ", j.public_team.info.name].join(""),
+							a.global.loading_done = !0
+					},
+					function(a) {
+						c.go("not_found", {
+							type: "team"
 						})
+					})
 			}
-			$scope.vm = {
-				state: $state,
+			var j = b.vm = {
+				state: c,
 				user_is_team_admin: !1,
 				display_team_setting: !1,
 				user_is_team_owner: !1,
-				teamCalendarFilterData: teamCalendarFilterData,
-				team_id: stateParams.team_id,
+				teamCalendarFilterData: f,
+				team_id: d.team_id,
 				public_team: null
 			};
-			getTeamInfo();
-			$scope.vm.js_view_team_info = function(a) {
-				$popbox.popbox({
-					target: a,
-					templateUrl: "/tpl/team/pop_team_info.html",
-					controller: ["$scope", "popbox", "pop_data",
-						function(a, b, c) {
-							var d = a.vm = {
-								team: c.team
-							};
-							a.popbox = b;
-							d.js_close = function() {
-								b.close()
+			i(),
+				j.js_view_team_info = function(a) {
+					g.popbox({
+						target: a,
+						templateUrl: "/tpl/team/pop_team_info.html",
+						controller: ["$scope", "popbox", "pop_data",
+							function(a, b, c) {
+								var d = a.vm = {
+									team: c.team
+								};
+								a.popbox = b,
+									d.js_close = function() {
+										b.close()
+									}
+							}
+						],
+						resolve: {
+							pop_data: function() {
+								return {
+									team: b.team
+								}
 							}
 						}
-					],
-					resolve: {
-						pop_data: function() {
-							return {
-								team: b.team
-							};
-						}
-					}
-				}).open();
-			};
-			$scope.vm.js_toggle_team_filter = function() {
-				teamCalendarFilterData.team_calendar_filter_status = !teamCalendarFilterData.team_calendar_filter_status;
-			};
+					}).open()
+				},
+				j.js_toggle_team_filter = function() {
+					f.team_calendar_filter_status = !f.team_calendar_filter_status
+				}
+		
 		
 
 	}])
@@ -138,8 +124,8 @@ define(['app'], function (app) {
 						_.filter($scope.team.projects,
 							function(a) {
 								return !_.includes($scope.vm.me_pids, a.pid) && 
-									(a.visibility === config.prj_visibility.protected || 
-										a.visibility === config.prj_visibility.public)
+									(a.visibility === config.constant.prj_visibility.protected || 
+										a.visibility === config.constant.prj_visibility.public)
 							}),
 					$scope.vm.projects.participateds = 
 						_.sortBy($scope.vm.projects.participateds,
@@ -164,12 +150,12 @@ define(['app'], function (app) {
 	/**************************************************************************************************************
 	 *
 	 **************************************************************************************************************/
-	.controller('TeamMembersCtrl', ['$scope','$rootScope','config','$translate',
-		function ($scope,$rootScope,config,$translate) {
-			//"$rootScope", "$scope", "$state", "bus", "teamService", "$translate"
-			//     a            b         c       d          e              f
+	.controller('TeamMembersCtrl', ["$rootScope", "$scope", "$state", "Util", "TeamService", 
+				"$translate",'config','api',
+		function (a, b, c, d, e, f, config,api) {
+			
 			function g() {
-				wt.data.team.get_team_members_with_stats(i,
+				api.get_team_members_with_stats(i,
 					function(a) {
 						b.team.members = a.data.members,
 							j()
@@ -179,32 +165,32 @@ define(['app'], function (app) {
 						h.part_loading_done = !0
 					})
 			}
-			if(!$scope.team) return c.go("dashboard.default");
-			$rootScope.global.title = [$translate.instant("team_members.title_name"), " | ", $scope.team.name].join("");
-			$rootScope.global.loading_done = !0;
+			if(!b.team) return c.go("dashboard.default");
+			a.global.title = [f.instant("team_members.title_name"), " | ", b.team.name].join(""),
+				a.global.loading_done = !0;
 			var h = b.vm = {
 					part_loading_done: !1,
 					filter_type: "normals",
 					members: {}
 				},
-			i = (b.parent_vm = b.$parent.vm, b.team.team_id),
-			j = function() {
-				h.members.normals = _.filter(b.team.members,
-						function(a) {
-							return a.role > 0 && a.role <= kzi.constant.role.member && a.status == kzi.constant.user_status.ok
-						}),
-					h.members.inviteds = _.filter(b.team.members,
-						function(a) {
-							return a.status == kzi.constant.user_status.pending
-						}),
-					h.members.guests = _.filter(b.team.members,
-						function(a) {
-							return a.role == kzi.constant.role.guest
-						})
-			};
+				i = (b.parent_vm = b.$parent.vm, b.team.team_id),
+				j = function() {
+					h.members.normals = _.filter(b.team.members,
+							function(a) {
+								return a.role > 0 && a.role <= config.constant.role.member && a.status == config.constant.user_status.ok
+							}),
+						h.members.inviteds = _.filter(b.team.members,
+							function(a) {
+								return a.status == config.constant.user_status.pending
+							}),
+						h.members.guests = _.filter(b.team.members,
+							function(a) {
+								return a.role == config.constant.role.guest
+							})
+				};
 			g();
 			var k = function(a) {
-				if(a.role != kzi.constant.role.deleted) {
+				if(a.role != config.constant.role.deleted) {
 					var c = _.find(b.team.members, {
 						uid: a.uid
 					});
@@ -229,12 +215,12 @@ define(['app'], function (app) {
 						}
 					}),
 				h.js_goto_team_admin = function() {
-					return b.team.is_dingteam ? void kzi.msg.info("该团队为钉钉创建，请从钉钉中邀请新团队成员。") : void c.go("team.admin.members", {
+					return b.team.is_dingteam ? void config.msg.info("该团队为钉钉创建，请从钉钉中邀请新团队成员。") : void c.go("team.admin.members", {
 						team_id: b.team.team_id
 					})
 				},
 				h.js_add_team_member = function() {
-					return b.team.is_dingteam ? void kzi.msg.info("该团队为钉钉创建，请从钉钉中邀请新团队成员。") : void e.showAddMember(b.team,
+					return b.team.is_dingteam ? void config.msg.info("该团队为钉钉创建，请从钉钉中邀请新团队成员。") : void e.showAddMember(b.team,
 						function() {
 							c.reload(!0)
 						})
@@ -243,14 +229,15 @@ define(['app'], function (app) {
 					h.filter_type = a
 				}
 		
+		
 	}])
 	/**************************************************************************************************************
 	 *
 	 **************************************************************************************************************/
-	.controller('TeamTasksCtrl', ['$scope','$rootScope','config',
-		function ($scope,$rootScope,config) {
-			//"$rootScope", "$scope", "$state", "$popbox", "globalDataContext", "locator", "$translate",
-			//		a           b         c          d               e               f           g
+	.controller('TeamTasksCtrl', ["$rootScope", "$scope", "$state", "$popbox", "globalDataContext", 
+			"locator", "$translate",'config','api',
+		function (a, b, c, d, e, f, g, config,api) {
+			
 			if(!b.team) return c.go("dashboard.default");
 			a.global.title = [g.instant("team_tasks.title_name"), " | ", b.team.name].join(""),
 				a.global.loading_done = !0,
@@ -268,7 +255,14 @@ define(['app'], function (app) {
 				b.tasks = [];
 			var k = b.load_tasks = function() {
 				b.loading_tasks = !0,
-					wt.data.team.get_tasks(h, i.filter_user_reg, i.filter_project_reg, i.filter_type_reg, j,
+					api.get_tasks(
+						{
+							0:h, 
+							1:i.filter_user_reg, 
+							2:i.filter_project_reg, 
+							3:i.filter_type_reg, 
+							4:j,
+						},
 						function(a) {
 							_.each(a.data,
 									function(a) {
@@ -281,17 +275,18 @@ define(['app'], function (app) {
 								a.data.length > 0 ? (j += 1, i.is_has_more_task = !0) : i.is_has_more_task = !1
 						},
 						function() {
-							kzi.msg.error(g.instant("team_tasks.get_tasks_fail"))
+							config.msg.error(g.instant("team_tasks.get_tasks_fail"))
 						},
 						function() {
 							b.loading_tasks = !1
 						})
 			};
-			wt.data.team.get_team_members(h,
+			api.get_team_members(
+					h,
 					function(a) {
 						b.team.members = _.filter(a.data.members,
 							function(a) {
-								return a.role != kzi.constant.role.guest && a.status == kzi.constant.user_status.ok
+								return a.role != config.constant.role.guest && a.status == config.constant.user_status.ok
 							})
 					},
 					null,
@@ -308,6 +303,7 @@ define(['app'], function (app) {
 						b.tasks = [],
 						k()
 				}
+		
 		
 	}])
 	/**************************************************************************************************************
@@ -396,7 +392,7 @@ define(['app'], function (app) {
 										project_not_select: !1,
 										project_select: void 0,
 										stats_type_select: [],
-										stats_type: kzi.constant.stats_type_list,
+										stats_type: config.constant.stats_type_list,
 										pop_add_loading: !1
 									};
 									_.each(h.stats_type,
@@ -431,14 +427,14 @@ define(['app'], function (app) {
 										h.js_add_stats = function() {
 											return h.project_select ? _.filter(h.stats_type, {
 												disable: !0
-											}).length === kzi.constant.stats_type_list.length ? void kzi.msg.warn(g.instant("team_graphs.stats_overall_exist")) : void 0 === h.stats_type_select ? void kzi.msg.warn(g.instant("team_graphs.choose_stats_type")) : (h.pop_add_loading = !0, void wt.data.team.add_team_stats(h.project_select, h.stats_type_select,
+											}).length === config.constant.stats_type_list.length ? void config.msg.warn(g.instant("team_graphs.stats_overall_exist")) : void 0 === h.stats_type_select ? void config.msg.warn(g.instant("team_graphs.choose_stats_type")) : (h.pop_add_loading = !0, void wt.data.team.add_team_stats(h.project_select, h.stats_type_select,
 												function(a) {
-													200 === a.code && (kzi.msg.success(g.instant("team_graphs.add_stats_success")), e.$broadcast(config.constant.event_names.team_add_stats, a.data), h.js_close())
+													200 === a.code && (config.msg.success(g.instant("team_graphs.add_stats_success")), e.$broadcast(config.constant.event_names.team_add_stats, a.data), h.js_close())
 												},
 												null,
 												function() {
 													h.pop_add_loading = !1
-												})) : (h.project_not_select = !0, void kzi.msg.warn(g.instant("team_graphs.choose_stats_project")))
+												})) : (h.project_not_select = !0, void config.msg.warn(g.instant("team_graphs.choose_stats_project")))
 										}
 								}
 							],
@@ -511,7 +507,7 @@ define(['app'], function (app) {
 
 			function j() {
 				0 != $("#calendar").find(".fc-agendaWeek-view").size() && ($("#calendar").find(".fc-agendaWeek-view tbody td:eq(0)").css({
-					height: kzi.util.winHeight() - l.header_height - 40,
+					height: config.util.winHeight() - l.header_height - 40,
 					overflow: "auto",
 					display: "block"
 				}), $("#calendar").find(".fc-agendaWeek-view tbody td:eq(0)").find(".fc-time-grid-container").css({
@@ -569,18 +565,18 @@ define(['app'], function (app) {
 				b.onEventClick = function(a, b, c) {
 					b.preventDefault(),
 						b.stopPropagation(),
-						a.extend && a.extend.xtype === kzi.constant.xtype.event ? f.openEvent(a.extend.pid, a.id) : f.openTask(a.extend.pid, a.id)
+						a.extend && a.extend.xtype === config.constant.xtype.event ? f.openEvent(a.extend.pid, a.id) : f.openTask(a.extend.pid, a.id)
 				},
 				b.onDayClick = function(d, e, f) {
 					if(a.global.loading_done) {
-						var g = kzi.helper.mouse_position(e);
+						var g = config.helper.mouse_position(e);
 						$(e.currentTarget).attr("data-placement", "right"),
 							$(e.currentTarget).attr("data-align", "top"),
 							$(e.currentTarget).addClass("js-popbox"),
 							$(e.currentTarget).attr("data-auto-adapt", "true"),
 							c.popbox({
 								target: e,
-								templateUrl: "/ycjs/directive/event/pop_add_event.html",
+								templateUrl: config.templateUrls.event_pop_add,
 								controller: "newEventCtrl",
 								top: g.y,
 								left: g.x,
@@ -654,7 +650,7 @@ define(['app'], function (app) {
 				}],
 				l.calendarConfig = {
 					header: !1,
-					height: kzi.util.winHeight() - l.header_height,
+					height: config.util.winHeight() - l.header_height,
 					editable: !0,
 					droppable: !0,
 					nextDayThreshold: "00:00:00",
@@ -676,7 +672,7 @@ define(['app'], function (app) {
 					eventDrop: function(a, b, c, d, f, g) {
 						if(0 !== b) {
 							var h = a.extend.pid;
-							if(a.extend.xtype === kzi.constant.xtype.task) {
+							if(a.extend.xtype === config.constant.xtype.task) {
 								var i = a.id,
 									j = a.extend.expire_date,
 									k = moment(j).add(b, "days").endOf("day").valueOf();
@@ -686,7 +682,7 @@ define(['app'], function (app) {
 											a.extend.badges.expire_date = k,
 											e.cache.task.set_expire(i, k)
 									})
-							} else if(a.extend.xtype === kzi.constant.xtype.event) {
+							} else if(a.extend.xtype === config.constant.xtype.event) {
 								var l = moment(a.start),
 									m = moment(a.end || a.start);
 								e.cache.event.update_date(h, a.id, l.format("YYYY-MM-DD"), l.format("HH:mm"), m.format("YYYY-MM-DD"), m.format("HH:mm"),
@@ -721,7 +717,7 @@ define(['app'], function (app) {
 						}
 					},
 					windowResize: function() {
-						$(this).fullCalendar("option", "height", kzi.util.winHeight() - l.header_height),
+						$(this).fullCalendar("option", "height", config.util.winHeight() - l.header_height),
 							j()
 					},
 					eventRender: function(a, b) {
@@ -736,7 +732,7 @@ define(['app'], function (app) {
 				b.changeView = function(a) {
 					g.myCalendar.fullCalendar("changeView", a),
 						l.calendar_view = a,
-						kzi.localData.set("calendar_view", a),
+						config.localData.set("calendar_view", a),
 						i(),
 						g.removeEvents(),
 						g.refetchEvents()
@@ -789,9 +785,9 @@ define(['app'], function (app) {
 							var f = _.find(o, {
 								id: c.event_id
 							});
-							if(d === kzi.constant.event_update_type.one && f && (f.title = c.name, f.start = moment(c.start.date).valueOf().toString().substring(0, 10), f.end = moment(c.end.date).valueOf().toString().substring(0, 10), _.find(c.attendees, {
+							if(d === config.constant.event_update_type.one && f && (f.title = c.name, f.start = moment(c.start.date).valueOf().toString().substring(0, 10), f.end = moment(c.end.date).valueOf().toString().substring(0, 10), _.find(c.attendees, {
 									uid: a.global.me.uid
-								}) ? f.extend.i_attended = 1 : f.extend.i_attended = 0, g.removeEvents(), g.refetchEvents()), d === kzi.constant.event_update_type.follow_up) {
+								}) ? f.extend.i_attended = 1 : f.extend.i_attended = 0, g.removeEvents(), g.refetchEvents()), d === config.constant.event_update_type.follow_up) {
 								var h = new Date(c.start.date) - new Date(f.start),
 									i = new Date(c.end.date) - new Date(c.start.date),
 									j = new Date(f.start);
@@ -813,20 +809,20 @@ define(['app'], function (app) {
 						if(o) {
 							var e = parseInt(d);
 							switch(e) {
-								case kzi.constant.event_trash_type.one:
+								case config.constant.event_trash_type.one:
 									o = _.reject(o,
 										function(a) {
 											return a.id === c.event_id
 										});
 									break;
-								case kzi.constant.event_trash_type.follow_up:
+								case config.constant.event_trash_type.follow_up:
 									o = _.reject(o,
 										function(a) {
 											var b = new Date(a.start).getTime();
 											return b >= c.start.date && a.extend.recurrence_id === c.recurrence_id
 										});
 									break;
-								case kzi.constant.event_trash_type.all:
+								case config.constant.event_trash_type.all:
 									o = _.reject(o,
 										function(a) {
 											return a.extend.recurrence_id === c.recurrence_id
@@ -863,8 +859,8 @@ define(['app'], function (app) {
 						function(b) {
 							c.team_all_member = _.filter(b.data.members,
 								function(b) {
-									return b.role == kzi.constant.role.admin && b.uid == a.global.me.uid && (e.user_is_team_admin = !0),
-										(b.role == kzi.constant.role.admin || b.role == kzi.constant.role.member) && b.status == kzi.constant.user_status.ok
+									return b.role == config.constant.role.admin && b.uid == a.global.me.uid && (e.user_is_team_admin = !0),
+										(b.role == config.constant.role.admin || b.role == config.constant.role.member) && b.status == config.constant.user_status.ok
 								})
 						})
 			}

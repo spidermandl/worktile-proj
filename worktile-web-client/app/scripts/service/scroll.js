@@ -1,6 +1,6 @@
 /**
  * @ngdoc function
- * @name jtWorkApp.service:IdentityService
+ * @name jtWorkApp.service:wtScrollService
  * @description
  * 登录前相关api service
  * Controller of the jtWorkApp

@@ -73,6 +73,7 @@ define(['app'], function (app) {
 				}),
 			a.$on("$stateChangeStart",
 				function(b, c, d, e, f) {
+					//console.log('--------------stateChangeStart');
 					null == c.need_load || c.need_load === !0 ? 
 						a.global.loading_done = !1 
 						: 
@@ -81,7 +82,7 @@ define(['app'], function (app) {
 				}),
 			a.$on("$stateChangeSuccess",
 				function(b, d, f, g, h) {
-					console.log(a.global.header_menu);
+					//console.log(a.global.header_menu);
 					f.pid && (a.global.current_pid = f.pid),
 						a.global.header_menu = d.header_menu,
 						d.project_iconmenu && (a.global.project_iconmenu = d.project_iconmenu)

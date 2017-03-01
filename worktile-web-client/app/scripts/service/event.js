@@ -84,7 +84,22 @@ define(['app'], function (app) {
                     ]
                 })
             }
+    }])
+    .service('eventsFilterData',['config',
+        function(config){
+    
+            this.calendar_view = "",
+                this.filter_type = 0,
+                this.init = function() {
+                    this.calendar_view = "month";
+                    var a = config.localData.get("events_filter_type");
+                    a && (this.filter_type = parseInt(a, 10))
+                },
+                this.set_filter_type = function(a) {
+                    this.filter_type !== a && 
+                    (this.filter_type = a, config.localData.set("events_filter_type", a))
+                }
         
-
-    }]);
+    }])
+    ;
 })
