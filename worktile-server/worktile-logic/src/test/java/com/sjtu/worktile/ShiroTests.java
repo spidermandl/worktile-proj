@@ -14,8 +14,8 @@ import org.springframework.test.context.junit4.SpringRunner;
  * Created by Desmond on 04/01/2017.
  */
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+//@RunWith(SpringRunner.class)
+//@SpringBootTest
 public class ShiroTests {
     @Autowired
     private DefaultWebSecurityManager securityManager;

@@ -103,7 +103,7 @@ define(['app'], function (app) {
 									i.project.info.is_star = a.is_star, 
 									i.project.info.curr_role = a.curr_role, 
 									i.project.info.permission = a.permission);
-							var b = _.find(globalDataContext.project, {
+							var b = _.find(globalDataContext.projects, {
 								pid: a.pid
 							});
 							b && (b.name = a.name, 
@@ -117,7 +117,7 @@ define(['app'], function (app) {
 						},
 						update: function(a, b, c, d, e, f) {
 							a === i.project.info.pid && (i.project.info.name = b, i.project.info.bg = c, i.project.info.pic = d, i.project.info.desc = e, i.project.info.visibility = f);
-							var g = _.find(globalDataContext.project, {
+							var g = _.find(globalDataContext.projects, {
 								pid: a
 							});
 							g && (g.name = b, g.bg = c, g.pic = d, g.desc = e, g.visibility = f)
@@ -126,7 +126,7 @@ define(['app'], function (app) {
 							wt.data.project.set_logo(a, b, c,
 								function() {
 									a === i.project.info.pid && (i.project.info.bg = b, i.project.info.pic = c);
-									var d = _.find(globalDataContext.project, {
+									var d = _.find(globalDataContext.projects, {
 										pid: a
 									});
 									d && (d.bg = b, d.pic = c)
@@ -151,7 +151,7 @@ define(['app'], function (app) {
 										type: 1,
 										enable: 1
 									}));
-									var h = _.find(globalDataContext.project, {
+									var h = _.find(globalDataContext.projects, {
 										pid: a
 									});
 									h && 1 === c.type && (h.navigations = _.filter(f, {
@@ -481,7 +481,7 @@ define(['app'], function (app) {
 						dismiss: function(a) {
 							var b = globalDataContext.getTeam(a);
 							i.teams.splice(i.teams.indexOf(b), 1),
-								globalDataContext.project = _.reject(globalDataContext.project,
+								globalDataContext.projects = _.reject(globalDataContext.projects,
 									function(b) {
 										return b.team_id === a
 									}),
@@ -499,7 +499,7 @@ define(['app'], function (app) {
 								team_id: a
 							});
 							c && (c.member_count = c.member_count - 1);
-							var d = _.reject(globalDataContext.project,
+							var d = _.reject(globalDataContext.projects,
 								function(b) {
 									return b.team_id === a
 								});
@@ -524,7 +524,7 @@ define(['app'], function (app) {
 									function(b) {
 										return b.team_id === a
 									}),
-								globalDataContext.project = _.reject(globalDataContext.project,
+								globalDataContext.projects = _.reject(globalDataContext.projects,
 									function(b) {
 										return b.team_id === a
 									})
@@ -943,17 +943,17 @@ define(['app'], function (app) {
 								                    b ? (delete b.faked, _.extend(b, a)) : 
 								                    	globalDataContext.teams.push(a);
 								                });
-											//console.log(globalDataContext.teams);
 											//取出project数据
 							                globalDataContext.projects = _.sortBy(msgs[1].data,
 										        function(a) {
 										            return a.pos;
 										        });
-										    globalDataContext.star_projects = _.filter(globalDataContext.project,
+							                //取出加星号项目
+										    globalDataContext.star_projects = _.filter(globalDataContext.projects,
 											    function(a) {
 											        return a.is_star;
 											    });
-										    globalDataContext.setTeamProjects()
+										    globalDataContext.setTeamProjects();
 							                //console.log(globalDataContext.projects);
 											return context;
 										},
@@ -986,7 +986,7 @@ define(['app'], function (app) {
 		            //     function(a) {
 		            //         return a.pos
 		            //     }),
-		            //     i.star_projects = _.filter(globalDataContext.project,
+		            //     i.star_projects = _.filter(globalDataContext.projects,
 		            //     function(a) {
 		            //         return a.is_star
 		            //     }),
@@ -1096,7 +1096,7 @@ define(['app'], function (app) {
 							}) : e
 				},
 				setTeamProjects: function() {
-					var a = _.find(globalDataContext.project, {
+					var a = _.find(globalDataContext.projects, {
 							team_id: "-1"
 						}),
 						d = _.find(globalDataContext.teams, {
@@ -1116,7 +1116,7 @@ define(['app'], function (app) {
 							})),
 						_.each(globalDataContext.teams,
 							function(a) {
-								a.projects = _.where(globalDataContext.project, {
+								a.projects = _.where(globalDataContext.projects, {
 									team_id: a.team_id
 								})
 							})
