@@ -91,7 +91,7 @@
                             function($rootScope,$state,$http,localStorageService) {
                                 console.log('----------------home');
                                 if($rootScope.isLogin()){
-                                    $state.go("dashboard");
+                                    $state.go("dashboard.default");
                                 }else{
                                     $state.go("signin");
                                 }
@@ -126,11 +126,12 @@
                 },
             })
             .state('dashboard', {
-                url: '/dashboard',
-                templateUrl: config.templateUrls.dashboard_task,
-                controller: 'dashboardTaskCtrl',
-                parent: 'root',
-                need_load: "true",
+                url: "/dashboard",
+                template: "<ui-view></ui-view>",
+                header_menu: "dashboard",
+                need_load: !0,
+                abstract: !0,
+                parent: "root"
                 //css: 'css/base_inner.css',
             })
             .state("calendar", {
@@ -191,11 +192,11 @@
                 parent: "root",
             }).state("dashboard.default", {
                 url: "",
-                templateUrl: config.templateUrls['dashboard.default'],
-                controller: "DashboardTaskCtrl",
+                templateUrl: config.templateUrls.dashboard_task,
+                controller: "dashboardTaskCtrl",
                 header_menu: "dashboard",
                 need_load: !1,
-                parent: 'root',
+                parent: 'dashboard',
             })
             .state("team", {
                 url: "/teams/:team_id",

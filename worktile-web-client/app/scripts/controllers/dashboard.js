@@ -417,8 +417,7 @@ define(['app'], function(app) {
 				}
 
 				function l() {
-					console.log('aaaaaaaa');
-					console.log($("#calendar").find(".fc-agendaWeek-view"));
+					// console.log($("#calendar").find(".fc-agendaWeek-view"));
 					0 != $("#calendar").find(".fc-agendaWeek-view").size() && 
 						($("#calendar").find(".fc-agendaWeek-view tbody td:eq(0)").css({
 						height: config.util.winHeight() - m.header_height - 40,

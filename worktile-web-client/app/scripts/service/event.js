@@ -12,7 +12,7 @@ define(['app'], function (app) {
             this.showAdd = function(f) {
                 a.open({
                     windowClass: "dialog-w680",
-                    templateUrl: "/app/js/service/entity/dialog_event_create.html",
+                    templateUrl: config.templateUrls.event_dialog_create,
                     controller: ["$rootScope", "$scope", "$uibModalInstance",
                         function(a, g, h) {
                             var i = g.vm = {

@@ -13,8 +13,8 @@ define(['app'], function (app) {
             this.showAdd = function() {
                 a.open({
                     windowClass: "dialog-w680",
-                    templateUrl: "/app/js/service/entity/dialog_file_create.html",
-                    controller: ["$rootScope", "$scope", "$uibModalInstance", "$wtUploadFile",
+                    templateUrl: config.templateUrls.file_dialog_create,
+                    controller: ["$rootScope", "$scope", "$uibModalInstance", "$UploadFile",
                         function(a, h, i, j) {
                             var k = h.vm = {
                                 new_file: {

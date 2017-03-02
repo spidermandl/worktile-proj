@@ -1,0 +1,36 @@
+<div class="dialog dialog-file-create">
+    <div class=dialog-head>
+        <span class=dialog-close>
+            <i class="wtfont wtf-close" ng-click=vm.close()></i>
+        </span>
+        <div class=dialog-title>{{'dialog_file_create.title_name'|translate}}</div></div>
+    <div class=dialog-body>
+        <form name=add_file_form w5c-form-validate="" class="w5c-form w-590 m-0-auto" novalidate="" role=form>
+            <div class="form-group file-preview-warper" ng-if=vm.new_file.original>
+                <img class="w-160 h-160 img" ng-src={{vm.new_file.src}} alt=vm.new_file.original.name>
+                <div class=info>
+                    <div class=name>{{[vm.new_file.original.name,50]|cutstr}}
+                        <br>
+                        <small class=color-text-gray>({{vm.new_file.original.size|fileSize}})</small>
+                    </div>
+                    <a href=javascript:; ngf-multiple=false ngf-select ngf-change=vm.file_select($files)>{{'dialog_file_create.reselect'|translate}}</a></div>
+            </div>
+            <div class="form-group empty-file-warper" ng-if=!vm.new_file.original>
+                <a href=javascript:; ngf-multiple=false ngf-select ngf-change=vm.file_select($files)>
+                    <i class="fa fa-file-o"></i>{{'dialog_file_create.select_file'|translate}}</a>
+            </div>
+            <div class=form-group>
+                <h5>{{'dialog_file_create.form_name_project'|translate}}</h5>
+                <ui-select ng-model=vm.new_file.pid theme=select2 append-to-body=true>
+                    <ui-select-match placeholder="{{'dialog_file_create.form_placeholder_project'|translate}}">{{$select.selected.name}}</ui-select-match>
+                    <ui-select-choices group-by="'team_name'" repeat="project.pid as project in projects|propsFilter:{name: $select.search}">
+                        <div class=text-overflow ng-bind-html=project.name|reHighlight:$select.search></div>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <div class=form-group>
+                <button wt-loading-status=vm.saving data-loading-text="{{'common.saving'|translate}}" w5c-form-submit=vm.js_upload_file() class="btn btn-success">{{'common.btn_save'|translate}}</button>
+                <button ng-click=vm.close() class="btn btn-cancel btn-link">{{'common.btn_cancel'|translate}}</button></div>
+        </form>
+    </div>
+</div>

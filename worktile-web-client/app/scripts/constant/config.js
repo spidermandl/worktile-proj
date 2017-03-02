@@ -60,7 +60,8 @@
 			event_toolbar: 'views/work/project/event/toolbar.html',
 			event_main: 'views/work/project/event/event.html',
 			event_pop_add: 'views/work/project/event/pop_add_event.html',
-			'dashboard.default': 'views/work/dashboard/dashboard_task.html',
+			event_dialog_create: 'views/work/project/event/dialog_event_create.html',
+			file_dialog_create: 'views/work/project/file/dialog_file_create.html',
 			calendar_event_create: 'views/work/dashboard/dialog_event_create.html',//创建日历event
 			calendar_pop_event_create: 'views/work/dashboard/calendar/pop_add_event.html',
 			about: 'views/about.html',

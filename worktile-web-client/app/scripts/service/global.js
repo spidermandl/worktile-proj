@@ -169,57 +169,64 @@ define(['app'], function (app) {
 								})
 						},
 						add: function(a) {
-							var b = _.find(i.projects, {
+							var b = _.find(globalDataContext.projects, {
 								pid: a.pid
 							});
-							b || i.projects.push(a),
-								i.setTeamProjects()
+							b || globalDataContext.projects.push(a),
+								globalDataContext.setTeamProjects()
 						},
 						remove: function(a) {
-							if(i.cache.recent_open.remove("project", a), i.cache.star_projects.remove(a), a === i.project.info.pid && (_.findIndex(i.star_projects, {
+							if(globalDataContext.cache.recent_open.remove("project", a), 
+								globalDataContext.cache.star_projects.remove(a), 
+								a === globalDataContext.project.info.pid && 
+								(_.findIndex(globalDataContext.star_projects, {
 									pid: a
-								}) !== -1 && i.cache.project.set_star(a), i.clearProject()), i.projects && i.projects.length > 0) {
-								var b = _.findWhere(i.projects, {
+								}) !== -1 && globalDataContext.cache.project.set_star(a), 
+								globalDataContext.clearProject()), 
+								globalDataContext.projects && globalDataContext.projects.length > 0) {
+								var b = _.findWhere(globalDataContext.projects, {
 									pid: a
 								});
-								b && 1 === b.is_star && i.cache.project.set_star(a),
-									i.projects = _.reject(i.projects,
+								b && 1 === b.is_star && globalDataContext.cache.project.set_star(a),
+									globalDataContext.projects = _.reject(globalDataContext.projects,
 										function(b) {
 											return b.pid === a
 										}),
-									i.setTeamProjects()
+									globalDataContext.setTeamProjects()
 							}
 						},
 						shift: function(a, d) {
-							if(i.project.info && i.project.info.pid === a) {
-								i.project.info.team_id = d,
-									i.project.info.visibility === config.constant.prj_visibility.protected && d === -1 && (i.project.info.visibility = config.constant.prj_visibility.private);
-								var e = _.find(i.teams, {
+							if(globalDataContext.project.info && globalDataContext.project.info.pid === a) {
+								globalDataContext.project.info.team_id = d,
+									globalDataContext.project.info.visibility === config.constant.prj_visibility.protected && 
+									d === -1 && (globalDataContext.project.info.visibility = config.constant.prj_visibility.private);
+								var e = _.find(globalDataContext.teams, {
 									team_id: d
 								});
-								e && (i.project.info.team = {
+								e && (globalDataContext.project.info.team = {
 										team_id: e.team_id,
 										name: e.name,
 										status: e.status,
 										is_owner: e.is_owner,
 										edition: e.edition
 									}),
-									d === -1 && (i.project.info.team = {
-											team_id: -1,
-											is_owner: 0
-										},
-										$translate.use(b.global.me.locale).then(function() {
-											i.project.info.team.name = $translate.instant("projects.project_type_name_personal")
-										}))
+									d === -1 && (globalDataContext.project.info.team = {
+										team_id: -1,
+										is_owner: 0
+									},
+									$translate.use(b.global.me.locale).then(function() {
+										globalDataContext.project.info.team.name = $translate.instant("projects.project_type_name_personal")
+									}))
 							}
-							var f = _.find(i.projects, {
+							var f = _.find(globalDataContext.projects, {
 								pid: a
 							});
-							f && (f.team_id = d, f.visibility === config.constant.prj_visibility.protected && d === -1 && (f.visibility = config.constant.prj_visibility.private), i.setTeamProjects())
+							f && (f.team_id = d, f.visibility === config.constant.prj_visibility.protected && 
+								d === -1 && (f.visibility = config.constant.prj_visibility.private), globalDataContext.setTeamProjects())
 						},
 						add_admin: function(a, b) {
-							if(i.projects && i.projects.length > 0) {
-								var c = _.find(i.projects, {
+							if(globalDataContext.projects && globalDataContext.projects.length > 0) {
+								var c = _.find(globalDataContext.projects, {
 									pid: a
 								});
 								if(c) {
@@ -231,8 +238,8 @@ define(['app'], function (app) {
 							}
 						},
 						remove_admin: function(a, b) {
-							if(i.projects && i.projects.length > 0) {
-								var c = _.find(i.projects, {
+							if(globalDataContext.projects && globalDataContext.projects.length > 0) {
+								var c = _.find(globalDataContext.projects, {
 									pid: a
 								});
 								c && (c.admins = _.reject(c.admins,
@@ -242,11 +249,15 @@ define(['app'], function (app) {
 							}
 						},
 						set_star: function(a) {
-							i.getProject(a, !1, !1).then(function(c) {
+							globalDataContext.getProject(a, !1, !1).then(function(c) {
 								return 1 === c.archived ? result : (c.is_star = c.is_star ? 0 : 1, void wt.data.project.set_prefs(c.pid, "is_star", c.is_star,
 									function(d) {
-										i.project.info && a === i.project.info.pid && (i.project.info.is_star = c.is_star, i.project.info.star_pos = d.data),
-											c.is_star ? i.cache.star_projects.add(c) : i.cache.star_projects.remove(a),
+										globalDataContext.project.info && a === globalDataContext.project.info.pid && 
+										(globalDataContext.project.info.is_star = c.is_star, 
+											globalDataContext.project.info.star_pos = d.data),c.is_star ? 
+											globalDataContext.cache.star_projects.add(c) 
+											: 
+											globalDataContext.cache.star_projects.remove(a),
 											b.$broadcast(config.constant.event_names.project_star_change, {
 												pid: a,
 												star_pos: d.data
@@ -258,22 +269,23 @@ define(['app'], function (app) {
 							})
 						},
 						set_favorite: function(a, b) {
-							i.project.info && a === i.project.info.pid && (i.project.info.is_favorite = b);
-							var c = _.find(i.projects, {
+							globalDataContext.project.info && a === globalDataContext.project.info.pid && 
+							(globalDataContext.project.info.is_favorite = b);
+							var c = _.find(globalDataContext.projects, {
 								pid: a
 							});
 							c && (c.is_favorite = b)
 						},
 						label_remove: function(a, b) {
-							if(i.project && i.project.pid === a) {
-								var c = _.filter(i.project.tasks,
+							if(globalDataContext.project && globalDataContext.project.pid === a) {
+								var c = _.filter(globalDataContext.project.tasks,
 										function(a) {
 											return a.labels.length > 0
 										}),
 									d = _.map(c, "tid");
 								_.each(d,
 									function(a) {
-										var c = _.find(i.project.tasks, {
+										var c = _.find(globalDataContext.project.tasks, {
 											tid: a
 										});
 										c.labels = _.reject(c.labels,
@@ -284,15 +296,17 @@ define(['app'], function (app) {
 							}
 						},
 						member_remove: function(a, b) {
-							var c = _.find(i.projects, {
+							var c = _.find(globalDataContext.projects, {
 								pid: a
 							});
 							c && c.members && _.remove(c.members, {
 									uid: b
 								}),
-								i.project.pid == a && i.project.info && i.project.info.members && (_.remove(i.project.info.members, {
+								globalDataContext.project.pid == a && 
+								globalDataContext.project.info && globalDataContext.project.info.members && 
+								(_.remove(globalDataContext.project.info.members, {
 									uid: b
-								}), _.forEach(i.project.tasks,
+								}), _.forEach(globalDataContext.project.tasks,
 									function(a) {
 										_.remove(a.members, {
 												uid: b
@@ -303,15 +317,15 @@ define(['app'], function (app) {
 									}))
 						},
 						label_rename: function(a, b) {
-							if(i.project && i.project.pid === a) {
-								var c = _.filter(i.project.tasks,
+							if(globalDataContext.project && globalDataContext.project.pid === a) {
+								var c = _.filter(globalDataContext.project.tasks,
 										function(a) {
 											return a.labels.length > 0
 										}),
 									d = _.map(c, "tid");
 								_.each(d,
 									function(a) {
-										var c = _.find(i.project.tasks, {
+										var c = _.find(globalDataContext.project.tasks, {
 											tid: a
 										});
 										$(c.labels).each(function(a, c) {
@@ -323,10 +337,10 @@ define(['app'], function (app) {
 					},
 					star_projects: {
 						add: function(a) {
-							i.star_projects.push(a)
+							globalDataContext.star_projects.push(a)
 						},
 						remove: function(a) {
-							i.star_projects = _.reject(i.star_projects, {
+							globalDataContext.star_projects = _.reject(globalDataContext.star_projects, {
 								pid: a
 							})
 						}
@@ -334,7 +348,8 @@ define(['app'], function (app) {
 					recent_open: {
 						get: function() {
 							var a = [];
-							return config.localData.get("quickswitch_recentOpen") ? (a = JSON.parse(config.localData.get("quickswitch_recentOpen")), _.each(a,
+							return config.localData.get("quickswitch_recentOpen") ? 
+								(a = JSON.parse(config.localData.get("quickswitch_recentOpen")), _.each(a,
 								function(a) {
 									a.is_current = !1
 								}), a) : a
@@ -449,7 +464,7 @@ define(['app'], function (app) {
 					},
 					team: {
 						dismiss: function(a) {
-							var b = i.getTeam(a);
+							var b = globalDataContext.getTeam(a);
 							i.teams.splice(i.teams.indexOf(b), 1),
 								i.projects = _.reject(i.projects,
 									function(b) {
@@ -863,7 +878,7 @@ define(['app'], function (app) {
 						function(msg){
 							context.me =msg.data;
 							$rootScope.bind = true;
-							$state.go("dashboard");
+							$state.go("dashboard.default");
 						},
 						function(msg){
 							context.me =null;
@@ -1060,43 +1075,43 @@ define(['app'], function (app) {
 								return a.sort
 							}) : e
 				},
-				// setTeamProjects = function() {
-				// 	var a = _.find(i.projects, {
-				// 			team_id: "-1"
-				// 		}),
-				// 		d = _.find(i.teams, {
-				// 			team_id: "-1"
-				// 		});
-				// 	if(a && !d) {
-				// 		var e = {
-				// 			team_id: "-1"
-				// 		};
-				// 		$translate.use(b.global.me.locale).then(function() {
-				// 				e.name = $translate.instant("projects.project_type_name_personal")
-				// 			}),
-				// 			i.teams.unshift(e)
-				// 	}!a && d && (i.teams = _.reject(i.teams,
-				// 			function(a) {
-				// 				return "-1" === a.team_id
-				// 			})),
-				// 		_.each(i.teams,
-				// 			function(a) {
-				// 				a.projects = _.where(i.projects, {
-				// 					team_id: a.team_id
-				// 				})
-				// 			})
-				// },
-				// loadTeam = function(a) {
-				// 	var b = _.find(i.teams, {
-				// 		team_id: a
-				// 	});
-				// 	return b ? b : wt.data.team.summary(a).then(function(a) {
-				// 			return a.data.data.info
-				// 		},
-				// 		function() {
-				// 			return null
-				// 		})
-				// },
+				setTeamProjects: function() {
+					var a = _.find(i.projects, {
+							team_id: "-1"
+						}),
+						d = _.find(i.teams, {
+							team_id: "-1"
+						});
+					if(a && !d) {
+						var e = {
+							team_id: "-1"
+						};
+						$translate.use(b.global.me.locale).then(function() {
+								e.name = $translate.instant("projects.project_type_name_personal")
+							}),
+							i.teams.unshift(e)
+					}!a && d && (i.teams = _.reject(i.teams,
+							function(a) {
+								return "-1" === a.team_id
+							})),
+						_.each(i.teams,
+							function(a) {
+								a.projects = _.where(i.projects, {
+									team_id: a.team_id
+								})
+							})
+				},
+				loadTeam: function(a) {
+					var b = _.find(i.teams, {
+						team_id: a
+					});
+					return b ? b : wt.data.team.summary(a).then(function(a) {
+							return a.data.data.info
+						},
+						function() {
+							return null
+						})
+				},
 				/**
 				 * 获取team中且不在项目中的成员
 				 */
@@ -1109,12 +1124,12 @@ define(['app'], function (app) {
 							return null
 						})
 				},
-				// loadProjectMembers = function(a, b) {
-				// 	return a === i.project.pid && i.project.info && !_.isEmpty(i.project.info.members) ? b(i.project.info.members) : void wt.data.project.get_members(a,
-				// 		function(a) {
-				// 			return b(a.data)
-				// 		})
-				// },
+				loadProjectMembers : function(a, b) {
+					return a === i.project.pid && i.project.info && !_.isEmpty(i.project.info.members) ? b(i.project.info.members) : void wt.data.project.get_members(a,
+						function(a) {
+							return b(a.data)
+						})
+				},
 				/**
 				 *加载项目 entry和task
 				 */
@@ -1143,104 +1158,104 @@ define(['app'], function (app) {
 						)
 						: b(this.project)
 				},
-				// reloadEntriesAndTasks = function(a, b, c) {
-				// 	wt.data.entry.get_list(a, !1,
-				// 		function(b) {
-				// 			var d = b.data.entries,
-				// 				e = b.data.tasks;
-				// 			i.pid = a,
-				// 				i.project.entries = d,
-				// 				i.project.tasks = e,
-				// 				c(i.project)
-				// 		},
-				// 		null, null, "globalDataContext-reloadEntriesAndTasks-" + b)
-				// },
-				// clearProject = function() {
-				// 	i.project.info = null,
-				// 		i.project.pid = "",
-				// 		i.project.entries = [],
-				// 		i.project.tasks = [],
-				// 		i.project.navigations = [],
-				// 		i.project.files = [],
-				// 		i.project.cal_events = [],
-				// 		i.project.cal_events_start = void 0,
-				// 		i.project.cal_events_end = void 0,
-				// 		i.project.events = []
-				// },
-				// clearEntries = function() {
-				// 	i.project.entries = [],
-				// 		i.project.tasks = []
-				// },
-				// loadEntries = function(a, b, c) {
-				// 	return i.project.pid !== a || _.isEmpty(i.project.entries) ? void wt.data.entry.get_list(a, !0,
-				// 		function(a) {
-				// 			var c = _.sortBy(a.data.entries,
-				// 				function(a) {
-				// 					return a.pos
-				// 				});
-				// 			return b(c)
-				// 		},
-				// 		c, null, "globalDataContext-loadEntries") : b(i.project.entries)
-				// },
-				// loadTask = function(a, b, c, d, e) {
-				// 	var f = null;
-				// 	a !== i.project.pid || _.isEmpty(i.project.tasks) || (f = _.find(i.project.tasks, {
-				// 			tid: b
-				// 		})),
-				// 		f ? (c && c(f), e && e()) : wt.data.task.get(a, b,
-				// 			function(a) {
-				// 				c(a.data)
-				// 			},
-				// 			d, e)
-				// },
-				// loadCalEvents = function(a, b, c, d, e) {
-				// 	return i.project.pid === a && i.project.cal_events_start <= b && i.project.cal_events_end >= c ? d(i.project.cal_events) : void wt.data.event.get_list(a, b, c,
-				// 		function(a) {
-				// 			return i.project.cal_events_start = b,
-				// 				i.project.cal_events_end = c,
-				// 				_.each(a.data,
-				// 					function(a) {
-				// 						a.allDay = !1,
-				// 							a.extend.recurrence_id && (a.editable = !1),
-				// 							a.start.length < 25 && (a.start = moment.unix(a.start).format("YYYY-MM-DDTHH:mm"), a.end = moment.unix(a.end).format("YYYY-MM-DDTHH:mm"))
-				// 					}),
-				// 				i.project.cal_events = a.data,
-				// 				d(i.project.cal_events)
-				// 		},
-				// 		e)
-				// },
-				// loadEvent = function(a, b, c, d, e) {
-				// 	var f = null;
-				// 	a !== i.project.pid || _.isEmpty(i.project.events) || (f = _.find(i.project.events, {
-				// 			event_id: b
-				// 		})),
-				// 		f ? (c && c(f), e && e()) : wt.data.event.get(a, b,
-				// 			function(a) {
-				// 				200 === a.code && (i.project.events.push(a.data), c(a.data))
-				// 			},
-				// 			d, e)
-				// },
-				// reloadUnread = function() {
-				// 	wt.data.notice.unread_count().success(function(a) {
-				// 		i.unread_count = a.count
-				// 	})
-				// },
-				// changeUnreadCount = function(a) {
-				// 	b.global.unread_count = a
-				// },
-				// readNotice = function(a) {
-				// 	a || (a = 1),
-				// 		b.global.unread_count >= a ? b.global.unread_count = b.global.unread_count - a : b.global.unread_count = 0
-				// },
-				// loadProjectAbstracts = function(a) {
-				// 	return i.project_abstracts ? a(i.project_abstracts) : void wt.data.project.get_all_abstracts("visible",
-				// 		function(b) {
-				// 			i.project_abstracts = _(b.data).map(function(a) {
-				// 					return [a.pid, a]
-				// 				}).zipObject().value(),
-				// 				a(i.project_abstracts)
-				// 		})
-				// },
+				reloadEntriesAndTasks : function(a, b, c) {
+					wt.data.entry.get_list(a, !1,
+						function(b) {
+							var d = b.data.entries,
+								e = b.data.tasks;
+							i.pid = a,
+								i.project.entries = d,
+								i.project.tasks = e,
+								c(i.project)
+						},
+						null, null, "globalDataContext-reloadEntriesAndTasks-" + b)
+				},
+				clearProject : function() {
+					i.project.info = null,
+						i.project.pid = "",
+						i.project.entries = [],
+						i.project.tasks = [],
+						i.project.navigations = [],
+						i.project.files = [],
+						i.project.cal_events = [],
+						i.project.cal_events_start = void 0,
+						i.project.cal_events_end = void 0,
+						i.project.events = []
+				},
+				clearEntries : function() {
+					i.project.entries = [],
+						i.project.tasks = []
+				},
+				loadEntries : function(a, b, c) {
+					return i.project.pid !== a || _.isEmpty(i.project.entries) ? void wt.data.entry.get_list(a, !0,
+						function(a) {
+							var c = _.sortBy(a.data.entries,
+								function(a) {
+									return a.pos
+								});
+							return b(c)
+						},
+						c, null, "globalDataContext-loadEntries") : b(i.project.entries)
+				},
+				loadTask : function(a, b, c, d, e) {
+					var f = null;
+					a !== i.project.pid || _.isEmpty(i.project.tasks) || (f = _.find(i.project.tasks, {
+							tid: b
+						})),
+						f ? (c && c(f), e && e()) : wt.data.task.get(a, b,
+							function(a) {
+								c(a.data)
+							},
+							d, e)
+				},
+				loadCalEvents : function(a, b, c, d, e) {
+					return i.project.pid === a && i.project.cal_events_start <= b && i.project.cal_events_end >= c ? d(i.project.cal_events) : void wt.data.event.get_list(a, b, c,
+						function(a) {
+							return i.project.cal_events_start = b,
+								i.project.cal_events_end = c,
+								_.each(a.data,
+									function(a) {
+										a.allDay = !1,
+											a.extend.recurrence_id && (a.editable = !1),
+											a.start.length < 25 && (a.start = moment.unix(a.start).format("YYYY-MM-DDTHH:mm"), a.end = moment.unix(a.end).format("YYYY-MM-DDTHH:mm"))
+									}),
+								i.project.cal_events = a.data,
+								d(i.project.cal_events)
+						},
+						e)
+				},
+				loadEvent : function(a, b, c, d, e) {
+					var f = null;
+					a !== i.project.pid || _.isEmpty(i.project.events) || (f = _.find(i.project.events, {
+							event_id: b
+						})),
+						f ? (c && c(f), e && e()) : wt.data.event.get(a, b,
+							function(a) {
+								200 === a.code && (i.project.events.push(a.data), c(a.data))
+							},
+							d, e)
+				},
+				reloadUnread : function() {
+					wt.data.notice.unread_count().success(function(a) {
+						i.unread_count = a.count
+					})
+				},
+				changeUnreadCount :function(a) {
+					b.global.unread_count = a
+				},
+				readNotice: function(a) {
+					a || (a = 1),
+						b.global.unread_count >= a ? b.global.unread_count = b.global.unread_count - a : b.global.unread_count = 0
+				},
+				loadProjectAbstracts: function(a) {
+					return i.project_abstracts ? a(i.project_abstracts) : void wt.data.project.get_all_abstracts("visible",
+						function(b) {
+							i.project_abstracts = _(b.data).map(function(a) {
+									return [a.pid, a]
+								}).zipObject().value(),
+								a(i.project_abstracts)
+						})
+				},
 			};
 			return globalDataContext;
 		}

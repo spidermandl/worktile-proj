@@ -200,11 +200,6 @@ public class TeamController extends BaseController{
         for (TUser u:users){
             TeamContactsMsg.OutMsg.User data = new TeamContactsMsg.OutMsg.User();
             mappingToUserMsg(data,u);
-//            TeamContactsMsg.OutMsg.Data data = new TeamContactsMsg.OutMsg.Data();
-//            data.uid = uid;
-//            data.icon = u.getHead();
-//            data.display_name = u.getSignature()==null?u.getAccount():u.getSignature();
-//            msg.data.add(data);
         }
         return msg;
     }

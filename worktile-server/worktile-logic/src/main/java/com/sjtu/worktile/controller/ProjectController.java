@@ -63,7 +63,7 @@ public class ProjectController extends BaseController{
                                        @RequestParam("desc") String desc,
                                        @RequestParam("name") String name,
                                        @RequestParam("template_id") int template_id,
-                                       @RequestParam("template_type") int template_type,
+                                       @RequestParam(value = "template_type",required = false) Long template_type,
                                        @RequestParam("visibility") int visibility) throws AppException{
         long uid = super.getUserID(request);
         //team_id == 0 属于个人项目
