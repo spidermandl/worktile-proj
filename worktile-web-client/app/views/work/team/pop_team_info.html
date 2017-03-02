@@ -1,0 +1,30 @@
+<div class=popbox-header>
+    <button class="cancel fa fa-remove" ng-click=vm.js_close()></button>
+    <h3>{{'pop_team_info.title'|translate}}</h3></div>
+<div class=popbox-bodywrapper wt-scroll>
+    <div class="popbox-body w_300">
+        <ul class=popbox-menu>
+            <li>
+                <a href=javascript:;>
+                    <i class="fa fa-sitemap"></i>{{'pop_team_info.industry'|translate}}
+                    <br>
+                    <span class="color_gray pl_20">{{vm.team.industry|teamIndustries}}</span></a>
+            </li>
+            <li class=divider></li>
+            <li>
+                <a href=javascript:;>
+                    <i class="fa fa-clock-o"></i>{{'pop_team_info.create_time'|translate}}
+                    <br>
+                    <span class="color_gray pl_20">{{vm.team.create_date|dateFormatZHCN}}</span></a>
+            </li>
+            <li class=divider></li>
+            <li>
+                <a href=javascript:;>
+                    <i class="fa fa-info-circle"></i>{{'pop_team_info.desc'|translate}}
+                    <br>
+                    <span class="color_gray pl_20" ng-show="vm.team.desc==''">{{'pop_team_info.empty_desc'|translate}}</span>
+                    <span class="color_gray pl_20" ng-show="vm.team.desc!=''">{{vm.team.desc}}</span></a>
+            </li>
+        </ul>
+    </div>
+</div>

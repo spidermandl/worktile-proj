@@ -345,6 +345,25 @@ define(['app'], function(app) {
 						success, failure, promise
 					);
 				},
+				update_team_stats_pos: function(data, success, failure, promise){
+					return this.http_post_template(
+						domain+'/api/graph/unknown',
+						data,
+						success, failure, promise
+					);
+				},
+				get_team_stats: function(team_id, success, failure, promise) {
+					return this.http_get_template(
+						domain+'/api/team/unknown',
+						success, failure, promise
+					);
+				},
+				get_tasks_overview: function(team_id, success, failure, promise) {
+					return this.http_get_template(
+						domain+'/api/team/unknown',
+						success, failure, promise
+					);
+				},
 				/**************************************************************************
 				 **未实现 api
 				 **************************************************************************/

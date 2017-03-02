@@ -61,7 +61,8 @@ define(['app'], function (app) {
 							l.popbox = b.popbox({
 								target: c,
 								templateUrl: config.templateUrls.left_menu_team,
-								controller: ["$scope", "popbox", "TeamService", "$uibModal", "$window", "$translate", "$interval",
+								controller: ["$scope", "popbox", "TeamService", "$uibModal", "$window", 
+										"$translate", "$interval",
 									function(b, c, d, f, g, h, i) {
 										function j() {
 											k.teams = _.filter(_.clone(e.teams),

@@ -340,10 +340,12 @@ define(['app'], function (app) {
         return function(a) {
             return _.isEmpty(a) ? null: a.type && a.type === kzi.constant.file_type.folder ? 1 : _.contains(kzi.constant.img_exts, a.ext) ? 0 : _.contains(kzi.constant.text_exts, a.ext) || _.contains(kzi.constant.preview_exts, a.ext) ? 2 : null
         }
-    }]).filter("teamIndustries", ["$translate",
-    function(a) {
+    }]).filter("teamIndustries", ["$translate",'config',
+    function(a,config) {
         return function(b) {
-            return config.constant.team_industries[b] ? a.instant(config.constant.team_industries[b]) : a.instant("common.txt_unknow")
+            return config.constant.team_industries[b] ? 
+                a.instant(config.constant.team_industries[b]) : 
+                a.instant("common.txt_unknow")
         }
     }]).filter("memberStatus", ["$translate",
     function(a) {

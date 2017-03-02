@@ -43,7 +43,7 @@ define(['app'], function (app) {
 				j.js_view_team_info = function(a) {
 					g.popbox({
 						target: a,
-						templateUrl: "/tpl/team/pop_team_info.html",
+						templateUrl: config.templateUrls.team_pop_info,//"/tpl/team/pop_team_info.html",
 						controller: ["$scope", "popbox", "pop_data",
 							function(a, b, c) {
 								var d = a.vm = {
@@ -309,11 +309,10 @@ define(['app'], function (app) {
 	/**************************************************************************************************************
 	 *
 	 **************************************************************************************************************/
-	.controller('TeamGraphsCtrl', ['$scope','$rootScope','config',
-		function ($scope,$rootScope,config) {
-	 	//["$rootScope", "$scope", "$state", "projectService", "globalDataContext", "$popbox", "$translate"]
-	 	//       a           b         c             d                   e               f            g
-			var h = b.vm = {
+	.controller('TeamGraphsCtrl', ["$rootScope", "$scope", "$state", "ProjectService", "globalDataContext", 
+						"$popbox", "$translate",'config','Util','api',
+		function (a, b, c, d, e, f, g,config,util,api) {
+		 	var h = b.vm = {
 				part_loading_done: !1,
 				overview: {
 					completed: null,
@@ -344,13 +343,18 @@ define(['app'], function (app) {
 					},
 					j = function(a, b, c, d) {
 						if(c || d) {
-							var e = wt.bus.team.calculate_stats_pos(c, d),
+							var e = util.team.calculate_stats_pos(c, d),
 								f = _.find(h.stats_list, {
 									pid: a,
 									type: b
 								});
 							f.pos = e,
-								wt.data.team.update_team_stats_pos(a, b, e,
+								api.update_team_stats_pos(
+									{
+										1: a, 
+										2: b, 
+										3: e,
+									},
 									function(a) {
 										200 === a.code && (h.stats_list = _.sortBy(h.stats_list,
 											function(a) {
@@ -359,13 +363,13 @@ define(['app'], function (app) {
 									})
 						}
 					};
-				wt.data.team.get_team_stats(b.team.team_id,
+					api.get_team_stats(b.team.team_id,
 						function(a) {
 							200 === a.code && a.data.length > 0 && (h.stats_list = i(a.data), h.stats_list = _.sortBy(h.stats_list, "pos"))
 						},
 						null,
 						function() {
-							wt.data.team.get_tasks_overview(b.team.team_id,
+							api.get_tasks_overview(b.team.team_id,
 									function(a) {
 										200 === a.code && (h.overview = a.data)
 									}),
@@ -375,7 +379,7 @@ define(['app'], function (app) {
 					h.js_pop_add_stats = function(a) {
 						f.popbox({
 							target: a,
-							templateUrl: "/tpl/team/pop_add_team_stats.html",
+							templateUrl: config.templateUrls.team_pop_add_stats,
 							controller: ["$scope", "popbox", "pop_data", "globalDataContext", "$rootScope",
 								function(a, b, c, d, e) {
 									function f() {
@@ -492,10 +496,12 @@ define(['app'], function (app) {
 	 /**************************************************************************************************************
 	 *
 	 **************************************************************************************************************/
- 	.controller('TeamCalendarCtrl', ['$scope','$rootScope','config',
-		function ($scope,$rootScope,config) {
+ 	.controller('TeamCalendarCtrl', ["$rootScope", "$scope", "$popbox", "uiCalendarConfig", "globalDataContext", 
+ 						"locator", "teamCalendarFilterData", "$translate",'config',
+		function (a, b, c, d, e, f, g, h,config) {
 			//"$rootScope", "$scope", "$popbox", "uiCalendarConfig", "globalDataContext", "locator", "teamCalendarFilterData", "$translate"
 			//     a            b          c             d                     e              f                g                     h
+			
 			function i() {
 				var a = g.myCalendar.fullCalendar("getView");
 				$("#calendar_title").html(a.title);
@@ -576,7 +582,7 @@ define(['app'], function (app) {
 							$(e.currentTarget).attr("data-auto-adapt", "true"),
 							c.popbox({
 								target: e,
-								templateUrl: config.templateUrls.event_pop_add,
+								templateUrl: "/ycjs/directive/event/pop_add_event.html",
 								controller: "newEventCtrl",
 								top: g.y,
 								left: g.x,
@@ -629,8 +635,7 @@ define(['app'], function (app) {
 						}
 						var h = moment(a.format()).unix() + "000",
 							i = moment(b.format()).unix() + "000";
-						null == l.cache_calendar ? 
-							wt.data.calendar.get_teams_events_and_tasks(l.team_id, 0, g.team_calendar_filter_pids, h, i,
+						null == l.cache_calendar ? wt.data.calendar.get_teams_events_and_tasks(l.team_id, 0, g.team_calendar_filter_pids, h, i,
 							function(a) {
 								f(a),
 									d(l.cache_calendar),
@@ -837,17 +842,19 @@ define(['app'], function (app) {
 							g.refetchEvents()
 					})
 		
+		
 	 	
 	}])
 	/**************************************************************************************************************
 	 *
 	 **************************************************************************************************************/
- 	.controller('TeamCalendarSidebarCtrl', ['$scope','$rootScope','config',
-		function ($scope,$rootScope,config) {
+ 	.controller('TeamCalendarSidebarCtrl', ["$rootScope", "$scope", "teamCalendarFilterData",
+ 							'config','api',
+		function (a, b, c,config,api) {
 			//"$rootScope", "$scope", "teamCalendarFilterData
 			//      a            b                 c
 			function d() {
-				wt.data.team.get_team_projects(b.team.team_id,
+				api.get_team_projects(b.team.team_id,
 						function(a) {
 							c.team_all_projects = a.data,
 								_.each(c.team_all_projects,
@@ -855,67 +862,69 @@ define(['app'], function (app) {
 										a.is_checked = !0
 									})
 						}),
-					wt.data.team.get_team_members(b.team.team_id,
-						function(b) {
-							c.team_all_member = _.filter(b.data.members,
-								function(b) {
-									return b.role == config.constant.role.admin && b.uid == a.global.me.uid && (e.user_is_team_admin = !0),
-										(b.role == config.constant.role.admin || b.role == config.constant.role.member) && b.status == config.constant.user_status.ok
-								})
-						})
+				api.get_team_members(b.team.team_id,
+					function(b) {
+						c.team_all_member = _.filter(b.data.members,
+							function(b) {
+								return b.role == config.constant.role.admin && b.uid == a.global.me.uid && (e.user_is_team_admin = !0),
+									(b.role == config.constant.role.admin || b.role == config.constant.role.member) && b.status == config.constant.user_status.ok
+							})
+					})
 			}
 			var e = b.vm = {
 				teamCalendarFilterData: c,
 				is_filter_action: !1
 			};
 			d(),
-				e.js_close_filter = function() {
-					c.team_calendar_filter_status = !1
-				},
-				e.js_clear_filter = function() {
-					c.clear_filter()
-				},
-				e.js_filter_type = function(a) {
-					switch(a) {
-						case "task":
-							c.filter_only_task = !0,
-								c.filter_only_schedule = !1,
-								c.team_calendar_filter_type = 2;
-							break;
-						case "schedule":
-							c.filter_only_schedule = !0,
-								c.filter_only_task = !1,
-								c.team_calendar_filter_type = 1;
-							break;
-						default:
+			e.js_close_filter = function() {
+				c.team_calendar_filter_status = !1
+			},
+			e.js_clear_filter = function() {
+				c.clear_filter()
+			},
+			e.js_filter_type = function(a) {
+				switch(a) {
+					case "task":
+						c.filter_only_task = !0,
 							c.filter_only_schedule = !1,
-								c.filter_only_task = !1,
-								c.team_calendar_filter_type = 0
-					}
+							c.team_calendar_filter_type = 2;
+						break;
+					case "schedule":
+						c.filter_only_schedule = !0,
+							c.filter_only_task = !1,
+							c.team_calendar_filter_type = 1;
+						break;
+					default:
+						c.filter_only_schedule = !1,
+							c.filter_only_task = !1,
+							c.team_calendar_filter_type = 0
+				}
+				c.removeEvents(),
+					c.refetchEvents()
+			},
+			e.js_calendar_filter_project_toggle = function(a) {
+				a.is_checked === !0 ? a.is_checked = !1 : a.is_checked = !0,
+					c.team_calendar_filter_pids = _.map(_.filter(c.team_all_projects, {
+						is_checked: !0
+					}), "pid").toString() || "",
 					c.removeEvents(),
-						c.refetchEvents()
-				},
-				e.js_calendar_filter_project_toggle = function(a) {
-					a.is_checked === !0 ? a.is_checked = !1 : a.is_checked = !0,
-						c.team_calendar_filter_pids = _.map(_.filter(c.team_all_projects, {
-							is_checked: !0
-						}), "pid").toString() || "",
-						c.removeEvents(),
-						c.refetchEvents()
-				},
-				e.js_calendar_filter_member_toggle = function(a) {
-					void 0 == a.is_checked ? a.is_checked = !1 : null,
-						0 == a.is_checked ? a.is_checked = !0 : a.is_checked = !1,
-						c.team_calendar_filter_member_uids = _.map(_.filter(c.team_all_member, {
-							is_checked: !0
-						}), "uid"),
-						c.removeEvents(),
-						c.refetchEvents()
-				},
-				b.$on("$destroy",
-					function() {
-						e.js_close_filter()
-					})
+					c.refetchEvents()
+			},
+			e.js_calendar_filter_member_toggle = function(a) {
+				void 0 == a.is_checked ? a.is_checked = !1 : null,
+					0 == a.is_checked ? a.is_checked = !0 : a.is_checked = !1,
+					c.team_calendar_filter_member_uids = 
+						_.map(_.filter(c.team_all_member, {
+						is_checked: !0
+					}), "uid"),
+					c.removeEvents(),
+					c.refetchEvents()
+			},
+			b.$on("$destroy",
+				function() {
+					e.js_close_filter()
+				})
+		
 		
 	 	
 	}])
