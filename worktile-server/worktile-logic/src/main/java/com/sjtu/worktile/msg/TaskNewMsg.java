@@ -22,7 +22,6 @@ public class TaskNewMsg extends PairMsg {
 
     }
 
-
     public static class OutMsg implements ResponseMsg{
         public int code=MSG_CODE;
         public Task data = new Task();

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -181,6 +182,30 @@ public class TeamController extends BaseController{
     public TeamDisableMsg.OutMsg disable(final HttpServletRequest request, @PathVariable int team_id) throws AppException {
         TeamDisableMsg.OutMsg msg = new TeamDisableMsg.OutMsg();
         teamService.diableTeam(team_id);
+        return msg;
+    }
+
+    /**
+     * 获取单个team相关联系人
+     * @param request
+     * @param team_id
+     * @return
+     * @throws AppException
+     */
+    @RequestMapping(value = "{team_id}/contacts", method = RequestMethod.GET)
+    @ResponseBody
+    public TeamContactsMsg.OutMsg contact(final HttpServletRequest request, @PathVariable long team_id) throws AppException {
+        TeamContactsMsg.OutMsg msg = new TeamContactsMsg.OutMsg();
+        List<TUser> users=teamService.getSingleTeamContacts(team_id);
+        for (TUser u:users){
+            TeamContactsMsg.OutMsg.User data = new TeamContactsMsg.OutMsg.User();
+            mappingToUserMsg(data,u);
+//            TeamContactsMsg.OutMsg.Data data = new TeamContactsMsg.OutMsg.Data();
+//            data.uid = uid;
+//            data.icon = u.getHead();
+//            data.display_name = u.getSignature()==null?u.getAccount():u.getSignature();
+//            msg.data.add(data);
+        }
         return msg;
     }
 }

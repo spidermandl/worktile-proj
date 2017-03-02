@@ -195,4 +195,32 @@ public class TeamService {
         tProjectMapper.deleteByExample(projectQuery);
 
     }
+
+    /**
+     * 获取单个团队中的成员
+     * @param team_id
+     * @return
+     */
+    public List<TUser> getSingleTeamContacts(long team_id){
+        /**
+         * 根据team_id 查找userrole
+         */
+        TUserRoleExample query=new TUserRoleExample();
+        query.or().andTeamIdEqualTo(team_id);
+        List<TUserRole> roles=tUserRoleMapper.selectByExample(query);
+        if (roles.size()==0){//如果team_id错误
+            return new ArrayList<TUser>();
+        }
+        /**
+         * 根据userrole表查找用户
+         */
+        TUserExample uQuery = new TUserExample();
+        for (TUserRole r : roles){
+            long id = r.getUserId();
+            TUserExample.Criteria criteria = uQuery.createCriteria();
+            criteria.andIdEqualTo(id);
+            uQuery.or(criteria);
+        }
+        return tUserMapper.selectByExample(uQuery);
+    }
 }
