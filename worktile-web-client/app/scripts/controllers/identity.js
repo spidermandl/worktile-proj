@@ -10,6 +10,7 @@
 
   	//父类
 	app.controller('BaseCtrl', ['$scope','config','$translate',function ($scope,config,$translate) {
+		
 		$scope.action_type = 0;
 
 		$scope.vm = {

@@ -1,0 +1,174 @@
+<ul class=popbox-step ng-switch on=vm.step wt-stop-propagation="" ng-if=global.prj_module.crud|permission:project.permission>
+    <li ng-switch-default class=popbox-step-li>
+        <div class=popbox-header>
+            <button class="cancel fa fa-remove" ng-click=vm.js_close()></button>
+            <h3>{{'pop_task_menu.title'|translate}}</h3></div>
+        <div class=popbox-body>
+            <ul class=popbox-menu>
+                <li>
+                    <a href=javascript:; ng-click=vm.js_step(2)>{{'pop_task_menu.set_labels'|translate}}</a></li>
+                <li>
+                    <a href=javascript:; ng-click=vm.js_step(1)>{{'pop_task_menu.set_assing'|translate}}</a></li>
+                <li ng-hide=is_add_task>
+                    <a href=javascript:; ng-click=vm.js_step(4)>{{'pop_task_menu.set_watcher'|translate}}</a></li>
+                <li>
+                    <a ng-click=vm.js_step(3)>{{'pop_task_menu.set_expire'|translate}}</a></li>
+                <li ng-hide=is_add_task class=divider></li>
+                <li ng-hide=is_add_task>
+                    <a ng-click=vm.js_step(40)>{{'pop_task_menu.add_attachement'|translate}}</a></li>
+                <li ng-hide=is_add_task ng-if=global.prj_module.setting|permission:project.permission>
+                    <a ng-click=vm.add_timingtask(task)>{{'pop_task_menu.set_timingtask'|translate}}</a></li>
+                <li ng-hide=is_add_task class=divider></li>
+                <li ng-hide=is_add_task>
+                    <a ng-click=vm.js_archive_task()>{{'pop_task_menu.archive'|translate}}</a></li>
+                <li ng-hide=is_add_task>
+                    <a ng-click=vm.js_step(30)>{{'pop_task_menu.more_action'|translate}}</a></li>
+            </ul>
+        </div>
+    </li>
+    <li ng-switch-when=1 class=popbox-step-li>
+        <wt-toggle-members type=member team-id=vm.team_id pid=vm.pid permission=vm.permission toggle-click="vm.js_toggle_member($event, member, task)" entity=task arg-fn-back=vm.js_step(0) arg-fn-close=vm.js_close()></li>
+    <li ng-switch-when=2 class=popbox-step-li>
+        <wt-set-task-labels type=task task=task project=project backfn=vm.js_step(0)></wt-set-task-labels>
+    </li>
+    <li ng-switch-when=3 class=popbox-step-li>
+        <ng-include src="'/ycjs/directive/datepicker/pop_task_menu.html'"></ng-include>
+    </li>
+    <li ng-switch-when=4 class=popbox-step-li>
+        <wt-toggle-members type=watch team-id=vm.team_id pid=vm.pid permission=vm.permission entity=task toggle-click="vm.js_toggle_watch($event, member, xEntity)" all-member-click="vm.js_watch_all($event, members, xEntity)" arg-fn-back=vm.js_step(0) arg-fn-close=vm.js_close()></li>
+    <li ng-switch-when=5 class="popbox-step-li w_355">
+        <div class=popbox-header>
+            <button class="back fa fa-chevron-left" ng-click=vm.js_step(30)></button>
+            <button class="cancel fa fa-remove" ng-click=vm.js_close()></button>
+            <h3>{{'pop_task_menu.move_to'|translate}}</h3></div>
+        <div class=popbox-body>
+            <form name=task_move_form w5c-form-validate="" class=wt-form role=form novalidate>
+                <div>{{'pop_task_menu.form_title_select_project'|translate}}</div>
+                <div class=form-group>
+                    <ui-select ng-change=vm.js_change_project() ng-model=task_move.project theme=select2 append-to-body=false>
+                        <ui-select-match placeholder="{{'pop_task_menu.placeholder_select_project'|translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices group-by="'team_name'" repeat="project in task_move.projects|propsFilter:{name: $select.search}">
+                            <div class=text-overflow ng-bind-html=project.name|reHighlight:$select.search></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div>{{'pop_task_menu.form_title_select_entry'|translate}}</div>
+                <div class=form-group>
+                    <select ng-model=task_move.entry class=form-control ng-options="entry.name for entry in task_move.entries" required></select>
+                </div>
+                <div class=form-group>
+                    <button w5c-form-submit=vm.move_task(task_move_form) data-loading-text="{{'common.moving'|translate}}" class="btn btn-success mr_15" wt-loading-status=is_task_moving>{{'common.btn_move'|translate}}</button>
+                    <button class="btn btn-link btn-cancel" ng-click=vm.js_close()>{{'common.btn_cancel'|translate}}</button></div>
+            </form>
+        </div>
+    </li>
+    <li ng-switch-when=6 class=popbox-step-li>
+        <div class=popbox-header>
+            <button class="back fa fa-chevron-left" ng-click=vm.js_step(30)></button>
+            <button class="cancel fa fa-remove" ng-click=vm.js_close()></button>
+            <h3>{{'common.txt_del'|translate}}</h3></div>
+        <div class=popbox-body>
+            <span translate=pop_task_menu.message_del_task></span>
+        </div>
+        <div class=popbox-footer>
+            <button ng-click=vm.js_del_task() class="btn btn-danger">{{'common.btn_confirm_del'|translate}}</button></div>
+    </li>
+    <li ng-switch-when=30 class=popbox-step-li>
+        <div class=popbox-header>
+            <button class="back fa fa-chevron-left" ng-click=vm.js_step(0)></button>
+            <button class="cancel fa fa-remove" ng-click=vm.js_close()></button>
+            <h3>{{'pop_task_menu.title_more_action'|translate}}</h3></div>
+        <div class=popbox-body>
+            <ul class=popbox-menu>
+                <li ng-hide="is_add_task||((task.is_locked==1)&&(task|taskLockPermission:$root.global.me))">
+                    <a ng-click=vm.js_show_task_move()>
+                        <i class="fa fa-fw fa-share-square-o"></i>{{'common.txt_move'|translate}}</a>
+                </li>
+                <li ng-hide=is_add_task>
+                    <a ng-click=vm.js_to_copy_task()>
+                        <i class="fa fa-fw"></i>{{'common.txt_copy'|translate}}</a>
+                </li>
+                <li ng-hide="is_add_task||((task.is_locked==1)&&(task|taskLockPermission:$root.global.me))">
+                    <a ng-click=vm.js_step(6) href=javascript:;>
+                        <i class="fa fa-fw fa-trash-o"></i>{{'common.txt_del'|translate}}</a>
+                </li>
+            </ul>
+        </div>
+    </li>
+    <li ng-switch-when=31 class=popbox-step-li>
+        <div class=popbox-header>
+            <button class="back fa fa-chevron-left" ng-click=vm.js_step(30)></button>
+            <button class="cancel fa fa-remove" ng-click=vm.js_close()></button>
+            <h3>{{'pop_task_menu.copy_task'|translate}}</h3></div>
+        <form name=copy_task_form w5c-form-validate="" class=wt-form novalidate role=form>
+            <div class="popbox-body w_300">
+                <div class=form-group></div>
+                <div>
+                    <textarea wt-autofocus="" class="js-task-name form-control ng-pristine ng-valid" placeholder="{{'pop_task_menu.placeholder_task_name'|translate}}" required ng-model=vm.new_task.name wt-enter="vm.js_copy_task(add_task_form, vm.new_task)"></textarea>
+                </div>
+                <div ng-if=vm.new_task.show_keeps class="pt-20 color-text-gray">{{'pop_task_menu.desc_copy_task'|translate}}</div>
+                <div class=checkbox ng-if="vm.new_task.label_count > 0">
+                    <label>
+                        <input type=checkbox ng-model=vm.new_task.keep_labels>{{'common.txt_label'|translate}} ({{vm.new_task.label_count}})</label></div>
+                <div class=checkbox ng-if="vm.new_task.member_count > 0">
+                    <label>
+                        <input type=checkbox ng-model=vm.new_task.keep_members>{{'common.txt_member'|translate}} ({{vm.new_task.member_count}})</label></div>
+                <div class=checkbox ng-if="vm.new_task.watcher_count > 0">
+                    <label>
+                        <input type=checkbox ng-model=vm.new_task.keep_watchers>{{'common.txt_watch'|translate}} ({{vm.new_task.watcher_count}})</label></div>
+                <div class=checkbox ng-if="vm.new_task.todo_count > 0">
+                    <label>
+                        <input type=checkbox ng-model=vm.new_task.keep_todos>{{'common.txt_todo'|translate}} ({{vm.new_task.todo_count}})</label></div>
+                <div class=checkbox ng-if="vm.new_task.file_count > 0">
+                    <label>
+                        <input type=checkbox ng-model=vm.new_task.keep_attachments>{{'common.txt_attach'|translate}} ({{vm.new_task.file_count}})</label></div>
+                <div class=checkbox ng-if="vm.new_task.comment_count > 0">
+                    <label>
+                        <input type=checkbox ng-model=vm.new_task.keep_comments>{{'common.txt_comment'|translate}} ({{vm.new_task.comment_count}})</label></div>
+            </div>
+            <div class=popbox-footer>
+                <button w5c-form-submit="vm.js_copy_task(copy_task_form, vm.new_task)" data-loading-text="{{'common.saving'|translate}}" class="btn btn-success mr_15" wt-loading-status=is_copying>{{'common.btn_save'|translate}}</button>
+                <button ng-click=vm.js_close(result) class="btn btn-link btn-cancel">{{'common.btn_cancel'|translate}}</button></div>
+        </form>
+    </li>
+    <li ng-switch-when=40 class=popbox-step-li>
+        <div class=popbox-header>
+            <button class="back fa fa-chevron-left" ng-click=vm.js_step(0)></button>
+            <button class="cancel fa fa-remove" ng-click=vm.js_close()></button>
+            <h3>{{'pop_task_menu.add_attachement'|translate}}</h3></div>
+        <div class=popbox-body>
+            <ul class=popbox-menu>
+                <li>
+                    <a href=javascript:; ngf-multiple=true ngf-select ngf-change=vm.js_files_select($files)>
+                        <i class="fa fa-desktop"></i>{{'pop_task_menu.local_upload'|translate}}</a>
+                </li>
+                <li>
+                    <a href=javascript:; ng-click=vm.js_step(42)>{{'pop_task_menu.form_project_files'|translate}}</a></li>
+                <li class=divider></li>
+                <li>
+                    <div class="part-loading mt_12" ng-if=vm.js_uploadbylink_uploading></div>
+                    <form class="form-inline text-nowarp" role=form ng-show=!vm.js_uploadbylink_uploading>
+                        <input type=text ng-model=$parent.$parent.vm.uploadlink_url class="form-control input-md" placeholder="{{'pop_task_menu.btn_paste_downlink'|translate}}" wt-autofocus>
+                        <button class="btn btn-default plr_10" type=button ng-click=vm.js_uploadbylink($event)>{{'common.txt_add'|translate}}</button></form>
+                </li>
+            </ul>
+        </div>
+    </li>
+    <li ng-switch-when=42 class=popbox-step-li>
+        <wt-add-attachment-from-file entity=task go-back-further=vm.js_step(40)></li>
+</ul>
+<div ng-if=!(global.prj_module.crud|permission:project.permission)>
+    <div class=popbox-header>
+        <button class="cancel fa fa-remove" ng-click=vm.js_close()></button>
+        <h3>{{'pop_task_menu.title_task_option'|translate}}</h3></div>
+    <div class=popbox-body>
+        <ul class=popbox-menu>
+            <li>
+                <a ng-click=vm.js_toggle_watch($event,global.me,task) href=javascript:;>{{'common.txt_watch'|translate}}
+                    <span class="text-muted small-tip ng-scope" ng-if=global.me.watched>
+                        <i class="color_gray fa fa-check"></i></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

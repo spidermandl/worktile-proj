@@ -30,7 +30,7 @@
 			team_logo: 'views/work/toolbar/team/team_logo.html',
 			team_main: 'views/work/team/team.html',
 			team_calender: 'views/work/team/team_calender.html',
-			team_calendar_sidebar: 'views/work/team/team_calender.html',
+			team_calender_sidebar: 'views/work/team/team_calender_sidebar.html',
 			team_graphs: 'views/work/team/team_graphs.html',
 			team_members: 'views/work/team/team_members.html',
 			team_projects: 'views/work/team/team_projects.html',
@@ -41,6 +41,8 @@
 			team_admin_members: 'views/work/team/admin/team_admin_members.html',
 			team_admin_projects: 'views/work/team/admin/team_admin_projects.html',
 			team_admin_security: 'views/work/team/admin/team_admin_security.html',
+			team_pop_add_stats: 'views/work/team/pop_add_team_stats.html',
+			team_pop_info: 'views/work/team/pop_team_info.html',
 			project_dialog_create: 'views/work/project/dialog_project_create.html',
 			project_dialog_create_preview_template: 'views/work/project/project_dialog_create_preview_template.html',
 			project_dialog_add_member: 'views/work/project/dialog_project_add_member.html',
@@ -53,6 +55,11 @@
 			task_composer: 'views/work/project/task/task_composer.html',
 			task_item: 'views/work/project/task/task_item.html',
 			task_pop_project_menu: 'views/work/project/task/pop_project_menu.html',
+			task_dialog_create: 'views/work/project/task/dialog_task_create.html',
+			task_pop_task_menu: 'views/work/project/task/pop_task_menu.html',
+			event_toolbar: 'views/work/project/event/toolbar.html',
+			event_main: 'views/work/project/event/event.html',
+			event_pop_add: 'views/work/project/event/pop_add_event.html',
 			'dashboard.default': 'views/work/dashboard/dashboard_task.html',
 			calendar_event_create: 'views/work/dashboard/dialog_event_create.html',//创建日历event
 			calendar_pop_event_create: 'views/work/dashboard/calendar/pop_add_event.html',
@@ -94,11 +101,7 @@
 			signup_password: {
 				required : "注册密码不能为空",
 			},
-			// password : {
-			// 	required: "密码不能为空",
-			// 	minlength: "密码长度不能小于{minlength}",
-			// 	maxlength: "密码长度不能大于{maxlength}",
-			// },
+			
      	},
      	errors : error,//错误提示信息
      	constant : constant,//常量信息
@@ -186,7 +189,7 @@
 			return wt.appConfig.box.base_url;
 		},
 		feed_url: function() {
-			return wt.appConfig.feed_host;
+			return ;//wt.appConfig.feed_host;
 		},
 		box_url_regex: function() {
 			return new RegExp(wt.appConfig.box.box_url_regex);
@@ -482,16 +485,16 @@
 			},
 			msg : {
 				info: function(a, b) {
-					d("info", a, b)
+					//d("info", a, b)
 				},
 				error: function(a, b) {
-					d("danger", a, b);
+					//d("danger", a, b);
 				},
 				success: function(a, b) {
-					d("success", a, b)
+					//d("success", a, b)
 				},
 				warn: function(a, b) {
-					d("warning", a, b)
+					//d("warning", a, b)
 				}
 			},
 			localData : {

@@ -1,0 +1,27 @@
+<div class=popbox-header>
+    <button class="cancel fa fa-remove" ng-click=vm.js_close()></button>
+    <h3>{{'pop_add_team_stats.title'|translate}}</h3></div>
+<form name=add_project_form w5c-form-validate="" class=w5c-form novalidate="" role=form>
+    <div class="popbox-body w_300">
+        <div class=form-group>
+            <label>{{'pop_add_team_stats.form_title_select_project'|translate}}</label>
+            <ui-select name=projectTeam ng-model=vm.project_select theme=select2 append-to-body=false ng-change=vm.js_select_project() ng-click=vm.js_select_click() class="{{vm.project_not_select?'error':''}}">
+                <ui-select-match placeholder="{{'pop_add_team_stats.placeholder_project'|translate}}">{{$select.selected.name}}</ui-select-match>
+                <ui-select-choices group-by="'team_name'" repeat="project.pid as project in vm.projects|propsFilter:{name: $select.search}">
+                    <div class=text-overflow ng-bind-html=project.name|reHighlight:$select.search></div>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+        <div>
+            <label>{{'pop_add_team_stats.form_title_stats'|translate}}</label>
+            <ul class=checkable--box>
+                <li ng-repeat="stats_type in vm.stats_type" class=w-50p ng-class="{'selected':([vm.stats_type_select,$index+1]|indexOf),'disable':stats_type.disable}">
+                    <a href=javascript:; ng-click=vm.js_select_stats($event,$index+1)>
+                        <i class=wtfont ng-class=stats_type.icon></i>
+                        <br>{{stats_type.desc}}</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class=popbox-footer ng-if="vm.projects.length > 0">
+        <button class="btn btn-success btn-block" wt-loading-status=vm.pop_add_loading data-loading-text="{{'pop_add_team_stats.adding'|translate}}" w5c-form-submit=vm.js_add_stats()>{{'common.btn_add'|translate}}</button></div>
+</form>

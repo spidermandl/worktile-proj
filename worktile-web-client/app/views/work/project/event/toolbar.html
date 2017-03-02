@@ -1,0 +1,35 @@
+<div class=sub_toolbar>
+    <div class="btn-group mr-5 js-popbox" data-placement=bottom data-align=right ng-if=global.prj_module.crud|permission:project.permission>
+        <button class="btn btn-success btn--fancy" id=btn_new_event ng-click=vm.js_add_event()>{{'event_toolbar.btn_add_event'|translate}}</button>
+        <a class="btn btn-success btn--fancy dropdown-toggle" data-toggle=dropdown>
+            <i class="fa fa-caret-down"></i>
+        </a>
+        <ul class="dropdown-menu pull-right">
+            <li>
+                <a href=javascript:; ng-click=vm.js_add_event()>
+                    <i class="fa fa-fw"></i>{{'event_toolbar.btn_add_event'|translate}}</a>
+            </li>
+            <li>
+                <a href=javascript:; ng-click=vm.js_add_task() expire-date=true pid=project.pid>
+                    <i class="fa fa-fw"></i>{{'event_toolbar.btn_add_task'|translate}}</a>
+            </li>
+        </ul>
+    </div>
+    <div class=btn-group>
+        <a href=javascript:; type=button class="btn btn--fancy dropdown-toggle" data-toggle=dropdown>
+            <sapn class=plr_10>{{{0:'common.txt_all',1:'event_toolbar.only_event',2:'event_toolbar.only_task'}[vm.events_filter.filter_type]|translate}}</sapn>
+            <i class="fa fa-caret-down"></i>
+        </a>
+        <ul class="dropdown-menu pull-right">
+            <li>
+                <a href=javascript:; ng-click=vm.set_filter_type(0)>{{'common.txt_all'|translate}}</a></li>
+            <li>
+                <a href=javascript:; ng-click=vm.set_filter_type(1)>{{'event_toolbar.only_event'|translate}}</a></li>
+            <li>
+                <a href=javascript:; ng-click=vm.set_filter_type(2)>{{'event_toolbar.only_task'|translate}}</a></li>
+        </ul>
+    </div>
+    <a class=prj_top_icon href=javascript:; ng-click="sidebar.change_status('members','')" ng-class="{'active':sidebar.status == 'members'||sidebar.status == 'add_member'}" tooltip-placement=bottom uib-tooltip="{{'common.txt_member'|translate}}">
+        <i class="wtfont wtf-userlist"></i>
+    </a>
+</div>

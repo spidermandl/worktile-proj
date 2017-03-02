@@ -52,11 +52,7 @@
     var app = angular
       .module('jtWorkApp', [
         'ngAnimate',
-        'ngCookies',
-        'ngResource',
-        'ngRoute',
         'ngSanitize',
-        'ngTouch',
         'ui.router',//路由插件
         'w5c.validator',//本地submit信息验证
         'ui.bootstrap',//Bootstrap工具插件
@@ -73,10 +69,10 @@
 
     app.constant('config',configuration);
     //,'$urlRouterProvider','$stateProvider'
-    app.config(['$routeProvider','$urlRouterProvider','$stateProvider',"w5cValidatorProvider",
+    app.config(['$urlRouterProvider','$stateProvider',"w5cValidatorProvider",
                 "$locationProvider",'$httpProvider','config','localStorageServiceProvider',
                 '$translateProvider',
-        function ($routeProvider,$urlRouterProvider,$stateProvider,w5cValidatorProvider,
+        function ($urlRouterProvider,$stateProvider,w5cValidatorProvider,
                   $locationProvider,$httpProvider,config,localStorageServiceProvider
                   ,$translateProvider
                   ) {
@@ -120,6 +116,7 @@
                     //console.log(global);
                     //设置全局变量
                     $rootScope.global = global;
+                    $rootScope.global.loading_init = !0;
                 },
                 resolve: {
                     global: ["globalDataContext",
@@ -131,7 +128,7 @@
             .state('dashboard', {
                 url: '/dashboard',
                 templateUrl: config.templateUrls.dashboard_task,
-                controller: 'DashboardTaskCtrl',
+                controller: 'dashboardTaskCtrl',
                 parent: 'root',
                 need_load: "true",
                 //css: 'css/base_inner.css',
@@ -139,7 +136,7 @@
             .state("calendar", {
                 url: "/calendar",
                 templateUrl: config.templateUrls.dashboard_calendar,
-                controller: "DashboardCalendarCtrl",
+                controller: "dashboardCalendarCtrl",
                 header_menu: "dashboard",
                 parent: "root",
                 need_load: "true"
@@ -197,8 +194,8 @@
                 templateUrl: config.templateUrls['dashboard.default'],
                 controller: "DashboardTaskCtrl",
                 header_menu: "dashboard",
-                // need_load: !1,
-                // parent: 'home',
+                need_load: !1,
+                parent: 'root',
             })
             .state("team", {
                 url: "/teams/:team_id",
@@ -210,20 +207,20 @@
                 controller: "TeamCtrl",
                 resolve: {
                     team_basic_info: ["$stateParams","api",
-                    function(param,api) {
-                        /**
-                        * 获取team基本信息
-                        */
-                        return api.team_basic(param.team_id).
-                            then(
-                                function(msg) {
-                                    return msg.data;
-                                },
-                                function(msg) {
-                                    return null;
-                                }
-                            );
-                    }]
+                        function(param,api) {
+                            /**
+                            * 获取team基本信息
+                            */
+                            return api.team_basic(param.team_id).
+                                then(
+                                    function(msg) {
+                                        return msg.data;
+                                    },
+                                    function(msg) {
+                                        return null;
+                                    }
+                                );
+                        }]
                 }
             })
             .state("team.projects", {
@@ -561,11 +558,11 @@
                 need_load: !1,
                 views: {
                     "": {
-                        templateUrl: "/tpl/project/event/events.html",
+                        templateUrl: config.templateUrls.event_main,
                         controller: "projectEventsCtrl"
                     },
                     toolbar: {
-                        templateUrl: "/tpl/project/event/toolbar.html",
+                        templateUrl: config.templateUrls.event_toolbar,
                         controller: "projectEventsToolbarCtrl"
                     }
                 }

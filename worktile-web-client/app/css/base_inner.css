@@ -11299,11 +11299,11 @@ select.form-control {
 	height:38px;
 	-webkit-appearance:none;
 	-moz-appearance:none;
-	background:url(//cdn.worktile.com/images/select2/select.png) right center no-repeat
+	background:url(../images/select2/select.png) right center no-repeat
 }
 @media only screen and (-webkit-min-device-pixel-ratio:1.5),only screen and (min-resolution:144dpi) {
 	select.form-control {
-	background-image:url(//cdn.worktile.com/images/select2/selectx2.png)!important;
+	background-image:url(../images/select2/selectx2.png)!important;
 	background-size:13px!important;
 	background-position:right center!important;
 	background-repeat:no-repeat!important

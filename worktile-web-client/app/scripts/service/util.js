@@ -104,7 +104,6 @@
 					},
 					get_add_prj_teams: function(a) {
 						var d = _.clone(a);
-						console.log(d);
 						d = _.filter(d,
 							function(a) {
 								return a.permission & $rootScope.global.team_module.add_project;
