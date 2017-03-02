@@ -17,6 +17,7 @@ public class TaskNewTodoMsg extends PairMsg {
 
     public static class OutMsg implements ResponseMsg{
         public int code=MSG_CODE;
+        public Task.Todo todo=new Task.Todo();
     }
     @Override
     void initMsg(){
