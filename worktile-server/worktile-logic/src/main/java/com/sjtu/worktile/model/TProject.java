@@ -17,11 +17,15 @@ public class TProject {
 
     private Integer visibility;
 
+    private Float pos;
+
     private String pending1;
 
     private String pending2;
 
     private String pending3;
+
+    private Integer isStar;
 
     private String description;
 
@@ -81,6 +85,14 @@ public class TProject {
         this.visibility = visibility;
     }
 
+    public Float getPos() {
+        return pos;
+    }
+
+    public void setPos(Float pos) {
+        this.pos = pos;
+    }
+
     public String getPending1() {
         return pending1;
     }
@@ -103,6 +115,14 @@ public class TProject {
 
     public void setPending3(String pending3) {
         this.pending3 = pending3 == null ? null : pending3.trim();
+    }
+
+    public Integer getIsStar() {
+        return isStar;
+    }
+
+    public void setIsStar(Integer isStar) {
+        this.isStar = isStar;
     }
 
     public String getDescription() {

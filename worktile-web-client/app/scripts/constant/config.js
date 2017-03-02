@@ -27,6 +27,7 @@
 			left_menu_avatar: 'views/work/toolbar/avatar.html',
 			left_menu_avatar_setting: 'views/work/toolbar/pop_avatar_self.html',
 			left_menu_dialog_team_create: 'views/work/toolbar/dialog_team_create.html',
+			left_menu_dropwindow: 'views/work/notice/drop_window.html',
 			team_logo: 'views/work/toolbar/team/team_logo.html',
 			team_main: 'views/work/team/team.html',
 			team_calender: 'views/work/team/team_calender.html',
@@ -61,6 +62,7 @@
 			event_main: 'views/work/project/event/event.html',
 			event_pop_add: 'views/work/project/event/pop_add_event.html',
 			event_dialog_create: 'views/work/project/event/dialog_event_create.html',
+			notice_list: 'views/work/notice/notice_list.html',
 			file_dialog_create: 'views/work/project/file/dialog_file_create.html',
 			calendar_event_create: 'views/work/dashboard/dialog_event_create.html',//创建日历event
 			calendar_pop_event_create: 'views/work/dashboard/calendar/pop_add_event.html',

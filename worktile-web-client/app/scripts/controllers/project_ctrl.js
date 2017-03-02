@@ -95,190 +95,182 @@ define(['app'], function (app) {
 		/**************************************************************************************************************
 		 *
 		 **************************************************************************************************************/
-		.controller('projectInfoCtrl', ['$rootScope','$scope','config','$state',
-								'$stateParams','$popbox','$translate',
-								'Util','$timeout',
-					function ($rootScope,$scope,config,$state,
-								stateParams,$popbox,$translate,
-								util,$timeout) {
-
+		.controller('projectInfoCtrl', ["$scope", "$rootScope", "$popbox", "globalDataContext", 
+						"permissionFilter", "$timeout",'config','Util',
+				function (a, b, c, d, e, f, config, util) {
 				//["$scope", "$rootScope", "$popbox", "globalDataContext", "permissionFilter", "$timeout"],
 				//     a           b            c              d                    e                f
-				function g() {
-					$(window).bind("resize.checkMoreNavMenu", j)
-				}
-				$scope.pm = {
-					showNavMore: !1,
-					elNavbar: $(".mod-navbar"),
-					elToolbar: $(".main_toolbar"),
-					elMenubar: $(".mod-navbar .center-menu")
-				};
-				$scope.pm.js_pop_project_menu = function(b) {
-						$popbox.popbox({
-							target: b,
-							templateUrl: config.templateUrls.task_pop_project_menu,
-							controller: ["$rootScope", "$scope", "popbox", "pop_data", "ProjectService",
-								function(a, b, c, e, f) {
-									b.popbox = c;
-									var g = b.vm = {
-										step: 0,
-										project: e.project,
-										prj_permission_admin: config.constant.prj_permission.admin,
-										prj_permission_member: config.constant.prj_permission.member,
-										prj_permission_guest: config.constant.prj_permission.guest
-									};
-									g.js_close = function() {
-										c.close()
-									},
-									g.js_step = function(a) {
-										g.step = a
-									},
-									g.js_add_project_member = function() {
-										f.showAddMember(g.project),
-											g.js_close()
-									},
-									g.js_project_setting = function() {
-										f.showSetting(g.project),
-											g.js_close()
-									},
-									g.js_project_extension = function() {
-										f.showExtension(g.project),
-											g.js_close()
-									},
-									g.js_project_labels = function() {
-										f.showLabels(g.project),
-											g.js_close()
-									},
-									g.js_project_timingtasks = function() {
-										f.showTimingtasks(g.project),
-											g.js_close()
-									},
-									g.js_project_copy = function() {
-										f.showCopy(g.project),
-											g.js_close()
-									},
-									g.js_project_move = function() {
-										f.showMove(g.project),
-											g.js_close()
-									},
-									g.js_project_export = function() {
-										f.showExport(g.project),
-											g.js_close()
-									},
-									g.js_project_webhook = function() {
-										f.showWebhook(g.project),
-											g.js_close()
-									},
-									g.js_project_createbymail = function() {
-										f.showCreateByMail(g.project),
-											g.js_close()
-									},
-									g.js_project_quit = function() {
-										f.showQuit(g.project),
-											g.js_close()
-									},
-									g.js_project_active = function() {
-										f.showActive(g.project),
-											g.js_close()
-									},
-									g.js_project_archive = function() {
-										f.showArchive(g.project),
-											g.js_close()
-									},
-									g.js_project_del = function() {
-										f.showDel(g.project),
-											g.js_close()
-									},
-									g.js_toggle_star = function() {
-										d.cache.project.set_star(e.project.pid)
-									},
-									g.js_toggle_favorite = function() {
-										var a = e.project.is_favorite ? 0 : 1;
-										e.project.is_favorite = a,
-											wt.data.project.set_favorite(e.project.pid, a,
-												function(a) {
-													d.cache.project.set_favorite(e.project.pid, e.project.is_favorite)
-												},
-												function() {
-													e.project.is_favorite = a ? 0 : 1
-												})
-									},
-									g.change_sidebar_status = function(a, b) {
-										e.sidebar.change_status(a, b),
-											c.close()
-									}
-								}
-							],
-							resolve: {
-								pop_data: function() {
-									return {
-										sidebar: $rootScope.sidebar,
-										project: $rootScope.project
-									}
-								}
-							}
-						}).open()
-					},
-					$scope.pm.js_pop_set_project_logo = function(f) {
-						e(b.global.prj_module.setting, a.project.permission) && 
-						$popbox.popbox({
-							target: f,
-							templateUrl: "/tpl/project/pop_project_logo.html",
-							controller: ["$rootScope", "$scope", "popbox", "pop_data",
-								function(a, b, c, e) {
-									var f = b.vm = {
-										prj_colors: config.constant.prj_colors,
-										prj_icons: config.constant.prj_icons,
-										project: e.project
-									};
-									b.popbox = c,
-										f.js_close = function() {
-											c.close()
-										},
-										f.js_icon_select = function(a) {
-											d.cache.project.set_logo(f.project.pid, f.project.bg, a)
-										},
-										f.js_color_select = function(a) {
-											d.cache.project.set_logo(f.project.pid, a, f.project.pic)
-										}
-								}
-							],
-							resolve: {
-								pop_data: function() {
-									return {
-										project: $scope.project
-									}
-								}
-							}
-						}).open()
+					function g() {
+						$(window).bind("resize.checkMoreNavMenu", j)
+					}
+					var h = a.pm = {
+						showNavMore: !1,
+						elNavbar: $(".mod-navbar"),
+						elToolbar: $(".main_toolbar"),
+						elMenubar: $(".mod-navbar .center-menu")
 					};
-				var i = 0,
-					j = _.debounce(function(b) {
-							$timeout(function() {
-									$scope.project && 
-									$scope.project.navigations && 
-									(0 == i && $scope.pm.elMenubar.find("li").each(function(a, b) {
-										i += $(b).outerWidth(!0)
-									}), 
-									i > $scope.pm.elMenubar.width() ? 
-										$scope.pm.showNavMore = !0 : $scope.pm.showNavMore = !1)
-								},
-								150)
+					h.js_pop_project_menu = function(b) {
+							c.popbox({
+								target: b,
+								templateUrl: "/tpl/project/pop_project_menu.html",
+								controller: ["$rootScope", "$scope", "popbox", "pop_data", "projectService",
+									function(a, b, c, e, f) {
+										b.popbox = c;
+										var g = b.vm = {
+											step: 0,
+											project: e.project,
+											prj_permission_admin: kzi.constant.prj_permission.admin,
+											prj_permission_member: kzi.constant.prj_permission.member,
+											prj_permission_guest: kzi.constant.prj_permission.guest
+										};
+										g.js_close = function() {
+												c.close()
+											},
+											g.js_step = function(a) {
+												g.step = a
+											},
+											g.js_add_project_member = function() {
+												f.showAddMember(g.project),
+													g.js_close()
+											},
+											g.js_project_setting = function() {
+												f.showSetting(g.project),
+													g.js_close()
+											},
+											g.js_project_extension = function() {
+												f.showExtension(g.project),
+													g.js_close()
+											},
+											g.js_project_labels = function() {
+												f.showLabels(g.project),
+													g.js_close()
+											},
+											g.js_project_timingtasks = function() {
+												f.showTimingtasks(g.project),
+													g.js_close()
+											},
+											g.js_project_copy = function() {
+												f.showCopy(g.project),
+													g.js_close()
+											},
+											g.js_project_move = function() {
+												f.showMove(g.project),
+													g.js_close()
+											},
+											g.js_project_export = function() {
+												f.showExport(g.project),
+													g.js_close()
+											},
+											g.js_project_webhook = function() {
+												f.showWebhook(g.project),
+													g.js_close()
+											},
+											g.js_project_createbymail = function() {
+												f.showCreateByMail(g.project),
+													g.js_close()
+											},
+											g.js_project_quit = function() {
+												f.showQuit(g.project),
+													g.js_close()
+											},
+											g.js_project_active = function() {
+												f.showActive(g.project),
+													g.js_close()
+											},
+											g.js_project_archive = function() {
+												f.showArchive(g.project),
+													g.js_close()
+											},
+											g.js_project_del = function() {
+												f.showDel(g.project),
+													g.js_close()
+											},
+											g.js_toggle_star = function() {
+												d.cache.project.set_star(e.project.pid)
+											},
+											g.js_toggle_favorite = function() {
+												var a = e.project.is_favorite ? 0 : 1;
+												e.project.is_favorite = a,
+													wt.data.project.set_favorite(e.project.pid, a,
+														function(a) {
+															d.cache.project.set_favorite(e.project.pid, e.project.is_favorite)
+														},
+														function() {
+															e.project.is_favorite = a ? 0 : 1
+														})
+											},
+											g.change_sidebar_status = function(a, b) {
+												e.sidebar.change_status(a, b),
+													c.close()
+											}
+									}
+								],
+								resolve: {
+									pop_data: function() {
+										return {
+											sidebar: a.sidebar,
+											project: a.project
+										}
+									}
+								}
+							}).open()
 						},
-						50);
-				g(),
-				$scope.$watch("project.navigations",
-					function(a) {
-						j()
-					}),
-				$scope.$watch("sidebar.status",
-					function(a) {
-						j(a)
-					}),
-				$scope.$on("$destroy",
-					function() {
-						$(window).unbind("resize.checkMoreNavMenu")
-					})
+						h.js_pop_set_project_logo = function(f) {
+							e(b.global.prj_module.setting, a.project.permission) && c.popbox({
+								target: f,
+								templateUrl: "/tpl/project/pop_project_logo.html",
+								controller: ["$rootScope", "$scope", "popbox", "pop_data",
+									function(a, b, c, e) {
+										var f = b.vm = {
+											prj_colors: kzi.constant.prj_colors,
+											prj_icons: kzi.constant.prj_icons,
+											project: e.project
+										};
+										b.popbox = c,
+											f.js_close = function() {
+												c.close()
+											},
+											f.js_icon_select = function(a) {
+												d.cache.project.set_logo(f.project.pid, f.project.bg, a)
+											},
+											f.js_color_select = function(a) {
+												d.cache.project.set_logo(f.project.pid, a, f.project.pic)
+											}
+									}
+								],
+								resolve: {
+									pop_data: function() {
+										return {
+											project: a.project
+										}
+									}
+								}
+							}).open()
+						};
+					var i = 0,
+						j = _.debounce(function(b) {
+								f(function() {
+										a.project && a.project.navigations && (0 == i && h.elMenubar.find("li").each(function(a, b) {
+											i += $(b).outerWidth(!0)
+										}), i > h.elMenubar.width() ? h.showNavMore = !0 : h.showNavMore = !1)
+									},
+									150)
+							},
+							50);
+					g(),
+						a.$watch("project.navigations",
+							function(a) {
+								j()
+							}),
+						a.$watch("sidebar.status",
+							function(a) {
+								j(a)
+							}),
+						a.$on("$destroy",
+							function() {
+								$(window).unbind("resize.checkMoreNavMenu")
+							})
+		
 		
 		}])
 		/**************************************************************************************************************

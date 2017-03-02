@@ -9,9 +9,11 @@
     <result column="team_id" jdbcType="BIGINT" property="teamId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="visibility" jdbcType="INTEGER" property="visibility" />
+    <result column="pos" jdbcType="REAL" property="pos" />
     <result column="pending1" jdbcType="VARCHAR" property="pending1" />
     <result column="pending2" jdbcType="VARCHAR" property="pending2" />
     <result column="pending3" jdbcType="VARCHAR" property="pending3" />
+    <result column="is_star" jdbcType="INTEGER" property="isStar" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.sjtu.worktile.model.TProject">
     <result column="description" jdbcType="LONGVARCHAR" property="description" />
@@ -75,8 +77,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, owner_id, name, crew_cap, team_id, create_time, visibility, pending1, pending2, 
-    pending3
+    id, owner_id, name, crew_cap, team_id, create_time, visibility, pos, pending1, pending2, 
+    pending3, is_star
   </sql>
   <sql id="Blob_Column_List">
     description
@@ -137,12 +139,14 @@
     </selectKey>
     insert into t_project (owner_id, name, crew_cap, 
       team_id, create_time, visibility, 
-      pending1, pending2, pending3, 
-      description)
+      pos, pending1, pending2, 
+      pending3, is_star, description
+      )
     values (#{ownerId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{crewCap,jdbcType=INTEGER}, 
       #{teamId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{visibility,jdbcType=INTEGER}, 
-      #{pending1,jdbcType=VARCHAR}, #{pending2,jdbcType=VARCHAR}, #{pending3,jdbcType=VARCHAR}, 
-      #{description,jdbcType=LONGVARCHAR})
+      #{pos,jdbcType=REAL}, #{pending1,jdbcType=VARCHAR}, #{pending2,jdbcType=VARCHAR}, 
+      #{pending3,jdbcType=VARCHAR}, #{isStar,jdbcType=INTEGER}, #{description,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.sjtu.worktile.model.TProject">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -168,6 +172,9 @@
       <if test="visibility != null">
         visibility,
       </if>
+      <if test="pos != null">
+        pos,
+      </if>
       <if test="pending1 != null">
         pending1,
       </if>
@@ -176,6 +183,9 @@
       </if>
       <if test="pending3 != null">
         pending3,
+      </if>
+      <if test="isStar != null">
+        is_star,
       </if>
       <if test="description != null">
         description,
@@ -200,6 +210,9 @@
       <if test="visibility != null">
         #{visibility,jdbcType=INTEGER},
       </if>
+      <if test="pos != null">
+        #{pos,jdbcType=REAL},
+      </if>
       <if test="pending1 != null">
         #{pending1,jdbcType=VARCHAR},
       </if>
@@ -208,6 +221,9 @@
       </if>
       <if test="pending3 != null">
         #{pending3,jdbcType=VARCHAR},
+      </if>
+      <if test="isStar != null">
+        #{isStar,jdbcType=INTEGER},
       </if>
       <if test="description != null">
         #{description,jdbcType=LONGVARCHAR},
@@ -244,6 +260,9 @@
       <if test="record.visibility != null">
         visibility = #{record.visibility,jdbcType=INTEGER},
       </if>
+      <if test="record.pos != null">
+        pos = #{record.pos,jdbcType=REAL},
+      </if>
       <if test="record.pending1 != null">
         pending1 = #{record.pending1,jdbcType=VARCHAR},
       </if>
@@ -252,6 +271,9 @@
       </if>
       <if test="record.pending3 != null">
         pending3 = #{record.pending3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isStar != null">
+        is_star = #{record.isStar,jdbcType=INTEGER},
       </if>
       <if test="record.description != null">
         description = #{record.description,jdbcType=LONGVARCHAR},
@@ -270,9 +292,11 @@
       team_id = #{record.teamId,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       visibility = #{record.visibility,jdbcType=INTEGER},
+      pos = #{record.pos,jdbcType=REAL},
       pending1 = #{record.pending1,jdbcType=VARCHAR},
       pending2 = #{record.pending2,jdbcType=VARCHAR},
       pending3 = #{record.pending3,jdbcType=VARCHAR},
+      is_star = #{record.isStar,jdbcType=INTEGER},
       description = #{record.description,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -287,9 +311,11 @@
       team_id = #{record.teamId,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       visibility = #{record.visibility,jdbcType=INTEGER},
+      pos = #{record.pos,jdbcType=REAL},
       pending1 = #{record.pending1,jdbcType=VARCHAR},
       pending2 = #{record.pending2,jdbcType=VARCHAR},
-      pending3 = #{record.pending3,jdbcType=VARCHAR}
+      pending3 = #{record.pending3,jdbcType=VARCHAR},
+      is_star = #{record.isStar,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -315,6 +341,9 @@
       <if test="visibility != null">
         visibility = #{visibility,jdbcType=INTEGER},
       </if>
+      <if test="pos != null">
+        pos = #{pos,jdbcType=REAL},
+      </if>
       <if test="pending1 != null">
         pending1 = #{pending1,jdbcType=VARCHAR},
       </if>
@@ -323,6 +352,9 @@
       </if>
       <if test="pending3 != null">
         pending3 = #{pending3,jdbcType=VARCHAR},
+      </if>
+      <if test="isStar != null">
+        is_star = #{isStar,jdbcType=INTEGER},
       </if>
       <if test="description != null">
         description = #{description,jdbcType=LONGVARCHAR},
@@ -338,9 +370,11 @@
       team_id = #{teamId,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       visibility = #{visibility,jdbcType=INTEGER},
+      pos = #{pos,jdbcType=REAL},
       pending1 = #{pending1,jdbcType=VARCHAR},
       pending2 = #{pending2,jdbcType=VARCHAR},
       pending3 = #{pending3,jdbcType=VARCHAR},
+      is_star = #{isStar,jdbcType=INTEGER},
       description = #{description,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -352,9 +386,11 @@
       team_id = #{teamId,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       visibility = #{visibility,jdbcType=INTEGER},
+      pos = #{pos,jdbcType=REAL},
       pending1 = #{pending1,jdbcType=VARCHAR},
       pending2 = #{pending2,jdbcType=VARCHAR},
-      pending3 = #{pending3,jdbcType=VARCHAR}
+      pending3 = #{pending3,jdbcType=VARCHAR},
+      is_star = #{isStar,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

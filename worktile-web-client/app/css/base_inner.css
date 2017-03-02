@@ -8067,7 +8067,7 @@ ul.upload-file-process li .fa-close {
 	margin-bottom:10px;
 	line-height:20px;
 	text-align:center;
-	background:url(//cdn.worktile.com/images/loading_all2.gif?v=4.5.19) center center no-repeat
+	background:url(/images/loading_all2.gif) center center no-repeat/**\//cdn.worktile.com/images/loading_all2.gif?v=4.5.19*/
 }
 .frame--account-setting .account_status {
 	position:relative

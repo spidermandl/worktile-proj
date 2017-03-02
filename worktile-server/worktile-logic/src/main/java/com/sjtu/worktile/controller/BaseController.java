@@ -125,7 +125,7 @@ abstract public class BaseController {
         //p.pic ;
         //p.bg ;
         p.visibility = project.getVisibility();
-        //p.is_star ;//是否常用项目，0：非常用项目，1：常用项目
+        p.is_star = project.getIsStar();//是否常用项目，0：非常用项目，1：常用项目
         //p.pos ;
         p.member_count= projectService.getProjectMemberCount(project.getId());
         TUserRole role =projectService.getRoleInProject(uid,project.getId());

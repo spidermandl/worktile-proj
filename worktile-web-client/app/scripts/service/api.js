@@ -364,6 +364,13 @@ define(['app'], function(app) {
 						success, failure, promise
 					);
 				},
+				get_notice_list: function(data, success, failure, promise) {
+					return this.http_post_template(
+						domain+'/api/notice/list',
+						data,
+						success, failure, promise
+					);
+				},
 				/**************************************************************************
 				 **未实现 api
 				 **************************************************************************/

@@ -94,15 +94,30 @@ define(['app'], function (app) {
                 cache: {
 					project: {
 						updateFull: function(a) {
-							a.pid === i.project.info.pid && (i.project.info.name = a.name, i.project.info.desc = a.desc, i.project.info.archived = a.archived, i.project.info.pic = a.pic, i.project.info.bg = a.bg, i.project.info.is_star = a.is_star, i.project.info.curr_role = a.curr_role, i.project.info.permission = a.permission);
-							var b = _.find(i.projects, {
+							a.pid === i.project.info.pid && 
+								(i.project.info.name = a.name, 
+									i.project.info.desc = a.desc, 
+									i.project.info.archived = a.archived, 
+									i.project.info.pic = a.pic, 
+									i.project.info.bg = a.bg, 
+									i.project.info.is_star = a.is_star, 
+									i.project.info.curr_role = a.curr_role, 
+									i.project.info.permission = a.permission);
+							var b = _.find(globalDataContext.project, {
 								pid: a.pid
 							});
-							b && (b.name = a.name, b.desc = a.desc, b.archived = a.archived, b.pic = a.pic, b.bg = a.bg, b.is_star = a.is_star, b.curr_role = a.curr_role, b.permission = a.permission)
+							b && (b.name = a.name, 
+								b.desc = a.desc, 
+								b.archived = a.archived, 
+								b.pic = a.pic, 
+								b.bg = a.bg, 
+								b.is_star = a.is_star, 
+								b.curr_role = a.curr_role, 
+								b.permission = a.permission)
 						},
 						update: function(a, b, c, d, e, f) {
 							a === i.project.info.pid && (i.project.info.name = b, i.project.info.bg = c, i.project.info.pic = d, i.project.info.desc = e, i.project.info.visibility = f);
-							var g = _.find(i.projects, {
+							var g = _.find(globalDataContext.project, {
 								pid: a
 							});
 							g && (g.name = b, g.bg = c, g.pic = d, g.desc = e, g.visibility = f)
@@ -111,7 +126,7 @@ define(['app'], function (app) {
 							wt.data.project.set_logo(a, b, c,
 								function() {
 									a === i.project.info.pid && (i.project.info.bg = b, i.project.info.pic = c);
-									var d = _.find(i.projects, {
+									var d = _.find(globalDataContext.project, {
 										pid: a
 									});
 									d && (d.bg = b, d.pic = c)
@@ -136,7 +151,7 @@ define(['app'], function (app) {
 										type: 1,
 										enable: 1
 									}));
-									var h = _.find(i.projects, {
+									var h = _.find(globalDataContext.project, {
 										pid: a
 									});
 									h && 1 === c.type && (h.navigations = _.filter(f, {
@@ -466,7 +481,7 @@ define(['app'], function (app) {
 						dismiss: function(a) {
 							var b = globalDataContext.getTeam(a);
 							i.teams.splice(i.teams.indexOf(b), 1),
-								i.projects = _.reject(i.projects,
+								globalDataContext.project = _.reject(globalDataContext.project,
 									function(b) {
 										return b.team_id === a
 									}),
@@ -484,7 +499,7 @@ define(['app'], function (app) {
 								team_id: a
 							});
 							c && (c.member_count = c.member_count - 1);
-							var d = _.reject(i.projects,
+							var d = _.reject(globalDataContext.project,
 								function(b) {
 									return b.team_id === a
 								});
@@ -509,7 +524,7 @@ define(['app'], function (app) {
 									function(b) {
 										return b.team_id === a
 									}),
-								i.projects = _.reject(i.projects,
+								globalDataContext.project = _.reject(globalDataContext.project,
 									function(b) {
 										return b.team_id === a
 									})
@@ -934,6 +949,11 @@ define(['app'], function (app) {
 										        function(a) {
 										            return a.pos;
 										        });
+										    globalDataContext.star_projects = _.filter(globalDataContext.project,
+											    function(a) {
+											        return a.is_star;
+											    });
+										    globalDataContext.setTeamProjects()
 							                //console.log(globalDataContext.projects);
 											return context;
 										},
@@ -951,7 +971,7 @@ define(['app'], function (app) {
 							//$state.go('home');
 						}
 					);
-		            // if (!_.isEmpty(i.projects)) {
+		            // if (!_.isEmpty(globalDataContext.project)) {
 		            //     var c = a.defer();
 		            //     c.resolve(i);
 		            //     return c.promise;
@@ -962,11 +982,11 @@ define(['app'], function (app) {
 		            //         var b = i.getTeam(a.team_id);
 		            //         b ? (delete b.faked, _.extend(b, a)) : i.teams.push(a)
 		            //     }),
-		            //     i.projects = _.sortBy(a[1].data.data,
+		            //     globalDataContext.projects = _.sortBy(a[1].data.data,
 		            //     function(a) {
 		            //         return a.pos
 		            //     }),
-		            //     i.star_projects = _.filter(i.projects,
+		            //     i.star_projects = _.filter(globalDataContext.project,
 		            //     function(a) {
 		            //         return a.is_star
 		            //     }),
@@ -1076,10 +1096,10 @@ define(['app'], function (app) {
 							}) : e
 				},
 				setTeamProjects: function() {
-					var a = _.find(i.projects, {
+					var a = _.find(globalDataContext.project, {
 							team_id: "-1"
 						}),
-						d = _.find(i.teams, {
+						d = _.find(globalDataContext.teams, {
 							team_id: "-1"
 						});
 					if(a && !d) {
@@ -1089,14 +1109,14 @@ define(['app'], function (app) {
 						$translate.use(b.global.me.locale).then(function() {
 								e.name = $translate.instant("projects.project_type_name_personal")
 							}),
-							i.teams.unshift(e)
-					}!a && d && (i.teams = _.reject(i.teams,
+							globalDataContext.teams.unshift(e)
+					}!a && d && (globalDataContext.teams = _.reject(globalDataContext.teams,
 							function(a) {
 								return "-1" === a.team_id
 							})),
-						_.each(i.teams,
+						_.each(globalDataContext.teams,
 							function(a) {
-								a.projects = _.where(i.projects, {
+								a.projects = _.where(globalDataContext.project, {
 									team_id: a.team_id
 								})
 							})
@@ -1171,16 +1191,16 @@ define(['app'], function (app) {
 						null, null, "globalDataContext-reloadEntriesAndTasks-" + b)
 				},
 				clearProject : function() {
-					i.project.info = null,
-						i.project.pid = "",
-						i.project.entries = [],
-						i.project.tasks = [],
-						i.project.navigations = [],
-						i.project.files = [],
-						i.project.cal_events = [],
-						i.project.cal_events_start = void 0,
-						i.project.cal_events_end = void 0,
-						i.project.events = []
+					globalDataContext.project.info = null,
+					globalDataContext.project.pid = "",
+					globalDataContext.project.entries = [],
+					globalDataContext.project.tasks = [],
+					globalDataContext.project.navigations = [],
+					globalDataContext.project.files = [],
+					globalDataContext.project.cal_events = [],
+					globalDataContext.project.cal_events_start = void 0,
+					globalDataContext.project.cal_events_end = void 0,
+					globalDataContext.project.events = []
 				},
 				clearEntries : function() {
 					i.project.entries = [],

@@ -1,49 +1,49 @@
 <div id=leftmenu>
     <div id=leftmenu_tab>
         <div class=leftmenu_top>
-            <a href=javascript:; class= "worktilelogo js-popbox" data-align=top data-placement=right ng-click=vm.js_pop_show_teams($event) id=btn_leftmenu_show_teams>
-                <i class= "wtfont wtf-worktile"></i>
+            <a href=javascript:; class="worktilelogo js-popbox" data-align=top data-placement=right ng-click=vm.js_pop_show_teams($event) id=btn_leftmenu_show_teams>
+                <i class="wtfont wtf-worktile"></i>
             </a>
         </div>
-        <div class="leftmenu_tab_wrap" wt-scroll='{"theme":"wt-scroll-dark wt-scroll-small"}'>
-            <ul id=leftmenu_current class="leftmenu_module">
+        <div class=leftmenu_tab_wrap wt-scroll='{"theme":"wt-scroll-dark wt-scroll-small"}'>
+            <ul id=leftmenu_current class=leftmenu_module>
                 <li>
-                    <a href=javascript:; ng-class= "{'active':$root.global.header_menu=='dashboard'&&$root.global.leftmenu_current_expand==''}" ng-click=vm.goto_dashboard()>
-                        <i class= "wtfont wtf-dashboard"></i>
+                    <a href=javascript:; ng-class="{'active':$root.global.header_menu=='dashboard'&&$root.global.leftmenu_current_expand==''}" ng-click=vm.goto_dashboard()>
+                        <i class="wtfont wtf-dashboard"></i>
                         <br>{{'leftmenu.item_dashboard'|translate}}</a></li>
                 <li>
-                    <a href=javascript:; ng-class= "{'active':($root.global.header_menu=='search'&&$root.global.leftmenu_current_expand=='')||$root.global.leftmenu_current_expand=='search'}" ng-click=vm.goto_search()>
-                        <i class= "wtfont wtf-search"></i>
+                    <a href=javascript:; ng-class="{'active':($root.global.header_menu=='search'&&$root.global.leftmenu_current_expand=='')||$root.global.leftmenu_current_expand=='search'}" ng-click=vm.goto_search()>
+                        <i class="wtfont wtf-search"></i>
                         <br>{{'leftmenu.item_search'|translate}}</a></li>
                 <li>
-                    <a href=javascript:; class= "notice-menu" ng-class= "{'active':$root.global.leftmenu_current_expand=='notice'}" ng-click= "vm.expand_item('notice')">
-                        <i class= "wtfont wtf-notice"></i>
-                        <span class= "label label-default label-danger" ng-if= "$root.global.unread_count>0">{{$root.global.unread_count}}</span>
+                    <a href=javascript:; class=notice-menu ng-class="{'active':$root.global.leftmenu_current_expand=='notice'}" ng-click="vm.expand_item('notice')">
+                        <i class="wtfont wtf-notice"></i>
+                        <span class="label label-default label-danger" ng-if="$root.global.unread_count>0">{{$root.global.unread_count}}</span>
                         <br>{{'leftmenu.item_notice'|translate}}</a></li>
                 <li>
-                    <a href=javascript:; ng-class= "{'active':($root.global.header_menu=='project'&&$root.global.leftmenu_current_expand=='')||$root.global.leftmenu_current_expand=='project'}" ng-click= "vm.expand_item('project')">
-                        <i class= "wtfont wtf-project"></i>
+                    <a href=javascript:; ng-class="{'active':($root.global.header_menu=='project'&&$root.global.leftmenu_current_expand=='')||$root.global.leftmenu_current_expand=='project'}" ng-click="vm.expand_item('project')">
+                        <i class="wtfont wtf-project"></i>
                         <br>{{'leftmenu.item_project'|translate}}</a></li>
             </ul>
-            <ul class="leftmenu_starprj" ng-if= "$root.global.me.is_lock_left=='1'">
-                <li ng-repeat= "project in vm.star_projects|orderBy:'star_pos'" pid={{::project.pid}}>
-                    <a ng-class= "{'active':$root.global.current_pid==project.pid}" href=javascript:; ng-click=vm.js_to_project(project) uib-tooltip={{project.name}} tooltip-animation=false tooltip-placement=right>
-                        <i ng-class="project.pic" ng-style= "{color: project.bg}"></i>
+            <ul class=leftmenu_starprj ng-if="$root.global.me.is_lock_left=='1'">
+                <li ng-repeat="project in vm.star_projects|orderBy:'star_pos'" pid={{::project.pid}}>
+                    <a ng-class="{'active':$root.global.current_pid==project.pid}" href=javascript:; ng-click=vm.js_to_project(project) uib-tooltip={{project.name}} tooltip-animation=false tooltip-placement=right>
+                        <i ng-class=project.pic ng-style="{color: project.bg}"></i>
                     </a>
                 </li>
             </ul>
         </div>
-        <div class="leftmenu_footer">
-            <div class= "quickadd js-popbox clickable" tooltip-placement=right tooltip-animation=false uib-tooltip= "{{{true:('leftmenu.quick_create'|translate)}[!$root.global.leftmenu_current_expand]}}" data-placement=right data-align=bottom ng-class= "{'active':$root.global.leftmenu_current_expand=='create'}" ng-click=vm.js_pop_shortcut_create($event) id=btn_leftmenu_shortcut_create>
-                <i class= "wtfont wtf-create"></i>
+        <div class=leftmenu_footer>
+            <div class="quickadd js-popbox clickable" tooltip-placement=right tooltip-animation=false uib-tooltip="{{{true:('leftmenu.quick_create'|translate)}[!$root.global.leftmenu_current_expand]}}" data-placement=right data-align=bottom ng-class="{'active':$root.global.leftmenu_current_expand=='create'}" ng-click=vm.js_pop_shortcut_create($event) id=btn_leftmenu_shortcut_create>
+                <i class="wtfont wtf-create"></i>
             </div>
-            <wt-avatar member=$root.global.me size=40 class="js-popbox" ng-click=vm.js_pop_avatar_self($event) data-align=bottom data-placement=right id=btn_leftmenu_avatar_self></wt-avatar>
+            <wt-avatar member=$root.global.me size=40 class=js-popbox ng-click=vm.js_pop_avatar_self($event) data-align=bottom data-placement=right id=btn_leftmenu_avatar_self></wt-avatar>
         </div>
     </div>
-    <div id=leftmenu_content class= "wt-animate" ng-show= "!([['show_teams','notice','shortcut_create','avatar_self',''],$root.global.leftmenu_current_expand]|indexOf)" ng-style=$root.global.leftmenu_current_expand_style>
+    <div id=leftmenu_content class=wt-animate ng-show="!([['show_teams','notice','shortcut_create','avatar_self',''],$root.global.leftmenu_current_expand]|indexOf)" ng-style=$root.global.leftmenu_current_expand_style>
         <wt-me-menu ng-if="$root.global.leftmenu_current_expand=='me'"></wt-me-menu>
-        <wt-teams-menu ng-if= "$root.global.leftmenu_current_expand=='teams'"></wt-teams-menu>
-        <wt-projects-menu ng-if= "$root.global.leftmenu_current_expand=='project'"></wt-projects-menu>
+        <wt-teams-menu ng-if="$root.global.leftmenu_current_expand=='teams'"></wt-teams-menu>
+        <wt-projects-menu ng-if="$root.global.leftmenu_current_expand=='project'"></wt-projects-menu>
     </div>
-    <div id=leftmenu_backdrop ng-click=vm.js_leftmenu_collapsed($event) ng-if= "!([['show_teams','notice','shortcut_create','avatar_self',''],$root.global.leftmenu_current_expand]|indexOf)"></div>
+    <div id=leftmenu_backdrop ng-click=vm.js_leftmenu_collapsed($event) ng-if="!([['show_teams','notice','shortcut_create','avatar_self',''],$root.global.leftmenu_current_expand]|indexOf)"></div>
 </div>

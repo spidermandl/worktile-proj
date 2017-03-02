@@ -49,10 +49,12 @@
             project_ctrl: 'controllers/project_ctrl',
             project_task_ctrl: 'controllers/project_task_ctrl',
             project_event_ctrl: 'controllers/project_event_ctrl',
+            notice: 'controllers/notice',
 			//指令
 			left_nemu : 'directive/left_menu',
             left_menu_project : 'directive/left_menu_project',
             left_menu_avatar : 'directive/left_menu_avatar',
+            left_menu_notice: 'directive/left_menu_notice',
             toolkit : 'directive/toolkit',
             team_logo : 'directive/team_logo',
             project_item : 'directive/project_item',
@@ -93,7 +95,7 @@
             },
             left_nemu: {
                 deps: ['center','shortcut','quickswitch','task','event','file','feedback','filters',
-                    'popbox','left_menu_project','left_menu_avatar','team'],
+                    'popbox','notice','left_menu_project','left_menu_avatar','left_menu_notice','team'],
             },
             team: {
                 deps: ['track','team_logo','project','upload'],

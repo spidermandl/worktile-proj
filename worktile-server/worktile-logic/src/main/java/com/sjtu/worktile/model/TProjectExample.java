@@ -535,6 +535,66 @@ public class TProjectExample {
             return (Criteria) this;
         }
 
+        public Criteria andPosIsNull() {
+            addCriterion("pos is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosIsNotNull() {
+            addCriterion("pos is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosEqualTo(Float value) {
+            addCriterion("pos =", value, "pos");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosNotEqualTo(Float value) {
+            addCriterion("pos <>", value, "pos");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosGreaterThan(Float value) {
+            addCriterion("pos >", value, "pos");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosGreaterThanOrEqualTo(Float value) {
+            addCriterion("pos >=", value, "pos");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosLessThan(Float value) {
+            addCriterion("pos <", value, "pos");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosLessThanOrEqualTo(Float value) {
+            addCriterion("pos <=", value, "pos");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosIn(List<Float> values) {
+            addCriterion("pos in", values, "pos");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosNotIn(List<Float> values) {
+            addCriterion("pos not in", values, "pos");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosBetween(Float value1, Float value2) {
+            addCriterion("pos between", value1, value2, "pos");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosNotBetween(Float value1, Float value2) {
+            addCriterion("pos not between", value1, value2, "pos");
+            return (Criteria) this;
+        }
+
         public Criteria andPending1IsNull() {
             addCriterion("pending1 is null");
             return (Criteria) this;
@@ -742,6 +802,66 @@ public class TProjectExample {
 
         public Criteria andPending3NotBetween(String value1, String value2) {
             addCriterion("pending3 not between", value1, value2, "pending3");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStarIsNull() {
+            addCriterion("is_star is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStarIsNotNull() {
+            addCriterion("is_star is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStarEqualTo(Integer value) {
+            addCriterion("is_star =", value, "isStar");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStarNotEqualTo(Integer value) {
+            addCriterion("is_star <>", value, "isStar");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStarGreaterThan(Integer value) {
+            addCriterion("is_star >", value, "isStar");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStarGreaterThanOrEqualTo(Integer value) {
+            addCriterion("is_star >=", value, "isStar");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStarLessThan(Integer value) {
+            addCriterion("is_star <", value, "isStar");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStarLessThanOrEqualTo(Integer value) {
+            addCriterion("is_star <=", value, "isStar");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStarIn(List<Integer> values) {
+            addCriterion("is_star in", values, "isStar");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStarNotIn(List<Integer> values) {
+            addCriterion("is_star not in", values, "isStar");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStarBetween(Integer value1, Integer value2) {
+            addCriterion("is_star between", value1, value2, "isStar");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStarNotBetween(Integer value1, Integer value2) {
+            addCriterion("is_star not between", value1, value2, "isStar");
             return (Criteria) this;
         }
     }

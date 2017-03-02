@@ -384,7 +384,11 @@ define(['app'], function (app) {
 										l.popbox && l.popbox.close(),
 										e !== f && $("#btn_leftmenu_avatar_self").click()
 							}
-							_.indexOf(["show_teams", "shortcut_create", "avatar_self"], f) === -1 && (a.global.leftmenu_current_expand === f ? a.global.leftmenu_current_expand = "" : a.global.leftmenu_current_expand = f)
+							_.indexOf(["show_teams", "shortcut_create", "avatar_self"], f) === -1 && 
+								(a.global.leftmenu_current_expand === f ? 
+									a.global.leftmenu_current_expand = "" 
+									: 
+									a.global.leftmenu_current_expand = f)
 						})
 				}
 			}
