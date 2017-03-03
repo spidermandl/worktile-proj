@@ -50,6 +50,7 @@
             project_task_ctrl: 'controllers/project_task_ctrl',
             project_event_ctrl: 'controllers/project_event_ctrl',
             notice: 'controllers/notice',
+            entity_ctrl: 'controllers/entity_ctrl',
 			//指令
 			left_nemu : 'directive/left_menu',
             left_menu_project : 'directive/left_menu_project',
@@ -59,6 +60,7 @@
             team_logo : 'directive/team_logo',
             project_item : 'directive/project_item',
             task_directive: 'directive/task_directive',
+            slide: 'directive/slide',
             //filter
             filters : 'filter/filters',
             //provider
@@ -82,7 +84,7 @@
                 deps: ['account'],
             },
 			dashboard: {
-		        deps: ['left_nemu'],
+		        deps: ['left_nemu','slide'],
 			},
             search: {
                 deps: ['left_nemu'],
@@ -91,7 +93,7 @@
                 deps: ['scroll','task_directive','project_item','team_admin_ctrl','markdown'],
             },
             project_ctrl:{
-                deps: ['time','locator','project_event_ctrl','project_task_ctrl',],
+                deps: ['time','locator','entity_ctrl','project_event_ctrl','project_task_ctrl','slide'],
             },
             left_nemu: {
                 deps: ['center','shortcut','quickswitch','task','event','file','feedback','filters',

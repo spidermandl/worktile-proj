@@ -1,0 +1,47 @@
+<div ng-controller=entityMailCtrl>
+    <div class=entity-well-header ng-show=root_vm.entityExt.loading_done>
+        <ul class="entity-well-header-nav nav nav-pills pull-right">
+            <li>
+                <a href=javascript:; ng-click="vm.js_pop_move($event, vm.mail)" title="{{'entity_mail.convert_to_post'|translate}}">
+                    <i class="fa fa-share-square-o"></i>{{'entity_mail.convert_to_post'|translate}}</a>
+            </li>
+            <li class=divider-v></li>
+            <li class=js-popbox>
+                <a href=javascript:; class=dropdown-toggle data-toggle=dropdown title="{{'common.txt_more'|translate}}" aria-expanded=true>
+                    <i class="fa fa-chevron-down"></i>{{'common.txt_more'|translate}}</a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li>
+                        <a href=javascript:; ng-click="vm.js_pop_trash($event, vm.mail)">
+                            <i class="fa fa-trash"></i>{{'common.txt_del'|translate}}</a>
+                    </li>
+                    <li>
+                        <a href=javascript:; wt-entity-print="">
+                            <i class="fa fa-print"></i>{{'entity_mail.print'|translate}}</a>
+                    </li>
+                </ul>
+            </li>
+            <li class=divider-v></li>
+            <li>
+                <a class=entity-well-header-close href=javascript:; ng-click=$root.locator.close()>
+                    <i class="wtfont wtf-close"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="entity-well-scroll height-nonav height-nonav--notab" ng-show="root_vm.entityExt.loading_done " wt-scroll="">
+        <div class=entity-well-content>
+            <div class=entity-title>
+                <h2>{{vm.mail.subject}}</h2></div>
+            <div>
+                <ul class=entity-subtitle>
+                    <li>
+                        <span>&nbsp;{{vm.mail.create_date|fromNow}}</span>|
+                        <span>{{vm.mail.from}}</span></li>
+                </ul>
+            </div>
+            <div class=email-content>
+                <div class=markdown wt-markdown=vm.mail.body_html></div>
+            </div>
+        </div>
+    </div>
+</div>

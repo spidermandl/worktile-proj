@@ -1,0 +1,181 @@
+<div ng-controller=entityFileCtrl wt-dragfile=vm.js_files_select($files) class=h_100p wt-dragfile-enable=(global.prj_module.crud|permission:project.permission)>
+    <div class=entity-well-header ng-show="root_vm.entityExt.loading_done && (global.prj_module.view|permission:root_vm.entityExt.permission)">
+        <a href=javascript:; class=entity-project-name ng-click=vm.js_to_project(project.pid) ng-bind=project.name></a>
+        <ul class="entity-well-header-nav nav nav-pills pull-right">
+            <li ng-if=vm.file.is_deleted class=entity-warning>{{'entity_file.info_del'|translate:{when:(vm.file.update_date|timeFormatZHCN)} }}</li>
+            <li ng-if="(vm.file|isPreviewFile)==2">
+                <a href=javascript:; target=_blank ng-href="{{'/files/'+vm.file.fid+'/preview'}}">
+                    <i class="fa fa-eye"></i>{{'entity_file.preview'|translate}}</a>
+            </li>
+            <li ng-if="!vm.file.is_deleted&&vm.file.is_img&&vm.file.path.length>0">
+                <a class=fancybox-file href=javascript:; data-fancybox-group=file-detail-headerbtn data-fancybox-href={{vm.file|wtBoxView}} data-fancybox-type=image>
+                    <i class="fa fa-eye"></i>{{'entity_file.preview'|translate}}</a>
+            </li>
+            <li ng-if=global.prj_module.crud|permission:root_vm.entityExt.permission>
+                <a href=javascript:; ng-class="{true:'disabled'}[vm.file.in_edit]" ng-click=vm.js_show_editor(vm.file) title="{{'entity_file.edit'|translate}}">
+                    <i class="fa fa-pencil fa-fw"></i>{{'entity_file.edit'|translate}}</a>
+            </li>
+            <li ng-if=!vm.file.is_deleted>
+                <a ng-href={{vm.file|wtBoxDownload}} target=_blank title="{{'entity_file.download'|translate}}">
+                    <i class="fa fa-download"></i>{{'entity_file.download'|translate}}</a>
+            </li>
+            <li class=divider-v ng-if=global.prj_module.crud|permission:root_vm.entityExt.permission></li>
+            <li ng-if=global.prj_module.crud|permission:root_vm.entityExt.permission>
+                <a href=javascript:; ngf-multiple=false ngf-select ngf-change=vm.js_files_select($files) title="{{'entity_file.update'|translate}}">
+                    <i class="fa fa-refresh"></i>{{'entity_file.update'|translate}}</a>
+            </li>
+            <li class=js-popbox data-placement=bottom ng-show="!vm.file.is_deleted && (global.prj_module.crud|permission:root_vm.entityExt.permission)">
+                <a href=javascript:; class=dropdown-toggle data-toggle=dropdown title="{{'entity_file.more'|translate}}">
+                    <i class="fa fa-chevron-down"></i>{{'entity_file.more'|translate}}</a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li ng-show=global.prj_module.crud|permission:root_vm.entityExt.permission>
+                        <a href=javascript:; ng-click="vm.js_show_move_to_dialog($event, vm.file)">
+                            <i class="fa fa-share-square-o fa-fw"></i>{{'entity_file.move'|translate}}</a>
+                    </li>
+                    <li ng-show=global.prj_module.crud|permission:root_vm.entityExt.permission>
+                        <a href=javascript:; ng-click="vm.js_show_trash_dialog($event, vm.file)">
+                            <i class="fa fa-trash-o fa-fw"></i>{{'entity_file.del'|translate}}</a>
+                    </li>
+                    <li ng-show=global.prj_module.crud|permission:root_vm.entityExt.permission class=divider></li>
+                    <li>
+                        <a href=javascript:; wt-entity-share="['',project.pid,'files',vm.file]">
+                            <i class="fa fa-share-square-o"></i>{{'entity_file.share'|translate}}</a>
+                    </li>
+                    <li>
+                        <a href=javascript:; wt-entity-print="">
+                            <i class="fa fa-print fa-fw"></i>{{'entity_file.print'|translate}}</a>
+                    </li>
+                    <li>
+                        <a href=javascript:; ng-click="vm.js_show_versions($event, vm.file)">
+                            <i class="fa fa-clock-o fa-fw"></i>{{'entity_file.history_version'|translate}}</a>
+                    </li>
+                </ul>
+            </li>
+            <li class=js-popbox data-placement=bottom ng-if=!vm.file.is_deleted&&((global.prj_module.view|permission:root_vm.entityExt.permission)&&!(global.prj_module.crud|permission:root_vm.entityExt.permission))>
+                <a href=javascript:; class=dropdown-toggle data-toggle=dropdown title="{{'entity_file.more'|translate}}">
+                    <i class="fa fa-chevron-down"></i>{{'entity_file.more'|translate}}</a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li ng-show=global.prj_module.crud|permission:root_vm.entityExt.permission>
+                        <a href=javascript:; ng-click="vm.js_show_versions($event, vm.file)">
+                            <i class="fa fa-print"></i>{{'entity_file.history_version'|translate}}</a>
+                    </li>
+                    <li>
+                        <a href=javascript:; wt-entity-share="['',project.pid,'files',vm.file]">
+                            <i class="fa fa-share-square-o"></i>{{'entity_file.share'|translate}}</a>
+                    </li>
+                    <li>
+                        <a href=javascript:; wt-entity-print="">
+                            <i class="fa fa-print"></i>{{'entity_file.print'|translate}}</a>
+                    </li>
+                </ul>
+            </li>
+            <li class=divider-v></li>
+            <li>
+                <a class=entity-well-header-close href=javascript:; ng-click=$root.locator.close()>
+                    <i class="wtfont wtf-close"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="entity-well-scroll height-nonav height-nonav--notab" wt-scroll="" ng-show="root_vm.entityExt.loading_done && (global.prj_module.view|permission:root_vm.entityExt.permission) && vm.file.fid">
+        <div class=entity-well-content>
+            <div ng-if=!vm.file.in_edit>
+                <div class=entity-title>
+                    <h2 ng-click=vm.js_show_editor(vm.file) ng-bind=vm.file.name></h2>
+                </div>
+            </div>
+            <div class=edit-section ng-if=vm.file.in_edit>
+                <input type=text wt-enter="vm.js_set_update($event, vm.file)" ng-model=vm.tmpFile.name class="form-control help-block" placeholder="{{'entity_file.file_name'|translate}}" required wt-focus=vm.fileNameInputFocus>
+                <wt-editor pid=vm.pid>
+                    <textarea ng-model=vm.tmpFile.desc type=text wt-ctrl-enter="vm.js_set_update($event, vm.file)" msd-elastic rows=9 placeholder="{{'entity_file.link_add_desc'|translate}}"></textarea>
+                </wt-editor>
+                <div class=form-group>
+                    <button ng-click="vm.js_set_update($event, vm.file)" data-loading-text="{{'common.saving'|translate}}" class="btn btn-success mr_15" wt-loading-status=vm.is_saving>{{'common.btn_save'|translate}}</button>
+                    <button ng-click=vm.js_cancel_editor(vm.file) class="btn btn-link btn-cancel">{{'common.btn_cancel'|translate}}</button></div>
+            </div>
+            <div class="entity-drag-drop dragfile-hover-placeholder">
+                <span class=name>
+                    <i class="fa fa-upload"></i>{{'entity_file.drop_upload'|translate}}</span>
+            </div>
+            <div class="file-section dragfile-hover-hide" ng-hide=vm.file.in_edit ng-class="{true:'file-section--onlyicon'}[!vm.file.is_img]">
+                <div class=file-icon ng-hide="vm.file.path.length==0" ng-class="{true:'fancybox-file',false:'file-onlyicon'}[vm.file.is_img]" data-fancybox-group=file-detail href={{vm.file|wtBoxView}} data-fancybox-type=image>
+                    <img ng-if="(vm.file|isPreviewFile)==2" ng-src={{vm.file|wtBoxView}} alt="{{ vm.file.name }}">
+                    <img ng-if="(vm.file|isPreviewFile)!=2" ng-src={{vm.file|wtBoxView}} alt="{{ vm.file.name }}"></div>
+                <div class=file-section-meta>
+                    <span class=file-meta>
+                        <span class=file-ext ng-bind=vm.file|fileExt|uppercase></span>{{'common.txt_file'|translate}} &nbsp; &nbsp; &nbsp;
+                        <span class=file-size ng-bind=vm.file.size|fileSize></span></span>&nbsp; &nbsp; &nbsp;
+                    <span class=file-meta-creater translate=entity_file.who_upload_when translate-values={who:vm.file.update_user.display_name,when:(vm.file.update_date|datetimeAutoFormat)}></span>
+                    <a ng-if="(vm.file|isPreviewFile)==2" ng-href="{{'/files/'+vm.file.fid+'/preview'}}" target=_blank class="btn file-meta-priviewbtn">{{'entity_file.btn_preview'|translate}}</a></div>
+            </div>
+            <a class=entity-desc-edit ng-if="(!vm.file.desc||vm.file.desc.length == 0) && !vm.file.in_edit && (global.prj_module.crud|permission:root_vm.entityExt.permission)" href=javascript:; ng-click=vm.js_show_editor(vm.file)>{{'entity_file.link_add_desc'|translate}}</a>
+            <div ng-if="!vm.file.in_edit && (vm.file.desc||vm.file.desc.length != 0)" class="entity-desc markdown" wt-markdown=vm.file.desc></div>
+            <div class=entity-members>
+                <dl class="entity-members-watchs entity-members-watchs--noassign">
+                    <dt>{{'entity_file.title_watcher'|translate}}</dt>
+                    <dd>
+                        <ul class=avatars>
+                            <li ng-repeat="watcher in vm.file.watchers">
+                                <a href=javascript:; class="fa fa-times-circle" ng-click=vm.js_remove_watcher($event,watcher,vm.file)></a>
+                                <wt-avatar member=watcher class=js-popbox wt-pop-member=vm.pop_watcher_options pop-member=watcher data-placement=left></wt-avatar>
+                            </li>
+                            <li ng-show=global.prj_module.crud|permission:root_vm.entityExt.permission>
+                                <div class="js-popbox text-center">
+                                    <a class=avatar-add href=javascript:; data-placement=right data-align=center wt-pop-toggle-members="vm.js_toggle_watch($event, member, xEntity)" team-id=project.team_id pid=vm.pid permission=project.permission type=watch entity=vm.file all-member-click="vm.js_watch_all($event, members, xEntity)">
+                                        <span class=o>＋</span></a>
+                                </div>
+                            </li>
+                            <li ng-show="(project.curr_role|is_guest) && (global.prj_module.watch|permission:root_vm.entityExt.permission)">
+                                <div class="js-popbox text-center" ng-click="vm.js_toggle_watch($event, global.me, vm.file)">
+                                    <a class=avatar-add href=javascript:; title="{{{true:'entity_file.btn_cancel_watch',false:'entity_file.watch'}[global.me.watched]|translate }}" data-placement=left data-align=center>
+                                        <span class=o>
+                                            <i class=fa ng-class="{true:'fa-minus',false:'fa-plus'}[global.me.watched]"></i>
+                                        </span>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </dd>
+                </dl>
+            </div>
+            <hr class=entity-hr ng-if="vm.file.link_count > 0">
+            <div class=entity-well-content-module ng-if="vm.file.link_count > 0">
+                <dl class=module-links>
+                    <dt>
+                        <i class="fa fa-link"></i>{{'entity_file.title_related_link'|translate}}</dt>
+                    <dd>
+                        <dl class=entity-links>
+                            <dt ng-if="vm.file.tasks.length>0">{{'common.txt_task'|translate}}</dt>
+                            <dd ng-if="vm.file.tasks.length>0">
+                                <ul>
+                                    <li class=link-item ng-repeat="task in vm.file.tasks">
+                                        <a href=javascript:; ng-click="$root.locator.openTask(vm.file.pid, task.tid)" ng-bind=task.name></a>
+                                    </li>
+                                </ul>
+                            </dd>
+                            <dt ng-if="vm.file.posts.length>0">{{'common.txt_post'|translate}}</dt>
+                            <dd ng-if="vm.file.posts.length>0">
+                                <ul>
+                                    <li class=link-item ng-repeat="post in vm.file.posts">
+                                        <a href=javascript:; ng-click="$root.locator.openPost(vm.file.pid, post.post_id)" ng-bind=post.name></a>
+                                    </li>
+                                </ul>
+                            </dd>
+                            <dt ng-if="vm.file.events.length>0">{{'common.txt_event'|translate}}</dt>
+                            <dd ng-if="vm.file.events.length>0">
+                                <ul>
+                                    <li class=link-item ng-repeat="event in vm.file.events">
+                                        <a href=javascript:; ng-click="$root.locator.openEvent(vm.file.pid, event.event_id)" ng-bind=event.name></a>
+                                    </li>
+                                </ul>
+                            </dd>
+                        </dl>
+                    </dd>
+                </dl>
+            </div>
+            <hr class=entity-hr></div>
+        <div class=entity-tabs>
+            <wt-item-comment-activity arg-type=file arg-project=project arg-entity=vm.file arg-entity-ext=root_vm.entityExt></wt-item-comment-activity>
+        </div>
+    </div>
+</div>

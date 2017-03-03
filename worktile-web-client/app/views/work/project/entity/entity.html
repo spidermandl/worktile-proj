@@ -1,0 +1,12 @@
+<div class=slide-content wt-dragfile=dragfile_option wt-dragfile-enable=(global.prj_module.crud|permission:project.permission)>
+    <div class="entity-well {{'entity-well--'+locator.xtype }}">
+        <div class="part-loading mt_60" ng-if=!root_vm.entityExt.loading_done></div>
+        <wt-entity-deny></wt-entity-deny>
+        <ng-include ng-if="locator.xtype == 'tasks'" src="'/views/work/project/entity/task.html'"></ng-include>
+        <ng-include ng-if="locator.xtype == 'files'" src="'/views/work/project/entity/file.html'"></ng-include>
+        <ng-include ng-if="locator.xtype == 'pages'" src="'/views/work/project/entity/page.html'"></ng-include>
+        <ng-include ng-if="locator.xtype == 'posts'" src="'/views/work/project/entity/post.html'"></ng-include>
+        <ng-include ng-if="locator.xtype == 'events'" src="'/views/work/project/entity/event.html'"></ng-include>
+        <ng-include ng-if="locator.xtype == 'emails'" src="'/views/work/project/entity/mail.html'"></ng-include>
+    </div>
+</div>

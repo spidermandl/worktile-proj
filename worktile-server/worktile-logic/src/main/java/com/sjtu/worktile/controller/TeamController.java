@@ -1,6 +1,8 @@
 package com.sjtu.worktile.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.sjtu.worktile.configuration.Const;
 import com.sjtu.worktile.exception.AppException;
 import com.sjtu.worktile.model.*;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -66,6 +69,45 @@ public class TeamController extends BaseController{
 
     /**
      * 创建team
+     * 需要完善
+     * @param request
+     */
+    @RequestMapping(value = "invite", method = RequestMethod.POST)
+    @ResponseBody
+    public TeamInviteMsg.OutMsg invite(final HttpServletRequest request,
+                                   @RequestParam("team_id") Long team_id,
+                                    @RequestParam("members") String members,
+                                    @RequestParam(value = "message",required = false) String phone,
+                                    @RequestParam("project_ids") String project_ids
+    ) throws AppException {
+        long uid = super.getUserID(request);
+        TeamInviteMsg.OutMsg msg = new TeamInviteMsg.OutMsg();
+
+        JSONArray memberArray = JSON.parseArray(members);
+        Iterator<Object> it = memberArray.iterator();
+        List<Long> ids = new ArrayList<>();
+        while (it.hasNext()) {
+            JSONObject ob = (JSONObject) it.next();
+            ids.add(ob.getLong("uid"));
+        }
+        /**
+         * team中加入user
+         */
+        ids = teamService.addMembers(team_id,ids.toArray(new Long[0]));
+        /**
+         * 获取user信息
+         */
+        List<TUser> users = userService.findUsersByID(ids.toArray(new Long[0]));
+        for (TUser u:users){
+            PairMsg.ResponseMsg.User rUser = new PairMsg.ResponseMsg.User();
+            mappingToUserMsg(rUser,u);
+            msg.data.add(rUser);
+        }
+        return msg;
+    }
+
+    /**
+     * 创建team
      * @param request
      */
     @RequestMapping(value = "create", method = RequestMethod.POST)
@@ -96,7 +138,9 @@ public class TeamController extends BaseController{
 
         teamService.createTeam(tTeam,uid);
 
-        return new TeamNewMsg.OutMsg();
+        TeamNewMsg.OutMsg msg = new TeamNewMsg.OutMsg();
+        mappingToTeamMsg(msg.data,tTeam,uid);
+        return msg;
     }
 
     /**
@@ -171,7 +215,7 @@ public class TeamController extends BaseController{
     }
 
     /**
-     * 获取
+     * 删除团队，以及团队相关数据
      * @param request
      * @param team_id
      * @return

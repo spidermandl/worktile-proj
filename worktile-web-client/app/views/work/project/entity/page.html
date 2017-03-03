@@ -1,0 +1,139 @@
+<div ng-controller=entityPageCtrl>
+    <div class=entity-well-header ng-class="{'entity-well-header--fullscreen':vm.is_fullscreen}" ng-if="root_vm.entityExt.loading_done && (global.prj_module.view|permission:root_vm.entityExt.permission)">
+        <a href=javascript:; class=entity-project-name ng-click=vm.js_go_to_pages() ng-bind=project.name></a>
+        <ul class="entity-well-header-nav nav nav-pills pull-right">
+            <li ng-if=page.is_deleted class=entity-warning>{{'entity_page.info_del'|translate:{when:(page.update_date|timeFormatZHCN)} }}</li>
+            <li ng-if=!page.is_deleted>
+                <a href=javascript:; ng-click=vm.js_toggle_fullscreen($event)>
+                    <i class="fa fa-arrows-alt"></i>{{ {false:'entity_page.btn_fullscreem',true:'entity_page.btn_quit_fullscreem'}[vm.is_fullscreen]|translate }}</a>
+            </li>
+            <li ng-if=global.prj_module.crud|permission:root_vm.entityExt.permission>
+                <a href=javascript:; ng-click="$root.locator.toPath('/project/'+page.pid+'/page/'+page.page_id+'/edit')" title="{{'entity_page.edit'|translate}}">
+                    <i class="fa fa-pencil"></i>{{'entity_page.edit'|translate}}</a>
+            </li>
+            <li ng-if="!(page.parent_id) && (global.prj_module.crud|permission:root_vm.entityExt.permission)">
+                <a href=javascript:; ng-click="$root.locator.toPath('/project/'+page.pid+'/page/add/'+page.page_id)" title="{{'entity_page.add_children'|translate}}">
+                    <i class="fa fa-file-text-o"></i>{{'entity_page.add_children'|translate}}</a>
+            </li>
+            <li class=divider-v ng-if=global.prj_module.crud|permission:root_vm.entityExt.permission></li>
+            <li class=js-popbox ng-if=global.prj_module.crud|permission:root_vm.entityExt.permission>
+                <a href=javascript:; class=dropdown-toggle data-toggle=dropdown>
+                    <i class="fa fa-chevron-down"></i>{{'entity_page.more'|translate}}</a>
+                <ul class="dropdown-menu pull-right">
+                    <li ng-show=global.prj_module.crud|permission:root_vm.entityExt.permission>
+                        <a href=javascript:; ng-click=vm.js_show_trash($event)>
+                            <i class="fa fa-trash-o fa-fw"></i>{{'common.txt_del'|translate}}</a>
+                    </li>
+                    <li ng-show=global.prj_module.crud|permission:root_vm.entityExt.permission class=divider></li>
+                    <li>
+                        <a href=javascript:; wt-entity-share="['',project.pid,'pages',page]">
+                            <i class="fa fa-share-square-o fa-fw"></i>{{'entity_page.share'|translate}}</a>
+                    </li>
+                    <li>
+                        <a href=javascript:; wt-entity-print="">
+                            <i class="fa fa-print fa-fw"></i>{{'entity_page.print'|translate}}</a>
+                    </li>
+                    <li ng-if=global.prj_module.crud|permission:root_vm.entityExt.permission>
+                        <a href=javascript:; ng-click="$root.locator.toPath('/project/'+page.pid+'/page/'+page.page_id+'/versions')">
+                            <i class="fa fa-clock-o fa-fw"></i>{{'entity_page.history'|translate}}</a>
+                    </li>
+                </ul>
+            </li>
+            <li class=js-popbox ng-if="!page.is_deleted && ( (global.prj_module.view|permission:root_vm.entityExt.permission) && !(global.prj_module.crud|permission:root_vm.entityExt.permission) )">
+                <a href=javascript:; class=dropdown-toggle data-toggle=dropdown>
+                    <i class="fa fa-chevron-down"></i>{{'entity_page.more'|translate}}</a>
+                <ul class="dropdown-menu pull-right">
+                    <li>
+                        <a href=javascript:; wt-entity-share="['',project.pid,'pages',page]">
+                            <i class="fa fa-share-square-o"></i>{{'entity_page.share'|translate}}</a>
+                    </li>
+                    <li>
+                        <a href=javascript:; wt-entity-print="">
+                            <i class="fa fa-print"></i>{{'entity_page.print'|translate}}</a>
+                    </li>
+                </ul>
+            </li>
+            <li class=divider-v></li>
+            <li>
+                <a class=entity-well-header-close href=javascript:; ng-click=$root.locator.close()>
+                    <i class="wtfont wtf-close"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="entity-well-scroll height-nonav height-nonav--notab" ng-class="{'entity-well-scroll--fullscreen':vm.is_fullscreen}" wt-scroll="" ng-show="root_vm.entityExt.loading_done && page.page_id">
+        <div class=entity-well-content>
+            <div ng-hide=page.in_edit>
+                <div class=entity-title>
+                    <h2>
+                        <span ng-bind=page.name></span>
+                    </h2>
+                </div>
+                <div class="entity-desc markdown" wt-markdown=page.content></div>
+            </div>
+            <div class=entity-members>
+                <dl class="entity-members-watchs entity-members-watchs--noassign">
+                    <dt>{{'entity_page.watcher'|translate}}</dt>
+                    <dd>
+                        <ul class=avatars>
+                            <li ng-repeat="watcher in page.watchers">
+                                <a href=javascript:; class="fa fa-times-circle" ng-click=vm.js_remove_watcher($event,watcher,page)></a>
+                                <wt-avatar member=watcher class=js-popbox wt-pop-member=pop_watcher_options pop-member=watcher data-placement=bottom data-align=left></wt-avatar>
+                            </li>
+                            <li ng-show=global.prj_module.crud|permission:root_vm.entityExt.permission>
+                                <div class="js-popbox text-center">
+                                    <a class=avatar-add href=javascript:; data-placement=right data-align=center data-auto-adapt=true type=watch team-id=project.team_id pid=vm.pid permission=root_vm.entityExt.permission entity=page wt-pop-toggle-members="vm.js_toggle_watch($event, member, xEntity)" all-member-click="vm.js_watch_all($event, members, xEntity)">
+                                        <span class=o>＋</span></a>
+                                </div>
+                            </li>
+                            <li ng-show="(project.curr_role|is_guest) && (global.prj_module.watch|permission:root_vm.entityExt.permission)">
+                                <div class="js-popbox text-center">
+                                    <a class=avatar-add href=javascript:; title="{{{true:'entity_page.cancel_watcher',false:'entity_page.watch'}[global.me.watched]|translate}}" ng-click="vm.js_toggle_watch($event, global.me, page)" data-placement=left data-align=center>
+                                        <span class=o>
+                                            <i class=fa ng-class="{true:'fa-minus',false:'fa-plus'}[global.me.watched]"></i>
+                                        </span>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </dd>
+                </dl>
+            </div>
+            <hr class=entity-hr ng-if="page.sub_pages.length>0||page.parent_name">
+            <div class=entity-well-content-module ng-if="page.sub_pages.length>0">
+                <dl class=module-sub-pages>
+                    <dt>
+                        <i class="fa fa-file-text-o"></i>{{'entity_page.children_page'|translate}}</dt>
+                    <dd>
+                        <ul>
+                            <li ng-repeat="sub in page.sub_pages">
+                                <a href=javascript:; ng-click="vm.is_fullscreen=false;locator.openPage(page.pid,sub.page_id)">
+                                    <span ng-bind=sub.name></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </dd>
+                </dl>
+            </div>
+            <div class=entity-well-content-module ng-if=page.parent_name>
+                <dl class=module-sub-pages>
+                    <dt>
+                        <i class="fa fa-file-text-o"></i>{{'entity_page.parent_page'|translate}}</dt>
+                    <dd>
+                        <ul>
+                            <li>
+                                <a href=javascript:; ng-click="vm.is_fullscreen=false;locator.openPage(page.pid,page.parent_id)">
+                                    <span ng-bind=page.parent_name></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </dd>
+                </dl>
+            </div>
+            <hr class=entity-hr>
+            <div class=entity-content-footer>{{page.last_updator.display_name}} {{'entity_page.last_update'|translate:{when:(page.update_date|fromNow)} }} {{'entity_page.current_version'|translate}}：#{{page.version}}</div></div>
+        <div class=entity-tabs ng-class="{'entity-tabs--fullscreen':vm.is_fullscreen}">
+            <wt-item-comment-activity arg-type=page arg-project=project arg-entity=page arg-entity-ext=root_vm.entityExt></wt-item-comment-activity>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,301 @@
+<div wt-dragfile=vm.js_files_select($files) ng-controller=entityTaskCtrl class=h_100p wt-dragfile-enable=(global.prj_module.crud|permission:project.permission)>
+    <div class=entity-well-header ng-class="{'entity-well-header--fullscreen':vm.is_fullscreen}" ng-show=root_vm.entityExt.loading_done&&(global.prj_module.view|permission:root_vm.entityExt.permission)>
+        <a href=javascript:; class=entity-project-name ng-click=vm.js_go_to_tasks() ng-bind=project.name></a>
+        <ul class="entity-well-header-nav nav nav-pills pull-right">
+            <li ng-if=(!vm.task.is_deleted&&!vm.task.archived&&vm.task.is_locked)&&(vm.task|taskLockPermission:$root.global.me) class=entity-info>{{'entity_task.warn_locked'|translate}}</li>
+            <li ng-if=vm.task.is_deleted class=entity-warning>{{'entity_task.tips_del'|translate:{datetime:(vm.task.update_date|timeFormatZHCN)} }}</li>
+            <li ng-if=vm.task.archived class=entity-info>{{'entity_task.tips_archive'|translate:{datetime:(vm.task.update_date|timeFormatZHCN)} }}</li>
+            <li ng-if=vm.task.archived class=divider-v></li>
+            <li ng-if="vm.task.archived && vm.checkEntityPermission()">
+                <a href=javascript:; ng-click="vm.js_show_entry_menu($event, vm.task)" title="{{'common.txt_active'|translate}}">
+                    <i class="fa fa-undo"></i>{{'common.txt_active'|translate}}</a>
+            </li>
+            <li ng-if=vm.is_fullscreen>
+                <a href=javascript:; ng-click=vm.js_toggle_fullscreen($event)>
+                    <i class="fa fa-arrows-alt"></i>{{'entity_task.btn_quit_fullscreem'|translate}}</a>
+            </li>
+            <li class=js-popbox ng-if=vm.checkEntityPermission()>
+                <a href=javascript:; ng-click="vm.js_show_datepicker($event, vm.task)" title="{{'entity_task.btn_expire'|translate}}">
+                    <i class="fa fa-clock-o"></i>{{'entity_task.btn_date'|translate}}</a>
+            </li>
+            <li class=js-popbox ng-if=vm.checkEntityPermission()>
+                <a href=javascript:; ng-click="vm.js_assign_label($event, vm.task)">
+                    <i class="fa fa-tag"></i>{{'entity_task.btn_labels'|translate}}</a>
+            </li>
+            <li ng-if=vm.checkEntityPermission()>
+                <a href=javascript:; ng-click=vm.js_show_todo(vm.task) title="{{'entity_task.link_add_todo'|translate}}">
+                    <i class="fa fa-th-list"></i>{{'entity_task.title_todo'|translate}}</a>
+            </li>
+            <li class=js-popbox ng-if=vm.checkEntityPermission()>
+                <a href=javascript:; class=dropdown-toggle data-toggle=dropdown title="{{'entity_task.link_add_attachement'|translate}}">
+                    <i class="fa fa-paperclip"></i>{{'entity_task.attachment'|translate}}</a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li>
+                        <a href=javascript:; ngf-multiple=true ngf-select ngf-change=vm.js_files_select($files)>
+                            <i class="fa fa-desktop"></i>{{'entity_task.btn_local_upload'|translate}}</a>
+                    </li>
+                    <li>
+                        <a href=javascript:; data-placement=bottom wt-pop-add-attachment-from-file=vm.task>
+                            <i class="fa fa-file"></i>{{'entity_task.btn_from_project_file'|translate}}</a>
+                    </li>
+                    <li class=divider></li>
+                    <li wt-stop-propagation=click>
+                        <div class="part-loading mt-20" ng-if=vm.js_uploadbylink_uploading></div>
+                        <form class="form-inline text-nowarp" role=form ng-show=!vm.js_uploadbylink_uploading>
+                            <input type=text ng-model=vm.uploadlink_url class="form-control input-sm fs_14" placeholder="{{'entity_task.btn_paste_downlink'|translate}}">
+                            <button class="btn btn-default plr_10" type=button ng-click=vm.js_uploadbylink($event)>{{'entity_task.btn_add'|translate}}</button></form>
+                    </li>
+                </ul>
+            </li>
+            <li class=divider-v ng-if="!vm.task.is_deleted && (global.prj_module.crud|permission:root_vm.entityExt.permission)"></li>
+            <li class=js-popbox ng-if="!vm.task.is_deleted && (global.prj_module.crud|permission:root_vm.entityExt.permission)">
+                <a href=javascript:; class=dropdown-toggle data-toggle=dropdown title="{{'entity_task.btn_more'|translate}}">
+                    <i class="fa fa-chevron-down"></i>{{'entity_task.btn_more'|translate}}</a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li ng-if=vm.checkEntityPermission()>
+                        <a href=javascript:; ng-click=vm.js_show_editor(vm.task) ng-class="{true:'disabled'}[vm.temp.is_edit]">
+                            <i class="fa fa-pencil fa-fw"></i>{{'entity_task.btn_edit'|translate}}</a>
+                    </li>
+                    <li ng-if=vm.checkLockEntityPermission()>
+                        <a href=javascript:; ng-click="vm.js_lock_toggle($event, vm.task)">
+                            <i class="fa fa-fw" ng-class="{'fa-lock':vm.task.is_locked!=1,'fa-unlock':vm.task.is_locked==1}"></i>{{vm.task.is_locked?('entity_task.btn_unlock'|translate):('entity_task.btn_lock'|translate)}}</a>
+                    </li>
+                    <li ng-if=vm.checkLockEntityPermission() class=divider></li>
+                    <li ng-if=global.prj_module.setting|permission:project.permission>
+                        <a href=javascript:; ng-click="vm.js_timingtask($event, vm.task)">
+                            <i class="fa fa-repeat fa-fw"></i>{{'entity_task.btn_timingtask'|translate}}</a>
+                    </li>
+                    <yc-template ng-if=vm.checkEntityPermission()>
+                        <li class=js-popbox>
+                            <a href=javascript:; ng-click="vm.js_archive($event, vm.task)">
+                                <i class="fa fa-archive fa-fw"></i>{{'entity_task.btn_archive'|translate}}</a>
+                        </li>
+                        <li class=divider></li>
+                        <li>
+                            <a href=javascript:; ng-click="vm.show_task_move_dialog($event, vm.task)">
+                                <i class="fa fa-share fa-fw"></i>{{'entity_task.btn_move'|translate}}</a>
+                        </li>
+                    </yc-template>
+                    <li ng-if=vm.checkProjectPermission()>
+                        <a href=javascript:; ng-click="vm.js_show_copy($event, vm.task)">
+                            <i class="fa fa-copy fa-fw"></i>{{'entity_task.btn_copy'|translate}}</a>
+                    </li>
+                    <li ng-if=vm.checkEntityPermission()>
+                        <a href=javascript:; ng-click="vm.js_trash($event, vm.task)">
+                            <i class="fa fa-trash-o fa-fw"></i>{{'common.txt_del'|translate}}</a>
+                    </li>
+                    <li ng-if=vm.task.is_loop&&vm.checkProjectSettingPermission()>
+                        <a href=javascript:; ng-click=vm.js_show_project_timingtask($event)>
+                            <i class="fa fa-repeat fa-fw"></i>{{'entity_task.btn_timingtask_mgr'|translate}}</a>
+                    </li>
+                    <li ng-if=vm.checkProjectPermission() class=divider></li>
+                    <li>
+                        <a href=javascript:; wt-entity-share="['',project.pid,'tasks',vm.task]">
+                            <i class="fa fa-share-square-o fa-fw"></i>{{'entity_task.btn_share'|translate}}</a>
+                    </li>
+                    <li>
+                        <a href=javascript:; wt-entity-print="">
+                            <i class="fa fa-print fa-fw"></i>{{'entity_task.btn_print'|translate}}</a>
+                    </li>
+                    <li>
+                        <a href=javascript:; ng-click=vm.js_toggle_fullscreen($event)>
+                            <i class="fa fa-arrows-alt fa-fw"></i>{{ {false:'entity_task.btn_fullscreem',true:'entity_task.btn_quit_fullscreem'}[vm.is_fullscreen]|translate }}</a>
+                    </li>
+                </ul>
+            </li>
+            <li class=js-popbox ng-if=vm.checkGuestPermission(vm.task,entity)>
+                <a href=javascript:; class=dropdown-toggle data-toggle=dropdown title="{{'common.txt_more'|translate}}">
+                    <i class="fa fa-chevron-down"></i>{{'common.txt_more'|translate}}</a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li ng-if=vm.task.archived>
+                        <a href=javascript:; ng-click="vm.js_show_entry_menu($event, vm.task)" title="{{'entity_task.btn_unarchive'|translate}}">
+                            <i class="fa fa-undo fa-fw"></i>{{'entity_task.btn_unarchive'|translate}}</a>
+                    </li>
+                    <li>
+                        <a href=javascript:; ng-click=vm.js_toggle_fullscreen($event)>
+                            <i class="fa fa-arrows-alt fa-fw"></i>{{ {false:'entity_task.btn_fullscreem',true:'entity_task.btn_quit_fullscreem'}[vm.is_fullscreen]|translate }}</a>
+                    </li>
+                    <li>
+                        <a href=javascript:; wt-entity-share="['',project.pid,'tasks',vm.task]">
+                            <i class="fa fa-share fa-fw"></i>{{'entity_task.btn_share'|translate}}</a>
+                    </li>
+                    <li>
+                        <a href=javascript:; wt-entity-print="">
+                            <i class="fa fa-print fa-fw"></i>{{'entity_task.btn_print'|translate}}</a>
+                    </li>
+                </ul>
+            </li>
+            <li class=divider-v></li>
+            <li>
+                <a class=entity-well-header-close href=javascript:; ng-click=$root.locator.close()>
+                    <i class="wtfont wtf-close"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="entity-well-scroll height-nonav height-nonav--notab" ng-if=root_vm.entityExt.loading_done&&(global.prj_module.view|permission:root_vm.entityExt.permission) ng-class="{'entity-well-scroll--fullscreen':vm.is_fullscreen}" wt-scroll>
+        <div class=entity-well-content>
+            <div ng-if=!vm.temp.is_edit>
+                <div class=entity-title>
+                    <a href=javascript:; ng-click=vm.js_complete_task(vm.task)>
+                        <i class=fa ng-class="{1:'fa-check-square',0:'fa-square-o'}[vm.task.completed]"></i>
+                    </a>
+                    <h2 ng-click=vm.js_show_editor(vm.task)>
+                        <span ng-class="{'task-completed-style':vm.task.completed}" ng-bind=vm.task.name></span>
+                        <span class=entity-title--entry ng-if="vm.task.is_deleted!=1" ng-bind=vm.task.entry_name></span>
+                    </h2>
+                </div>
+                <a class=entity-desc-edit ng-if="!vm.task.desc && (global.prj_module.crud|permission:root_vm.entityExt.permission)" href=javascript:; ng-click=vm.js_show_editor(vm.task)>{{'entity_task.link_add_task_desc'|translate}}</a>
+                <div class="entity-desc markdown" ng-if=vm.task.desc wt-markdown=vm.task.desc></div>
+            </div>
+            <div class=edit-section ng-if=vm.temp.is_edit>
+                <div>
+                    <input type=text ng-model=vm.temp.name wt-enter="vm.js_set_update($event, vm.task)" class="form-control help-block" placeholder="{{'entity_task.task_name'|translate}}" required>
+                    <wt-editor pid=vm.pid>
+                        <textarea ng-model=vm.temp.desc type=text class=wt-scroll wt-ctrl-enter="vm.js_set_update($event, vm.task)" msd-elastic rows=9 wt-maxheight=210 placeholder="{{'entity_task.placeholder_task_desc'|translate}}" wt-focus=""></textarea>
+                    </wt-editor>
+                </div>
+                <div class=form-group>
+                    <button ng-click="vm.js_set_update($event, vm.task)" data-loading-text="{{'common.saving'|translate}}" wt-loading-status=vm.task.is_saving class="btn btn-success mr_15">{{'common.btn_save'|translate}}</button>
+                    <button ng-click=vm.js_cancel_editor(vm.task) class="btn btn-link btn-cancel">{{'common.btn_cancel'|translate}}</button></div>
+            </div>
+            <div class=entity-members>
+                <dl class=entity-members-assign ng-if="vm.task.members.length > 0||(global.prj_module.crud|permission:root_vm.entityExt.permission)">
+                    <dt>{{'entity_task.assign_to'|translate}}</dt>
+                    <dd>
+                        <ul class=avatars>
+                            <li ng-repeat="member in vm.task.members">
+                                <a href=javascript:; class="fa fa-times-circle" ng-click="vm.js_remove_member($event, member, vm.task)"></a>
+                                <wt-avatar member=member class=js-popbox wt-pop-member=pop_member_options pop-member=member data-placement=left></wt-avatar>
+                            </li>
+                            <li ng-if=vm.checkEntityPermission()>
+                                <div class="js-popbox text-center" data-placement=left data-align=center type=member team-id=project.team_id pid=vm.pid permission=root_vm.entityExt.permission entity=vm.task wt-pop-toggle-members="vm.js_toggle_member($event, member, xEntity)">
+                                    <a class=avatar-add href=javascript:;>
+                                        <span class=o>＋</span></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </dd>
+                </dl>
+                <dl class=entity-members-watchs ng-if="vm.task.watchers.length > 0||(global.prj_module.crud|permission:root_vm.entityExt.permission)">
+                    <dt>{{'entity_task.title_watcher'|translate}}</dt>
+                    <dd>
+                        <ul class=avatars>
+                            <li ng-repeat="watcher in vm.task.watchers">
+                                <a href=javascript:; class="fa fa-times-circle" ng-click=vm.js_remove_watcher($event,watcher,vm.task)></a>
+                                <wt-avatar member=watcher class=js-popbox wt-pop-member=pop_watcher_options pop-member=watcher data-placement=left></wt-avatar>
+                            </li>
+                            <li ng-if=vm.checkEntityPermission()>
+                                <div class="js-popbox text-center" wt-pop-toggle-members="vm.js_toggle_watch($event, member, xEntity)" type=watch team-id=project.team_id pid=vm.pid permission=root_vm.entityExt.permission entity=vm.task all-member-click="vm.js_watch_all($event, members, xEntity)" data-placement=left data-align=center>
+                                    <a class=avatar-add href=javascript:;>
+                                        <span class=o>＋</span></a>
+                                </div>
+                            </li>
+                            <li ng-show="(project.curr_role|is_guest) && (global.prj_module.watch|permission:root_vm.entityExt.permission)">
+                                <div class="js-popbox text-center" ng-click="vm.js_toggle_watch($event, global.me, vm.task)" data-placement=left data-align=center>
+                                    <a class=avatar-add title="{{{true:'entity_task.btn_cancel_watch',false:'entity_task.btn_watch'}[global.me.watched]|translate}}" href=javascript:;>
+                                        <span class=o>{{{true:'－',false:'＋'}[global.me.watched]}}</span></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </dd>
+                </dl>
+            </div>
+            <hr class=entity-hr ng-if="vm.task.is_todo_edit||vm.task.todos.length > 0||vm.task.expire_date||vm.task.labels.length > 0||vm.task.files.length > 0">
+            <div class=entity-well-content-module>
+                <dl class=module-expire-date ng-if=vm.task.expire_date>
+                    <dt>
+                        <i class="fa fa-clock-o"></i>{{'entity_task.title_expired'|translate}}</dt>
+                    <dd class=js_popbox>
+                        <a href=javascript:; data-placement=right ng-class=vm.task_expireDateStyle ng-click="vm.js_show_datepicker($event, vm.task)">{{vm.task.expire_date|taskDatetimeFormat}}</a></dd>
+                </dl>
+                <dl class=module-label ng-if="vm.task.labels.length > 0">
+                    <dt>
+                        <i class="fa fa-tag"></i>{{'entity_task.title_label'|translate}}</dt>
+                    <dd>
+                        <ul>
+                            <li class="task-label {{label.name}}-label" title={{label.desc}} ng-repeat="label in vm.task.labels">
+                                <span ng-bind=[label.desc,12]|cutstr></span>
+                                <a class="action-icon edit fa fa-remove" ng-show=(global.prj_module.crud|permission:root_vm.entityExt.permission) href=javascript:; ng-click=vm.js_remove_label(label) title="{ntity_task.btn_remove_label'|translate}}"></a>
+                            </li>
+                            <li class=task-label-add>
+                                <a ng-if=vm.checkEntityPermission() href=javascript:; class=js-popbox ng-click="vm.js_assign_label($event, vm.task)" data-placement=left>＋ {{'entity_task.add_label'|translate}}</a></li>
+                        </ul>
+                    </dd>
+                </dl>
+                <dl class=module-todo ng-if="vm.task.is_todo_edit||vm.task.todos.length > 0">
+                    <dt>
+                        <i class="fa fa-th-list"></i>{{'entity_task.todo'|translate}}</dt>
+                    <dd>
+                        <div class=progress-warp>
+                            <span ng-bind="vm.task.percentage+'%'"></span>
+                            <uib-progressbar value=vm.task.percentage type=success></uib-progressbar>
+                        </div>
+                        <div class=task-todos>
+                            <ul class=sortable sortable=todo_sort_options>
+                                <li class=todo-item ng-repeat="todo in vm.task.todos track by todo.todo_id" pos={{todo.pos}} ng-class="{'todo-item-done':todo.checked!=0}" todo-id={{todo.todo_id}}>
+                                    <a class=todo-item-check ng-click="vm.js_complete_todo(vm.task, todo)">
+                                        <i class=fa ng-class="{0:'fa-square-o',1:'fa-check-square'}[todo.checked]"></i>
+                                    </a>
+                                    <div class="todo-item-edit editable">
+                                        <p ng-hide=todo.is_todo_edit ng-click=vm.js_show_todo_editor(todo) ng-bind=todo.name></p>
+                                        <div class=edit ng-show=todo.is_todo_edit wt-show-edit=todo.is_todo_edit>
+                                            <div class=todo-edit-control>
+                                                <textarea ng-model=todo.name type=text class=form-control ui-keydown="{'enter esc':'vm.js_keydown_edit_todo($event,vm.task,todo)'}" atwho-members=vm.todo_atwho_members wt-atwho={emojis:false}></textarea>
+                                            </div>
+                                            <div class=mb_10>
+                                                <button ng-click=vm.js_save_todo($event,todo) data-loading-text="{{'common.txt_save'|translate}}" wt-loading-status=todo.is_saving class="btn btn-success mr_15">{{'common.txt_save'|translate}}</button>
+                                                <button class="btn btn--warning" ng-click="vm.js_del_todo(vm.task, todo)">{{'common.txt_del'|translate}}</button></div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class=new-todo ng-if=vm.checkEntityPermission()>
+                            <a href=javascript:; ng-click=vm.js_show_add_todo_editor(vm.task) ng-if=!vm.task.is_add_todo_edit>＋ {{'entity_task.add_todo'|translate}}</a>
+                            <div class=new-todo-control ng-if=vm.task.is_add_todo_edit wt-show-edit=vm.task.is_add_todo_edit>
+                                <div style="width:100%; display:block">
+                                    <textarea type=text atwho-members=vm.todo_atwho_members wt-atwho={emojis:false} ui-keydown="{'enter esc':'vm.js_keydown_add_todo($event,vm.task,vm.new_todo)'}" class="new-todo-text form-control" ng-model=vm.new_todo.temp_name placeholder="{{'entity_task.enter_todo_name'|translate}}"></textarea>
+                                </div>
+                                <div>
+                                    <button class="btn btn-success mr_15" data-loading-text="{{'entity_task.adding'|translate}}" wt-loading-status=vm.new_todo.is_saving ng-click="vm.js_add_todo(vm.task, vm.new_todo)">{{'common.btn_add'|translate}}</button>
+                                    <button class="btn btn-link btn-cancel" ng-click=vm.js_cancel_add_todo_editor(vm.task)>{{'common.btn_cancel'|translate}}</button></div>
+                            </div>
+                        </div>
+                    </dd>
+                </dl>
+                <dl class="module-attachment dragfile-hover-show" ng-if="vm.task.files == null">
+                    <dt>
+                        <i class="fa fa-paperclip"></i>{{'entity_task.attachment'|translate}}</dt>
+                    <dd>
+                        <div class=dragfile-hover-placeholder>
+                            <span class=name>
+                                <i class="fa fa-upload"></i>{{'entity_task.drop_upload'|translate}}</span>
+                        </div>
+                    </dd>
+                </dl>
+                <dl class=module-attachment ng-show="vm.task.files.length>0||($wtUpload.uploadQueueFilesByXid[vm.task.tid].length>0)">
+                    <dt>
+                        <i class="fa fa-paperclip"></i>{{'entity_task.attachment'|translate}}</dt>
+                    <dd>
+                        <wt-attachment ng-repeat="file in vm.task.files" fancygroup=filegroup-task file=file gofile="vm.js_go_to_file(vm.pid, file.fid)" del="vm.js_del_attachment($event, file)" del-permission=vm.checkEntityPermission()></wt-attachment>
+                        <upload-attachment-file-process type=task pid=vm.pid xfield=tid xid=vm.task.tid></upload-attachment-file-process>
+                        <div class=task-attachment-add ng-if=vm.checkEntityPermission()>
+                            <a href=javascript:; ngf-multiple=true ngf-select ngf-change=vm.js_files_select($files)>＋ {{'entity_task.add_attachement'|translate}}</a></div>
+                        <div class=dragfile-hover-placeholder>
+                            <span class=name>
+                                <i class="fa fa-upload"></i>{{'entity_task.drop_upload'|translate}}</span>
+                        </div>
+                    </dd>
+                </dl>
+            </div>
+            <hr class=entity-hr>
+            <div class=entity-content-footer>
+                <div ng-if=vm.task.creator>{{'entity_task.who_create'|translate:{who:vm.task.creator.display_name,when:(vm.task.create_date|datetimeAutoFormat)} }}</div>
+                <div ng-if=vm.task.completer class=mt-10>{{'entity_task.who_complete'|translate:{who:vm.task.completer.display_name,when:(vm.task.completed_at|datetimeAutoFormat)} }}</div></div>
+        </div>
+        <div class=entity-tabs ng-class="{'entity-tabs--fullscreen':vm.is_fullscreen}">
+            <wt-item-comment-activity arg-type=task arg-project=project arg-entity=vm.task arg-entity-ext=root_vm.entityExt></wt-item-comment-activity>
+        </div>
+    </div>
+</div>

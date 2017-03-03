@@ -1035,7 +1035,7 @@ define(['app'], function (app) {
 									: 
 									void 0 
 								: 
-								api.get_project_info.get(b).then(
+								api.get_project_info(b).then(
 									function(msg) {
 										return msg.data.info.members = msg.data.members,
 											d && (globalDataContext.clearProject(), 
@@ -1219,7 +1219,9 @@ define(['app'], function (app) {
 				},
 				loadTask : function(a, b, c, d, e) {
 					var f = null;
-					a !== i.project.pid || _.isEmpty(i.project.tasks) || (f = _.find(i.project.tasks, {
+					a !== globalDataContext.project.pid || 
+						_.isEmpty(globalDataContext.project.tasks) || 
+						(f = _.find(globalDataContext.project.tasks, {
 							tid: b
 						})),
 						f ? (c && c(f), e && e()) : wt.data.task.get(a, b,

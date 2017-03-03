@@ -148,46 +148,51 @@ define(['app'], function (app) {
                             var a = null;
                             //发送创建team api
                             api.create_team({
-                                        name: j.team_name, 
-                                        phone: j.team_phone,
-                                        is_support: j.team_is_support, 
-                                        desc: j.team_desc, 
-                                        industry: j.team_industry, 
-                                        scale: j.team_scale,
-                                        province: j.province && j.province.n || "",
-                                        city: j.city && j.city.n || "",
-                                        district: j.district && j.district.n || "",
-                                    },
-                                    function(e) {
-                                        if (d.track("create_team", "done", "创建团队弹窗"), 
-                                            a = e.data, 
-                                            0 == j.team_invite_email.length && 0 == j.contact_members_selected.length) 
-                                                return a.member_count = 1,
-                                        b.teams.push(a),
-                                        void g.path("/teams/" + a.team_id);
-                                        var f = j.team_invite_email.concat(j.contact_members_selected);
-                                        //发送邀请成员加入api
-                                        wt.data.team.invite_member(a.team_id, f, "", [],
+                                    name: j.team_name, 
+                                    phone: j.team_phone,
+                                    is_support: j.team_is_support, 
+                                    desc: j.team_desc, 
+                                    industry: j.team_industry, 
+                                    scale: j.team_scale,
+                                    province: j.province && j.province.n || "",
+                                    city: j.city && j.city.n || "",
+                                    district: j.district && j.district.n || "",
+                                },
+                                function(e) {
+                                    if (d.track("create_team", "done", "创建团队弹窗"), 
+                                        a = e.data, 
+                                        0 == j.team_invite_email.length && 0 == j.contact_members_selected.length) 
+                                            return a.member_count = 1,
+                                    b.teams.push(a),
+                                    void g.path("/teams/" + a.team_id);
+                                    var f = j.team_invite_email.concat(j.contact_members_selected);
+                                    //发送邀请成员加入api
+                                    api.team_invite_member({
+                                            team_id: a.team_id,
+                                            members: angular.toJson(f, true), 
+                                            message: "", 
+                                            project_ids: angular.toJson([], true),
+                                        },
                                         function(b) {
                                             d.track("team_invite", "done", "创建团队弹窗"),
                                             a.member_count = 1 * b.data.length + 1
                                         },
                                         function() {
-                                            kzi.msg.error(c.instant("team_service.err_invite_member"))
+                                            config.msg.error(c.instant("team_service.err_invite_member"))
                                         },
                                         function() {
                                             b.teams.push(a),
                                             g.path("/teams/" + a.team_id)
                                         })
-                                    },
-                                    function(a) {
-                                        kzi.msg.error(c.instant("team_service.err_team_add"));
-                                    },
-                                    function() {
-                                        j.saving = !1,
-                                        j.js_close()
-                                    }
-                                );
+                                },
+                                function(a) {
+                                    config.msg.error(c.instant("team_service.err_team_add"));
+                                },
+                                function() {
+                                    j.saving = !1,
+                                    j.js_close()
+                                }
+                            );
                             // wt.data.team.add(
                             //     j.team_name, 
                             //     j.team_phone, 
@@ -215,7 +220,7 @@ define(['app'], function (app) {
                             //             a.member_count = 1 * b.data.length + 1
                             //         },
                             //         function() {
-                            //             kzi.msg.error(c.instant("team_service.err_invite_member"))
+                            //             config.msg.error(c.instant("team_service.err_invite_member"))
                             //         },
                             //         function() {
                             //             b.teams.push(a),
@@ -223,7 +228,7 @@ define(['app'], function (app) {
                             //         })
                             //     },
                             //     function(a) {
-                            //         kzi.msg.error(c.instant("team_service.err_team_add"));
+                            //         config.msg.error(c.instant("team_service.err_team_add"));
                             //     },
                             //     function() {
                             //         j.saving = !1,
@@ -331,7 +336,7 @@ define(['app'], function (app) {
                                     uid: a.data.uid
                                 }) || a.data.uid === e.global.me.uid ? a.data.status = 3 : a.data.status = 2,
                                 k.search_member = [a.data]
-                            })) : ($('input[name="search_user_input"]').addClass("error"), kzi.msg.warn(c.instant("team_service.warn_phone_email_valid")))
+                            })) : ($('input[name="search_user_input"]').addClass("error"), config.msg.warn(c.instant("team_service.warn_phone_email_valid")))
                         },
                         k.js_contact_add = function(a) {
                             var e = {};
@@ -354,9 +359,9 @@ define(['app'], function (app) {
                             };
                             wt.data.team.invite_member(k.team_id, [e], k.invite_message, [],
                             function(f) {
-                                _.isEmpty(a.uid) ? (kzi.msg.success(c.instant("team_service.invite_members_success_wait_email")), k.search_user_input = void 0, k.search_member = [], k.contact_members_invited.push(e), d.track("team_invite", "done", "邀请团队成员弹窗", "邮箱地址"), $('input[name="search_user_input"]').focus()) : (_.findIndex(k.contact_members_selected, {
+                                _.isEmpty(a.uid) ? (config.msg.success(c.instant("team_service.invite_members_success_wait_email")), k.search_user_input = void 0, k.search_member = [], k.contact_members_invited.push(e), d.track("team_invite", "done", "邀请团队成员弹窗", "邮箱地址"), $('input[name="search_user_input"]').focus()) : (_.findIndex(k.contact_members_selected, {
                                     uid: a.uid
-                                }) === -1 ? (kzi.msg.success(c.instant("team_service.invite_members_success")), k.contact_members_selected.push(a), d.track("team_invite", "done", "邀请团队成员弹窗", "联系人")) : kzi.msg.success(c.instant("team_service.invite_members_success")), k.search_member.length > 0 ? (k.search_user_input = void 0, k.search_member = [], $('input[name="search_user_input"]').focus()) : k.contact_members = _.filter(k.contact_members,
+                                }) === -1 ? (config.msg.success(c.instant("team_service.invite_members_success")), k.contact_members_selected.push(a), d.track("team_invite", "done", "邀请团队成员弹窗", "联系人")) : config.msg.success(c.instant("team_service.invite_members_success")), k.search_member.length > 0 ? (k.search_user_input = void 0, k.search_member = [], $('input[name="search_user_input"]').focus()) : k.contact_members = _.filter(k.contact_members,
                                 function(a) {
                                     return a.uid !== e.uid
                                 })),
@@ -366,7 +371,7 @@ define(['app'], function (app) {
                                 }) || b.members.push(a)
                             },
                             function(a) {
-                                kzi.msg.error(c.instant("team_service.invite_members_fail"))
+                                config.msg.error(c.instant("team_service.invite_members_fail"))
                             })
                         },
                         k.js_invite_email_batch = function() {
@@ -375,19 +380,19 @@ define(['app'], function (app) {
                             e = [];
                             _.each(a,
                             function(a) {
-                                return kzi.validator.isEmail(a) ? void e.push({
+                                return config.validator.isEmail(a) ? void e.push({
                                     email: a,
                                     role: 2
                                 }) : void(k.invite_email_batch_error = c.instant("team_service.err_email_valid"))
                             }),
                             "" === k.invite_email_batch_error && wt.data.team.invite_member(k.team_id, e, k.invite_message, [],
                             function(a) {
-                                kzi.msg.success(c.instant("team_service.invite_members_success")),
+                                config.msg.success(c.instant("team_service.invite_members_success")),
                                 d.track("team_invite", "done", "邀请团队成员弹窗", "批量邮箱地址邀请"),
                                 k.invite_email_batch = "",
                                 _.each(a.data,
                                 function(a) {
-                                    a.status !== kzi.constant.status.pending ? _.find(k.contact_members_selected, {
+                                    a.status !== config.constant.status.pending ? _.find(k.contact_members_selected, {
                                         uid: a.uid
                                     }) || k.contact_members_selected.push(a) : _.find(k.contact_members_invited, {
                                         uid: a.uid
@@ -398,7 +403,7 @@ define(['app'], function (app) {
                                 })
                             },
                             function(a) {
-                                kzi.msg.error(c.instant("team_service.invite_members_fail"))
+                                config.msg.error(c.instant("team_service.invite_members_fail"))
                             },
                             function() {
                                 k.is_sending = !1
@@ -416,7 +421,7 @@ define(['app'], function (app) {
                                 })
                             },
                             function() {
-                                kzi.msg.error(c.instant("team_service.join_link_open_fail"))
+                                config.msg.error(c.instant("team_service.join_link_open_fail"))
                             })
                         },
                         k.js_invite_link_close = function() {
@@ -425,7 +430,7 @@ define(['app'], function (app) {
                                 k.invite_link_open = !1
                             },
                             function() {
-                                kzi.msg.error(c.instant("team_service.join_link_close_fail"))
+                                config.msg.error(c.instant("team_service.join_link_close_fail"))
                             })
                         }
                     }]

@@ -2,7 +2,7 @@
  * @ngdoc function
  * @name jtWorkApp.directive:wtLeftmenu
  * @description
- * # wtLeftmenu 左侧控制栏
+ * # leftmenu 消息按钮响应
  * left menu directive
  */
 define(['app'], function (app) {

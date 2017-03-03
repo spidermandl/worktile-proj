@@ -77,4 +77,30 @@ public class TeamTests extends BaseTest {
         Response response = client.newCall(request).execute();
         System.out.println(response.body().string());
     }
+
+    /**
+     * /api/team/invite
+     * @throws Exception
+     */
+    @Test
+    public void inviteMembers() throws Exception{
+        String token = super.getToken();
+
+        String url = domain_url+"/api/team/invite";
+
+        Request request = new Request.Builder()
+                .url(url)
+                .addHeader("raw","raw")
+                .addHeader("Authorization",  Const.TOKEN_PREFIX+token)
+                .post( new FormEncodingBuilder()
+                        .add("team_id", "1")
+                        .add("members", "")
+                        .add("type","1")
+                        .add("parent_id","1")
+                        .build()
+                ).build();
+
+        Response response = client.newCall(request).execute();
+        System.out.println(response.body().string());
+    }
 }

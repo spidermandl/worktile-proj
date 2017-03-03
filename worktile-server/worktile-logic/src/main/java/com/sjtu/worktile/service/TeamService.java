@@ -109,6 +109,25 @@ public class TeamService {
     }
 
     /**
+     * 加入team 成员
+     * @param team_id
+     * @param uids
+     * @return 成员id
+     */
+    public List<Long> addMembers(long team_id,Long[] uids){
+        List<Long> ids = new ArrayList<>();
+        for (long uid:uids) {
+            TUserRole role = new TUserRole();
+            role.setTeamId(team_id);
+            role.setUserId(uid);
+            if(tUserRoleMapper.insert(role)>0){
+                ids.add(role.getUserId());
+            }
+        }
+
+        return ids;
+    }
+    /**
      * 获取团队基本信息
      * @param team_id
      * @return

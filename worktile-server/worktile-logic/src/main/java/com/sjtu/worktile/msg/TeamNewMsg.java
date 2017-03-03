@@ -26,6 +26,7 @@ public class TeamNewMsg extends PairMsg {
 
     public static class OutMsg implements PairMsg.ResponseMsg {
         public int code = MSG_CODE;
+        public Team data = new Team();
 
 
     }

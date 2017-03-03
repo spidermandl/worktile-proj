@@ -217,6 +217,16 @@ define(['app'], function(app) {
 					);
 				},
 				/**************************************************************************
+				 **获取team 邀请成员 api
+				 **************************************************************************/
+				team_invite_member: function(data, success, failure, promise){
+					return this.http_post_template(
+						domain+'/api/team/invite',
+						data,
+						success, failure, promise
+					);
+				},
+				/**************************************************************************
 				 **获取team project信息 api
 				 **************************************************************************/
 				get_team_projects: function(team_id, success, failure, promise) {

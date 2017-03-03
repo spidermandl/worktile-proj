@@ -63,6 +63,7 @@
 			event_pop_add: 'views/work/project/event/pop_add_event.html',
 			event_dialog_create: 'views/work/project/event/dialog_event_create.html',
 			notice_list: 'views/work/notice/notice_list.html',
+			entity_main: 'views/work/project/entity/entity.html',
 			file_dialog_create: 'views/work/project/file/dialog_file_create.html',
 			calendar_event_create: 'views/work/dashboard/dialog_event_create.html',//创建日历event
 			calendar_pop_event_create: 'views/work/dashboard/calendar/pop_add_event.html',

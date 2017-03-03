@@ -1,0 +1,153 @@
+<div ng-controller=entityPostCtrl wt-dragfile=vm.js_files_select($files) class=h_100p wt-dragfile-enable=(global.prj_module.crud|permission:project.permission)>
+    <div class=entity-well-header ng-show="root_vm.entityExt.loading_done && (global.prj_module.view|permission:root_vm.entityExt.permission)">
+        <a href=javascript:; class=entity-project-name ng-click=vm.js_go_to_tasks() ng-bind=project.name></a>
+        <ul class="entity-well-header-nav nav nav-pills pull-right">
+            <li ng-if=vm.post.is_deleted class=entity-warning>{{'entity_post.info_del_by'|translate:{datetime:(vm.post.update_date|timeFormatZHCN)} }}</li>
+            <li ng-if=global.prj_module.crud|permission:root_vm.entityExt.permission>
+                <a href=javascript:; ng-click=vm.js_show_editor()>
+                    <i class="fa fa-pencil"></i>{{'entity_post.btn_edit'|translate}}</a>
+            </li>
+            <li class=js-popbox ng-if=global.prj_module.crud|permission:root_vm.entityExt.permission>
+                <a href=javascript:; class=dropdown-toggle data-toggle=dropdown title="{{'entity_post.btn_add_attachement'|translate}}">
+                    <i class="fa fa-paperclip"></i>{{'entity_post.attachment'|translate}}</a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li>
+                        <a href=javascript:; ngf-multiple=true ngf-select ngf-change=vm.js_files_select($files)>
+                            <i class="fa fa-desktop"></i>{{'entity_post.btn_local_upload'|translate}}</a>
+                    </li>
+                    <li>
+                        <a href=javascript:; data-placement=bottom wt-pop-add-attachment-from-file=vm.post>
+                            <i class="fa fa-file"></i>{{'entity_post.btn_from_project_file'|translate}}</a>
+                    </li>
+                    <li class=divider></li>
+                    <li wt-stop-propagation=click>
+                        <div class="part-loading mt-20" ng-if=vm.js_uploadbylink_uploading></div>
+                        <form class="form-inline text-nowarp" role=form ng-show=!js_uploadbylink_uploading>
+                            <input type=text ng-model=vm.uploadlink_url class="form-control input-sm" placeholder="{{'entity_post.btn_paste_downlink'|translate}}">
+                            <button class="btn btn-default plr_10" type=button ng-click=vm.js_uploadbylink($event)>{{'entity_post.btn_add'|translate}}</button></form>
+                    </li>
+                </ul>
+            </li>
+            <li class=divider-v ng-if="!vm.post.is_deleted && (global.prj_module.crud|permission:root_vm.entityExt.permission)"></li>
+            <li class=js-popbox ng-if="!vm.post.is_deleted && (global.prj_module.crud|permission:root_vm.entityExt.permission)">
+                <a href=javascript:; class=dropdown-toggle data-toggle=dropdown title="{{'entity_post.btn_more'|translate}}">
+                    <i class="fa fa-chevron-down"></i>{{'entity_post.btn_more'|translate}}</a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li ng-if="(global.prj_module.crud|permission:project.permission)&&vm.post.is_top==0">
+                        <a href=javascript:; ng-click=vm.js_toggle_top(vm.post)>
+                            <i class="wtfont wtf-top"></i>{{'entity_post.btn_top'|translate}}</a>
+                    </li>
+                    <li ng-if="(global.prj_module.crud|permission:project.permission)&&vm.post.is_top==1">
+                        <a href=javascript:; ng-click=vm.js_toggle_top(vm.post)>
+                            <i class="wtfont wtf-untop"></i>{{'entity_post.btn_untop'|translate}}</a>
+                    </li>
+                    <li ng-show=global.prj_module.crud|permission:root_vm.entityExt.permission>
+                        <a href=javascript:; ng-click="vm.js_trash($event, vm.post)">
+                            <i class="fa fa-trash-o fa-fw"></i>{{'entity_post.btn_del'|translate}}</a>
+                    </li>
+                    <li>
+                        <a href=javascript:; wt-entity-share="['',project.pid,'posts',vm.post]">
+                            <i class="fa fa-share-square-o fa-fw"></i>{{'entity_post.btn_share'|translate}}</a>
+                    </li>
+                    <li>
+                        <a href=javascript:; wt-entity-print="">
+                            <i class="fa fa-print fa-fw"></i>{{'entity_post.btn_print'|translate}}</a>
+                    </li>
+                </ul>
+            </li>
+            <li class=js-popbox ng-if="!vm.post.is_deleted && ( (global.prj_module.view|permission:root_vm.entityExt.permission) && !(global.prj_module.crud|permission:root_vm.entityExt.permission) )">
+                <a href=javascript:; class=dropdown-toggle data-toggle=dropdown title="{{'entity_post.btn_more'|translate}}">
+                    <i class="fa fa-chevron-down"></i>{{'entity_post.btn_more'|translate}}</a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li>
+                        <a href=javascript:; wt-entity-share="['',project.pid,'posts',vm.post]">
+                            <i class="fa fa-share-square-o"></i>{{'entity_post.btn_share'|translate}}</a>
+                    </li>
+                    <li>
+                        <a href=javascript:; wt-entity-print="">
+                            <i class="fa fa-print"></i>{{'entity_post.btn_print'|translate}}</a>
+                    </li>
+                </ul>
+            </li>
+            <li class=divider-v></li>
+            <li>
+                <a class=entity-well-header-close href=javascript:; ng-click=$root.locator.close()>
+                    <i class="wtfont wtf-close"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="entity-well-scroll height-nonav height-nonav--notab" wt-scroll="" ng-show="root_vm.entityExt.loading_done && (global.prj_module.view|permission:root_vm.entityExt.permission)">
+        <div class=entity-well-content>
+            <div ng-if=!vm.temp.is_edit>
+                <div class=entity-title>
+                    <span class="comment_count_style pull-right" title="{{'entity_post.info_count_comments'|translate:{count:vm.post.comment_count} }}">{{vm.post.comment_count}}</span>
+                    <h2 ng-click=vm.js_show_editor()>
+                        <span ng-bind=vm.post.name></span>
+                    </h2>
+                </div>
+                <div class=entity-meta>
+                    <span class=ml-5>{{vm.post.owner.display_name}}&nbsp; {{'entity_post.info_create_by_date'|translate:{time:(vm.post.create_date|fromNow)} }}</span></div>
+                <div class="entity-desc markdown" wt-markdown=vm.post.content></div>
+            </div>
+            <div class=edit-section ng-if=vm.temp.is_edit wt-ctrl-enter=vm.js_update_post(vm.post)>
+                <div class=entity-mkd-editor-wrapper>
+                    <wt-new-editor edit-title=vm.temp.name edit-content=vm.temp.content pid=vm.post.pid entity-id=vm.post.post_id entity-type=vm.post></wt-new-editor>
+                </div>
+                <div class=form-group>
+                    <button ng-click=vm.js_update_post(vm.post) data-loading-text="{{'common.saving'|translate}}" class="btn btn-success mr_15" wt-loading-status=is_setting_content>{{'common.btn_save'|translate}}</button>
+                    <button ng-click=vm.js_cancel_editor() class="btn btn-link btn-cancel">{{'common.btn_cancel'|translate}}</button></div>
+            </div>
+            <div class=entity-members>
+                <dl class="entity-members-watchs entity-members-watchs--noassign">
+                    <dt>{{'entity_post.title_watcher'|translate}}</dt>
+                    <dd>
+                        <ul class=avatars>
+                            <li ng-repeat="watcher in vm.post.watchers">
+                                <a href=javascript:; class="fa fa-times-circle" ng-click=vm.js_remove_watcher($event,watcher,vm.post)></a>
+                                <wt-avatar member=watcher class=js-popbox wt-pop-member=vm.pop_watcher_options pop-member=watcher data-placement=left></wt-avatar>
+                            </li>
+                            <li ng-show=global.prj_module.crud|permission:root_vm.entityExt.permission>
+                                <a class="avatar-add js-popbox" href=javascript:; data-placement=right data-align=center type=watch team-id=project.team_id pid=vm.pid permission=root_vm.entityExt.permission entity=vm.post wt-pop-toggle-members="vm.js_toggle_watch($event, member, xEntity)" all-member-click="vm.js_watch_all($event, members, xEntity)">
+                                    <span class=o>＋</span></a>
+                            </li>
+                            <li ng-show="(project.curr_role|is_guest) && (global.prj_module.watch|permission:root_vm.entityExt.permission)">
+                                <div class="js-popbox text-center" ng-click="vm.js_toggle_watch($event, global.me, vm.post)" data-placement=left data-align=center>
+                                    <a title="{{{true:'entity_post.btn_cancel_watch',false:'entity_post.btn_watch'}[global.me.watched]|translate}}" class=avatar-add href=javascript:;>
+                                        <span class=o>{{{true:'－',false:'＋'}[global.me.watched]}}</span></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </dd>
+                </dl>
+            </div>
+            <div class=entity-well-content-module>
+                <dl class="module-attachment dragfile-hover-show" ng-if="vm.post.files.length==0||vm.post.files == null">
+                    <dt>
+                        <i class="fa fa-paperclip"></i>{{'common.txt_attach'|translate}}</dt>
+                    <dd>
+                        <div class=dragfile-hover-placeholder>
+                            <span class=name>
+                                <i class="fa fa-upload"></i>{{'entity_post.drop_upload'|translate}}</span>
+                        </div>
+                    </dd>
+                </dl>
+                <dl class=module-attachment ng-show="vm.post.files.length>0||($wtUpload.uploadQueueFilesByXid[vm.post.post_id].length>0)">
+                    <dt>
+                        <i class="fa fa-paperclip"></i>{{'common.txt_attach'|translate}}</dt>
+                    <dd>
+                        <wt-attachment ng-repeat="file in vm.post.files" file=file gofile="vm.js_go_to_file(vm.pid, file.fid)" fancygroup=filegroup-task del="vm.js_del_attachment($event, file)" del-permission=global.prj_module.crud|permission:root_vm.entityExt.permission></wt-attachment>
+                        <upload-attachment-file-process type=post pid=vm.pid xfield=post_id xid=vm.post.post_id></upload-attachment-file-process>
+                        <div class=dragfile-hover-placeholder>
+                            <span class=name>
+                                <i class="fa fa-upload"></i>{{'entity_post.drop_upload'|translate}}</span>
+                        </div>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+        <div class=entity-tabs>
+            <wt-item-comment-activity arg-type=post arg-project=project arg-entity=vm.post arg-entity-ext=root_vm.entityExt></wt-item-comment-activity>
+        </div>
+    </div>
+</div>
