@@ -629,12 +629,12 @@ define(['app'], function(app) {
 					defaultView: m.calendar_view,
 					dayClick: b.onDayClick,
 					loading: function(b) {
-						if (e.calendars.myCalendar) {
+						//if (e.calendars.myCalendar) {
 							m.myCalendar = e.calendars.myCalendar,
 							k(),
 							b ? a.global.loading_done = !1 : a.global.loading_done = !0,
 							l()
-						}
+						//}
 						// $timeout(function() {
 						// 	m.myCalendar = e.calendars.myCalendar,
 						// 	k(),

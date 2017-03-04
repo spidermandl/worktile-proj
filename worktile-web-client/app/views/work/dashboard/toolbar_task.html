@@ -3,8 +3,8 @@
         <button type=button class= "btn btn-success btn--fancy">
             <i class=fa ng-class= "{'gtd':'fa-th-large','time':'fa-list-ul','completed':'fa-check-square-o','update':'fa-clock-o','my_watcher':'fa-eye','my_create':'fa-pencil-square-o','all_tasks':'fa-check-square-o'}[vm.mytaskViewStatus]"></i>
         </button>
-        <button type=button class= "btn dropdown-toggle mr-5 btn--fancy" data-toggle=dropdown>&nbsp;{{ {'gtd':'dashboardTask.sort_by_order', 'time':'dashboardTask.sort_by_expire', 'completed':'dashboardTask.recent_completed', 'update':'dashboardTask.sort_by_update', 'my_watcher':'dashboardTask.my_watcher', 'my_create':'dashboardTask.my_create', 'all_tasks':'dashboardTask.all_tasks'}[vm.mytaskViewStatus]|translate }}&nbsp;
-            <i class= "fa fa-caret-down"></i></button>
+        <button type=button class= "btn dropdown-toggle mr-5 btn--fancy" data-toggle=dropdown>&nbsp;&nbsp;{{ {'gtd':'dashboardTask.sort_by_order', 'time':'dashboardTask.sort_by_expire', 'completed':'dashboardTask.recent_completed', 'update':'dashboardTask.sort_by_update', 'my_watcher':'dashboardTask.my_watcher', 'my_create':'dashboardTask.my_create', 'all_tasks':'dashboardTask.all_tasks'}[vm.mytaskViewStatus]|translate }}&nbsp;&nbsp;
+            <i class= "fa fa-caret-down"></i>&nbsp;</button>
         <ul class= "dropdown-menu pull-right">
             <li>
                 <a href=javascript:; ng-click= "vm.js_toggle_viewstatus('gtd')">
