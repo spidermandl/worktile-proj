@@ -38,6 +38,8 @@
             task: 'service/task',
             event: 'service/event',
             file: 'service/file',
+            post: 'service/post',
+            page: 'service/page',
             feedback: 'service/feedback',
             time: 'service/time',
             //controller
@@ -49,6 +51,10 @@
             project_ctrl: 'controllers/project_ctrl',
             project_task_ctrl: 'controllers/project_task_ctrl',
             project_event_ctrl: 'controllers/project_event_ctrl',
+            project_file_ctrl: 'controllers/project_file_ctrl',
+            project_post_ctrl: 'controllers/project_post_ctrl',
+            project_page_ctrl: 'controllers/project_page_ctrl',
+            project_graph_ctrl: 'controllers/project_graph_ctrl',
             notice: 'controllers/notice',
             entity_ctrl: 'controllers/entity_ctrl',
 			//指令
@@ -61,6 +67,7 @@
             project_item : 'directive/project_item',
             task_directive: 'directive/task_directive',
             slide: 'directive/slide',
+            graph_statistics: 'directive/graph_statistics',
             //filter
             filters : 'filter/filters',
             //provider
@@ -93,10 +100,15 @@
                 deps: ['scroll','task_directive','project_item','team_admin_ctrl','markdown'],
             },
             project_ctrl:{
-                deps: ['time','locator','entity_ctrl','project_event_ctrl','project_task_ctrl','slide'],
+                deps: ['time','locator','entity_ctrl','project_event_ctrl',
+                    'project_task_ctrl','project_file_ctrl','project_post_ctrl',
+                    'project_page_ctrl','project_graph_ctrl','slide'],
+            },
+            project_graph_ctrl:{
+                deps: ['graph_statistics'],
             },
             left_nemu: {
-                deps: ['center','shortcut','quickswitch','task','event','file','feedback','filters',
+                deps: ['center','shortcut','quickswitch','task','event','file','post','page','feedback','filters',
                     'popbox','notice','left_menu_project','left_menu_avatar','left_menu_notice','team'],
             },
             team: {

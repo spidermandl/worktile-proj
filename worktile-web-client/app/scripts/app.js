@@ -380,11 +380,11 @@
                 need_load: !1,
                 views: {
                     toolbar: {
-                        templateUrl: "/tpl/project/post/toolbar.html",
+                        templateUrl: config.templateUrls.post_toolbar,
                         controller: "projectPostsToolbarCtrl"
                     },
                     "": {
-                        templateUrl: "/tpl/project/post/posts.html",
+                        templateUrl: config.templateUrls.post_main,
                         controller: "projectPostsCtrl"
                     }
                 }
@@ -402,11 +402,11 @@
                 need_load: !1,
                 views: {
                     toolbar: {
-                        templateUrl: "/tpl/project/file/toolbar.html",
+                        templateUrl: config.templateUrls.file_toolbar,
                         controller: "projectFilesToolbarCtrl"
                     },
                     "": {
-                        templateUrl: "/tpl/project/file/files.html",
+                        templateUrl: config.templateUrls.file_main,
                         controller: "projectFilesCtrl"
                     }
                 }
@@ -424,11 +424,11 @@
                 need_load: !1,
                 views: {
                     "": {
-                        templateUrl: "/tpl/project/file/files.html",
+                        templateUrl: config.templateUrls.file_main,
                         controller: "projectFilesCtrl"
                     },
                     toolbar: {
-                        templateUrl: "/tpl/project/file/toolbar.html",
+                        templateUrl: config.templateUrls.file_toolbar,
                         controller: "projectFilesToolbarCtrl"
                     }
                 }
@@ -461,11 +461,11 @@
                 need_load: !1,
                 views: {
                     toolbar: {
-                        templateUrl: "/tpl/project/page/toolbar.html",
+                        templateUrl: config.templateUrls.page_toolbar,
                         controller: "projectPagesToolbarCtrl"
                     },
                     "": {
-                        templateUrl: "/tpl/project/page/pages.html",
+                        templateUrl: config.templateUrls.page_main,
                         controller: "projectPagesCtrl"
                     }
                 }
@@ -581,11 +581,11 @@
                 need_load: !1,
                 views: {
                     toolbar: {
-                        templateUrl: "/tpl/project/graph/toolbar.html",
+                        templateUrl: config.templateUrls.graph_toolbar.html,
                         controller: "projectGraphToolbarCtrl"
                     },
                     "": {
-                        templateUrl: "/tpl/project/graph/graphs.html",
+                        templateUrl: config.templateUrls.graph_main.html,
                         controller: "projectGraphCtrl"
                     }
                 }

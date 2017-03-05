@@ -1,0 +1,50 @@
+<div class="height-nonav height-nonav--notab" wt-scroll>
+    <dl class="frame frame--pages" wt-minheight=84 ng-show=global.loading_done>
+        <dt class=frame-dt>
+            <span class="title title--breadcrumb">
+                <div class=help-inlineblock>
+                    <a ng-href=/project/{{vm.pid}}/page>{{'common.txt_page'|translate}}</a></div>
+            </span>
+            <div class=pull-right>
+                <a href=javascript:; uib-tooltip="{{'pages.show_level'|translate}}" tooltip-placement=bottom ng-click="vm.set_view_type('tree')">
+                    <i class="fa fa-indent" ng-class="{'color-text-lightgray':vm.pages_filter.view_type!='tree'}"></i>
+                </a>&nbsp; &nbsp;
+                <a href=javascript:; uib-tooltip="{{'pages.show_flatten'|translate}}" tooltip-placement=bottom ng-click="vm.set_view_type('list')">
+                    <i class="fa fa-list" ng-class="{'color-text-lightgray':vm.pages_filter.view_type!='list'}"></i></a>
+                <span class="color-text-lightgray plr_10">|</span>
+                <div class="btn-group btn-group-link">
+                    <a href=javascript:; class=dropdown-toggle data-toggle=dropdown>
+                        <span>{{ {'default':'pages.sort_by_name','create_date':'pages.sort_by_create','update_date':'pages.sort_by_update'}[vm.pages_filter.sort]|translate }}</span>&nbsp;
+                        <i class="fa fa-caret-down"></i></a>
+                    <ul class="dropdown-menu pull-right">
+                        <li>
+                            <a href=javascript:; ng-click="vm.set_sort('default')">
+                                <i class="{{ {true:'color_gray fa fa-check',false:'icon-xx'}[vm.pages_filter.sort == 'default']}}"></i>{{'pages.sort_by_name'|translate}}</a>
+                        </li>
+                        <li>
+                            <a href=javascript:; ng-click="vm.set_sort('create_date')">
+                                <i class="{{ {true:'color_gray fa fa-check',false:'icon-xx'}[vm.pages_filter.sort == 'create_date']}}"></i>{{'pages.sort_by_create'|translate}}</a>
+                        </li>
+                        <li>
+                            <a href=javascript:; ng-click="vm.set_sort('update_date')">
+                                <i class="{{ {true:'color_gray fa fa-check',false:'icon-xx'}[vm.pages_filter.sort == 'update_date']}}"></i>{{'pages.sort_by_update'|translate}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </dt>
+        <dd class=frame-dd>
+            <div class=part-loading ng-hide=vm.part_loading_done></div>
+            <div class=empty-panel ng-if="vm.part_loading_done && (vm.pages.length == 0||(vm.pages|filter:{is_hide:'!true'}).length == 0)">
+                <i class="fa fa-file-text-o"></i>
+                <br>
+                <span>{{'pages.warn'|translate}}</span></div>
+            <div>
+                <div class="page-list mt-sub1" ng-if="vm.pages.length > 0">
+                    <wt-page-item ng-repeat="page in vm.pages" change-route=true view-type=vm.pages_filter.view_type></wt-page-item>
+                </div>
+            </div>
+        </dd>
+        <ui-view></ui-view>
+    </dl>
+</div>

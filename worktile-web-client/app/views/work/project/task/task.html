@@ -1,4 +1,4 @@
-<div ng-if=vm.part_loading_done class="entries_panel js-sortable layout_content_main_tasks" wt-mousedown-move ng-mousemove=vm.js_mousemove_entries_panel($event) ng-mouseover=vm.js_mouseover_entries_panel($event) wt-scroll='{"dir":"x"}'>
+<div ng-if=vm.part_loading_done class="entries_panel js-sortable layout_content_main_tasks wt-scroll" wt-mousedown-move ng-mousemove=vm.js_mousemove_entries_panel($event) ng-mouseover=vm.js_mouseover_entries_panel($event) wt-scroll='{"dir":"x"}' style="overflow-x: auto; overflow-y: hidden;">
     <div class=entries_panel_sortarea sortable=vm.entries_sort_options>
         <div id="{{::'entry_main_'+entry.entry_id}}" class=entry ng-class="{'entry-selected':entry.selected == true}" ng-repeat="entry in vm.entries | orderBy:'+pos' track by entry.entry_id " pos={{entry.pos}} entry-id={{::entry.entry_id}}>
             <div class=entry_header ng-class="{'entry_header_archived':vm.project_archived}">

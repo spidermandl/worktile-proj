@@ -1,0 +1,41 @@
+<div class=sub_toolbar>
+    <div class="btn-group js-popbox" ng-if=$root.global.prj_module.crud|permission:project.permission>
+        <button class="btn btn-success btn--fancy" ngf-multiple=true ngf-select ngf-change=vm.file_select($files)>{{'file_toolbar.btn_add_file'|translate}}</button>
+        <button type=button class="btn btn-success dropdown-toggle mr-5 btn--fancy" data-toggle=dropdown>
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <ul class="dropdown-menu pull-right">
+            <li>
+                <a href=javascript:; ng-click=vm.js_trigger_upload($event)>
+                    <i class="fa fa-fw"></i>{{'file_toolbar.btn_local_upload'|translate}}</a>
+            </li>
+            <li>
+                <a href=javascript:; ng-click=vm.show_add_folder_pop($event)>
+                    <i class="fa fa-fw"></i>{{'file_toolbar.btn_add_folder'|translate}}</a>
+            </li>
+        </ul>
+    </div>
+    <div class=btn-group>
+        <a href=javascript:; class="btn btn--fancy dropdown-toggle" data-toggle=dropdown>
+            <span class=plr_10>{{{0:'common.txt_all',1:'file_toolbar.my_upload',2:'file_toolbar.my_watch'}[vm.files_filter.filter_type]|translate }}</span>
+            <i class="fa fa-caret-down"></i>
+        </a>
+        <ul class="dropdown-menu pull-right">
+            <li>
+                <a href=javascript:; ng-click=vm.set_filter_type(0)>
+                    <i class="{{ {true:'color_gray fa fa-check',false:'icon-xx'}[vm.files_filter.filter_type == 0]}}"></i>{{'common.txt_all'|translate}}</a>
+            </li>
+            <li>
+                <a href=javascript:; ng-click=vm.set_filter_type(1)>
+                    <i class="{{ {true:'color_gray fa fa-check',false:'icon-xx'}[vm.files_filter.filter_type == 1]}}"></i>{{'file_toolbar.my_upload'|translate}}</a>
+            </li>
+            <li>
+                <a href=javascript:; ng-click=vm.set_filter_type(2)>
+                    <i class="{{ {true:'color_gray fa fa-check',false:'icon-xx'}[vm.files_filter.filter_type == 2]}}"></i>{{'file_toolbar.my_watch'|translate}}</a>
+            </li>
+        </ul>
+    </div>
+    <a class=prj_top_icon href=javascript:; ng-click="sidebar.change_status('members','')" ng-class="{'active':sidebar.status == 'members'||sidebar.status == 'add_member'}" tooltip-placement=bottom uib-tooltip="{{'common.txt_member'|translate}}">
+        <i class="wtfont wtf-userlist"></i>
+    </a>
+</div>

@@ -1,0 +1,26 @@
+<div class=sub_toolbar>
+    <button class="btn btn-success btn--fancy mr-5" ng-click=vm.show_add_post() type=button ng-if=global.prj_module.crud|permission:project.permission>{{'post_toolbar.btn_add_post'|translate}}</button>
+    <div class=btn-group>
+        <a class="btn btn--fancy dropdown-toggle" data-toggle=dropdown href=javascript:;>
+            <span class=plr_10>{{{0:'common.txt_all',1:'post_toolbar.my_create',2:'post_toolbar.my_watch'}[vm.posts_filter.filter_type]|translate}}</span>
+            <i class="fa fa-caret-down"></i>
+        </a>
+        <ul class="dropdown-menu pull-right">
+            <li>
+                <a href=javascript:; ng-click=vm.set_filter_type(0)>
+                    <i class="{{ {true:'color_gray fa fa-check',false:'icon-xx'}[vm.posts_filter.filter_type == 0]}}"></i>{{'common.txt_all'|translate}}</a>
+            </li>
+            <li>
+                <a href=javascript:; ng-click=vm.set_filter_type(1)>
+                    <i class="{{ {true:'color_gray fa fa-check',false:'icon-xx'}[vm.posts_filter.filter_type == 1]}}"></i>{{'post_toolbar.my_create'|translate}}</a>
+            </li>
+            <li>
+                <a href=javascript:; ng-click=vm.set_filter_type(2)>
+                    <i class="{{ {true:'color_gray fa fa-check',false:'icon-xx'}[vm.posts_filter.filter_type == 2]}}"></i>{{'post_toolbar.my_watch'|translate}}</a>
+            </li>
+        </ul>
+    </div>
+    <a class=prj_top_icon href=javascript:; ng-click="sidebar.change_status('members','')" ng-class="{'active':sidebar.status == 'members'||sidebar.status == 'add_member'}" tooltip-placement=bottom uib-tooltip="{{'common.txt_member'|translate}}">
+        <i class="wtfont wtf-userlist"></i>
+    </a>
+</div>

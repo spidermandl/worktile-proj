@@ -1,7 +1,7 @@
 <div class=pop-my-teams>
     <div class=popbox-header>
         <h3>{{'pop_my_teams.title_name'|translate}}</h3></div>
-    <div class=popbox-bodywrapper wt-scroll>
+    <div class="popbox-bodywrapper wt-scroll" style="overflow-x: hidden; overflow-y: auto;">
         <div class=popbox-body>
             <ul class="popbox-menu popbox-menu--teams" ng-if="vm.teams.length>0">
                 <li ng-repeat="team in vm.teams track by team.team_id">

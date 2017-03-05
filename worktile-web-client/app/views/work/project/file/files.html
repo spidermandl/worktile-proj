@@ -1,0 +1,61 @@
+<div class="height-nonav height-nonav--notab" wt-scroll wt-dragfile=vm.js_files_select($files) wt-dragfile-enable=($root.global.prj_module.crud|permission:project.permission)>
+    <dl class="frame dragfile-hover-placeholder">
+        <i class="fa fa-upload mr-10"></i>
+        <span>{{'files.drag_upload_file'|translate}}</span></dl>
+    <dl class=frame wt-minheight=84 ng-show=$root.global.loading_done>
+        <dt class=frame-dt>
+            <span class="title title--breadcrumb">
+                <div class=help-inlineblock>
+                    <a ng-href=/project/{{vm.pid}}/file>{{'common.txt_file'|translate}}</a></div>
+                <wt-files-breadcrumb pid={{project.pid}} folders=vm.folders></wt-files-breadcrumb>
+            </span>
+            <div class=pull-right>
+                <a href=javascript:; uib-tooltip="{{'files.icon_view'|translate}}" tooltip-placement=bottom ng-click="vm.set_view_type('icon')">
+                    <i class="fa fa-th-large" ng-class="{'color-text-lightgray':vm.files_filter.view_type!='icon'}"></i>
+                </a>&nbsp; &nbsp;
+                <a href=javascript:; uib-tooltip="{{'files.list_view'|translate}}" tooltip-placement=bottom ng-click="vm.set_view_type('list')">
+                    <i class="fa fa-list-ul" ng-class="{'color-text-lightgray':vm.files_filter.view_type!='list'}"></i></a>
+                <span class="color-text-lightgray plr_10">|</span>
+                <div class="btn-group btn-group-link">
+                    <a href=javascript:; class=dropdown-toggle data-toggle=dropdown>
+                        <span>{{ {'default':'files.sort_by_default','name':'files.sort_by_filename','create_date':'files.sort_by_create_time','update_date':'files.sort_by_update_time'}[vm.files_filter.sort]|translate }}</span>&nbsp;
+                        <i class="fa fa-caret-down"></i></a>
+                    <ul class="dropdown-menu pull-right">
+                        <li>
+                            <a href=javascript:; ng-click="vm.set_sort('default')">
+                                <i class="{{ {true:'color_gray fa fa-check',false:'icon-xx'}[vm.files_filter.sort == 'default']}}"></i>{{'files.sort_by_default'|translate}}</a>
+                        </li>
+                        <li>
+                            <a href=javascript:; ng-click="vm.set_sort('name')">
+                                <i class="{{ {true:'color_gray fa fa-check',false:'icon-xx'}[vm.files_filter.sort == 'name']}}"></i>{{'files.sort_by_filename'|translate}}</a>
+                        </li>
+                        <li>
+                            <a href=javascript:; ng-click="vm.set_sort('create_date')">
+                                <i class="{{ {true:'color_gray fa fa-check',false:'icon-xx'}[vm.files_filter.sort == 'create_date']}}"></i>{{'files.sort_by_create_time'|translate}}</a>
+                        </li>
+                        <li>
+                            <a href=javascript:; ng-click="vm.set_sort('update_date')">
+                                <i class="{{ {true:'color_gray fa fa-check',false:'icon-xx'}[vm.files_filter.sort == 'update_date']}}"></i>{{'files.sort_by_update_time'|translate}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </dt>
+        <dd class=frame-dd>
+            <div class=file-panel ng-class="{'mt_21':(files_filter.view_type=='icon'),'mt-sub1':(files_filter.view_type=='list')}">
+                <upload-file-process pid=project.pid></upload-file-process>
+                <div class=file-list ng-if="vm.files.length > 0">
+                    <wt-file-item route-change=true ng-repeat="file in vm.files track by file.fid" view-type=files_filter.view_type></wt-file-item>
+                </div>
+                <div class=loading-more-panel>
+                    <div class=part-loading ng-hide=vm.part_loading_done></div>
+                    <button class=btn ng-show="vm.has_more && vm.part_loading_done" data-loading-text="{{'common.loading'|translate}}" ng-click=vm.load_more_files($event);>{{'common.btn_loading'|translate}}</button></div>
+            </div>
+            <div class=empty-panel ng-show="vm.files.length == 0 && vm.part_loading_done">
+                <i class="fa fa-file-o"></i>
+                <br>
+                <span>{{'files.warn_empty_file'|translate}}</span></div>
+        </dd>
+    </dl>
+</div>
+<ui-view></ui-view>

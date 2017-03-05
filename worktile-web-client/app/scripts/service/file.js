@@ -76,7 +76,29 @@ define(['app'], function (app) {
                     ]
                 })
             }
-        
+    }])
+    .service('filesFilterData', ["config",
+        function (config) {
 
-    }]);
+            var a = this;
+            this.view_type = "",
+                this.sort = "",
+                this.filter_type = 0,
+                this.set_view_type = function(a) {
+                    this.view_type = a,
+                        config.localData.set("files_view_type", a)
+                },
+                this.set_sort = function(a) {
+                    this.sort !== a && (this.sort = a, config.localData.set("files_sort_type", a))
+                },
+                this.init = function() {
+                    this.filter_type = 0;
+                    var b = config.localData.get("files_view_type");
+                    "list" === b ? a.view_type = "list" : a.view_type = "icon";
+                    var c = config.localData.get("files_sort_type");
+                    c ? a.sort = c : a.sort = "default"
+                }
+        
+    }])
+    ;
 })

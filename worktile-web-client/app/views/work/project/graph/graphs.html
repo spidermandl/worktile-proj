@@ -1,0 +1,75 @@
+<div class="graphs-panel-wrap height-nonav height-nonav--notab" wt-scroll>
+    <div ng-if=!vm.part_loading_done class=part-loading></div>
+    <div class=graphs-panel ng-if=vm.part_loading_done>
+        <a class=link-for-pro href="//worktile.com/upgrade?utm_source=free_project_graphs" target=_blank>
+            <i class="fa fa-info-circle"></i>{{'graphs.link_try_pro'|translate}}</a>
+        <ul class=graphs-overview>
+            <li>
+                <wt-graph-gauge size=90 number=vm.overview_project_schedule color=#5DAC81 bgcolor=#FFB11B></wt-graph-gauge>{{'graphs.project_schedule'|translate}}</li>
+            <li>
+                <wt-graph-gauge size=90 number=vm.overview_delay_rate color=#DA4F4A bgcolor=#E8ECF4></wt-graph-gauge>{{'graphs.project_delay'|translate}}</li>
+            <li>
+                <div class=count title="{{'graphs.uncompleted_task'|translate}}:&#10;{{vm.overview.uncompleted}}">
+                    <span class="fs-55 color-label-yellow">{{vm.overview.uncompleted}}</span>
+                    <br>{{'graphs.uncompleted_task'|translate}}</div></li>
+            <li>
+                <div class=count title="{{'graphs.completed_task'|translate}}:&#10;{{vm.overview_completed}}">
+                    <span class="fs-55 color-label-green">{{vm.overview_completed}}</span>
+                    <br>{{'graphs.completed_task'|translate}}</div></li>
+            <li>
+                <div class=count title="{{'graphs.expired_task'|translate}}:&#10;{{vm.overview.expired}}">
+                    <span class="fs-55 color-text-act-red">{{vm.overview.expired}}</span>
+                    <br>{{'graphs.expired_task'|translate}}</div></li>
+            <li>
+                <div class=count title="{{'graphs.total_task'|translate}}:&#10;{{vm.overview_all}}">
+                    <span class=fs-55>{{vm.overview_all}}</span>
+                    <br>{{'graphs.total_task'|translate}}</div></li>
+        </ul>
+        <ul class=graphs-chart>
+            <li>
+                <dl class=chart>
+                    <dt>{{'graphs.task_stage'|translate}}</dt>
+                    <dd>
+                        <wt-graph-column ng-if=vm.part_loading_done config=vm.columnConfig></wt-graph-column>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+                <dl class=chart>
+                    <dt>{{'graphs.task_labels'|translate}}</dt>
+                    <dd>
+                        <wt-graph-pie ng-if=vm.part_loading_done name="{{'graphs.task_number'|translate}}" height=250 data=vm.labels></wt-graph-pie>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+                <dl class=chart>
+                    <dt>{{'graphs.task_pulse'|translate}}
+                        <span class="pull-right text-nowrap mt-sub10">
+                            <ul class=list-inline>
+                                <li>
+                                    <a title="{{'graphs.prevweek'|translate}}" href=javascript:; ng-click=vm.to_pulse_prev_week() class=help-inline>&nbsp;
+                                        <i class="fa fa-angle-left"></i>&nbsp;</a>
+                                    <span class=help-inline>{{vm.pulse_graph_date}}</span>
+                                    <a title="{{'graphs.nextweek'|translate}}" href=javascript:; ng-disabled=vm.disable_pulse_next ng-click=vm.to_pulse_next_week() class=help-inline>&nbsp;
+                                        <i class="fa fa-angle-right"></i>&nbsp;</a></li>
+                            </ul>
+                        </span>
+                    </dt>
+                    <dd>
+                        <div id=pulse_weekly_graph></div>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+                <dl class=chart>
+                    <dt>{{'graphs.project_members'|translate}}</dt>
+                    <dd class="max-h290 wt-scroll wt-scroll-y">
+                        <wt-graph-bar ng-if=vm.part_loading_done config=vm.barConfig></wt-graph-bar>
+                    </dd>
+                </dl>
+            </li>
+        </ul>
+        <dl class=graphs-today translate=graphs.today_overview translate-values={completed_tasks_count:vm.today.completed_tasks_count,created_tasks_count:vm.today.created_tasks_count,created_events_count:vm.today.created_events_count,created_posts_count:vm.today.created_posts_count,created_pages_count:vm.today.created_pages_count,created_files_count:vm.today.created_files_count}></dl>
+    </div>
+</div>

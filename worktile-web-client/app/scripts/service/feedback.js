@@ -107,7 +107,7 @@ define(['app'], function (app) {
                                             h.progressPercentage = parseInt(100 * a.loaded / a.total)
                                     }).success(function(b, c, d, e) {
                                         h.on_upload = !1,
-                                            h.file_path = kzi.config.wtall_url + b.files[0].url,
+                                            h.file_path = config.config.wtall_url + b.files[0].url,
                                             h.file_name = e.file.name,
                                             h.file_size = parseInt(b.files[0].size / 1e3),
                                             a.upload_message = b.files[0].fname;
@@ -124,7 +124,7 @@ define(['app'], function (app) {
                                     })
                                 },
                                 h.js_feedback_submit = function(a) {
-                                    return h.on_upload ? void kzi.msg.warn(c.instant("feedback.uploading")) : (h.isSubmit = !0, void wt.data.feedback.add(d.global.me.display_name, d.global.me.email, h.category, h.feedback_desc, h.file_path, h.feedback_type.value - 1, h.client,
+                                    return h.on_upload ? void config.msg.warn(c.instant("feedback.uploading")) : (h.isSubmit = !0, void wt.data.feedback.add(d.global.me.display_name, d.global.me.email, h.category, h.feedback_desc, h.file_path, h.feedback_type.value - 1, h.client,
                                         function(a) {
                                             h.isSubmit = !1,
                                                 h.status = {
@@ -133,7 +133,7 @@ define(['app'], function (app) {
                                                 }
                                         },
                                         function(a) {
-                                            kzi.msg.warn(c.instant("feedback.err_feedback_fail"))
+                                            config.msg.warn(c.instant("feedback.err_feedback_fail"))
                                         },
                                         function() {
                                             h.isSubmit = !1

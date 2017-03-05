@@ -399,6 +399,39 @@ define(['app'], function(app) {
 						success, failure, promise
 					);
 				},
+				get_file_list: function(data, success, failure, promise) {
+					return this.http_post_template(
+						domain+'/api/file/list',
+						data,
+						success, failure, promise
+					);
+				},
+				get_post_list: function(data, success, failure, promise) {
+					return this.http_post_template(
+						domain+'/api/post/list',
+						data,
+						success, failure, promise
+					);
+				},
+				get_page_list: function(project_id, success, failure, promise) {
+					return this.http_get_template(
+						domain+'/api/page/'+project_id+'/list',
+						success, failure, promise
+					);
+				},
+				get_graph_overview: function(project_id, success, failure, promise) {
+					return this.http_get_template(
+						domain+'/api/graph/'+project_id+'/overview',
+						success, failure, promise
+					);
+				},
+				get_graph_pulse: function(data, success, failure, promise) {
+					return this.http_post_template(
+						domain+'/api/graph/pulse',
+						data,
+						success, failure, promise
+					);
+				},
 				/**************************************************************************
 				 **未实现 api
 				 **************************************************************************/
