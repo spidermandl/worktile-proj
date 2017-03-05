@@ -14,8 +14,8 @@ define(['app'], function (app) {
 	app.controller('entityTaskCtrl', ["$scope", "$rootScope", "$location", "$popbox", "$timeout", 
 				"Util", "globalDataContext", "locator", "tempData", "$UploadFile", "$element", 
 				"timingtaskService", "taskLockPermissionFilter", "permissionFilter", "$translate", 
-				"ProjectService",'config',
-		function (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, config) {
+				"ProjectService",'config','api',
+		function (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, config,api) {
 
 			function q() {
 				return b.global.prj_module.crud & a.root_vm.entityExt.permission ? 
@@ -73,46 +73,71 @@ define(['app'], function (app) {
 				is_fullscreen: !1
 			};
 			a.$wtUpload = j;
-			var u, v = function(c) {
+			var u, 
+			loadAllTaskInfo = function(c) {
 				t.task = {},
-					a.entity_not_found_msg = "",
-					s = c.xid,
-					t.pid = c.pid,
-					g.loadTask(t.pid, c.xid,
-						function(c) {
-							return t.task = c,
-								a.root_vm.entityExt.loading_done = !0,
-								c ? ($(".slide-content > :visible").find("a").blur(), i.task.tid === c.tid ? t.temp = i.task : t.temp = i.task = {
+				a.entity_not_found_msg = "",
+				s = c.xid,
+				t.pid = c.pid,
+				g.loadTask(t.pid, c.xid,
+					function(c) {
+						return t.task = c,
+							a.root_vm.entityExt.loading_done = !0,
+							c ? 
+								($(".slide-content > :visible").find("a").blur(), i.task.tid === c.tid ? 
+									t.temp = i.task 
+									: 
+									t.temp = i.task = {
 										tid: t.task.tid,
 										name: t.task.name,
 										desc: t.task.desc,
 										is_edit: !1
 									},
-									a.project && (t.todo_atwho_members = _.filter(a.project.members,
-										function(a) {
-											return 1 === a.status
-										})), void(null != a.project && (a.root_vm.entityExt.permission = a.project.permission, b.global.prj_module.view & a.root_vm.entityExt.permission && (c.archived || c.is_deleted) && (a.root_vm.entityExt.permission = config.constant.prj_permission.viewer), config.constant.prj_module.crud & a.root_vm.entityExt.permission && A(), config.constant.prj_module.crud & a.root_vm.entityExt.permission && A(), r(), q(), b.global.me.watched = _.map(t.task.watchers, "uid").indexOf(b.global.me.uid) >= 0, e(function() {
-										t.task = x(t.task),
-											z(),
-											a.$broadcast(config.constant.event_names.select_comment_tab)
-									}), e(function() {
-										$(document.body).on("mousedown", ".atwho-container",
-											function(a) {
-												a.stopPropagation(),
-													a.preventDefault()
-											})
-									}), wt.data.file.get_attach_list(t.pid, "tasks", t.task.tid,
-										function(a) {
-											a.data && a.data.length > 0 && (_.each(a.data,
+								a.project && (t.todo_atwho_members = _.filter(a.project.members,
+									function(a) {
+										return 1 === a.status
+									})), 
+								void(null != a.project && 
+									(a.root_vm.entityExt.permission = a.project.permission, 
+										b.global.prj_module.view & a.root_vm.entityExt.permission &&
+										(c.archived || c.is_deleted) && 
+										(a.root_vm.entityExt.permission = config.constant.prj_permission.viewer), 
+										config.constant.prj_module.crud & a.root_vm.entityExt.permission && A(), 
+										config.constant.prj_module.crud & a.root_vm.entityExt.permission && A(), 
+										r(), q(), 
+										b.global.me.watched = _.map(t.task.watchers, "uid").indexOf(b.global.me.uid) >= 0, 
+										e(function() {
+											t.task = x(t.task),
+												z(),
+												a.$broadcast(config.constant.event_names.select_comment_tab)
+											}), 
+										e(function() {
+											$(document.body).on("mousedown", ".atwho-container",
 												function(a) {
-													a.icon = config.helper.build_file_icon(a)
-												}), t.task.files = a.data)
-										})))) : void(a.root_vm.entityExt.permission = config.constant.prj_permission.deny)
-						},
-						function(b) {
-							b.code === config.statuses.task_error.not_found.code ? (a.root_vm.entityExt.permission = config.constant.prj_permission.deny, a.root_vm.entityExt.not_found_msg = o.instant("task.not_found_msg")) : a.root_vm.entityExt.permission = config.constant.prj_permission.deny
-						},
-						function() {})
+													a.stopPropagation(),
+														a.preventDefault()
+												})
+										}), 
+										api.get_attach_list(
+											t.pid, 
+											t.task.tid,
+											function(a) {
+												a.data && a.data.length > 0 && (_.each(a.data,
+													function(a) {
+														a.icon = config.helper.build_file_icon(a)
+													}), t.task.files = a.data)
+											}))))
+							: 
+							void(a.root_vm.entityExt.permission = config.constant.prj_permission.deny)
+					},
+					function(b) {
+						b.code === config.statuses.task_error.not_found.code ? 
+							(a.root_vm.entityExt.permission = config.constant.prj_permission.deny, 
+								a.root_vm.entityExt.not_found_msg = o.instant("task.not_found_msg")) 
+							: 
+							a.root_vm.entityExt.permission = config.constant.prj_permission.deny
+					},
+					function() {})
 			};
 			t.checkProjectSettingPermission = function() {
 					var c = !1;
@@ -421,7 +446,7 @@ define(['app'], function (app) {
 				},
 				a.$on(config.constant.event_names.load_entity_task,
 					function(a, b) {
-						v(b)
+						loadAllTaskInfo(b)
 					}),
 				a.$on(config.constant.event_names.on_task_complete,
 					function(a, b) {

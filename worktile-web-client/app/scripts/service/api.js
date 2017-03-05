@@ -288,6 +288,24 @@ define(['app'], function(app) {
 					);
 				},
 				/**************************************************************************
+				 **获取任务info api
+				 **************************************************************************/
+				get_task_info: function(project_id, task_id, success, failure, promise) {
+					return this.http_get_template(
+						domain+'/api/task/'+task_id +'/info/'+project_id,
+						success, failure, promise
+					);
+				},
+				/**************************************************************************
+				 **获取任务附件 api
+				 **************************************************************************/
+				get_attach_list: function(project_id, task_id, success, failure, promise) {
+					return this.http_get_template(
+						domain+'/api/task/'+task_id +'/files/'+project_id,
+						success, failure, promise
+					);
+				},
+				/**************************************************************************
 				 **获取未完成任务信息 api
 				 **************************************************************************/
 				get_dashboard_task: function(success, failure, promise) {

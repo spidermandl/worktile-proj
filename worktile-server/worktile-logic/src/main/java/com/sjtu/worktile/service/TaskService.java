@@ -3,6 +3,7 @@ package com.sjtu.worktile.service;
 import com.sjtu.worktile.exception.AppException;
 import com.sjtu.worktile.model.*;
 import com.sjtu.worktile.model.mappers.TTaskAssignmentMapper;
+import com.sjtu.worktile.model.mappers.TTaskAttachmentMapper;
 import com.sjtu.worktile.model.mappers.TTaskCheckItemMapper;
 import com.sjtu.worktile.model.mappers.TTaskMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +20,13 @@ import java.util.List;
 public class TaskService {
     @Autowired
     private TTaskMapper tTaskMapper;
-
     @Autowired
     private TTaskAssignmentMapper tTaskAssignmentMapper;
-
     @Autowired
     private TTaskCheckItemMapper tTaskCheckItemMapper;
+    @Autowired
+    private TTaskAttachmentMapper tTaskAttachmentMapper;
+
 
     /**
      * 创建任务
@@ -103,6 +105,19 @@ public class TaskService {
              query.or(criteria);
          }
          return tTaskAssignmentMapper.selectByExample(query);
+     }
+
+    /**
+     * 获取task下的附件
+     * @param task_id
+     * @return
+     */
+     public List<TTaskAttachment> findFilesByTaskid(Long task_id){
+         TTaskAttachmentExample query = new TTaskAttachmentExample();
+         TTaskAttachmentExample.Criteria criteria = query.createCriteria();
+         criteria.andTaskIdEqualTo(task_id);
+
+         return tTaskAttachmentMapper.selectByExample(query);
      }
 
     /**

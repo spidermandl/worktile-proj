@@ -4,10 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.sjtu.worktile.configuration.Const;
 import com.sjtu.worktile.exception.AppException;
-import com.sjtu.worktile.model.TTask;
-import com.sjtu.worktile.model.TTaskAssignment;
-import com.sjtu.worktile.model.TTaskCheckItem;
-import com.sjtu.worktile.model.TTaskCheckItemExample;
+import com.sjtu.worktile.model.*;
 import com.sjtu.worktile.msg.*;
 import com.sjtu.worktile.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 
@@ -41,6 +39,23 @@ public class TaskController extends BaseController {
         return msg;
     }
 
+    /**
+     * 获取任务信息
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "{task_id}/info/{project_id}", method = RequestMethod.GET)
+    @ResponseBody
+    public TaskInfoMsg.OutMsg info(final HttpServletRequest request,
+                                   @PathVariable long task_id,
+                                   @PathVariable long project_id) throws AppException{
+        long uid=super.getUserID(request);
+        TTask task = taskService.findTaskById(task_id);
+        TTask entry = taskService.findTaskById(task.getParentId());
+        TaskInfoMsg.OutMsg msg = new TaskInfoMsg.OutMsg();
+        mappingToTaskMsg(msg.data,task,entry,uid);
+        return msg;
+    }
 
     /**
      * 新增任务
@@ -92,6 +107,27 @@ public class TaskController extends BaseController {
         TaskNewMsg.OutMsg out=new TaskNewMsg.OutMsg();
         mappingToTaskMsg(out.data,tTask,taskService.findTaskById(entry_id),uid);
         return  out;
+    }
+
+    /**
+     * 获取任务附件信息
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "{task_id}/files/{project_id}", method = RequestMethod.GET)
+    @ResponseBody
+    public TaskFileMsg.OutMsg files(final HttpServletRequest request,
+                                   @PathVariable long task_id,
+                                   @PathVariable long project_id) throws AppException{
+        long uid=super.getUserID(request);
+        List<TTaskAttachment> files = taskService.findFilesByTaskid(task_id);
+        TaskFileMsg.OutMsg msg = new TaskFileMsg.OutMsg();
+        for (TTaskAttachment attachment: files){
+            PairMsg.ResponseMsg.Attach attach = new PairMsg.ResponseMsg.Attach();
+            mappingToAttachMsg(attach,attachment,project_id);
+            msg.data.add(attach);
+        }
+        return msg;
     }
 
     /**

@@ -50,7 +50,8 @@ define(['app'], function (app) {
 						b.loadData = function() {
 							return e.entityExt.loading_done = !1,
 								e.entityExt.permission = 1,
-								c.pid ? void d.getProject(c.pid, !0, !1).then(function(a) {
+								c.pid ? 
+									void d.getProject(c.pid, !0, !1).then(function(a) {
 										b.project = a,
 											f()
 									},
@@ -75,7 +76,10 @@ define(['app'], function (app) {
 					};
 					c.bind("transitionend.slide webkitTransitionEnd.slide oTransitionEnd.slide MSTransitionEnd.slide",
 						function(a) {
-							$(a.target).hasClass("in") && ($(a.target).data("skipLoadOnce") ? $(a.target).data("skipLoadOnce", null) : b.loadData())
+							$(a.target).hasClass("in") && ($(a.target).data("skipLoadOnce") ? 
+								$(a.target).data("skipLoadOnce", null) 
+								: 
+								b.loadData())
 						}),
 					b.locator.onStartOpen(function(a) {
 						c.addClass("in"),

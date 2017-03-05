@@ -16,15 +16,21 @@ public interface TTaskAttachmentMapper {
 
     int insertSelective(TTaskAttachment record);
 
+    List<TTaskAttachment> selectByExampleWithBLOBs(TTaskAttachmentExample example);
+
     List<TTaskAttachment> selectByExample(TTaskAttachmentExample example);
 
     TTaskAttachment selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") TTaskAttachment record, @Param("example") TTaskAttachmentExample example);
 
+    int updateByExampleWithBLOBs(@Param("record") TTaskAttachment record, @Param("example") TTaskAttachmentExample example);
+
     int updateByExample(@Param("record") TTaskAttachment record, @Param("example") TTaskAttachmentExample example);
 
     int updateByPrimaryKeySelective(TTaskAttachment record);
+
+    int updateByPrimaryKeyWithBLOBs(TTaskAttachment record);
 
     int updateByPrimaryKey(TTaskAttachment record);
 }

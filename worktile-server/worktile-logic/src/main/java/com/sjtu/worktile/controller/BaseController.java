@@ -205,6 +205,29 @@ abstract public class BaseController {
             mappingToUserMsg(user,u);
             t.watchers.add(user);
         }
+    }
 
+
+    /**
+     * 将数据库附件信息赋给附件消息输出格式
+     * @param out
+     * @param db
+     * @param pid
+     */
+    protected void mappingToAttachMsg(PairMsg.ResponseMsg.Attach out,TTaskAttachment db,long pid){
+        out.fid = db.getId();//文件id
+        out.name = db.getName();//文件名
+        out.desc = db.getDescription();
+        out.pid = pid;//project id
+        out.size = db.getSize();//文件大小
+        out.ext = db.getSuffix();//文件后缀
+        out.path = db.getPath();//文件路径
+        out.folder_id = db.getFolerId();//文件夹id
+        out.type = db.getType();
+        out.tree_path = db.getTreePath();
+        out.is_deleted = db.getIsDeleted();//0 删除;1 存在
+        out.update_time = db.getUpdateTime()==null?0:db.getUpdateTime().getTime();
+        out.create_time = db.getCreateTime()==null?0:db.getCreateTime().getTime();
+        out.icon = db.getIcon();//文件类型图片
     }
 }

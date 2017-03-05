@@ -393,7 +393,7 @@
 			},
 			helper : {
 				build_file_icon: function(a) {
-					var b = kzi.constant.get_file_icon(a);
+					var b = constant.get_file_icon(a);
 					return "-1" === b && (b = a.path),
 						b
 				},

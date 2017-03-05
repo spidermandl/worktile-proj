@@ -11,21 +11,33 @@ public class TTaskAttachment {
 
     private String description;
 
-    private String location;
-
     private Date createTime;
 
     private String name;
 
     private String size;
 
-    private String suffix;
+    private Integer suffix;
+
+    private Long folerId;
+
+    private Integer type;
+
+    private Integer isDeleted;
+
+    private Date updateTime;
 
     private String pending1;
 
     private String pending2;
 
     private String pending3;
+
+    private String path;
+
+    private String treePath;
+
+    private String icon;
 
     public Long getId() {
         return id;
@@ -59,14 +71,6 @@ public class TTaskAttachment {
         this.description = description == null ? null : description.trim();
     }
 
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location == null ? null : location.trim();
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
@@ -91,12 +95,44 @@ public class TTaskAttachment {
         this.size = size == null ? null : size.trim();
     }
 
-    public String getSuffix() {
+    public Integer getSuffix() {
         return suffix;
     }
 
-    public void setSuffix(String suffix) {
-        this.suffix = suffix == null ? null : suffix.trim();
+    public void setSuffix(Integer suffix) {
+        this.suffix = suffix;
+    }
+
+    public Long getFolerId() {
+        return folerId;
+    }
+
+    public void setFolerId(Long folerId) {
+        this.folerId = folerId;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public Integer getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Integer isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     public String getPending1() {
@@ -121,5 +157,29 @@ public class TTaskAttachment {
 
     public void setPending3(String pending3) {
         this.pending3 = pending3 == null ? null : pending3.trim();
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path == null ? null : path.trim();
+    }
+
+    public String getTreePath() {
+        return treePath;
+    }
+
+    public void setTreePath(String treePath) {
+        this.treePath = treePath == null ? null : treePath.trim();
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon == null ? null : icon.trim();
     }
 }

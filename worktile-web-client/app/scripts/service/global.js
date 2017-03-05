@@ -1207,7 +1207,8 @@ define(['app'], function (app) {
 						i.project.tasks = []
 				},
 				loadEntries : function(a, b, c) {
-					return i.project.pid !== a || _.isEmpty(i.project.entries) ? void wt.data.entry.get_list(a, !0,
+					return i.project.pid !== a || _.isEmpty(i.project.entries) ? 
+						void wt.data.entry.get_list(a, !0,
 						function(a) {
 							var c = _.sortBy(a.data.entries,
 								function(a) {
@@ -1215,20 +1216,27 @@ define(['app'], function (app) {
 								});
 							return b(c)
 						},
-						c, null, "globalDataContext-loadEntries") : b(i.project.entries)
+						c, null, "globalDataContext-loadEntries") 
+						: 
+						b(i.project.entries)
 				},
-				loadTask : function(a, b, c, d, e) {
+				loadTask : function(project_id, task_id, c, d, e) {
 					var f = null;
-					a !== globalDataContext.project.pid || 
+					project_id !== globalDataContext.project.pid || 
 						_.isEmpty(globalDataContext.project.tasks) || 
 						(f = _.find(globalDataContext.project.tasks, {
-							tid: b
+							tid: task_id
 						})),
-						f ? (c && c(f), e && e()) : wt.data.task.get(a, b,
+					f ? (c && c(f), e && e()) 
+						: 
+						api.get_task_info(
+							project_id, 
+							task_id,
 							function(a) {
 								c(a.data)
 							},
-							d, e)
+							d, 
+							e)
 				},
 				loadCalEvents : function(a, b, c, d, e) {
 					return i.project.pid === a && i.project.cal_events_start <= b && i.project.cal_events_end >= c ? d(i.project.cal_events) : void wt.data.event.get_list(a, b, c,

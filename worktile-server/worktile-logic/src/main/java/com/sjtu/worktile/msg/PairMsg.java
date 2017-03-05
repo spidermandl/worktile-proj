@@ -151,7 +151,7 @@ abstract public class PairMsg {
             public long created_at = 0;
             public long updated_at = 0;
             public long completed_date = 0;//完成日期
-            public List<Fid> fids = new ArrayList<>();
+            public List<Long> fids = new ArrayList<>();//附件id
             public String entry_name = null;//任务组名称
             public List<User> watchers = new ArrayList<>();//关注的人
 
@@ -172,9 +172,26 @@ abstract public class PairMsg {
                 public int todo_count = 2;//检查项数量
                 public int file_count =0;//文件数量
             }
-            public static class Fid{
+        }
 
-            }
+        /**
+         * 附件输出格式
+         */
+        class Attach{
+            public long fid;//文件id
+            public String name;//文件名
+            public String desc;
+            public long pid;//project id
+            public String size;//文件大小
+            public int ext;//文件后缀
+            public String path;//文件路径
+            public long folder_id;//文件夹id
+            public int type;
+            public String tree_path;
+            public int is_deleted=0;//0 删除;1 存在
+            public long update_time;
+            public long create_time;
+            public String icon;//文件类型图片
         }
 
     }
