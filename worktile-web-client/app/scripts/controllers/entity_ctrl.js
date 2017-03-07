@@ -848,11 +848,299 @@ define(['app'], function (app) {
 		
 	}])
 	/**************************************************************************************************************
- 	 *
- 	 **************************************************************************************************************/
- 	 
- 	 /**************************************************************************************************************
- 	 *
- 	 **************************************************************************************************************/
+ 	*
+ 	**************************************************************************************************************/
+ 	.controller('itemActivityCtrl', ["$rootScope", "$scope",'config','api',
+		function (a,b,config,api) {
+
+			var c = null,
+				d = null;
+			b.tpl_prefix = "item_";
+			var e = 0,
+				f = function() {
+					b.loading_activity = !0,
+						api.get_activity_list(
+							{
+								// d, 
+								// c,
+								pid:null, 
+								since_id:e, 
+								count:config.default_count,
+							},
+							function(a) {
+								a.data.length > 0 && (e = a.data[a.data.length - 1].published);
+								var c = [];
+								c = _.isEmpty(b.activities) ? a.data : b.activities.concat(a.data),
+									b.has_more = a.data.length === config.default_count,
+									wt.bus.activity.set_activities_show_date(c),
+									b.activities = c
+							},
+							null,
+							function() {
+								b.loading_activity = !1
+							})
+				};
+			b.js_load_more = function() {
+					f()
+				},
+				b.$on(config.constant.event_names.reload_item_activities,
+					function(a, g) {
+						e = 0,
+							d = g.xtype,
+							c = g.xid,
+							b.activities = null,
+							f()
+					}),
+				b.$on(config.constant.event_names.clear_item_activities,
+					function() {
+						e = 0,
+							b.activities = []
+					})
+		
+	}])
+ 	/**************************************************************************************************************
+ 	*
+ 	**************************************************************************************************************/
+ 	.controller('commentListCtrl', ["$scope", "$rootScope", "$popbox", "$timeout", "tempData", "locator", "$element", "wtScrollService", 
+ 					"$location", "$translate",'config','api',
+		function (a, b, c, d, e, f, g, h, i, j,config,api) {
+
+			var k = a.vm = {
+				pid: "",
+				comments_loading_done: !1,
+				comment_show_number: 3,
+				comment_showmore: !1,
+				comments: [],
+				isArchived: !1,
+				new_comment: {
+					message: "",
+					uploading_files: [],
+					files: []
+				},
+				at_members: [],
+				timeout_goto_item: null
+			};
+			a.is_add_comment = !1,
+				a.permission = 0,
+				(a.argEntity && 1 === a.argEntity.archived || a.argProject && 1 === a.argProject.archived) && (k.isArchived = !0);
+			var l, m, n, o, p = function() {
+					k.comment_showmore !== !0 && k.comments.length >= k.comment_show_number && (k.comments[k.comments.length - k.comment_show_number].first_fold = !0)
+				},
+				q = function(b) {
+					var c = [];
+					if(f.xtype === config.constant.xtype.task) {
+						var d = _.find(b, {
+								type: 2
+							}),
+							e = _.find(b, {
+								type: 3
+							});
+						d ? (a.argEntity.creator = d.owner, a.argEntity.created_at = d.create_date) : e && (a.argEntity.completer = e.owner, a.argEntity.completed_at = e.create_date)
+					}
+					c = _.filter(b, {
+							type: 1
+						}),
+						null != o && c.length - k.comment_show_number - 1 >= _.findIndex(c, {
+							cid: o
+						}) && (k.comment_showmore = !0),
+						_.each(c,
+							function(a, b) {
+								a.files = _.each(a.files,
+										function(a) {
+											a.icon = config.helper.build_file_icon(a)
+										}),
+									k.comment_showmore === !1 && (c.length - b > k.comment_show_number ? a.first_fold = !0 : a.first_fold = !1)
+							}),
+						k.comments = c
+				},
+				r = function(c) {
+					c && c.permission ? a.permission = c.permission : a.argEntityExt && (a.permission = a.argEntityExt.permission),
+						c && (l = k.pid = c.pid, m = c.xtype, n = k.xid = c.xid, o = c.comment_id),
+						e.comment && e.comment.xid === n ? k.new_comment = e.comment : k.new_comment = e.comment = {
+							xid: n
+						},
+						k.comments_loading_done = !1,
+						g.find(".comment-item").removeClass("comment-focus-animate"),
+						k.comments = [],
+						api.get_comment_list(
+							{
+								pid:l, 
+								xtype:m,//tasks 
+								tid:n,
+							},
+							function(c) {
+								if(q(c.data), k.comments_loading_done = !0, a.argProject) {
+									var e = _.filter(a.argProject.members,
+										function(a) {
+											return a.uid !== b.global.me.uid && 1 === a.status
+										});
+									k.at_members = e
+								}
+								d(function() {
+									$("#atwho-container").bind("mousedown",
+										function(a) {
+											a.stopPropagation(),
+												a.preventDefault()
+										})
+								})
+							},
+							function() {
+								k.comments_loading_done = !0
+							})
+				};
+			a.$on(config.constant.event_names.load_comments,
+					function(a, b) {
+						r(b)
+					}),
+				a.$on(config.constant.event_names.on_task_complete,
+					function(c, d) {
+						d && d.tid === n && (0 === d.completed ? (a.argEntity.completer = null, a.argEntity.completed_at = "") : 1 === d.completed && (a.argEntity.completer = b.global.me, a.argEntity.completed_at = (new Date).getTime()))
+					}),
+				a.$on(config.constant.event_names.on_comment_new,
+					function(a, b) {
+						l === b.pid && m === b.xtype && n === b.xid && (b.comment.files = _.each(b.comment.files,
+							function(a) {
+								a.icon = config.helper.build_file_icon(a)
+							}), p(), k.comments.push(b.comment))
+					}),
+				a.$on(config.constant.event_names.clear_comments,
+					function() {
+						k.comments = []
+					}),
+				k.js_repeat_done = function() {
+					if(!_.isEmpty(k.comments) && 1 == b.global.is_scroll_comment) {
+						b.global.is_scroll_comment = !1;
+						var a = k.comments[k.comments.length - 1];
+						o && (k.timeout_goto_item = d(function() {
+								var b = $(".new-comment").parents(".wt-scroll").eq(0),
+									c = _.findIndex(k.comments, {
+										cid: o
+									});
+								c === -1 ? config.msg.warn(j.instant("directive_comment.warn")) : (o === a.cid ? h.scrollTo(b, "bottom") : h.scrollTo(b, ".comment-item:eq(" + c + ")"), g.find(".comment-item:eq(" + c + ")").addClass("comment-focus-animate"))
+							},
+							250))
+					}
+				},
+				k.js_save_comment = function(c) {
+					var d = c;
+					if(d.uploading_files && d.uploading_files.length > 0) return void config.msg.warn(j.instant("directive_comment.uploading"));
+					var e = _.where(d.files, {
+						pid: a.argProject.pid
+					});
+					d.fids = _.map(e, "fid"),
+						_.isEmpty(d.message) && _.isEmpty(d.fids) || d.is_saving || (d.is_saving = !0, _.isEmpty(d.message) && (d.message = j.instant("directive_comment.desc", {
+							count: e.length,
+							file_names: _.map(e, "name")
+						})), wt.data.comment.publish(f.pid, f.xtype, f.xid, d.message, d.fids || "",
+							function(a) {
+								var c = a.data;
+								if(_.isEmpty(c.files) || _.each(c.files,
+										function(a) {
+											a.icon = config.helper.build_file_icon(a)
+										}), p(), k.comments.push(c), "tasks" === f.xtype) b.$broadcast(config.constant.event_names.on_task_comment, {
+									tid: f.xid
+								});
+								else if("posts" === f.xtype) {
+									var d = {};
+									d.post_id = f.xid,
+										d.last_reply_user = b.global.me,
+										d.last_reply_date = (new Date).getTime(),
+										b.$broadcast(config.constant.event_names.on_post_comment, d)
+								}
+							},
+							null,
+							function() {
+								d.is_saving = !1,
+									a.is_add_comment = !1
+							}), d.message = "", d.files && (e.length === d.files.length ? d.files = [] : d.files = _.reject(d.files,
+							function(b) {
+								return b.pid === a.pid
+							})), d.fids = [])
+				},
+				k.js_reply_comment = function(a) {
+					var b = j.instant("directive_comment.reply") + " @" + a.owner.name + " : ",
+						c = b.length,
+						e = "";
+					if(e = a.raw_message.indexOf(">") >= 0 ? a.raw_message.replace(/\n *>/i, "\n >>") : a.raw_message, e.length > 60) {
+						var f = "(\\(" + i.$$protocol + ":\\/\\/" + i.$$host + (80 === i.$$port || 443 === i.$$port ? "" : ":" + i.$$port);
+						f += "\\/(project)\\/([a-zA-Z0-9]{14,32})+\\/(file|task|event|post|page)\\/([a-zA-Z0-9]{14,32})\\))";
+						var g = new RegExp(f, "gm");
+						if(g.test(e)) {
+							var l = e.match(g);
+							l = l[l.length - 1],
+								e = "\n\n\n >" + e.substr(0, e.lastIndexOf(l) + l.length) + " …"
+						} else e = "\n\n\n >" + e.substr(0, 60) + "…"
+					} else e = "\n\n\n >" + e;
+					k.new_comment.message = b + e;
+					var m = ".new-comment";
+					h.scrollTo($(m).parents(".wt-scroll").eq(0), m),
+						d(function() {
+							var a = $(m).find("textarea")[0];
+							if(a.focus(), document.selection) {
+								var b = a.createTextRange();
+								b.moveStart("character", c),
+									b.collapse(),
+									b.select()
+							} else "number" == typeof a.selectionStart && "number" == typeof a.selectionEnd && (a.select(), a.selectionStart = a.selectionEnd = c)
+						}),
+						d(function() {
+								$(m).find("textarea").scrollTop(0)
+							},
+							100)
+				},
+				k.js_pop_delete_comment = function(b, d) {
+					c.popbox({
+						target: b,
+						templateUrl: "/tpl/common/pop_comment_delete.html",
+						controller: ["$scope", "popbox", "pop_data",
+							function(a, b, c) {
+								a.popbox = b;
+								var e = a.vm = {},
+									g = c.scope.$parent.vm;
+								e.js_sure_delete = function() {
+										c.scope.vm.comments = _.reject(c.scope.vm.comments,
+												function(a) {
+													return a.cid === d.cid
+												}),
+											wt.data.comment.del(f.pid, d.cid, f.xtype, f.xid,
+												function(a) {
+													"tasks" === f.xtype && g && g.task && (g.task.badges.comment_count -= 1)
+												}),
+											b.close()
+									},
+									e.js_close = function() {
+										b.close()
+									}
+							}
+						],
+						resolve: {
+							pop_data: function() {
+								return {
+									scope: a
+								}
+							}
+						}
+					}).open()
+				},
+				k.js_showmore = function() {
+					k.comment_showmore = !0,
+						_.each(k.comments,
+							function(a) {
+								a.first_fold && (a.first_fold = !1)
+							})
+				},
+				a.$on("$destroy",
+					function() {
+						d.cancel(k.timeout_goto_item)
+					})
+		
+	}])
+	/**************************************************************************************************************
+ 	*
+ 	**************************************************************************************************************/
+	/**************************************************************************************************************
+ 	*
+ 	**************************************************************************************************************/
+	
 	;
 });

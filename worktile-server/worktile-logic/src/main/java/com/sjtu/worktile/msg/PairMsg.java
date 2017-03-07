@@ -140,7 +140,7 @@ abstract public class PairMsg {
             public List<Label> labels = new ArrayList<>();//标签
             public long uid = 0;//用户id
             public long expire_date = 0;//任务截止日期
-            public int completed = 1;//是否完成：0：未完成，1：已完成
+            public int completed = 0;//是否完成：0：未完成，1：已完成
             public List<User> members = new ArrayList<>();//分配的成员
             public List<Badge> badges = new ArrayList<>();//附加信息
             public List<Todo> todos = new ArrayList<>();//检查项

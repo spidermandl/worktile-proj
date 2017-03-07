@@ -932,7 +932,7 @@ define(['app'], function (app) {
 							/**
 							* 加载所有账号信息
 							*/
-							return $q.all([api.team_list(),api.project_list()]).
+							return $q.all([api.team_list(),api.project_list(),api.me_contacts()]).
 									then(
 										function(msgs){
 											//console.log(msgs[0].data);
@@ -953,6 +953,9 @@ define(['app'], function (app) {
 											    function(a) {
 											        return a.is_star;
 											    });
+										    //取出联系人
+										    globalDataContext.contacts = msgs[2].data;
+										    //设置team和project数据结构
 										    globalDataContext.setTeamProjects();
 							                //console.log(globalDataContext.projects);
 											return context;

@@ -58,11 +58,9 @@ public class TeamController extends BaseController{
         List<TUser> users = teamService.getAllTeamContacts(uid);
         TeamContactsMsg.OutMsg msg = new TeamContactsMsg.OutMsg();
         for (TUser u:users){
-            TeamContactsMsg.OutMsg.Data data = new TeamContactsMsg.OutMsg.Data();
-            data.uid = uid;
-            data.icon = u.getHead();
-            data.display_name = u.getSignature()==null?u.getAccount():u.getSignature();
-            msg.data.add(data);
+            PairMsg.ResponseMsg.User mUser = new PairMsg.ResponseMsg.User();
+            mappingToUserMsg(mUser,u);
+            msg.data.add(mUser);
         }
         return msg;
     }

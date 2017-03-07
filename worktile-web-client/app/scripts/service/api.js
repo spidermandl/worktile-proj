@@ -432,6 +432,20 @@ define(['app'], function(app) {
 						success, failure, promise
 					);
 				},
+				get_comment_list: function(data, success, failure, promise) {
+					return this.http_post_template(
+						domain+'/api/comment/list',
+						data,
+						success, failure, promise
+					);
+				},
+				get_activity_list: function(data, success, failure, promise) {
+					return this.http_post_template(
+						domain+'/api/activity/list',
+						data,
+						success, failure, promise
+					);
+				},
 				/**************************************************************************
 				 **未实现 api
 				 **************************************************************************/

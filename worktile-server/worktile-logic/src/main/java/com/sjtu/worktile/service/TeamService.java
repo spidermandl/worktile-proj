@@ -74,6 +74,9 @@ public class TeamService {
             query.or(criteria);
         }
         List<TUserRole> roles = tUserRoleMapper.selectByExample(query);
+        if (roles.size()==0){
+            return new ArrayList<>();
+        }
         /**
          * 根据userrole表查找用户
          */

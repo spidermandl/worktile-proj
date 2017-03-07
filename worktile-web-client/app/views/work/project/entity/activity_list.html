@@ -1,0 +1,14 @@
+<div class=empty-panel ng-show="activities != null && activities.length == 0">
+    <i class="fa fa-clock-o"></i>
+    <br>
+    <span>{{'activity_list.warn_activity_empty'|translate}}</span></div>
+<div class="activity-list m_15" ng-if="activities && activities.length > 0" ng-cloak>
+    <ul class=activities>
+        <wt-activity ng-repeat="activity in activities"></wt-activity>
+    </ul>
+</div>
+<div class=loading-more-panel>
+    <div class=part-loading ng-show=loading_activity></div>
+    <button class=btn ng-show="has_more && ($root.global.loading_done && loading_activity != true)" ng-click=js_load_more($event);>{{'common.btn_loading'|translate}}
+    </button>
+</div>

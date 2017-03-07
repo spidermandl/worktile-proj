@@ -80,6 +80,7 @@ public class ProjectController extends BaseController{
         project.setDescription(desc);
         project.setName(name);
         project.setVisibility(visibility);
+        project.setIsStar(0);
         STemplate template = templateService.getTemplateById(template_id);
         projectService.createProject(project,template.getEntries(),uid);
 

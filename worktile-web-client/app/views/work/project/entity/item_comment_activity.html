@@ -1,0 +1,8 @@
+<uib-tabset class=tabbable>
+    <uib-tab heading="{{'item_comment_activity.tab_comment'|translate}}" active=tab_active.comment select=select_tab_comment()>
+        <comment-list arg-type=argType arg-project=argProject arg-entity=argEntity arg-entity-ext=argEntityExt></comment-list>
+    </uib-tab>
+    <uib-tab heading="{{'item_comment_activity.tab_activity'|translate}}" active=tab_active.activity select=select_tab_activity()>
+        <ng-include ng-controller=itemActivityCtrl src="'/views/work/project/entity/activity_list.html'"></ng-include>
+    </uib-tab>
+</uib-tabset>

@@ -64,6 +64,8 @@
 			event_dialog_create: 'views/work/project/event/dialog_event_create.html',
 			notice_list: 'views/work/notice/notice_list.html',
 			entity_main: 'views/work/project/entity/entity.html',
+			entity_item_comment_activity:'views/work/project/entity/item_comment_activity.html',
+			entity_comment_list: 'views/work/project/entity/comment_list.html',
 			file_dialog_create: 'views/work/project/file/dialog_file_create.html',
 			file_main: 'views/work/project/file/files.html',
 			file_toolbar: 'views/work/project/file/toolbar.html',

@@ -68,6 +68,8 @@
             task_directive: 'directive/task_directive',
             slide: 'directive/slide',
             graph_statistics: 'directive/graph_statistics',
+            new_editor: 'directive/new_editor',
+            entity_comment: 'directive/entity_comment',
             //filter
             filters : 'filter/filters',
             //provider
@@ -103,6 +105,9 @@
                 deps: ['time','locator','entity_ctrl','project_event_ctrl',
                     'project_task_ctrl','project_file_ctrl','project_post_ctrl',
                     'project_page_ctrl','project_graph_ctrl','slide'],
+            },
+            entity_ctrl:{
+                deps: ['new_editor','entity_comment'],
             },
             project_graph_ctrl:{
                 deps: ['graph_statistics'],

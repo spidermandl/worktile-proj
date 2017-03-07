@@ -1,0 +1,30 @@
+<div class=comment-list>
+    <div class="part-loading pt-20" ng-if=!vm.comments_loading_done></div>
+    <ul class=comments>
+        <li class=comments-showmore ng-if="vm.comments.length>vm.comment_show_number && vm.comment_showmore==false">
+            <a href=javascript:; ng-click=vm.js_showmore()>
+                <i class="fa fa-chevron-down"></i>{{'comment_list.link_toggle_comments'|translate:{count:vm.comments.length-vm.comment_show_number} }}</a>
+        </li>
+        <li class=comment-item bindonce ng-repeat="comment in vm.comments" wt-repeat-done=vm.js_repeat_done() ng-class="{'comment-item-hide':comment.first_fold}">
+            <wt-avatar member=comment.owner size=40 class=comment-avatar></wt-avatar>
+            <div class=comment>
+                <a href=javascript:; class=comment-name ng-bind=comment.owner.display_name></a>
+                <span class=comment-time bo-class="{true:'date',false:''}[comment.type==1]" ng-bind=comment.create_date|fromNow></span>
+                <span class=comment-meta ng-if=!vm.isArchived>
+                    <a href=javascript:; ng-click=vm.js_reply_comment(comment) class=comment-action bo-if="comment.type==1 && ($root.global.prj_module.comment|permission:argProject.permission)">{{'comment_list.reply'|translate}}</a>&nbsp;
+                    <a href=javascript:; ng-click=vm.js_pop_delete_comment($event,comment) class="comment-action js-popbox" bo-if="comment.owner.uid == $root.global.me.uid && comment.type == 1 && ($root.global.prj_module.comment|permission:argProject.permission)">{{'common.txt_del'|translate}}</a></span>
+                <div class=current-comment-wrap ng-class="{'current-comment-wrap--border':comment.files}">
+                    <div class=current-comment wt-markdown=comment.message></div>
+                    <div class=comment-attachments>
+                        <wt-attachment ng-repeat="file in comment.files" file=file></wt-attachment>
+                    </div>
+                </div>
+                <div class="edit-controls clearfix" id="div_comment_{{ comment.cid }}" bo-show=comment.is_edit wt-show-edit=comment.is_edit></div>
+            </div>
+        </li>
+    </ul>
+    <div class=new-comment ng-if=!vm.isArchived ng-show=$root.global.prj_module.comment|permission:permission>
+        <hr ng-if="vm.comments.length >0">
+        <wt-new-comment new_comment=vm.new_comment at_members=vm.at_members pid=vm.pid xid=vm.xid save=vm.js_save_comment(vm.new_comment)></wt-new-comment>
+    </div>
+</div>

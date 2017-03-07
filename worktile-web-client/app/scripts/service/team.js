@@ -193,49 +193,50 @@ define(['app'], function (app) {
                                     j.js_close()
                                 }
                             );
-                            // wt.data.team.add(
-                            //     j.team_name, 
-                            //     j.team_phone, 
-                            //     j.team_is_support, 
-                            //     j.team_desc, 
-                            //     j.team_industry, 
-                            //     j.team_scale, 
-                            //     {
-                            //         province: j.province && j.province.n || "",
-                            //         city: j.city && j.city.n || "",
-                            //         district: j.district && j.district.n || ""
-                            //     },
-                            //     function(e) {
-                            //         if (d.track("create_team", "done", "创建团队弹窗"), 
-                            //             a = e.data, 
-                            //             0 == j.team_invite_email.length && 0 == j.contact_members_selected.length) 
-                            //                 return a.member_count = 1,
-                            //         b.teams.push(a),
-                            //         void g.path("/teams/" + a.team_id);
-                            //         var f = j.team_invite_email.concat(j.contact_members_selected);
-                            //         //发送邀请成员加入api
-                            //         wt.data.team.invite_member(a.team_id, f, "", [],
-                            //         function(b) {
-                            //             d.track("team_invite", "done", "创建团队弹窗"),
-                            //             a.member_count = 1 * b.data.length + 1
-                            //         },
-                            //         function() {
-                            //             config.msg.error(c.instant("team_service.err_invite_member"))
-                            //         },
-                            //         function() {
-                            //             b.teams.push(a),
-                            //             g.path("/teams/" + a.team_id)
-                            //         })
-                            //     },
-                            //     function(a) {
-                            //         config.msg.error(c.instant("team_service.err_team_add"));
-                            //     },
-                            //     function() {
-                            //         j.saving = !1,
-                            //         j.js_close()
-                            //     });
+                            wt.data.team.add(
+                                j.team_name, 
+                                j.team_phone, 
+                                j.team_is_support, 
+                                j.team_desc, 
+                                j.team_industry, 
+                                j.team_scale, 
+                                {
+                                    province: j.province && j.province.n || "",
+                                    city: j.city && j.city.n || "",
+                                    district: j.district && j.district.n || ""
+                                },
+                                function(e) {
+                                    if (d.track("create_team", "done", "创建团队弹窗"), 
+                                        a = e.data, 
+                                        0 == j.team_invite_email.length && 0 == j.contact_members_selected.length) 
+                                            return a.member_count = 1,
+                                    b.teams.push(a),
+                                    void g.path("/teams/" + a.team_id);
+                                    var f = j.team_invite_email.concat(j.contact_members_selected);
+                                    //发送邀请成员加入api
+                                    wt.data.team.invite_member(a.team_id, f, "", [],
+                                    function(b) {
+                                        d.track("team_invite", "done", "创建团队弹窗"),
+                                        a.member_count = 1 * b.data.length + 1
+                                    },
+                                    function() {
+                                        config.msg.error(c.instant("team_service.err_invite_member"))
+                                    },
+                                    function() {
+                                        b.teams.push(a),
+                                        g.path("/teams/" + a.team_id)
+                                    })
+                                },
+                                function(a) {
+                                    config.msg.error(c.instant("team_service.err_team_add"));
+                                },
+                                function() {
+                                    j.saving = !1,
+                                    j.js_close()
+                                });
 
                         },
+                        i(),//e.result中的i()没有被回调
                         e.result.then(null,
                             function() {
                                 i();

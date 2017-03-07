@@ -315,7 +315,6 @@ define(['app'], function (app) {
 						: 
 						b === !1 && a(function() {
 							console.log('----------wtLoadingStatus');
-							console.log(c);
 							c.button("reset")
 						})
 				})
